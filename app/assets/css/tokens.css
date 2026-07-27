@@ -1,0 +1,173 @@
+/* Gymmer design tokens — single source of truth.
+   Import once at the app root (Nuxt: nuxt.config css array; React: import in the main entry).
+
+   Two axes, both switched on <html>:
+     data-theme="light" | "dark"     — ground/ink/shadow neutrals
+     data-accent="orange" | "green" | "cyan"  — the accent family
+   Every component reads variables only; no component hard-codes a colour. */
+
+:root {
+  /* grounds */
+  --gm-bg: #f3f2f2;
+  --gm-surface: #eae9e9;
+  --gm-raised: #fbfafa;      /* lifted cards, bubble, corner badges */
+  --gm-stripe: #efeded;      /* diagonal stripe panel, light band */
+  --gm-stripe2: #e2e0e0;     /* diagonal stripe panel, dark band */
+
+  /* ink + text */
+  --gm-ink: #201e1d;         /* primary text */
+  --gm-border: #201e1d;      /* the 1px/2px solid borders — softer than ink in dark mode */
+  --gm-band: #201e1d;        /* inverted bands (exercise ticker) */
+  --gm-band-fg: #f7f5f3;
+  --gm-fill: #201e1d;        /* ink-ish filled marks: completed set chips, trend bars */
+  --gm-text-body: #444141;
+  --gm-muted: #605d5d;
+  --gm-faint: #7d7979;
+  --gm-track: #d7d3d3;       /* progress-ring track, inactive dots */
+  --gm-on-acc: #f7f5f3;      /* text/icons on an accent fill (flips dark in dark mode) */
+  --gm-on-pro: #f4f1ef;      /* text on the always-dark Pro card — light in BOTH themes */
+  --gm-on-dark: #d7d3d3;     /* body text on the Pro card */
+  --gm-faint-dark: #9b9797;  /* muted text on the Pro card */
+
+  /* lines */
+  --gm-divider: rgba(32, 30, 29, .4);        /* 2px structural rules */
+  --gm-hairline: rgba(32, 30, 29, .25);      /* 1px list rules */
+  --gm-hairline-dark: rgba(243, 242, 242, .25); /* 1px rules on the Pro card */
+
+  /* shadows (offset, hard-edged) */
+  --gm-sh: rgba(32, 30, 29, .18);            /* button rest */
+  --gm-sh-hi: rgba(32, 30, 29, .22);         /* button hover */
+  --gm-sh-lo: rgba(32, 30, 29, .2);          /* button active */
+  --gm-sh-card: rgba(32, 30, 29, .14);       /* framed photo */
+  --gm-sh-card-soft: rgba(32, 30, 29, .12);  /* phone frame */
+  --gm-sh-deep: rgba(32, 30, 29, .35);       /* on dark surfaces */
+
+  /* Pro pricing card gradient stops */
+  --gm-pro-1: #2c2a29;
+  --gm-pro-2: #201e1d;
+  --gm-pro-3: #181615;
+
+  /* type */
+  --gm-font-ui: "Archivo", system-ui, sans-serif;
+  --gm-font-quote: "Cormorant Infant", Georgia, serif;
+
+  /* radius */
+  --gm-radius: 0;             /* structural: cards, inputs, rules, chips */
+  --gm-radius-pill: 999px;    /* primary actions + the beta bubble only */
+
+  /* accent — light defaults (orange). See the palette blocks below. */
+  --acc: #ec3013;
+  --acc-deep: #ae1800;   /* accent text at body size (4.5:1 on --gm-bg) */
+  --acc-hover: #dd2b0f;
+  --acc-soft: rgba(236, 48, 19, .1);
+  --acc-sel: rgba(236, 48, 19, .3);
+  --acc-tint: #fdece8;   /* section wash */
+}
+
+/* ---- dark theme ------------------------------------------------------- */
+html[data-theme="dark"] {
+  --gm-bg: #191817;
+  --gm-surface: #211f1e;
+  --gm-raised: #262423;
+  --gm-stripe: #1e1d1c;
+  --gm-stripe2: #232120;
+
+  --gm-ink: #e4e1de;          /* text inverts, but stays under pure white */
+  --gm-border: #4d4946;       /* borders stay well below text brightness */
+  --gm-band: #0f0f0e;         /* the ticker band goes darker, not white */
+  --gm-band-fg: #e4e1de;
+  --gm-fill: #5c5754;         /* filled marks stay below text brightness */
+  --gm-text-body: #bfbbb6;
+  --gm-muted: #948e89;
+  --gm-faint: #7a746f;
+  --gm-track: #3a3735;
+  --gm-on-acc: #141312;       /* dark text on the brighter dark-mode accent */
+  --gm-on-pro: #f4f1ef;       /* unchanged: the Pro card is dark in both themes */
+  --gm-on-dark: #c4c0bb;
+  --gm-faint-dark: #a8a29c;  /* stays light: the Pro card is dark in both themes */
+
+  --gm-divider: rgba(240, 238, 236, .26);
+  --gm-hairline: rgba(240, 238, 236, .14);
+  --gm-hairline-dark: rgba(240, 238, 236, .16);
+
+  /* on a dark ground, elevation is ambient darkness, not ink */
+  --gm-sh: rgba(0, 0, 0, .55);
+  --gm-sh-hi: rgba(0, 0, 0, .62);
+  --gm-sh-lo: rgba(0, 0, 0, .5);
+  --gm-sh-card: rgba(0, 0, 0, .5);
+  --gm-sh-card-soft: rgba(0, 0, 0, .45);
+  --gm-sh-deep: rgba(0, 0, 0, .65);
+
+  --gm-pro-1: #312e2c;
+  --gm-pro-2: #282625;
+  --gm-pro-3: #1c1b1a;
+}
+
+/* photographs: keep the black-and-white treatment, pull the whites down so a
+   bright print doesn't punch a hole in a dark page */
+html[data-theme="dark"] .grayscale,
+html[data-theme="dark"] .photo {
+  filter: grayscale(1) contrast(1.02) brightness(.86);
+}
+
+/* Follow the OS when the user hasn't chosen (no data-theme attribute yet). */
+@media (prefers-color-scheme: dark) {
+  html:not([data-theme]) {
+    color-scheme: dark;
+    /* duplicate the dark block above, or render data-theme server-side and
+       skip this — see accent-theme.md §3 */
+  }
+}
+
+/* ---- accent palettes -------------------------------------------------- */
+/* Each palette declares a light and a dark variant. In dark mode the base
+   brightens and --acc-deep becomes a LIGHT step (accent text must be light on
+   a dark ground), --acc-tint becomes a dark wash. */
+
+html[data-accent="orange"] { --acc:#ec3013; --acc-deep:#ae1800; --acc-hover:#dd2b0f;
+  --acc-soft:rgba(236,48,19,.1); --acc-sel:rgba(236,48,19,.3); --acc-tint:#fdece8; }
+html[data-theme="dark"][data-accent="orange"] { --acc:#ff563c; --acc-deep:#ff9783; --acc-hover:#ff7a62;
+  --acc-soft:rgba(255,86,60,.14); --acc-sel:rgba(255,86,60,.32); --acc-tint:#2b1a16; }
+
+html[data-accent="green"] { --acc:#16a34a; --acc-deep:#14663a; --acc-hover:#12833d;
+  --acc-soft:rgba(22,163,74,.1); --acc-sel:rgba(22,163,74,.3); --acc-tint:#e9f7ee; }
+html[data-theme="dark"][data-accent="green"] { --acc:#22c55e; --acc-deep:#7ee2a8; --acc-hover:#4ade80;
+  --acc-soft:rgba(34,197,94,.14); --acc-sel:rgba(34,197,94,.32); --acc-tint:#14251c; }
+
+html[data-accent="cyan"] { --acc:#0891b2; --acc-deep:#0b5e75; --acc-hover:#077d99;
+  --acc-soft:rgba(8,145,178,.1); --acc-sel:rgba(8,145,178,.3); --acc-tint:#e6f5f9; }
+html[data-theme="dark"][data-accent="cyan"] { --acc:#22b8d6; --acc-deep:#7fdcee; --acc-hover:#3fc8e2;
+  --acc-soft:rgba(34,184,214,.14); --acc-sel:rgba(34,184,214,.32); --acc-tint:#12242a; }
+
+/* Adding a palette — light variant:
+     deep  = same hue, L ~0.38 → must hit 4.5:1 on --gm-bg
+     hover = base one step darker (~L −0.06)
+     soft  = base @10% alpha,  sel = base @30% alpha
+     tint  = base mixed ~8% into --gm-bg
+   dark variant:
+     base  = light base one step brighter (L ~0.66) so it survives on #191817
+     deep  = LIGHT step (L ~0.80) → 4.5:1 on --gm-bg (dark)
+     hover = between base and deep
+     soft  = base @14%,  sel = base @32%
+     tint  = base mixed ~14% into the dark --gm-bg  */
+
+/* ---- base ------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--gm-bg);
+  color: var(--gm-ink);
+  font-family: var(--gm-font-ui);
+  font-size: 15px;
+  line-height: 1.55;
+  transition: background .2s ease, color .2s ease;
+}
+a { color: var(--acc-deep); text-decoration: none; }
+a:hover { color: var(--acc); }
+::selection { background: var(--acc-sel); }
+:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}

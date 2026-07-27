@@ -1,0 +1,120 @@
+# @gymmer/ui
+
+The Gymmer design system, packaged as a **Nuxt 4 layer**. Tokens, light/dark + three accents,
+the Tailwind v4 theme mapping, the shared component classes, and the contrast guard.
+
+Consumed by `gymmer-landing` (interim marketing site) and `gymmer-nuxt` (the app). It exists so
+those two cannot fork the tokens — the first time someone retunes a colour in one repo and not the
+other, the brand is two brands.
+
+## What's in it
+
+| Path | Contents |
+|---|---|
+| `app/assets/css/tokens.css` | The tokens. `:root`, `html[data-theme="dark"]`, three accent palettes × light/dark, and the `body`/`a`/`::selection`/`:focus-visible` base. |
+| `app/assets/css/gymmer.css` | Tailwind v4 `@theme` mapping of every token, the type scale, two radii, offset shadows, breakpoints, keyframes, the `wash-stripe*` / `photo` utilities, and the component classes `.pri` `.gho` `.bul` `.rv` `.row/.arw`. |
+| `app/utils/theme.ts` | The accent + theme registry, cookie/storage key names. |
+| `app/composables/useTheme.ts` | Live theme + accent state, persisted to cookie and localStorage, follows the OS while the preference is `system`. |
+| `app/composables/useReveal.ts` | Scroll reveals — any element with class `rv` settles once as it enters the viewport. Honours `prefers-reduced-motion`. |
+| `app/plugins/theme.ts` | Server-only. Seeds `data-theme` / `data-accent` into the SSR response. |
+| `nuxt.config.ts` | `@nuxt/fonts` (Archivo + Cormorant Infant, self-hosted), `<meta name="color-scheme">`, and the blocking no-flash script. |
+| `test/contrast.test.mjs` | WCAG guard: parses `tokens.css` directly and asserts every accent × theme combination. |
+
+## Consuming it
+
+`package.json`:
+
+```json
+{ "dependencies": { "@gymmer/ui": "github:fitniac/gymmer-ui#v0.1.0" } }
+```
+
+`nuxt.config.ts` — resolve by **real** path, never the bare specifier:
+
+```ts
+import { realpathSync } from 'node:fs'
+import { resolve } from 'node:path'
+
+const uiLayer = realpathSync(resolve(__dirname, 'node_modules/@gymmer/ui'))
+
+export default defineNuxtConfig({
+  extends: [uiLayer],
+  css: [resolve(__dirname, './app/assets/css/main.css')],
+  vite: { resolve: { dedupe: ['vue', 'vue-router', 'pinia'] } },
+})
+```
+
+Your `app/assets/css/main.css` owns the single Tailwind import:
+
+```css
+@import 'tailwindcss';
+@import '@gymmer/ui/app/assets/css/tokens.css';
+@import '@gymmer/ui/app/assets/css/gymmer.css';
+@source "../../../node_modules/@gymmer/ui/app/**/*.{vue,ts}";
+/* app-specific CSS below */
+```
+
+Add `shamefully-hoist=true` to `.npmrc`, then call `useTheme()` once (a layout or your index page)
+and both axes are live.
+
+### Local development against a checkout
+
+Gitignored `pnpm-workspace.yaml` in the consumer, seeded from a committed `.example` by
+`make workspace`:
+
+```yaml
+overrides:
+  "@gymmer/ui": "link:../gymmer-ui"
+```
+
+pnpm applies the override before git resolution, so the container never needs GitHub credentials.
+This is the same **Mode B** arrangement `gymtracer/admin` uses for `@redelay/js-admin` — the
+canonical writeup is `redelay/spec/docs/7.admin/07.consuming-the-base-layer.md`.
+
+### Four ways this goes wrong
+
+1. **`extends: ['@gymmer/ui']`** — a bare specifier fails. The package is `private` with no
+   `exports`/`main`; Nuxt errors with `Cannot extend config from @gymmer/ui`.
+2. **Skipping `realpathSync`** — Nuxt registers `~`/`@` against the pnpm symlink while Vite loads
+   real paths, and the layer's own relative imports break.
+3. **`@source` pointing at the sibling checkout** instead of `node_modules/@gymmer/ui` — works in
+   dev with the link override, renders unstyled in CI where only the tag is fetched.
+4. **Importing Tailwind here** — two `@import 'tailwindcss'` in one build means two instances of the
+   framework. That is why this layer sets no `css:` and the consumer owns the entry point.
+
+To verify all four at once: build with the `link:` override **deleted**, and grep the emitted CSS
+for `.pri{`.
+
+## Design rules
+
+Non-negotiable, because they are what makes the accent swap and dark mode work at all. Full
+rationale in `CLAUDE.md`.
+
+1. **Tokens only.** Never a hex, `rgba()` or named colour in a component. If you reach for a `dark:`
+   utility, a token is missing.
+2. **Two radii.** `0` for everything structural, `999px` for primary actions and switches. Nothing
+   between.
+3. **Rules, not shadows, organise the page.** 2px `--gm-divider` between sections, 1px
+   `--gm-hairline` inside lists.
+4. **Offset shadows only** — `5px 5px 0` on buttons, `12px 12px 0` on framed cards,
+   `-8px 8px 0` on corner badges. `--shadow-bubble` is the single exception.
+5. **Type**: Archivo everywhere, Cormorant Infant italic for quotes and section leads. Both must
+   keep `latin-ext`.
+6. **Icons**: Lucide, stroke `2.25`, 14–20px, `currentColor`.
+
+## Adding an accent
+
+One entry in `app/utils/theme.ts`, light and dark blocks in `tokens.css`, then `pnpm test:contrast`.
+The tuning recipe (how to derive `deep`/`hover`/`soft`/`tint` from a base) is in the comment at the
+bottom of the accent section in `tokens.css`.
+
+## Contrast
+
+```bash
+pnpm test:contrast
+```
+
+Reads `tokens.css` directly, so a retuned neutral cannot ship broken. Four light-mode combinations
+inherited from the original design bundle sit below the ratios the spec asks for; they are recorded
+as **known gaps** with their measured values and ratcheted against regression rather than hidden.
+Closing them means retuning brand colour — a design decision, not a code one. Dark mode passes
+every rule.
