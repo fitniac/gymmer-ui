@@ -70,19 +70,37 @@ pnpm applies the override before git resolution, so the container never needs Gi
 This is the same **Mode B** arrangement `gymtracer/admin` uses for `@redelay/js-admin` — the
 canonical writeup is `redelay/spec/docs/7.admin/07.consuming-the-base-layer.md`.
 
-### Four ways this goes wrong
+### Six ways this goes wrong
 
-1. **`extends: ['@gymmer/ui']`** — a bare specifier fails. The package is `private` with no
-   `exports`/`main`; Nuxt errors with `Cannot extend config from @gymmer/ui`.
+Every one of these was hit while wiring up the first consumer.
+
+1. **`extends: ['@gymmer/ui']`** — a bare specifier fails. The package has no `exports`/`main`;
+   Nuxt errors with `Cannot extend config from @gymmer/ui`. Resolve the real path instead.
 2. **Skipping `realpathSync`** — Nuxt registers `~`/`@` against the pnpm symlink while Vite loads
    real paths, and the layer's own relative imports break.
 3. **`@source` pointing at the sibling checkout** instead of `node_modules/@gymmer/ui` — works in
    dev with the link override, renders unstyled in CI where only the tag is fetched.
 4. **Importing Tailwind here** — two `@import 'tailwindcss'` in one build means two instances of the
    framework. That is why this layer sets no `css:` and the consumer owns the entry point.
+5. **Forgetting the layer's own module deps.** This layer lists `@nuxt/fonts` in `modules`, but a
+   linked or tarball-fetched layer's `node_modules` is *not* on the consumer's resolution path, so
+   the consumer must install `@nuxt/fonts` too. Symptom:
+   `The module @nuxt/fonts could not be loaded`. Same reason `gymtracer/admin` duplicates
+   `@nuxt/ui` and `pinia`.
+6. **Committing a lockfile written on a machine with a git `insteadOf` rule.** This org's Go setup
+   sets `url.git@github.com:.insteadOf https://github.com/`, which rewrites pnpm's HTTPS URL to SSH
+   *as the lockfile is written*. That SSH URL is then baked in, and every machine without those keys
+   — the Docker image, CI — dies with `error: cannot run ssh: No such file or directory` from deep
+   inside pnpm. Regenerate with `GIT_CONFIG_GLOBAL=/dev/null` (the consumer's
+   `pnpm lockfile:refresh` does this) so the lockfile pins the public codeload tarball over plain
+   HTTPS — no git, no ssh, no credentials.
 
-To verify all four at once: build with the `link:` override **deleted**, and grep the emitted CSS
-for `.pri{`.
+Likewise: **never commit a lockfile written with the `link:` override active.** It records
+`link:../gymmer-ui`, and the image build fails with `ERR_PNPM_LOCKFILE_CONFIG_MISMATCH`. Install
+with `--no-lockfile` whenever the override is in place.
+
+To verify the whole set: build with the `link:` override **deleted**, then build the container
+image, and check the emitted CSS contains `.pri{` and the same byte count both times.
 
 ## Design rules
 
