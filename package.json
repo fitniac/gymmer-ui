@@ -6,7 +6,9 @@
   "description": "Gymmer design system as a Nuxt 4 layer — tokens, theme, and shared component classes",
   "scripts": {
     "test:contrast": "node --test test/contrast.test.mjs",
-    "test": "node --test test/contrast.test.mjs"
+    "test": "node --test test/contrast.test.mjs",
+    "brand": "node scripts/generate-brand.mjs && node scripts/verify-brand.mjs",
+    "brand:verify": "node scripts/verify-brand.mjs"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.11.4"

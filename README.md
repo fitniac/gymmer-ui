@@ -1,18 +1,26 @@
 # @gymmer/ui
 
-The Gymmer design system, packaged as a **Nuxt 4 layer**. Tokens, light/dark + three accents,
-the Tailwind v4 theme mapping, the shared component classes, and the contrast guard.
+The GYMMER design system, packaged as a **Nuxt 4 layer**. Tokens, light/dark + three accents,
+the Tailwind v4 theme mapping, the shared component classes, the logo and its generated icon set,
+and the contrast guard.
 
 Consumed by `gymmer-landing` (interim marketing site) and `gymmer-nuxt` (the app). It exists so
 those two cannot fork the tokens — the first time someone retunes a colour in one repo and not the
 other, the brand is two brands.
+
+The brand name is **GYMMER**, uppercase, always. Lowercase `gymmer` appears only as an identifier
+(`@gymmer/ui`, repo names, the `--gm-*` prefix), never as the brand.
 
 ## What's in it
 
 | Path | Contents |
 |---|---|
 | `app/assets/css/tokens.css` | The tokens. `:root`, `html[data-theme="dark"]`, three accent palettes × light/dark, and the `body`/`a`/`::selection`/`:focus-visible` base. |
-| `app/assets/css/gymmer.css` | Tailwind v4 `@theme` mapping of every token, the type scale, two radii, offset shadows, breakpoints, keyframes, the `wash-stripe*` / `photo` utilities, and the component classes `.pri` `.gho` `.bul` `.rv` `.row/.arw`. |
+| `app/assets/css/gymmer.css` | Tailwind v4 `@theme` mapping of every token, the type scale, two radii, offset shadows, breakpoints, keyframes, the `wash-stripe*` / `photo` utilities, and the component classes `.pri` `.gho` `.bul` `.rv` `.row/.arw` `.logo/.logo-type`. |
+| `app/assets/img/logo.svg` | The mark. Token-driven: its fill is a 45° gradient from `--acc` to `--acc-deep`, so it retints with the live accent and theme. The only hand-authored artwork in the repo. |
+| `brand/` | 85 generated rasters + manifests for web, PWA, iOS, watchOS, macOS and Android. Built by `pnpm brand`; never edited by hand. [brand/README.md](brand/README.md). |
+| `scripts/generate-brand.mjs` | Rasterises `brand/` from the SVG and the tokens, via headless Chrome over CDP. |
+| `scripts/verify-brand.mjs` | Decodes every generated PNG and holds it to the geometry the generator declared. |
 | `app/utils/theme.ts` | The accent + theme registry, cookie/storage key names. |
 | `app/composables/useTheme.ts` | Live theme + accent state, persisted to cookie and localStorage, follows the OS while the preference is `system`. |
 | `app/composables/useReveal.ts` | Scroll reveals — any element with class `rv` settles once as it enters the viewport. Honours `prefers-reduced-motion`. |
@@ -118,6 +126,45 @@ rationale in `CLAUDE.md`.
 5. **Type**: Archivo everywhere, Cormorant Infant italic for quotes and section leads. Both must
    keep `latin-ext`.
 6. **Icons**: Lucide, stroke `2.25`, 14–20px, `currentColor`.
+7. **GYMMER is uppercase, always.** No lowercase or title-case form of the brand name exists.
+8. **The mark is inlined SVG**, never `<img src>` — an external image cannot read the accent tokens.
+
+## The logo
+
+Inline the SVG — do not reference it with `<img src>`. Its fill is a 45° gradient between `--acc`
+and `--acc-deep`, and an external image is an isolated document that cannot read
+`html[data-accent]`, so it would sit on light orange while the rest of the page retints.
+
+```html
+<a class="logo" href="/" style="--logo-size: 40px">
+  <!-- contents of app/assets/img/logo.svg -->
+  <span class="logo-type">GYMMER</span>
+</a>
+```
+
+Everything scales off `--logo-size`. Add `logo-inv` on the always-dark Pro card, and `logo-type-sm`
+on the wordmark to drop it below 560px, where the mark still reads and the wordmark does not.
+
+## Icons
+
+```bash
+pnpm brand          # regenerate brand/ from the SVG + tokens, then verify
+pnpm brand:verify   # verify only
+```
+
+85 rasters covering web and PWA, iOS, watchOS, macOS and Android, plus `site.webmanifest`,
+`browserconfig.xml`, both `.appiconset` catalogs, the Android adaptive-icon XML and an `.icns`.
+Nothing under `brand/` is hand-edited — the colours come from `tokens.css` and the geometry from the
+SVG, so retuning either and re-running is the entire update procedure.
+
+The generator declares the geometry it intends to produce in `brand/geometry.json`, and the verifier
+decodes the actual pixels to check span, centring, alpha channel and mask clearance against it. That
+is not belt-and-braces: a wrong icon looks perfectly normal in a file listing, and three separate
+bugs got through review that way — a crop mistaken for a scale, a mark sheared by a circular mask,
+and the literal word `undefined` rendered into all ten macOS icons. `pnpm brand` fails on mismatch.
+
+Details, per-platform wiring, and the known caveats (no iOS 18 dark/tinted variants; the watchOS
+legacy `Contents.json` is unvalidated against Xcode) are in [brand/README.md](brand/README.md).
 
 ## Adding an accent
 

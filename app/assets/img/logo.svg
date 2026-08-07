@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  GYMMER mark.
+
+  Geometry: centre (512,512); outer ring R 344 to 280, gap 54, inner ring R 226
+  to 162. Every straight is axis aligned, every chamfer a true 45 degrees, every
+  curve an exact arc tangent to its straights.
+
+  Fill is a 45 degree gradient, accent at top left to accent deep at bottom
+  right. The bounding box is square (168..856 on both axes), so userSpaceOnUse
+  endpoints on the box corners give a true 45 degrees at any rendered size.
+
+  INLINE this markup into the DOM so the gradient inherits the accent tokens
+  from html[data-accent] + html[data-theme]. Paste it, or add an svg-to-component
+  loader in the CONSUMING app (the layer ships none, and must not add one).
+  Do NOT reference it via <img src>: an external image cannot see document tokens.
+  Inlining twice on one page duplicates the gradient id, which is harmless only
+  because both definitions are identical; give one a suffix if you ever fork it.
+
+  Standalone use (favicon, og image, a design tool) has no document to inherit
+  from, so it falls back to light orange. Add data-accent="green" | "cyan" |
+  "orange" to the <svg> to pin a palette; those blocks also honour the OS dark
+  preference. Leave the attribute OFF when inlining, or it overrides the live
+  accent. The literals in <style> are the only place this file names a colour,
+  and they exist solely for that no-document case.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024" role="img">
+  <title>GYMMER</title>
+  <style>
+    svg[data-accent="orange"] { --acc: #ec3013; --acc-deep: #ae1800 }
+    svg[data-accent="green"]  { --acc: #16a34a; --acc-deep: #14663a }
+    svg[data-accent="cyan"]   { --acc: #0891b2; --acc-deep: #0b5e75 }
+    @media (prefers-color-scheme: dark) {
+      svg[data-accent="orange"] { --acc: #ff563c; --acc-deep: #ff9783 }
+      svg[data-accent="green"]  { --acc: #22c55e; --acc-deep: #7ee2a8 }
+      svg[data-accent="cyan"]   { --acc: #22b8d6; --acc-deep: #7fdcee }
+    }
+  </style>
+  <defs>
+    <linearGradient id="gm-logo-acc" gradientUnits="userSpaceOnUse" x1="168" y1="168" x2="856" y2="856">
+      <stop offset="0" stop-color="var(--acc, #ec3013)"/>
+      <stop offset="1" stop-color="var(--acc-deep, #ae1800)"/>
+    </linearGradient>
+  </defs>
+  <path fill="url(#gm-logo-acc)" fill-rule="evenodd" d="
+    M 826 168
+    L 762 232
+    L 512 232
+    A 280 280 0 1 0 792 512
+    L 512 512
+    L 512 448
+    L 849.99 448
+    A 344 344 0 1 1 512 168
+    Z
+    M 708 286
+    L 644 350
+    L 512 350
+    A 162 162 0 1 0 623 630
+    L 512 630
+    L 512 566
+    L 731.45 566
+    A 226 226 0 1 1 512 286
+    Z
+  "/>
+</svg>

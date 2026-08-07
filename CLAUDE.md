@@ -36,6 +36,13 @@ These are not style preferences; they are what makes accent switching and dark m
    icon sets.
 10. **Motion**: reveals 0.7s `cubic-bezier(.2,.7,.2,1)`; button press 0.12s; `prefers-reduced-motion`
     is already handled globally in `tokens.css` and by `useReveal()`.
+11. **The brand name is GYMMER, uppercase, always.** No lowercase or title-case form exists.
+    `.logo-type` enforces it with `text-transform`, but write it uppercase in templates anyway.
+    Lowercase `gymmer` is only ever an *identifier* — `@gymmer/ui`, `gymmer-nuxt`, the `--gm-*`
+    prefix, filenames — never the brand.
+12. **The mark is inlined SVG, never `<img src>`.** Its fill is a 45° gradient from `--acc` to
+    `--acc-deep`; an external image is an isolated document that cannot read `html[data-accent]`,
+    so it would freeze on light orange while the rest of the page retints. See "Brand assets" below.
 
 ## Accessibility
 
@@ -73,6 +80,28 @@ than adding an entry.
 Adding an accent: one entry in `app/utils/theme.ts`, light **and** dark blocks in `tokens.css`, then
 the contrast test. The derivation recipe (`deep` / `hover` / `soft` / `tint` from a base) is
 documented in `tokens.css` under the accent palettes.
+
+## Brand assets
+
+`app/assets/img/logo.svg` is the only hand-authored artwork in the repo. `brand/` is 85 generated
+rasters plus their manifests, built from that SVG and `tokens.css` by `pnpm brand`. Full reference:
+[brand/README.md](brand/README.md).
+
+- **Never edit a file under `brand/`.** The next `pnpm brand` overwrites it. Change the SVG or the
+  token and re-run. The one exception is `brand/README.md`, which is why the generator deletes only
+  the five generated subtrees rather than the directory.
+- **Two sizing measurements, and they are not interchangeable.** The mark's real extent is its
+  688×688 bounding box — the chamfered bar tip sits *inside* it, so square and superellipse canvases
+  fit the box. A circular mask cuts that tip first, 465.8 out on the diagonal, so circular canvases
+  (watchOS, Android round, maskables) must fit the *circumcircle* instead. Fitting a circular tile
+  by bounding box silently shears the tip off.
+- **iOS and Play reject an alpha channel outright** — fully opaque is not sufficient, the channel
+  must be absent. `stripAlpha()` re-encodes those to PNG colour type 2.
+- **`pnpm brand` verifies itself and fails the build on mismatch.** The generator writes
+  `brand/geometry.json` declaring what each file should be; `verify-brand.mjs` decodes the pixels and
+  checks span, centring, alpha and mask clearance against it. This exists because three separate
+  wrong-icon bugs shipped past review looking completely normal in a file listing — including the
+  word `undefined` rendered into all ten macOS icons. Do not weaken it into a file-existence check.
 
 ## Adding to the layer
 

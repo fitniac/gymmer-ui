@@ -248,6 +248,55 @@
   color: var(--acc);
 }
 
+/* ── Brand lockup ───────────────────────────────────────────────────────────
+   The mark is app/assets/img/logo.svg and must be INLINED, not referenced with
+   <img src>: its fill is a 45° gradient between --acc and --acc-deep, and an
+   external image cannot see document tokens, so it would freeze on light orange
+   whatever the live accent is. brand/README.md has the full rationale.
+
+   Everything scales off --logo-size, so a lockup is resized in one place:
+   `<a class="logo" style="--logo-size:44px">`. */
+.logo {
+  --logo-size: 32px;
+  display: inline-flex;
+  align-items: center;
+  gap: calc(var(--logo-size) * 0.34);
+  color: var(--gm-ink);
+  text-decoration: none;
+}
+.logo > svg {
+  width: var(--logo-size);
+  height: var(--logo-size);
+  flex: none;
+  display: block;
+}
+
+/* The name is ALWAYS set GYMMER. text-transform is here rather than in the
+   template so a lowercase string in any consumer still renders correctly —
+   there is no lowercase form of the wordmark to fall back to. */
+.logo-type {
+  font-family: var(--gm-font-ui);
+  font-weight: 800;
+  font-size: calc(var(--logo-size) * 0.62);
+  line-height: 1;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* On the always-dark Pro card and inverted bands, where --gm-ink would vanish. */
+.logo-inv {
+  color: var(--gm-on-pro);
+}
+
+/* Collapse to the mark alone below the first breakpoint. The mark is legible at
+   24px; the wordmark is not, so it goes rather than shrinking further. */
+@media (max-width: 560px) {
+  .logo-type-sm {
+    display: none;
+  }
+}
+
 /* Scroll reveal. Elements start offset and settle once; see useReveal(). */
 .rv {
   opacity: 0;
