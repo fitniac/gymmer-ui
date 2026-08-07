@@ -2,7 +2,7 @@
 
 Everything here is **generated**. The source is [`../app/assets/img/logo.svg`](../app/assets/img/logo.svg)
 for the geometry and [`../app/assets/css/tokens.css`](../app/assets/css/tokens.css) for the colour;
-the build reads both and writes this directory.
+the build reads both and writes the layer's `../public/` (web) and this directory (native).
 
 ```bash
 pnpm brand          # regenerate, then verify
@@ -26,13 +26,18 @@ Lowercase `gymmer` survives only as an *identifier*: the package name `@gymmer/u
 Centre (512,512) in a 1024 viewBox. Outer ring R 344 → 280, gap 54, inner ring R 226 → 162; ring
 weight 64 throughout, chamfers a true 45°, curves exact arcs tangent to their straights.
 
+**Reproportioning the ring or the gap does not move the bounding box**, which stays 168…856 on both
+axes because the outer radius and the bar tip are what set it — so the safe-zone fractions below
+survive that kind of edit. Moving R 344 or the bar tip *would* invalidate them; `verify-brand.mjs`
+is what tells you.
+
 Fill is a 45° gradient from `--acc` (top-left) to `--acc-deep` (bottom-right). The mark's bounding
 box is square — 168…856 on both axes — so gradient endpoints on the box corners hold 45° at any
 size.
 
 **Inline the SVG.** Referenced as `<img src>` it becomes an isolated document that cannot read
 `html[data-accent]`, and freezes on light orange. Inlined, it retints with the live accent and theme
-for free. `brand/web/favicon.svg` is the exception: a favicon *is* fetched standalone, so that copy
+for free. `../public/favicon.svg` is the exception: a favicon *is* fetched standalone, so that copy
 has `data-accent="orange"` pinned and carries its own dark-mode block.
 
 ## Sizing: two different measurements
@@ -68,17 +73,21 @@ near the top of the script) and point `OUT` somewhere else.
 
 ## What's here
 
+Web assets are **not** in this directory — they are written to the layer's `../public/`, which Nuxt
+merges into the served root of every consuming app. That is what makes `/favicon.ico` resolve in
+gymmer-landing and gymmer-nuxt without either repo holding a copy of it.
+
 | Path | For | Notes |
 |---|---|---|
-| `web/favicon.svg` | Modern browsers | Vector, dark-aware, orange pinned |
-| `web/favicon.ico` | Legacy + Windows | PNG-in-ICO, 16/32/48 |
-| `web/favicon-{16,32,48,96}.png` | Explicit `<link>` sizes | Transparent |
-| `web/icon-{72…512}.png` | PWA manifest, `purpose: any` | Transparent |
-| `web/icon-maskable-{192,512}.png` | PWA manifest, `purpose: maskable` | Full-bleed ink |
-| `web/apple-touch-icon.png` (+152/167/180) | iOS home screen from Safari | Opaque |
-| `web/mstile-{70,150,310}.png`, `browserconfig.xml` | Windows tiles | Opaque |
-| `web/og-image.png` | Social preview | 1200×630, opaque |
-| `web/site.webmanifest` | PWA manifest | Paths assume assets sit at the web root |
+| `../public/favicon.svg` | Modern browsers | Vector, dark-aware, orange pinned |
+| `../public/favicon.ico` | Legacy + Windows | PNG-in-ICO, 16/32/48 |
+| `../public/favicon-{16,32,48,96}.png` | Explicit `<link>` sizes | Transparent |
+| `../public/icon-{72…512}.png` | PWA manifest, `purpose: any` | Transparent. `icon-192x192.png` is also the email logo |
+| `../public/icon-maskable-{192,512}.png` | PWA manifest, `purpose: maskable` | Full-bleed ink |
+| `../public/apple-touch-icon.png` (+152/167/180) | iOS home screen from Safari | Opaque |
+| `../public/mstile-{70,150,310}.png`, `browserconfig.xml` | Windows tiles | Opaque |
+| `../public/og-image.png` | Social preview | 1200×630, opaque |
+| `../public/site.webmanifest` | PWA manifest | gymmer-nuxt uses @vite-pwa's generated one instead |
 | `ios/AppIcon.appiconset/` | Xcode | Full legacy matrix + `Contents.json` |
 | `watchos/AppIcon.appiconset/` | Xcode | See the caveat below |
 | `macos/AppIcon.icns` + `.iconset/` | macOS | Draws its own squircle — macOS never masks |
@@ -90,7 +99,13 @@ near the top of the script) and point `OUT` somewhere else.
 
 ### Wiring it up
 
-**Web** — copy `web/*` into the consuming app's `public/`. The manifest uses root-absolute paths.
+**Web** — nothing to do. The layer's `public/` is already merged into each app's served root; just
+reference `/favicon.svg`, `/icon-192x192.png` and friends from `useHead`. Do **not** copy them into
+a consumer's own `public/`.
+
+**Email** — the Go API defaults `EMAIL_LOGO_URL` to `PUBLIC_URL + /icon-192x192.png`, which resolves
+because of the above. Mail clients fetch it over the network, so it has to be an absolute,
+publicly reachable URL — a localhost value renders as alt text in a real inbox.
 
 **iOS / macOS** — drag the `.appiconset` / `.icns` into the Xcode asset catalog.
 

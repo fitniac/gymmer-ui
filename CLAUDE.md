@@ -102,6 +102,28 @@ rasters plus their manifests, built from that SVG and `tokens.css` by `pnpm bran
   checks span, centring, alpha and mask clearance against it. This exists because three separate
   wrong-icon bugs shipped past review looking completely normal in a file listing — including the
   word `undefined` rendered into all ten macOS icons. Do not weaken it into a file-existence check.
+- **Web assets live in `public/`, platform bundles in `brand/`.** Nuxt merges every layer's `public/`
+  into the consuming app's served root, so `/favicon.ico`, `/icon-192x192.png` and
+  `/site.webmanifest` resolve in gymmer-landing AND gymmer-nuxt with no config in either and no
+  second copy of the bytes. The Go API's email shell points `EMAIL_LOGO_URL` at the same
+  `/icon-192x192.png`. Do not copy these into a consumer's own `public/` — that is the fork this
+  layer exists to prevent. Cleanup between runs is file-by-file from the previous
+  `geometry.json.generated`, never `rm -rf public/`.
+
+## The one Vue component
+
+`app/components/GmLogo.vue` is the exception to "no Vue components here", and the bar it cleared is
+the one stated below: both consumers needed it at the same time. Nuxt auto-registers layer
+components, so `<GmLogo />` works in gymmer-landing and gymmer-nuxt with no import and no config.
+
+- **It `v-html`s the mark from `logo.svg?raw`** rather than carrying a copy of the path. The SVG has
+  to be inline for the gradient to read the accent tokens, and pasting the geometry into a `.vue`
+  file would make a second copy of the artwork that `pnpm brand` could not see.
+- **Omit the `size` prop to make it responsive.** `size` renders an inline style, and an inline
+  style beats any utility class — `<GmLogo class="[--logo-size:26px] md:[--logo-size:32px]" />` only
+  works with `size` unset. `.logo` falls back to 32px.
+- **`.logo svg` is a descendant selector, not a child one**, because the mark arrives inside a
+  `v-html` wrapper span.
 
 ## Adding to the layer
 

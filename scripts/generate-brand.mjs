@@ -429,8 +429,21 @@ const mapSeries = async (items, fn) => {
 }
 
 const written = []
+/**
+ * Job paths are written as `web/…`, `ios/…` and so on, but `web/` does not land
+ * in brand/ — it lands in the layer's `public/`.
+ *
+ * Nuxt merges every layer's public directory into the consuming app's served
+ * root, so putting the favicons there makes `/favicon.ico`, `/icon-192x192.png`
+ * and `/site.webmanifest` resolve in gymmer-landing AND gymmer-nuxt with no
+ * config in either and, more importantly, no second copy of the bytes. The
+ * platform bundles stay under brand/ — nothing should serve an Android mipmap
+ * or an Xcode asset catalog over HTTP.
+ */
+const outPath = (p) => (p.startsWith('web/') ? join('public', p.slice(4)) : join('brand', p))
+
 async function emit(path, buf) {
-  const full = join(OUT, path)
+  const full = join(ROOT, outPath(path))
   await mkdir(dirname(full), { recursive: true })
   await writeFile(full, buf)
   written.push({ path, bytes: buf.length })
@@ -560,11 +573,19 @@ const OG = {
 
 /* ── go ──────────────────────────────────────────────────────────────────── */
 
-// Only the generated subtrees, never brand/ wholesale — README.md lives there
-// and is hand-written.
-for (const dir of ['web', 'ios', 'watchos', 'macos', 'android'])
+/*
+ * Cleanup is file-by-file, from the last run's own record, not `rm -rf` on a
+ * directory. brand/ holds a hand-written README.md, and public/ is a directory
+ * the layer may later want for something that is not an icon — neither can be
+ * wiped wholesale just because the icons live there too.
+ */
+const previous = await readFile(join(OUT, 'geometry.json'), 'utf8').then(
+  (s) => JSON.parse(s).generated ?? [],
+  () => []
+)
+for (const rel of previous) await rm(join(ROOT, rel), { force: true })
+for (const dir of ['ios', 'watchos', 'macos', 'android'])
   await rm(join(OUT, dir), { recursive: true, force: true })
-await rm(join(OUT, 'geometry.json'), { force: true })
 
 const rendered = await mapSeries(jobs, async (j) => {
   const png = await raster(j.svg, j.size, j.size)
@@ -775,30 +796,6 @@ await emit(
   )
 )
 
-/* ── the claim, for verify-brand to check against ────────────────────────── */
-
-await emit(
-  'geometry.json',
-  Buffer.from(
-    JSON.stringify(
-      {
-        note: 'Written by scripts/generate-brand.mjs; read by scripts/verify-brand.mjs. Not an asset.',
-        ink: INK,
-        accent: [ACC, ACC_DEEP],
-        files: Object.fromEntries([
-          ...jobs.map((j) => [
-            j.path,
-            { w: j.size, h: j.size, alpha: !j.opaque, markBox: j.markBox, maskR: j.maskR },
-          ]),
-          ['web/og-image.png', { w: 1200, h: 630, alpha: false, markBox: OG.markBox, maskR: null }],
-        ]),
-      },
-      null,
-      2
-    ) + '\n'
-  )
-)
-
 /* ── icns ────────────────────────────────────────────────────────────────── */
 
 try {
@@ -813,6 +810,38 @@ try {
 } catch (e) {
   console.warn(`! iconutil failed (macOS only): ${e.message}`)
 }
+
+/* ── the claim, for verify-brand to check against ────────────────────────── */
+
+// Written LAST, because `generated` has to list every file this run produced —
+// that list is the next run's delete set, and anything missing from it becomes
+// an orphan nothing ever cleans up. Paths are relative to the repo root so a
+// web asset in public/ and an icon in brand/ are addressed the same way.
+await emit(
+  'geometry.json',
+  Buffer.from(
+    JSON.stringify(
+      {
+        note: 'Written by scripts/generate-brand.mjs; read by scripts/verify-brand.mjs. Not an asset.',
+        ink: INK,
+        accent: [ACC, ACC_DEEP],
+        generated: [...written.map((w) => outPath(w.path)), 'brand/geometry.json'],
+        files: Object.fromEntries([
+          ...jobs.map((j) => [
+            outPath(j.path),
+            { w: j.size, h: j.size, alpha: !j.opaque, markBox: j.markBox, maskR: j.maskR },
+          ]),
+          [
+            outPath('web/og-image.png'),
+            { w: 1200, h: 630, alpha: false, markBox: OG.markBox, maskR: null },
+          ],
+        ]),
+      },
+      null,
+      2
+    ) + '\n'
+  )
+)
 
 cdp.close()
 chrome.kill()

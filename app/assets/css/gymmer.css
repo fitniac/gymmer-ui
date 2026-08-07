@@ -257,16 +257,28 @@
    Everything scales off --logo-size, so a lockup is resized in one place:
    `<a class="logo" style="--logo-size:44px">`. */
 .logo {
-  --logo-size: 32px;
+  /* The default is a var() FALLBACK, never `--logo-size: 32px` as a
+     declaration. These component classes are unlayered, Tailwind's utilities
+     live in `@layer utilities`, and unlayered CSS beats layered CSS at equal
+     specificity — so a declaration here would silently win over
+     `[--logo-size:26px]` and every responsive lockup would render at 32px.
+     Resolving the fallback into a private var keeps that in one place. */
+  --_logo: var(--logo-size, 32px);
   display: inline-flex;
   align-items: center;
-  gap: calc(var(--logo-size) * 0.34);
+  gap: calc(var(--_logo) * 0.34);
   color: var(--gm-ink);
   text-decoration: none;
 }
-.logo > svg {
-  width: var(--logo-size);
-  height: var(--logo-size);
+/* Descendant, not child: <GmLogo> injects the mark through v-html, so the svg
+   sits inside a wrapper span rather than directly under .logo. */
+.logo-mark {
+  display: flex;
+  flex: none;
+}
+.logo svg {
+  width: var(--_logo);
+  height: var(--_logo);
   flex: none;
   display: block;
 }
@@ -277,7 +289,7 @@
 .logo-type {
   font-family: var(--gm-font-ui);
   font-weight: 800;
-  font-size: calc(var(--logo-size) * 0.62);
+  font-size: calc(var(--_logo) * 0.62);
   line-height: 1;
   letter-spacing: 0.04em;
   text-transform: uppercase;

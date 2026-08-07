@@ -18,7 +18,9 @@ The brand name is **GYMMER**, uppercase, always. Lowercase `gymmer` appears only
 | `app/assets/css/tokens.css` | The tokens. `:root`, `html[data-theme="dark"]`, three accent palettes × light/dark, and the `body`/`a`/`::selection`/`:focus-visible` base. |
 | `app/assets/css/gymmer.css` | Tailwind v4 `@theme` mapping of every token, the type scale, two radii, offset shadows, breakpoints, keyframes, the `wash-stripe*` / `photo` utilities, and the component classes `.pri` `.gho` `.bul` `.rv` `.row/.arw` `.logo/.logo-type`. |
 | `app/assets/img/logo.svg` | The mark. Token-driven: its fill is a 45° gradient from `--acc` to `--acc-deep`, so it retints with the live accent and theme. The only hand-authored artwork in the repo. |
-| `brand/` | 85 generated rasters + manifests for web, PWA, iOS, watchOS, macOS and Android. Built by `pnpm brand`; never edited by hand. [brand/README.md](brand/README.md). |
+| `app/components/GmLogo.vue` | The lockup — mark + GYMMER wordmark. The layer's only Vue component; auto-registers in every consumer as `<GmLogo />`. |
+| `public/` | Favicons, PWA icons, maskables, apple-touch, mstiles, OG image and `site.webmanifest`. Nuxt merges layer public dirs, so these are served at the root of **both** apps with no config and no copy. |
+| `brand/` | The platform bundles — iOS, watchOS, macOS and Android. Built by `pnpm brand`; never edited by hand. [brand/README.md](brand/README.md). |
 | `scripts/generate-brand.mjs` | Rasterises `brand/` from the SVG and the tokens, via headless Chrome over CDP. |
 | `scripts/verify-brand.mjs` | Decodes every generated PNG and holds it to the geometry the generator declared. |
 | `app/utils/theme.ts` | The accent + theme registry, cookie/storage key names. |
@@ -135,15 +137,21 @@ Inline the SVG — do not reference it with `<img src>`. Its fill is a 45° grad
 and `--acc-deep`, and an external image is an isolated document that cannot read
 `html[data-accent]`, so it would sit on light orange while the rest of the page retints.
 
-```html
-<a class="logo" href="/" style="--logo-size: 40px">
-  <!-- contents of app/assets/img/logo.svg -->
-  <span class="logo-type">GYMMER</span>
-</a>
+`<GmLogo />` does it for you — the layer's one Vue component, auto-registered in every consumer:
+
+```vue
+<GmLogo to="/" :size="34" />                              <!-- fixed size -->
+<GmLogo to="/" class="[--logo-size:26px] md:[--logo-size:34px]" />  <!-- responsive -->
+<GmLogo :wordmark="false" />                              <!-- mark alone -->
+<GmLogo inverse />                                        <!-- on the dark Pro card -->
 ```
 
-Everything scales off `--logo-size`. Add `logo-inv` on the always-dark Pro card, and `logo-type-sm`
-on the wordmark to drop it below 560px, where the mark still reads and the wordmark does not.
+Everything scales off `--logo-size`. **Omit `size` when you want the class to win** — `size` emits an
+inline style, and an inline style beats any utility. `responsive` drops the wordmark below 560px,
+where the mark still reads and it does not.
+
+The underlying classes (`.logo`, `.logo-type`, `.logo-inv`, `.logo-type-sm`) are in `gymmer.css` if
+you need to build the lockup by hand.
 
 ## Icons
 
@@ -154,8 +162,14 @@ pnpm brand:verify   # verify only
 
 85 rasters covering web and PWA, iOS, watchOS, macOS and Android, plus `site.webmanifest`,
 `browserconfig.xml`, both `.appiconset` catalogs, the Android adaptive-icon XML and an `.icns`.
-Nothing under `brand/` is hand-edited — the colours come from `tokens.css` and the geometry from the
-SVG, so retuning either and re-running is the entire update procedure.
+Nothing here is hand-edited — the colours come from `tokens.css` and the geometry from the SVG, so
+retuning either and re-running is the entire update procedure.
+
+Output splits by who consumes it. **Web assets go to `public/`**, which Nuxt merges into the served
+root of every consuming app: `/favicon.ico` and `/icon-192x192.png` resolve in gymmer-landing and
+gymmer-nuxt without either repo holding a copy, and the Go API's email shell points at the same
+`/icon-192x192.png`. **Platform bundles go to `brand/`** — nothing should serve an Android mipmap
+over HTTP. Consumers copy those into their native projects.
 
 The generator declares the geometry it intends to produce in `brand/geometry.json`, and the verifier
 decodes the actual pixels to check span, centring, alpha channel and mask clearance against it. That

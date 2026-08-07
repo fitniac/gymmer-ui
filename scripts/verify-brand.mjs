@@ -20,7 +20,11 @@ import { join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import zlib from 'node:zlib'
 
-const OUT = join(fileURLToPath(new URL('..', import.meta.url)), 'brand')
+const ROOT = fileURLToPath(new URL('..', import.meta.url))
+const OUT = join(ROOT, 'brand')
+// Web assets live in the layer's public/ (Nuxt merges it into every consuming
+// app's served root); platform bundles live in brand/. geometry.json addresses
+// both with repo-relative paths, so everything here resolves against ROOT.
 const geometry = JSON.parse(await readFile(join(OUT, 'geometry.json'), 'utf8'))
 const INK = [1, 3, 5].map((i) => parseInt(geometry.ink.slice(i, i + 2), 16))
 
@@ -129,7 +133,9 @@ const walk = async (dir) => {
 }
 
 const problems = []
-const files = (await walk(OUT)).map((f) => relative(OUT, f)).sort()
+const files = [...(await walk(OUT)), ...(await walk(join(ROOT, 'public')))]
+  .map((f) => relative(ROOT, f))
+  .sort()
 const pngs = files.filter((f) => f.endsWith('.png'))
 
 for (const rel of pngs) {
@@ -138,7 +144,7 @@ for (const rel of pngs) {
     problems.push(`${rel}: rendered but absent from geometry.json — nothing verified it`)
     continue
   }
-  const d = decode(await readFile(join(OUT, rel)))
+  const d = decode(await readFile(join(ROOT, rel)))
   if (d.width !== want.w || d.height !== want.h)
     problems.push(`${rel}: ${d.width}x${d.height}, expected ${want.w}x${want.h}`)
 
@@ -182,13 +188,14 @@ for (const rel of Object.keys(geometry.files))
   if (!pngs.includes(rel)) problems.push(`${rel}: declared in geometry.json but not rendered`)
 
 /* Referential integrity: every path named by a manifest must exist. */
-const manifest = JSON.parse(await readFile(join(OUT, 'web/site.webmanifest'), 'utf8'))
+const manifest = JSON.parse(await readFile(join(ROOT, 'public/site.webmanifest'), 'utf8'))
 for (const icon of manifest.icons)
-  if (!files.includes(`web${icon.src}`)) problems.push(`site.webmanifest points at missing ${icon.src}`)
+  if (!files.includes(`public${icon.src}`))
+    problems.push(`site.webmanifest points at missing ${icon.src}`)
 
-for (const set of ['ios/AppIcon.appiconset', 'watchos/AppIcon.appiconset']) {
+for (const set of ['brand/ios/AppIcon.appiconset', 'brand/watchos/AppIcon.appiconset']) {
   for (const name of ['Contents.json', 'Contents.legacy.json']) {
-    const path = join(OUT, set, name)
+    const path = join(ROOT, set, name)
     let json
     try {
       json = JSON.parse(await readFile(path, 'utf8'))
@@ -202,7 +209,7 @@ for (const set of ['ios/AppIcon.appiconset', 'watchos/AppIcon.appiconset']) {
 }
 
 /* favicon.ico must be a real multi-size container. */
-const icoBuf = await readFile(join(OUT, 'web/favicon.ico'))
+const icoBuf = await readFile(join(ROOT, 'public/favicon.ico'))
 if (icoBuf.readUInt16LE(0) !== 0 || icoBuf.readUInt16LE(2) !== 1) problems.push('favicon.ico: bad header')
 const icoSizes = []
 for (let i = 0; i < icoBuf.readUInt16LE(4); i++) {
@@ -223,12 +230,12 @@ for (const s of [16, 32, 48])
 /* ── report ──────────────────────────────────────────────────────────────── */
 
 if (problems.length) {
-  console.error(`✗ brand/ failed ${problems.length} check(s)\n`)
+  console.error(`✗ brand assets failed ${problems.length} check(s)\n`)
   for (const p of problems) console.error(`  ${p}`)
   process.exit(1)
 }
 console.log(
-  `✓ brand/ verified — ${pngs.length} rasters, ${files.length} files\n` +
+  `✓ brand assets verified — ${pngs.length} rasters, ${files.length} files\n` +
     `  sizes, alpha, mark scale, centring and mask clearance all match geometry.json\n` +
     `  favicon.ico holds ${icoSizes.join('/')}px; manifests reference only files that exist`
 )
