@@ -1,0 +1,5 @@
+# Vendor delivery bundles. Everything in them is already in svg/ as a file —
+# a zip of three SVGs that also live beside it is a second copy that goes
+# stale the moment the generator is re-run.
+svg/GYMMER.zip
+svg/GYMMER/
