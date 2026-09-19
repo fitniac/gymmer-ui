@@ -64,6 +64,14 @@
   --acc-tint: #fdece8;   /* section wash */
 }
 
+/* Cormorant's Cyrillic draws italic forms upright (т as m, д as g) and it has
+   no Greek, so those languages get EB Garamond: same Garamond lineage, with
+   conventional Cyrillic and full Greek. Keyed on <html lang>, which the app
+   sets per locale (ua → uk, gr → el). */
+html:lang(ru), html:lang(uk), html:lang(bg), html:lang(el) {
+  --gm-font-quote: "EB Garamond", Georgia, serif;
+}
+
 /* ---- dark theme ------------------------------------------------------- */
 html[data-theme="dark"] {
   --gm-bg: #191817;

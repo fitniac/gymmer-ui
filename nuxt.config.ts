@@ -32,6 +32,10 @@ export default defineNuxtConfig({
     families: [
       { name: 'Archivo', provider: 'google', global: true },
       { name: 'Cormorant Infant', provider: 'google', global: true },
+      // The quote face for Russian, Ukrainian, Bulgarian and Greek (see the
+      // html:lang rule in tokens.css): Cormorant's Cyrillic is italic-shaped
+      // and it has no Greek at all.
+      { name: 'EB Garamond', provider: 'google', global: true, weights: [400, 600], subsets: ['latin', 'latin-ext', 'cyrillic', 'cyrillic-ext', 'greek', 'greek-ext'] },
     ],
   },
 

@@ -1,6 +1,6 @@
 {
   "name": "@gymmer/ui",
-  "version": "0.1.0",
+  "version": "0.2.1",
   "private": true,
   "type": "module",
   "description": "Gymmer design system as a Nuxt 4 layer — tokens, theme, and shared component classes",
