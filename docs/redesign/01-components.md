@@ -136,6 +136,24 @@ panel on desktop; gains tabs and a Swap tab that absorbs `ProgramSwapSheet`'s va
 
 ---
 
+## The workout screen — names the code already has
+
+3.1 was written against the 3,192-line `tracking.vue`. That file was split before this phase
+started, along different seams and with different names, so two of the six components the plan asks
+for exist already and need mapping rather than building. A wrapper that renames an existing
+component adds a layer and moves no code.
+
+| Plan | Ships as | |
+|---|---|---|
+| `SetTable` | **`ExerciseSetStrip.vue`** | the full-bleed strip of logged sets, outside the card so it can scroll edge to edge |
+| `RestOverlay` | **`RestSheet.vue`** + **`PausedOverlay.vue`** | two states the plan treated as one: rest is a sheet you can act in, pause is an overlay that blocks |
+| `TrackingHeader` | `TrackingHeader.vue` | extracted in 3.1 |
+| `ExerciseHeader`, `SetEntryBar`, `CardioPanel` | split out of `CurrentExercisePanel.vue` in 3.1 | that file is the container and keeps the wiring |
+
+Behaviour is not listed here because none of it lives in these files: `useTrackingSession` and its
+five sibling composables own the session, the logging, the timers and the watch sync, and the
+components are presentational. A behavioural question about this screen is answered there.
+
 ## Controls
 
 ### `GmSegmented.vue` — New
