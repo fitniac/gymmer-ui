@@ -75,28 +75,46 @@ guess at, every time they look at the one piece of chrome they look at most.
 label — not a smaller font, not a narrower slot, and never `text-overflow`. Labels are chosen per
 locale, by someone reading them.
 
-**Russian, settled: Сегодня · Прогр. · [centre] · Каталог · Тренер.**
+**Bar geometry: a fixed centre, four equal slots.**
 
-Measured in the running bar's own style — Archivo 700 at 11px, a 72px slot at 360 with 2px padding
-each side, so **68px usable**:
+The centre Train button is icon-only, so it does not need a slot the width of a label. It is a
+**fixed 56px** raised circle (the design boards' own figure, and the smallest comfortable target for
+the bar's primary action); the four labelled tabs split what is left, equally, so nothing shifts
+when the active tab changes.
 
-| Label | Width | |
+| Width | Centre | Each label slot | Usable (−2px padding each side) |
+|---|---|---|---|
+| 360 | 56 | (360−56)/4 = 76.00 | **72.00** |
+| 390 | 56 | (390−56)/4 = 83.50 | **79.50** |
+
+That is 4px more at 360 than five equal slots would have given, and it is the 4px that decides the
+Russian label.
+
+**Russian, settled: Сегодня · Программы · [centre] · Каталог · Тренер.**
+
+Measured in the running bar's own style — **Google Sans Flex 700 at 11px**, the face that ships from
+`@gymmer/ui` v0.3.4:
+
+| Label | Width | Against 72.00 at 360 |
 |---|---|---|
 | Сегодня | 48.4 | fits |
-| **Программы** | **69.7** | **does not fit at 360** — misses by 1.68px |
-| **Прогр.** | **39.3** | **shipped** |
-| Програм. | 54.9 | fits, but not how Russian abbreviates |
-| Планы | 38.7 | fits; the fallback if the abbreviation is ever rejected |
+| **Программы** | **69.7** | **fits — 2.32px to spare. Shipped.** |
+| Прогр. | 38.9 | the recorded fallback |
+| Планы | 38.7 | second fallback; drifts to "plans", so prefer the abbreviation |
 | Каталог | 46.1 | fits |
 | Тренер | 42.2 | fits |
-| Тренировка | 69.4 | does not fit |
-| Библиотека | 68.2 | the label that truncates today |
+| Тренировка | 69.4 | would fit — but the centre button carries no label at all |
+| Библиотека | 68.2 | a label that truncates today, and would fit in the new bar |
 
-«Программы» is the exact word and it **fits at 390** (74px usable) but not at 360. The shipped
-label is the **abbreviation «Прогр.»**, which keeps the right domain word instead of substituting a
-vaguer one — «Планы» is "plans" in the diary sense, and this product has already settled
-«программа» for a training plan. «Прогр.» is also how Russian actually abbreviates: cut to the
-consonant cluster and close with a full stop. «Програм.» fits too and is not the conventional form.
+Note the Cyrillic widths are **identical** under Archivo and Google Sans Flex, because neither face
+has a Cyrillic subset and both fall through to system-ui (see O5). The font switch did not change
+this decision; the geometry did.
+
+**«Программы» ships** — the exact word, at 2.32px of headroom. With five equal slots it missed by
+1.68px, and giving the icon-only centre a fixed 56px instead of a full share is what bought the
+room. «Прогр.» stays recorded as the fallback if that headroom ever disappears (a wider face, a
+narrower device), and it is the right shape for one: Russian abbreviates by cutting to the
+consonant cluster and closing with a full stop.
 
 **An intentional abbreviation is not the truncation this criterion forbids**, and the difference is
 not pedantry. `Програм…` is the renderer giving up at whatever pixel it ran out — the cut point is
@@ -105,7 +123,9 @@ shortened or a different word was clipped. «Прогр.» is a chosen, stable, 
 that means the same thing at every width. The rule is: **no `text-overflow` ellipsis, ever; a
 deliberate localised abbreviation is a legitimate shorter label.**
 
-German «Programme» (64.6) and Polish «Programy» (53.8) both fit and keep the full word.
+Latin labels all clear 72.00 comfortably: `Programs` 52.8, `Programme` 64.1, `Programy` 53.1,
+`Katalog` 42.1, `Library` 38.6, `Trainer` 38.4, `Trener` 35.1, `Today` 32.0, `Heute` 32.5,
+`Dziś` 22.4, `Coach` 34.2.
 
 **The centre Train button carries no label, in any locale.**
 
@@ -147,10 +167,17 @@ economy and must never cost a screen-reader user the name of the tab.
 narrowest Android still in the store numbers); at **320** and at the **largest iOS text size** the
 fallback engages cleanly — all labels gone but the active one, nothing reflowing, nothing clipped.
 
-This is a regression to fix, not a standard to maintain. `main` today truncates Russian at 390 —
-the bar renders `Програм…`, `Трениро…`, `Библиот…`, three of six tabs unreadable. The 5-tab
-redesign has one fewer slot to spend, so the problem gets easier, but only if the short labels are
-chosen deliberately rather than left to `text-overflow`.
+This is a regression to fix, not a standard to maintain, and it is **not only Russian**.
+
+`main` today truncates in **ru and de**:
+
+- **ru at 390** — `Програм…`, `Трениро…`, `Библиот…`: three of six tabs unreadable.
+- **de at 390** — `Programme` is 64.1px in 61px usable, clipped by 3px. Found by the font PR's DOM
+  audit, which reports it on both faces; it is a geometry problem, not a font one.
+
+Today's bar is six equal slots: 390/6 = 65, minus 4px padding = **61px usable**. The redesign's
+fixed-centre layout gives **72.00 at 360** and **79.50 at 390**, so `Programme` (64.1) and
+`Библиотека` (68.2) both fit without a shortened label. German needs no special handling.
 
 **Exit:** a full workout (start → sets → rest → swap → finish) on iPhone (Capacitor), Android and
 desktop web, offline included; outbox and watch sync unchanged.
