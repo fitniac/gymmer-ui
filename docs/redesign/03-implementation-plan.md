@@ -75,7 +75,7 @@ guess at, every time they look at the one piece of chrome they look at most.
 label — not a smaller font, not a narrower slot, and never `text-overflow`. Labels are chosen per
 locale, by someone reading them.
 
-**Russian, settled: Сегодня · Планы · [centre] · Каталог · Тренер.**
+**Russian, settled: Сегодня · Прогр. · [centre] · Каталог · Тренер.**
 
 Measured in the running bar's own style — Archivo 700 at 11px, a 72px slot at 360 with 2px padding
 each side, so **68px usable**:
@@ -84,17 +84,28 @@ each side, so **68px usable**:
 |---|---|---|
 | Сегодня | 48.4 | fits |
 | **Программы** | **69.7** | **does not fit at 360** — misses by 1.68px |
-| Планы | 38.7 | fits |
+| **Прогр.** | **39.3** | **shipped** |
+| Програм. | 54.9 | fits, but not how Russian abbreviates |
+| Планы | 38.7 | fits; the fallback if the abbreviation is ever rejected |
 | Каталог | 46.1 | fits |
 | Тренер | 42.2 | fits |
 | Тренировка | 69.4 | does not fit |
 | Библиотека | 68.2 | the label that truncates today |
 
-«Программы» is the exact word and it **fits at 390** (74px usable) but not at 360, so **«Планы» is
-the shipped label — a deliberate compromise, not a default.** It is the one place the Russian bar
-says something slightly more general than the English, and it is recorded here so nobody
-"corrects" it back into a truncation later. German «Programme» (64.6) and Polish «Programy` (53.8)
-both fit and keep the exact word.
+«Программы» is the exact word and it **fits at 390** (74px usable) but not at 360. The shipped
+label is the **abbreviation «Прогр.»**, which keeps the right domain word instead of substituting a
+vaguer one — «Планы» is "plans" in the diary sense, and this product has already settled
+«программа» for a training plan. «Прогр.» is also how Russian actually abbreviates: cut to the
+consonant cluster and close with a full stop. «Програм.» fits too and is not the conventional form.
+
+**An intentional abbreviation is not the truncation this criterion forbids**, and the difference is
+not pedantry. `Програм…` is the renderer giving up at whatever pixel it ran out — the cut point is
+an accident of width, it changes with the font, and the reader cannot tell whether a word was
+shortened or a different word was clipped. «Прогр.» is a chosen, stable, conventional short form
+that means the same thing at every width. The rule is: **no `text-overflow` ellipsis, ever; a
+deliberate localised abbreviation is a legitimate shorter label.**
+
+German «Programme» (64.6) and Polish «Programy» (53.8) both fit and keep the full word.
 
 **The centre Train button carries no label, in any locale.**
 
