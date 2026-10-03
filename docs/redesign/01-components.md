@@ -179,8 +179,18 @@ NONE · LIGHT · MODERATE · HEAVY under the figure. Front/back side by side whe
 otherwise the existing switcher.
 
 ### `GmBarChart.vue` — Refactor
-Rounded-top bars (4px), current period in `--acc`, previous in `--gm-raised`, values on tap.
+Rounded-top bars (4px), current period in `--acc`, previous in **`--gm-track`**, values on tap.
 Used on Today (weekly volume), Summary (volume vs last time), Progress.
+
+The comparison series was drafted on `--gm-raised`, which is 1.073:1 against `--gm-bg` in light
+mode — measured, not estimated. That is a series nobody can see. `--gm-track` is 1.328:1 and is the
+token for this exact job: it is what the timer ring's unfilled arc uses, "the part that is not the
+value". `--gm-raised` stays right where it sits on a photograph, as the body map's NONE step.
+
+Note also that the bars cannot be SVG rects. The chart draws into a `preserveAspectRatio="none"`
+viewBox, which stretches each axis by a different factor to fill the container, so an `rx` renders
+as an ellipse whose shape depends on the chart's width — the 4px radius is not expressible there.
+Percent-positioned divs take the same geometry and let CSS round real pixels.
 
 ### `GmStat.vue` — Refactor
 Tile on `--gm-surface`, value 20/800 with a small unit, label underneath as uppercase muted label.
