@@ -78,14 +78,28 @@ composable (`usePrimaryCta()`), never `v-if` scattered across sections.
 - **O3** Ad provider for web + Capacitor.
 - **O4** Trial price and currencies per store.
 
-### O5 — a Cyrillic + Greek face for UI *and* display (pre-existing, surfaced by Phase 0.3)
+### O5 — do we want a brand face for Cyrillic and Greek? (pre-existing; **not** a blocker for D2)
 
-Not created by the redesign. In `ru`, `ua`, `bg` and `gr` every Cyrillic or Greek character
-already falls back to `system-ui`: Archivo has no Cyrillic or Greek subset, and neither does Google
-Sans Flex (measured 2026-10-03 — see `README.md` §3a). Fallback is per character, so a line mixing
-the brand name with translated copy is set in two faces today. Four of 25 locales have therefore
-never seen the brand face on their own script, and adopting Google Sans Flex changes nothing for
-them either way.
+**Today `ru`, `ua`, `bg` and `gr` are set in `system-ui` on both layers, and the UI-font switch
+does not change that.** Measured in the running app, same string at 40px:
+
+| | v0.2.1 (`Archivo, system-ui`) | v0.3.x (`"Google Sans Flex", Archivo, system-ui`) |
+|---|---|---|
+| `Привет` — Cyrillic letters | 132.07 | **132.07, identical** |
+| `Gymmer` — Latin | 156.00 | 159.60 |
+| space | 8.36 | 9.00 |
+| comma | 11.08 | 9.52 |
+| em dash | 40.00 | 36.00 |
+
+Neither family has a Cyrillic or Greek subset, so per-character fallback lands in the same place
+before and after. What *does* move in those locales is the Latin-range characters the new face does
+cover — spaces, punctuation, and Latin words like the brand name — so lines re-flow by a pixel or
+two without a single letterform changing. A full-page diff of `ru` across the bump shows 1.65–3.55%
+of pixels changed at 390 and **no page changing height**.
+
+So this question is **independent of D2** and does not gate it. It is a product question about
+whether four of 25 locales should see a brand face on their own script, and the answer has been
+"system-ui, and nobody has reported it" for the life of the product.
 
 It covers **both faces**, not just the UI one. Archivo is also the display face (`--gm-font-display`,
 h1–h3 and `.display`), and it has no Cyrillic or Greek either — so in those four locales the page
@@ -93,8 +107,8 @@ h1–h3 and `.display`), and it has no Cyrillic or Greek either — so in those 
 800 weight and `font-stretch` as well as for 15px body copy.
 
 The question is whether to pick a Cyrillic+Greek family for those four and scope it with
-`html:lang(...)`, exactly as EB Garamond was chosen for the quote face — or to accept `system-ui`
-there, which is what ships today and what nobody has reported.
+`html:lang(...)`, exactly as EB Garamond was chosen for the quote face — or to keep `system-ui`
+there deliberately rather than by omission.
 
 Candidates to evaluate when it is taken up:
 

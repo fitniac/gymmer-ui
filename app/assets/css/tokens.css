@@ -61,8 +61,26 @@
      TODO(O5): give those four locales a face that actually covers their
      script, for --gm-font-ui AND --gm-font-display. Candidates: Roboto Flex,
      Noto Sans. Until then this fallback is the whole mitigation. */
+  /* The layer's own version, readable from a running page.
+     A screenshot comparison is worthless if it cannot prove which layer each
+     side actually served -- node_modules here is a Docker volume, so a host
+     install can succeed while the dev server keeps the version it had, and
+     two "different" capture passes come back byte-identical. package.json is
+     not served to the browser; this is. */
+  --gm-version: "0.3.3";
+
   --gm-font-display: "Archivo", system-ui, sans-serif;
-  --gm-font-ui: "Google Sans Flex", "Archivo", system-ui, sans-serif;
+  /* Archivo, deliberately, until the font PR lands.
+     v0.3.0 pointed this at Google Sans Flex. Measured against the live app,
+     that switch is the ONLY visible effect of the v0.2.x -> v0.3.x bump: with
+     the face pinned on both sides, the whole bump plus all of Phase 2 renders
+     zero changed pixels. Holding the face here lets the component work ship on
+     its own evidence and makes the font its own reviewable change.
+
+     Not a flag and not a conditional -- the token's previous value. Nothing
+     references the Google family while this line stands, so @nuxt/fonts emits
+     no face for it. */
+  --gm-font-ui: "Archivo", system-ui, sans-serif;
   --gm-font-quote: "Cormorant Infant", Georgia, serif;
 
   /* radius — D1 (approved 2026-10-03).
