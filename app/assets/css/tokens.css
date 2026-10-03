@@ -67,7 +67,7 @@
      install can succeed while the dev server keeps the version it had, and
      two "different" capture passes come back byte-identical. package.json is
      not served to the browser; this is. */
-  --gm-version: "0.3.5";
+  --gm-version: "0.3.6";
 
   --gm-font-display: "Archivo", system-ui, sans-serif;
   /* Google Sans Flex for UI and body; Archivo keeps the headlines (D2).
