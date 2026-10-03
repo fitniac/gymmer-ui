@@ -173,9 +173,15 @@ label/digits/sub-label. Sizes 208 / 240. Extract from `RestSheet.vue` (which alr
 colouring as the default — not a sibling.
 Boards: 12 header, 17 "What you trained", 23 Progress, Programs cards. The canvas `BodyMap` board is
 a **stand-in**; keep the real admin-artwork component and its relative-intensity logic. Restyle
-only: 4-step accent ramp (none = `--gm-raised`, light 38%, moderate 68%, heavy 100% of `--acc` mixed
-into `--gm-raised`), selected muscle full accent with others at 35% opacity, legend row
-NONE · LIGHT · MODERATE · HEAVY under the figure. Front/back side by side when width ≥ 300px,
+only: 4-step accent ramp (light 38%, moderate 68%, heavy 100% of `--acc` mixed into `--gm-raised`),
+selected muscle full accent with others at 35% opacity, legend row NONE · LIGHT · MODERATE · HEAVY
+under the figure.
+
+**NONE is transparent on the figure, and `--gm-raised` only in the legend.** The draft gave it
+`--gm-raised` everywhere; rendered, that paints an opaque near-white polygon over every untrained
+muscle, and since these shapes sit on a photograph of a body the result is white patches across the
+shoulders and thighs rather than an absence of colour. A legend swatch has no photograph under it,
+so there the token is right. Front/back side by side when width ≥ 300px,
 otherwise the existing switcher.
 
 ### `GmBarChart.vue` — Refactor
