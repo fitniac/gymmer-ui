@@ -66,16 +66,51 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 | 3.7 | Workout complete: body map, PR card, Nova review card, feel rating (rating hidden until 3.8 api) | 05 |
 | 3.8 | **api** — feel rating field on session; Nova review sampling flag for Free | 05, 02 |
 
-**3.2 acceptance — tab bar labels fit, in every shipped locale.**
-No label may ellipsise. Checked in the longest locales — **ru, de and pl** — at **390 and 360**
-(360 is the narrowest Android still in the store numbers). Where a translation cannot fit, the fix
-is **a shorter localised label, never truncation**: a truncated label is a word the reader has to
-guess at every single time they look at the bar.
+**3.2 acceptance — the tab bar, in every shipped locale.**
+
+**Ellipsis is never acceptable, in either mode.** A truncated label is a word the reader has to
+guess at, every time they look at the one piece of chrome they look at most.
+
+**Default: every tab shows its label.** The first fix for a long translation is a shorter localised
+label — not a smaller font, not a narrower slot, and never `text-overflow`. Labels are chosen per
+locale, by someone reading them.
+
+Russian proposal (5 tabs): **Сегодня · Планы · Старт · Каталог · Тренер**. Two to look at again:
+
+- **Старт** — the Train tab is an action, and a Russian reader meets «Старт» as a race start or a
+  button on a stopwatch rather than as a place in the app. The tab's job is "begin a workout", so a
+  verb carries it better: **«Начать»** (6 characters, one fewer than «Старт» is long in practice)
+  reads as the invitation it is. «Тренировка» is the precise word and is far too long for a slot.
+- **Планы** — understood, and slightly generic: on its own it is "plans" in the diary sense rather
+  than training programmes. **«Программы»** is the exact word at 9 characters; if that does not fit,
+  «Планы» is the right compromise and should be a deliberate one. Note the house vocabulary already
+  settled «тренировка» for a workout and «сет» for a set — a training plan is a «программа».
+
+**Сегодня**, **Каталог** and **Тренер** are right. «Каталог» is arguably clearer than the
+«Библиотека» that ships today, and it is three characters shorter.
+
+**Fallback: measured at runtime, never configured per locale.** If any label would overflow its
+slot at the current width *and text size*, the bar switches to **label on the active tab only**. A
+per-locale list of "locales that need the short bar" would be wrong the moment someone raises their
+system text size, which is exactly the reader most likely to need it.
+
+- **All-or-nothing.** Either every tab has a label or only the active one does — never a mix, which
+  reads as a layout bug rather than a decision.
+- **Equal-width slots**, so nothing shifts when the active tab changes. A bar whose icons move as
+  you tab through it is harder to hit than one that does not.
+- The active label **fades in under its icon**, and respects `prefers-reduced-motion`.
+
+**`aria-label` always carries the full name**, labels visible or not. The fallback is a visual
+economy and must never cost a screen-reader user the name of the tab.
+
+**Acceptance:** ru, de and pl show full labels with no ellipsis at **390 and 360** (360 is the
+narrowest Android still in the store numbers); at **320** and at the **largest iOS text size** the
+fallback engages cleanly — all labels gone but the active one, nothing reflowing, nothing clipped.
 
 This is a regression to fix, not a standard to maintain. `main` today truncates Russian at 390 —
-the bar renders `Програм…`, `Трениро…`, `Библиот…`, which is three of six tabs unreadable. The
-5-tab redesign has one fewer slot to spend, so the problem gets easier, but only if the shorter
-labels are chosen deliberately rather than left to `text-overflow`.
+the bar renders `Програм…`, `Трениро…`, `Библиот…`, three of six tabs unreadable. The 5-tab
+redesign has one fewer slot to spend, so the problem gets easier, but only if the short labels are
+chosen deliberately rather than left to `text-overflow`.
 
 **Exit:** a full workout (start → sets → rest → swap → finish) on iPhone (Capacitor), Android and
 desktop web, offline included; outbox and watch sync unchanged.
