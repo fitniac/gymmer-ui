@@ -11,6 +11,23 @@ other, the brand is two brands.
 The brand name is **GYMMER**, uppercase, always. Lowercase `gymmer` appears only as an identifier
 (`@gymmer/ui`, repo names, the `--gm-*` prefix), never as the brand.
 
+## Redesign in progress
+
+A full redesign of GYMMER (mobile, tablet, desktop; marketing + app) is specified in
+[`docs/redesign/`](docs/redesign/README.md): foundations, shared components, Free/Pro rules, one spec
+per screen, the content model for **Goals, public Programs and Articles**, and a snapshot of every
+design board.
+
+Some of it changes rules in this README — soft corners, Google Sans Flex for UI text with Archivo for
+headlines, no offset shadows on app surfaces, colour photography, a 5-tab bar with custom G and barbell
+glyphs. Those are listed as decisions **D1–D10** in
+[`docs/redesign/README.md` §3](docs/redesign/README.md).
+
+**D1, D2, D3, D6–D10 were signed off on 2026-10-03** and `v0.3.0` carries their foundations: the
+radius tokens and the `data-corners` preference, the display/UI font split, and the `wordmark-g`
+logo variant. **D4 (colour photography) and D5 (offset shadows) are still open** — the rules below
+stay in force for those two; build the redesign value behind a token so flipping it is one line.
+
 ## What's in it
 
 | Path | Contents |
@@ -26,8 +43,9 @@ The brand name is **GYMMER**, uppercase, always. Lowercase `gymmer` appears only
 | `app/utils/theme.ts` | The accent + theme registry, cookie/storage key names. |
 | `app/composables/useTheme.ts` | Live theme + accent state, persisted to cookie and localStorage, follows the OS while the preference is `system`. |
 | `app/composables/useReveal.ts` | Scroll reveals — any element with class `rv` settles once as it enters the viewport. Honours `prefers-reduced-motion`. |
-| `app/plugins/theme.ts` | Server-only. Seeds `data-theme` / `data-accent` into the SSR response. |
-| `nuxt.config.ts` | `@nuxt/fonts` (Archivo + Cormorant Infant, self-hosted), `<meta name="color-scheme">`, and the blocking no-flash script. |
+| `app/plugins/theme.ts` | Server-only. Seeds `data-theme` / `data-accent` / `data-corners` into the SSR response. |
+| `nuxt.config.ts` | `@nuxt/fonts` (Google Sans Flex + Archivo + Cormorant Infant + EB Garamond, self-hosted), `<meta name="color-scheme">`, and the blocking no-flash script (theme, accent **and corners**). |
+| `docs/redesign/` | Redesign handoff: foundations, components, plans, screen specs, content model (Goals / Programs / Articles), design snapshot. Not shipped to consumers. |
 | `test/contrast.test.mjs` | WCAG guard: parses `tokens.css` directly and asserts every accent × theme combination. |
 
 ## Consuming it
@@ -115,7 +133,30 @@ image, and check the emitted CSS contains `.pri{` and the same byte count both t
 ## Design rules
 
 Non-negotiable, because they are what makes the accent swap and dark mode work at all. Full
-rationale in `CLAUDE.md`.
+rationale in `CLAUDE.md`. Rules 2 and 8 now carry the signed-off redesign values (D1, D2/D3);
+rules 5 and 6 are still under review (D4, D5) and apply as written until signed off.
+
+### What `v0.3.0` adds
+
+| Token | Value | Notes |
+|---|---|---|
+| `--gm-radius-card` | 12px | cards, media, sheet inner panels |
+| `--gm-radius-ctl` | 7px | inputs, small tiles, thumbnails |
+| `--gm-radius-sheet` | 22px | top corners of bottom sheets |
+| `--gm-scrim` | `rgba(0,0,0,.55)` | behind sheets — same in both themes, on purpose |
+| `--gm-glass` | `color-mix(…86%…)` | sticky headers, tab bar, sheet footers |
+| `--gm-media-badge` | `rgba(0,0,0,.6)` | the expand badge on tappable media |
+| `--gm-font-display` | Archivo | applied by `h1, h2, h3, .display` |
+| `--gm-font-ui` | Google Sans Flex → Archivo | inherited from `body` |
+| `--gm-ease-out` / `--gm-ease-sheet` | curves | 00-foundations §5 |
+| `--gm-dur-tap/-enter/-page/-sheet` | 120/240/320/420ms | |
+
+Plus the `.tnum` helper (`tabular-nums`) for live numerals, a third `<html>` axis
+`data-corners="square\|soft\|round"` wired through `useTheme()`, and
+`<GmLogo variant="wordmark-g" />`.
+
+**Nothing renders differently on upgrade.** Every new token is additive, `--gm-radius` is untouched,
+and the logo variant is opt-in.
 
 1. **Tokens only.** Never a hex, `rgba()` or named colour in a component. If you reach for a `dark:`
    utility, a token is missing.

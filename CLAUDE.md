@@ -8,6 +8,28 @@ and `gymmer-nuxt` (the app, which will take over gymmer.com). Wiring and consume
 appears in a consuming repo, that is a bug — the whole reason this layer exists is that two copies
 drift the first time a colour is retuned.
 
+## Redesign in progress — read before changing tokens, fonts or components
+
+`docs/redesign/` is the handoff for the GYMMER redesign. Start at
+[`docs/redesign/README.md`](docs/redesign/README.md): build order, the screen → file map for
+`gymmer-nuxt`, and **§3, the decisions (D1–D10) that change rules in this file** — radius (D1),
+Google Sans Flex UI text (D2/D3), colour photography (D4), no offset shadows on app surfaces (D5),
+closed accent list kept (D7), 5-tab bar with `gymmer-g` and `barbell` glyphs (D8), pre-launch CTAs (D9),
+guest nav grouped as Library (Exercises | Programs | Goals) + Learn (articles) with a centre "Join free" button (D10).
+
+- **Signed off 2026-10-03: D1, D2, D3, D6, D7, D8, D9, D10.** The Non-negotiables below are updated
+  to match (rules 2 and 8). **D4 (colour photography) and D5 (offset shadows on app surfaces) are
+  still open** — keep rules 5 and 6 as written and build the redesign value behind a token.
+- Token work for the redesign lands here first (`00-foundations.md`): new `--gm-radius-card`,
+  `--gm-radius-ctl`, `--gm-radius-sheet`, `--gm-font-display`, motion tokens, `data-corners`.
+  `pnpm test:contrast` still gates every accent change.
+- New public content — **Goals** (categories on programs, exercises and articles), public
+  **Programs** and **Articles** with embedded program/workout/exercise widgets — is specified in
+  `docs/redesign/screens/18-content-model.md`. It is app/backend work (`gymmer-nuxt`, `gobackend`);
+  nothing from it belongs in this layer unless both consumers need it.
+- `docs/redesign/design/*.dc.html` are design-canvas snapshots (need the canvas runtime to render).
+  Read them as markup reference; never import them.
+
 ## Non-negotiables
 
 These are not style preferences; they are what makes accent switching and dark mode work at all.
@@ -18,8 +40,15 @@ These are not style preferences; they are what makes accent switching and dark m
    `--gm-ink` — in dark mode borders sit well below text brightness); lines are `--gm-divider` /
    `--gm-hairline`; shadows are `--gm-sh*`; accent is `--acc*`. You should almost never need a
    `dark:` utility — if you reach for one, a token is missing.
-2. **Two radii.** `0` for everything structural (cards, inputs, chips, rules, tables) and `999px`
-   for primary actions and switches. Nothing in between. No `rounded-lg`.
+2. **Four radii, and they are tokens — never a literal or a `rounded-*` utility.** D1, approved
+   2026-10-03. `--gm-radius-card` (12px) for cards, media and sheet panels; `--gm-radius-ctl` (7px)
+   for inputs, small tiles and thumbnails; `--gm-radius-sheet` (22px) for the top corners of bottom
+   sheets; `--gm-radius-pill` (999px) for buttons, chips and segmented controls.
+   The first three move with the user's `data-corners` preference (square → 0, round → 20/12/28);
+   the pill never does, because a pill at radius 0 stops reading as a control.
+   `--gm-radius: 0` is the pre-redesign token. Everything written before this still reads it and
+   keeps working — do not add new uses, and do not "migrate" a component to the new tokens as a
+   drive-by: that is a restyle, and it belongs in the screen's own PR with its screenshots.
 3. **Rules, not shadows, do the organising.** 2px `--gm-divider` between sections and grid cells;
    1px `--gm-hairline` inside lists. Don't replace a rule with whitespace — including on mobile,
    where a collapsing grid's vertical rules should become horizontal ones.
@@ -29,9 +58,17 @@ These are not style preferences; they are what makes accent switching and dark m
 6. **Photography prints black and white** — `filter: grayscale(1) contrast(1.08)`; `tokens.css` adds
    `brightness(.86)` in dark so prints don't punch a hole in the page. Use the `photo` utility.
 7. **Accent is sparing**: primary actions, small emphasis, one tinted band per screen at most.
-8. **Type**: Archivo (400/600/800) for everything; Cormorant Infant italic for quotes and section
-   lead lines only. Both must stay Latin-Extended — Gymmer targets most European languages, so never
-   swap in a display font without full `latin-ext` coverage.
+8. **Type**: two faces, both tokens. `--gm-font-display` (Archivo) is applied by the `h1, h2, h3,
+   .display` rule; `--gm-font-ui` (Google Sans Flex, falling back to Archivo) is inherited from
+   `body` by everything else. D2/D3, approved 2026-10-03. Cormorant Infant italic stays for quotes
+   and section lead lines only; there is no mono face.
+   Small uppercase labels take the **UI** face with letter-spacing, never the display face — they
+   are spans and divs, so the element-scoped rule already does the right thing.
+   `latin-ext` is still mandatory and still not enough: **neither face ships Cyrillic or Greek**
+   (measured, `docs/redesign/README.md` §3a), so in ru/uk/bg/el every such character falls back.
+   Naming Archivo inside the UI stack keeps a mixed line on two related faces instead of one brand
+   face and one system face. Fixing it properly is open question O5. Never add a face here without
+   checking what it actually serves — ask the Google Fonts CSS API, do not assume.
 9. **Icons**: Lucide (`lucide-vue-next`), stroke `2.25`, sized 14–20px, `currentColor`. Don't mix
    icon sets.
 10. **Motion**: reveals 0.7s `cubic-bezier(.2,.7,.2,1)`; button press 0.12s; `prefers-reduced-motion`
