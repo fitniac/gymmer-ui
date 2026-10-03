@@ -101,6 +101,18 @@
   --radius-none: 0;
   --radius-pill: 999px;
 
+  /* The redesign's three structural radii (v0.3.2).
+     Same omission as --color-scrim in v0.3.1: the tokens shipped in v0.3.0
+     with nothing in @theme, so there was no `rounded-card` and the first
+     consumer would have reached for rounded-[var(--gm-radius-card)] on every
+     element. They belong here precisely BECAUSE they are not constants --
+     each resolves through its gm token, which html[data-corners] redefines,
+     so one utility renders square, soft or round without the call site
+     knowing which. A hardcoded 12px here would freeze the corners axis. */
+  --radius-card: var(--gm-radius-card);
+  --radius-ctl: var(--gm-radius-ctl);
+  --radius-sheet: var(--gm-radius-sheet);
+
   /* offset, hard-edged shadows. --shadow-bubble is the one soft ambient
      shadow in the system; a consuming app should need it about once. */
   --shadow-btn: 5px 5px 0 var(--gm-sh);
