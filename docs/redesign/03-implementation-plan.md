@@ -66,6 +66,17 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 | 3.7 | Workout complete: body map, PR card, Nova review card, feel rating (rating hidden until 3.8 api) | 05 |
 | 3.8 | **api** — feel rating field on session; Nova review sampling flag for Free | 05, 02 |
 
+**3.2 acceptance — tab bar labels fit, in every shipped locale.**
+No label may ellipsise. Checked in the longest locales — **ru, de and pl** — at **390 and 360**
+(360 is the narrowest Android still in the store numbers). Where a translation cannot fit, the fix
+is **a shorter localised label, never truncation**: a truncated label is a word the reader has to
+guess at every single time they look at the bar.
+
+This is a regression to fix, not a standard to maintain. `main` today truncates Russian at 390 —
+the bar renders `Програм…`, `Трениро…`, `Библиот…`, which is three of six tabs unreadable. The
+5-tab redesign has one fewer slot to spend, so the problem gets easier, but only if the shorter
+labels are chosen deliberately rather than left to `text-overflow`.
+
 **Exit:** a full workout (start → sets → rest → swap → finish) on iPhone (Capacitor), Android and
 desktop web, offline included; outbox and watch sync unchanged.
 
