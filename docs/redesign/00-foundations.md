@@ -100,6 +100,17 @@ text and cannot (2.53:1).
 Deriving a light-mode value is the recipe already documented in `tokens.css` under the accent
 palettes; the gate to clear is `--acc` ≥ 3:1 and `--acc-deep` ≥ 4.5:1 on `#f3f2f2`.
 
+
+**Light mode: a card on the page ground needs its border.**
+`--gm-surface` against `--gm-bg` is **1.08:1** — measured, not estimated. In dark mode the same
+pair separates on its own; in light mode it does not, and a card drawn as a fill with no outline
+simply disappears into the page. Every app-surface restyle in 3.x and 4.x keeps the 1px
+`--gm-line` border on cards, panels and sheets. This is why `GmCard` has one today, and it is not
+decoration to be cleaned up: drop it and the light theme loses its structure.
+
+(`--gm-raised` against `--gm-bg` is 1.07:1, and `--gm-track` 1.33:1 — the same reason the bar
+chart's comparison series uses track rather than raised.)
+
 ## 3. Typography
 
 | Role | Face | Size / weight / extras | Example |

@@ -1,5 +1,6 @@
 import {
   ACCENTS,
+  THEMES,
   ACCENT_COOKIE,
   ACCENT_STORAGE_KEY,
   CORNERS,
@@ -8,12 +9,13 @@ import {
   COOKIE_MAX_AGE,
   DEFAULT_ACCENT,
   DEFAULT_CORNERS,
-  DEFAULT_THEME,
+  resolveStoredTheme,
   THEME_COOKIE,
   THEME_STORAGE_KEY,
   resolveTheme,
   type AccentId,
   type CornerId,
+  type StoredTheme,
   type ThemePref,
 } from '../utils/theme'
 
@@ -27,7 +29,7 @@ import {
  * corner options from `corners`.
  */
 export function useTheme() {
-  const themeCookie = useCookie<ThemePref>(THEME_COOKIE, {
+  const themeCookie = useCookie<StoredTheme>(THEME_COOKIE, {
     maxAge: COOKIE_MAX_AGE,
     sameSite: 'lax',
   })
@@ -40,16 +42,16 @@ export function useTheme() {
     sameSite: 'lax',
   })
 
-  const pref = useState<ThemePref>('gm-theme', () => themeCookie.value ?? DEFAULT_THEME)
+  const pref = useState<ThemePref>('gm-theme', () => resolveStoredTheme(themeCookie.value))
   const accent = useState<AccentId>('gm-accent', () => accentCookie.value ?? DEFAULT_ACCENT)
   const cornerPref = useState<CornerId>('gm-corners', () => cornersCookie.value ?? DEFAULT_CORNERS)
 
   if (import.meta.client) {
-    const mq = window.matchMedia('(prefers-color-scheme: dark)')
-    // Re-resolve on OS change too — while the pref is `system` the page has to
-    // follow the OS live, not only on reload.
+    // No OS listener any more. The preference is Dark or Light (D6), so there
+    // is nothing for `prefers-color-scheme` to change mid-session; an old
+    // stored `system` resolves to the default like any other absent value.
     const apply = () => {
-      document.documentElement.dataset.theme = resolveTheme(pref.value, mq.matches)
+      document.documentElement.dataset.theme = resolveTheme(pref.value)
     }
 
     watch(
@@ -99,14 +101,17 @@ export function useTheme() {
       { immediate: true },
     )
 
-    mq.addEventListener('change', apply)
-    onScopeDispose(() => mq.removeEventListener('change', apply))
+
   }
 
   return {
     pref,
     accent,
     cornerPref,
+    // The list a settings picker renders. Exposed so a consumer cannot invent
+    // a third option: Dark and Light are the product's answer (D6), and the
+    // one place that is true is here.
+    themes: THEMES,
     accents: ACCENTS,
     corners: CORNERS,
     setTheme: (v: ThemePref) => (pref.value = v),

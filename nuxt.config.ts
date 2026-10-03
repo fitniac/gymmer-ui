@@ -65,15 +65,19 @@ export default defineNuxtConfig({
       ],
       script: [
         {
-          // Blocking, before first paint: the server cannot resolve a `system`
-          // preference, so plugins/theme.ts renders `light` and this corrects
-          // it. Without it a dark-mode visitor gets a white flash on every
-          // navigation. Keys must match app/utils/theme.ts — THEME_STORAGE_KEY,
+          // Blocking, before first paint. Since D6 the server resolves the
+          // theme itself, so this is no longer a correction — it is the
+          // guarantee that a cached or prerendered document still paints dark
+          // before anything else runs, rather than flashing white at someone
+          // in a gym. Keys must match app/utils/theme.ts — THEME_STORAGE_KEY,
           // ACCENT_STORAGE_KEY, CORNERS_STORAGE_KEY and their defaults.
           innerHTML:
-            "try{var d=document.documentElement,t=localStorage.getItem('gymmer.theme')||'system';"
-            + "var k=t==='dark'||(t==='system'&&matchMedia('(prefers-color-scheme: dark)').matches);"
-            + "d.dataset.theme=k?'dark':'light';"
+            "try{var d=document.documentElement,t=localStorage.getItem('gymmer.theme');"
+            // Dark unless the visitor explicitly stored `light` (D6). A legacy
+            // `system` value lands here too and takes the default, which is
+            // what it now means: no preference. No matchMedia — there is
+            // nothing left for the OS to decide.
+            + "d.dataset.theme=t==='light'?'light':'dark';"
             + "d.dataset.accent=localStorage.getItem('gymmer.accent')||'orange';"
             // Corners (D1). Here as well as in plugins/theme.ts because the
             // native build has no server to set it: ssr:false means the cookie
