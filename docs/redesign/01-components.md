@@ -62,15 +62,38 @@ Board: bottom bar on 09, 10, 11, 18 (and every tabbed screen).
 - Keep `data-testid`s; update e2e selectors for the removed Progress tab.
 
 ### `AppRail.vue` — New (tablet 768–1199)
-Board: T1–T4 left rail. 72px column: logo G at top, the 56px Train button, then Today / Programs /
-Library / Coach / Progress as 48px icon+label stacks, avatar at the bottom. Same active treatment as
-the tab bar. `layouts/app.vue` renders `AppRail` instead of `AppTabBar` between 768 and 1199, and
-`AppHeader` only from 1200.
+Board: T1–T4 left rail. **80px** column: logo G at top, the 56px Train button, then Today /
+Programs / Library / **Progress / Coach** as 56px icon+label stacks, avatar at the bottom. Active
+item: the whole 72px stack fills with `--acc-soft`, icon `--acc-deep`, label `--gm-ink` 700.
+`layouts/app.vue` renders `AppRail` instead of `AppTabBar` between 768 and 1199, and `AppHeader`
+only from 1200.
+
+**80px, not 72** (ruled 2026-10-03). The item fills the column bar 4px a side, which gives a label
+**72.00px** — deliberately the same figure the phone bar gives at 360, so a word that fits a phone
+cannot fail on a tablet. At 72 the slot was 64 and Russian «Программы» (69.7) overflowed a big
+screen while fitting a small one. The measured active-only fallback stays as the safety net.
+
+**Progress sits fourth, before Coach**, matching the desktop header's order; two orders for the same
+five destinations is a thing to keep in step for no gain.
+
+**Left edge:** `env(safe-area-inset-left)` as well as top and bottom — the rail is the one piece of
+chrome a landscape notch reaches.
 
 ### `AppHeader.vue` — Refactor
 Boards: D3–D5 top bar. 68px sticky, `--gm-glass`. Logo (`GmLogo variant="wordmark-g"`), nav
-(Today · Programs · Library · Progress · Coach), search field (280px, pill), primary "Start workout"
-pill, avatar. Marketing variant lives in `SiteNav.vue` (see Home spec).
+(Today · Programs · Library · Progress · Coach), primary "Start workout" pill, avatar. Marketing
+variant lives in `SiteNav.vue` (see Home spec).
+
+**Search is deferred to Phase 6** (ruled 2026-10-03). The 280px pill has no backend behind it yet
+and a search field that searches nothing is worse than no field.
+
+**The "Start workout" pill ships in 3.2** and goes to `/tracking` until 3.6 gives it a
+start-workout sheet. Without it a desktop user has no Train control at all — the bar's centre is a
+phone affordance and the rail's circle a tablet one.
+
+**Note on the boards:** `DeskToday.dc.html` draws a 240px **left sidebar** (logo, Start workout
+pill, vertical nav), not a top bar. 3.2 ships the 68px top bar this entry describes; which of the
+two desktop shells is right is still open.
 
 ---
 
