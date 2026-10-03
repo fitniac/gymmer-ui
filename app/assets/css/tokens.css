@@ -51,9 +51,34 @@
   --gm-font-ui: "Archivo", system-ui, sans-serif;
   --gm-font-quote: "Cormorant Infant", Georgia, serif;
 
-  /* radius */
-  --gm-radius: 0;             /* structural: cards, inputs, rules, chips */
-  --gm-radius-pill: 999px;    /* primary actions + the beta bubble only */
+  /* radius — D1 (approved 2026-10-03).
+     `--gm-radius` stays for everything written before the redesign; the three
+     below are what new work uses, and they are what `data-corners` moves.
+     The defaults here are "soft"; see the data-corners blocks further down. */
+  --gm-radius: 0;             /* legacy structural radius — do not add new uses */
+  --gm-radius-card: 12px;     /* cards, media, sheet inner panels */
+  --gm-radius-ctl: 7px;       /* inputs, small tiles, thumbnails, set cells */
+  --gm-radius-sheet: 22px;    /* TOP corners of bottom sheets only */
+  --gm-radius-pill: 999px;    /* buttons, chips, segmented controls, tab pill */
+
+  /* surfaces the redesign adds.
+     --gm-scrim is deliberately the same darkness in both themes: it sits
+     between a sheet and the page, and a scrim that lightens in light mode
+     stops separating them. */
+  --gm-scrim: rgba(0, 0, 0, .55);
+  --gm-glass: color-mix(in srgb, var(--gm-bg) 86%, transparent);
+  --gm-media-badge: rgba(0, 0, 0, .6);   /* the expand badge on tappable media */
+
+  /* motion — one place for the curves and durations in 00-foundations §5.
+     Durations are plain numbers so a component can compose them; the
+     reduced-motion block at the bottom of this file already zeroes
+     transitions globally, so these never need a media query of their own. */
+  --gm-ease-out: cubic-bezier(.2, .8, .2, 1);
+  --gm-ease-sheet: cubic-bezier(.32, .72, 0, 1);
+  --gm-dur-tap: 120ms;
+  --gm-dur-enter: 240ms;
+  --gm-dur-page: 320ms;
+  --gm-dur-sheet: 420ms;
 
   /* accent — light defaults (orange). See the palette blocks below. */
   --acc: #ec3013;
@@ -70,6 +95,27 @@
    sets per locale (ua → uk, gr → el). */
 html:lang(ru), html:lang(uk), html:lang(bg), html:lang(el) {
   --gm-font-quote: "EB Garamond", Georgia, serif;
+}
+
+/* ---- corners (D1) ----------------------------------------------------- 
+   A user preference, written to <html data-corners> by the same no-flash
+   script and useTheme() that write data-theme and data-accent. "soft" is the
+   default and is already in :root, so the attribute is absent for most
+   visitors and costs nothing.
+
+   --gm-radius-pill does NOT move: pills stay pills at every setting, because
+   a 0-radius "pill" is a rectangle and the control stops reading as a
+   control. Same reason --gm-radius (legacy) is left alone. */
+html[data-corners="square"] {
+  --gm-radius-card: 0;
+  --gm-radius-ctl: 0;
+  --gm-radius-sheet: 0;
+}
+
+html[data-corners="round"] {
+  --gm-radius-card: 20px;
+  --gm-radius-ctl: 12px;
+  --gm-radius-sheet: 28px;
 }
 
 /* ---- dark theme ------------------------------------------------------- */
