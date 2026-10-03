@@ -37,8 +37,8 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 
 <h2 style="margin:26px 20px 8px;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">MODE</h2>
-<div role="radiogroup" aria-label="Mode" style="margin:0 20px;padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px">
-<sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+<div role="radiogroup" aria-label="Mode" style="margin:0 20px;padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="2">
 <button role="radio" aria-checked="{{m.sel}}" class="tap" onClick="{{m.pick}}" style="height:40px;border:0;border-radius:999px;font:700 14px var(--font);{{m.style}}">{{m.n}}</button>
 </sc-for>
 </div>
@@ -67,7 +67,7 @@ class Component extends DCLogic {
     var p = this.props;
     var acc = o.accent || p.accent || '#ff563c', mode = o.mode || p.mode || 'dark', corner = o.corner || p.corner || 'soft', dark = mode !== 'light';
     var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
-                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
     var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
     return '--acc:' + acc + ';--on-acc:' + this.onAcc(acc) + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
       ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
@@ -82,14 +82,14 @@ class Component extends DCLogic {
   }
   renderVals() {
     var self = this, s = this.state || {}, p = this.props;
-    var mode = s.mode || 'system', acc = s.accent || p.accent || '#ff563c', corner = s.corner || p.corner || 'soft';
-    var effMode = mode === 'system' ? (p.mode || 'dark') : mode;
+    var mode = s.mode || 'dark', acc = s.accent || p.accent || '#ff563c', corner = s.corner || p.corner || 'soft';
+    var effMode = mode;
     var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
     var ringOn = 'border:2px solid var(--acc)', ringOff = 'border:2px solid transparent';
     var presets = [['Ember', '#ff563c'], ['Volt', '#c8f031'], ['Glacier', '#5cc8ff'], ['Iris', '#a08bff'], ['Amber', '#ffb02e'], ['Mint', '#3fdc9a'], ['Rose', '#ff5f8f'], ['Bone', '#e8e2d6']];
     return {
       vars: this.theme({ accent: acc, mode: effMode, corner: corner }),
-      modes: [['system', 'System'], ['dark', 'Dark'], ['light', 'Light']].map(function (m) {
+      modes: [['dark', 'Dark'], ['light', 'Light']].map(function (m) {
         var on = m[0] === mode; return { n: m[1], sel: on ? 'true' : 'false', style: on ? segOn : segOff, pick: function () { self.setState({ mode: m[0] }); } };
       }),
       swatches: presets.map(function (x) {

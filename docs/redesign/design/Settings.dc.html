@@ -91,7 +91,7 @@ class Component extends DCLogic {
     var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
     L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
     var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
-                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
     var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
     return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
       ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
