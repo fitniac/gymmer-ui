@@ -149,6 +149,18 @@ The name lives in `aria-label`, which changes with state where the visible label
 The one cost is discoverability for a first-time user, and 3.4's first-run hint is where that is
 answered — not by a label that four of five locales cannot fit.
 
+**The live-session state ships in 3.6, both halves together.** Until then the centre keeps today's
+behaviour: `aria-label` "Train" in every state, and a tap goes to `/tracking`. Two conditions on
+the version that does land:
+
+- **Offline-safe.** The signal is derived from the same local session state the tracking screen and
+  the outbox already read — never a server poll. The bar is drawn on every screen, including the
+  ones a user reaches in a basement gym with no signal, and a centre button that forgets there is a
+  workout open because a request timed out is worse than one that never claimed to know.
+- **Visible, not only announced.** A sighted user gets a dot or ring on the button; the changed
+  `aria-label` is the screen-reader half of the same signal, not the whole of it. A state that only
+  exists in the accessibility tree is a state most users cannot see.
+
 **Fallback: measured at runtime, never configured per locale.** If any label would overflow its
 slot at the current width *and text size*, the bar switches to **label on the active tab only**. A
 per-locale list of "locales that need the short bar" would be wrong the moment someone raises their
