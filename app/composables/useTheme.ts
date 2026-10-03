@@ -2,23 +2,29 @@ import {
   ACCENTS,
   ACCENT_COOKIE,
   ACCENT_STORAGE_KEY,
+  CORNERS,
+  CORNERS_COOKIE,
+  CORNERS_STORAGE_KEY,
   COOKIE_MAX_AGE,
   DEFAULT_ACCENT,
+  DEFAULT_CORNERS,
   DEFAULT_THEME,
   THEME_COOKIE,
   THEME_STORAGE_KEY,
   resolveTheme,
   type AccentId,
+  type CornerId,
   type ThemePref,
 } from '../utils/theme'
 
 /**
- * Theme + accent state, persisted to cookies (so SSR sees them on the first
- * byte) and localStorage (so the blocking no-flash script can read them).
+ * Theme + accent + corner state, persisted to cookies (so SSR sees them on the
+ * first byte) and localStorage (so the blocking no-flash script can read them).
  *
  * A consuming app needs no setup: call `useTheme()` once in a layout or page
- * and both axes are live. A settings UI only has to call setTheme / setAccent,
- * and can render swatches from `accents`.
+ * and all three axes are live. A settings UI only has to call setTheme /
+ * setAccent / setCorners, and can render swatches from `accents` and the
+ * corner options from `corners`.
  */
 export function useTheme() {
   const themeCookie = useCookie<ThemePref>(THEME_COOKIE, {
@@ -29,9 +35,14 @@ export function useTheme() {
     maxAge: COOKIE_MAX_AGE,
     sameSite: 'lax',
   })
+  const cornersCookie = useCookie<CornerId>(CORNERS_COOKIE, {
+    maxAge: COOKIE_MAX_AGE,
+    sameSite: 'lax',
+  })
 
   const pref = useState<ThemePref>('gm-theme', () => themeCookie.value ?? DEFAULT_THEME)
   const accent = useState<AccentId>('gm-accent', () => accentCookie.value ?? DEFAULT_ACCENT)
+  const cornerPref = useState<CornerId>('gm-corners', () => cornersCookie.value ?? DEFAULT_CORNERS)
 
   if (import.meta.client) {
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
@@ -71,6 +82,23 @@ export function useTheme() {
       { immediate: true },
     )
 
+    // Corners has no OS signal to follow, so unlike theme it is a plain
+    // write-through: state -> cookie + storage + attribute.
+    watch(
+      cornerPref,
+      (v) => {
+        cornersCookie.value = v
+        document.documentElement.dataset.corners = v
+        try {
+          localStorage.setItem(CORNERS_STORAGE_KEY, v)
+        }
+        catch {
+          // as above
+        }
+      },
+      { immediate: true },
+    )
+
     mq.addEventListener('change', apply)
     onScopeDispose(() => mq.removeEventListener('change', apply))
   }
@@ -78,8 +106,11 @@ export function useTheme() {
   return {
     pref,
     accent,
+    cornerPref,
     accents: ACCENTS,
+    corners: CORNERS,
     setTheme: (v: ThemePref) => (pref.value = v),
     setAccent: (v: AccentId) => (accent.value = v),
+    setCorners: (v: CornerId) => (cornerPref.value = v),
   }
 }

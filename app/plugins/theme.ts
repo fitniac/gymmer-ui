@@ -1,12 +1,16 @@
 import {
   ACCENT_COOKIE,
+  CORNERS_COOKIE,
   COOKIE_MAX_AGE,
   DEFAULT_ACCENT,
+  DEFAULT_CORNERS,
   DEFAULT_THEME,
   THEME_COOKIE,
   isAccent,
+  isCorners,
   isThemePref,
   type AccentId,
+  type CornerId,
   type ThemePref,
 } from '../utils/theme'
 
@@ -36,14 +40,24 @@ export default defineNuxtPlugin(() => {
     maxAge: COOKIE_MAX_AGE,
     sameSite: 'lax',
   })
+  const cornersCookie = useCookie<CornerId>(CORNERS_COOKIE, {
+    maxAge: COOKIE_MAX_AGE,
+    sameSite: 'lax',
+  })
 
   const pref = isThemePref(themeCookie.value) ? themeCookie.value : DEFAULT_THEME
   const accent = isAccent(accentCookie.value) ? accentCookie.value : DEFAULT_ACCENT
+  const corners = isCorners(cornersCookie.value) ? cornersCookie.value : DEFAULT_CORNERS
 
   useHead({
     htmlAttrs: {
       'data-theme': pref === 'system' ? 'light' : pref,
       'data-accent': accent,
+      // Unlike theme, corners needs no client correction: there is no OS
+      // preference for it, so the cookie IS the answer and SSR can render the
+      // final value. Written even when it is the default so the attribute is
+      // present for anything selecting on it.
+      'data-corners': corners,
     },
   })
 })
