@@ -65,8 +65,16 @@ pill, avatar. Marketing variant lives in `SiteNav.vue` (see Home spec).
 ## Exercise media and cards
 
 ### `ExerciseThumb.vue` — Refactor, and it stays **presentational**
-- Add sizes: `xs` 48×64 · `sm` 60×80 · `md` 66×88 · `lg` 72×96 · `xl` 78×104 (keep `width` prop as
-  the mechanism; sizes are presets). Radius `--gm-radius-ctl`.
+- Add sizes: `xs` 48×64 · `sm` 60×80 · `md` 66×88 · `lg` 72×96 · `xl` **80**×107 (keep `width` prop
+  as the mechanism; sizes are presets). `xl` is 80 rather than the drafted 78 because 80 is what
+  three screens ship today, and nothing in the redesign asks for two pixels less — that makes the
+  migration of the existing call sites pixel-exact instead of nearly so.
+- Radius `--gm-radius-ctl`, behind a `rounded` prop that is **off by default**. Phase 2 restyles
+  land as opt-in, and the current call sites are square; `ExerciseRow` and `ExerciseCardV2` turn it
+  on, so a screen picks up the corners when it adopts them.
+- The old `sm | md` ramp reused two of these names at other values (48 and 80), so the four existing
+  call sites moved to the names that keep their pixels: old `sm` → `xs`, old `md` → `xl`. Leaving
+  them alone would have silently shrunk three screens.
 - New prop `badge?: 'expand'` → draws the expand badge (foundations §7). **Visual only.** It does
   not make the thumb a button and emits nothing: the thumb is an image with a label on it, and a
   component that is sometimes an image and sometimes a button has two different tab orders
@@ -100,8 +108,10 @@ that adopts it deletes `ExerciseCard.vue` and renames the sibling back in the sa
 - Hover/focus (desktop): media Ken Burns, "▶ PREVIEW" pill bottom-right fades in, name turns
   `--acc-deep`. Keep the existing delayed hover clip and `useCenteredPreview` on touch — the zoom is
   only the poster's behaviour while the clip loads.
-- List-view variant (D2 "list" toggle): `xs` thumb · name · muscle · equipment · level · chevron in a
-  6-column grid row.
+- List-view variant (D2 "list" toggle): **that is `ExerciseRow`**, not a variant of this. The row
+  layout already has a component that owns the two-target rule, and a card holding a second layout
+  behind a `view` prop is the thing the sibling split exists to avoid. The toggle switches which
+  component the grid renders.
 
 ### `FacetTile.vue` — New (replaces the experimental `FacetCard` in grids)
 Boards: 02, T2, D2. 1:1 image (muscle render or equipment photo) + name 14/700 + count in muted
