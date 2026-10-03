@@ -69,6 +69,13 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 **Exit:** a full workout (start → sets → rest → swap → finish) on iPhone (Capacitor), Android and
 desktop web, offline included; outbox and watch sync unchanged.
 
+Also: the bottom sheet's gestures verified **on iOS Capacitor and Android**, not only with desktop
+pointer events — drag-to-dismiss, a cancelled drag, and a downward drag that starts in a scrolled
+body (which must scroll, not dismiss). `pointercancel` is the whole risk here: on touch the browser
+can claim a vertical pan mid-gesture, and a synthetic cancel in Chrome is not a browser deciding to
+scroll. 2.3 built the sheet and could only prove the desktop half, because no screen renders it
+until this phase.
+
 ## Phase 4 — Signed-in screens (app, ~1.5 weeks, parallel tracks)
 
 | # | Track | PR | Spec |

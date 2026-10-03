@@ -33,6 +33,18 @@ applied one level up.
 
 ---
 
+## Text colour inside a link — set it
+
+The layer colours every `<a>` with `--acc-deep` (`tokens.css`), and the redesign's cards and rows
+are links wrapping a block of text. So a name inside one is **already the accent at rest**: the
+hover state has nowhere to go, and a list of rows reads as a column of red headlines. Nothing fails
+— it renders, in the right font, at the right size.
+
+Every new component sets the resting colour explicitly on text inside a link (`text-ink`, or
+whatever the design calls for) and leaves the accent to `group-hover:` / `group-focus-within:`.
+Found twice while building 2.5, in `ExerciseCardV2` and `ExerciseRow`, both times only by measuring
+the computed colour before and after focus rather than by looking at it.
+
 ## Navigation
 
 ### `AppTabBar.vue` — Refactor
