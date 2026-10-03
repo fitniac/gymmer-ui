@@ -57,7 +57,7 @@ a{color:inherit}a:hover{color:inherit}
 
 <section style="margin:20px 16px 0;padding:12px 8px 10px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:6px">
 <div style="display:flex;justify-content:space-between;padding:0 8px;font-size:13px"><b>What you’ll train</b><span style="color:var(--muted)">Chest · Back · Legs</span></div>
-<div style="height:200px"><dc-import name="BodyMap" levels="{{levels}}" labels="{{ false }}" hint-size="100%,200px"></dc-import></div>
+<div style="height:200px"><dc-import name="BodyMap" sex="{{figure}}" levels="{{levels}}" labels="{{ false }}" hint-size="100%,200px"></dc-import></div>
 </section>
 
 <section style="margin-top:22px;display:flex;flex-direction:column;gap:10px">
@@ -96,7 +96,7 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"figure":{"editor":"enum","options":["male","female"],"default":"male"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   theme() {
     var p = this.props;
@@ -120,7 +120,7 @@ class Component extends DCLogic {
     var sets = ['3×10', '4×8–12', '3×6–8'][ph];
     var DAYS = [['DAY 1', 'Push A', ['Barbell Bench Press', 'Overhead Press', 'Incline Dumbbell Hammer Press', 'Cable Pushdown']], ['DAY 2', 'Pull A', ['Bent Over Barbell Row', 'Lat Pulldown', 'Face Pull', 'Hammer Curl']], ['DAY 3', 'Legs A', ['Back Squat', 'Romanian Deadlift', 'Leg Press', 'Standing Calf Raise']], ['DAY 4', 'Push B', ['Decline Barbell Bench Press', 'Arnold Press', 'Incline Cable Press', 'Triceps Dips']], ['DAY 5', 'Pull B', ['Pull-up', 'Kroc Row', 'Rear Delt Fly', 'Preacher Curl']], ['DAY 6', 'Legs B', ['Hip Thrust', 'Bulgarian Split Squat', 'Leg Curl', 'Hanging Knee Raise']]];
     return {
-      vars: this.theme(),
+      vars: this.theme(), figure: this.props.figure || 'male',
       levels: { chest: 3, shoulders: 2, triceps: 2, biceps: 2, lats: 3, rhomboids: 2, rearDelts: 2, quads: 3, glutes: 2, hamstrings: 2, calves: 1 },
       phases: ['Wk 1–2', 'Wk 3–6', 'Wk 7–8'].map(function (n, i) { return { n: n, sel: i === ph ? 'true' : 'false', style: i === ph ? segOn : segOff, pick: function () { self.setState({ ph: i }); } }; }),
       days: DAYS.map(function (d, i) {

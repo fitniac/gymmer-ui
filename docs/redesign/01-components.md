@@ -184,6 +184,14 @@ shoulders and thighs rather than an absence of colour. A legend swatch has no ph
 so there the token is right. Front/back side by side when width ≥ 300px,
 otherwise the existing switcher.
 
+**Male and female figures.** The admin body map already holds separate artwork and muscle masks per
+sex (`(sex, view)` in `useBodyMap`). Every body map — Today's up-next card, Program header, Programs
+cards, Workout complete, Progress, public program pages — renders the figure for the reader's profile
+sex (Settings → "Age, height, body-map figure"); signed-out readers and profiles without a value get
+the default figure. `ProgramThumb` follows the same rule. The design boards expose this as a `figure`
+tweak (male/female) on every board that shows a body map; the stand-in figure on the canvas is only an
+approximation of the admin artwork — the real masks win.
+
 ### `GmBarChart.vue` — Refactor
 Rounded-top bars (4px), current period in `--acc`, previous in **`--gm-track`**, values on tap.
 Used on Today (weekly volume), Summary (volume vs last time), Progress.

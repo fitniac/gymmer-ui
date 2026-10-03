@@ -46,7 +46,7 @@ a{color:inherit}a:hover{color:inherit}
 
 <section class="in" style="animation-delay:.09s;margin:12px 16px 0;padding:14px 10px 10px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:8px">
 <div style="display:flex;justify-content:space-between;padding:0 6px;font-size:13px"><b>What you trained</b><span style="color:var(--muted)">Chest · Triceps · Front delts</span></div>
-<div style="height:220px"><dc-import name="BodyMap" levels="{{bm}}" hint-size="100%,220px"></dc-import></div>
+<div style="height:220px"><dc-import name="BodyMap" sex="{{figure}}" levels="{{bm}}" hint-size="100%,220px"></dc-import></div>
 </section>
 <section class="in" style="animation-delay:.12s;position:relative;margin:12px 16px 0;padding:16px;border-radius:var(--r);border:2px solid var(--acc);display:flex;flex-direction:column;gap:4px">
 <span class="stamp" style="position:absolute;right:14px;top:-12px;padding:3px 10px;background:var(--acc);color:var(--on-acc);font:700 11px var(--mono);letter-spacing:.1em">NEW PR</span>
@@ -70,7 +70,7 @@ a{color:inherit}a:hover{color:inherit}
 <sc-for list="{{vol}}" as="m" hint-placeholder-count="3">
 <div style="display:flex;flex-direction:column;gap:4px">
 <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--body)">{{m.n}}</span><span style="font:600 12px var(--mono)">{{m.v}} <span style="{{m.dc}}">{{m.d}}</span></span></div>
-<span style="position:relative;height:10px;border-radius:0 4px 4px 0;background:var(--raised)"><span class="barx" style="position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--acc);{{m.s}}"></span><span title="Last time" style="position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);{{m.prev}}"></span></span>
+<span style="position:relative;height:10px;border-radius:0 4px 4px 0;background:var(--track)"><span class="barx" style="position:absolute;left:0;top:0;bottom:0;border-radius:0 4px 4px 0;background:var(--acc);{{m.s}}"></span><span title="Last time" style="position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--ink);{{m.prev}}"></span></span>
 </div>
 </sc-for>
 <span style="display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)"><span style="width:2px;height:12px;background:var(--ink)"></span>last Chest Day</span>
@@ -102,7 +102,7 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"plan":{"editor":"enum","options":["free","pro"],"default":"free"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"plan":{"editor":"enum","options":["free","pro"],"default":"free"},"figure":{"editor":"enum","options":["male","female"],"default":"male"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   theme() {
     var p = this.props;
@@ -116,16 +116,16 @@ class Component extends DCLogic {
     var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
     return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
       ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
-      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--track:' + (dark ? '#3a3735' : '#d7d3d3') + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
   }
   renderVals() {
     var kg = [55, 57.5, 57.5, 60, 62.5, 65];
     var vol = [['Decline Barbell Bench Press', 1950, 1875], ['Incline Dumbbell Hammer Press', 1320, 1200], ['Incline Cable Press', 750, 750]];
     return {
-      vars: this.theme(), bm: { chest: 3, triceps: 2, shoulders: 1 }, isFree: (this.props.plan || 'free') === 'free',
+      vars: this.theme(), figure: this.props.figure || 'male', bm: { chest: 3, triceps: 2, shoulders: 1 }, isFree: (this.props.plan || 'free') === 'free',
       trend: kg.map(function (v, i) {
         var last = i === kg.length - 1;
-        return { v: String(v), t: v + ' kg × 10', lc: last ? 'color:var(--ink)' : 'color:var(--muted)', s: 'height:' + Math.round((v - 40) / 25 * 100 * 0.8) + '%;animation-delay:' + (i * 0.05).toFixed(2) + 's;background:' + (last ? 'var(--acc)' : 'color-mix(in srgb, var(--acc) 38%, var(--raised))') };
+        return { v: String(v), t: v + ' kg × 10', lc: last ? 'color:var(--ink)' : 'color:var(--muted)', s: 'height:' + Math.round((v - 40) / 25 * 100 * 0.8) + '%;animation-delay:' + (i * 0.05).toFixed(2) + 's;background:' + (last ? 'var(--acc)' : 'var(--track)') };
       }),
       vol: vol.map(function (m, i) {
         var d = m[1] - m[2];

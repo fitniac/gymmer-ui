@@ -36,7 +36,7 @@ a{color:inherit}a:hover{color:inherit}
 
 <section style="margin:16px 16px 0;padding:14px 10px 12px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
 <div style="display:flex;justify-content:space-between;padding:0 6px;font-size:13px"><b>What you trained</b><span style="color:var(--muted)">tap a muscle</span></div>
-<div style="height:300px"><dc-import name="BodyMap" levels="{{levels}}" focus="{{focus}}" hint-size="100%,300px"></dc-import></div>
+<div style="height:300px"><dc-import name="BodyMap" sex="{{figure}}" levels="{{levels}}" focus="{{focus}}" hint-size="100%,300px"></dc-import></div>
 <div aria-label="Legend" style="display:flex;justify-content:center;gap:12px;font:500 10px var(--mono);color:var(--muted)">
 <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--raised)"></span>NONE</span>
 <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span>LIGHT</span>
@@ -66,7 +66,7 @@ a{color:inherit}a:hover{color:inherit}
 </main>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"figure":{"editor":"enum","options":["male","female"],"default":"male"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   theme() {
     var p = this.props;
@@ -100,7 +100,7 @@ class Component extends DCLogic {
     var levels = {}; data.forEach(function (d) { levels[d[0]] = d[3]; });
     var cur = data.filter(function (d) { return d[0] === focus; })[0];
     return {
-      vars: this.theme(),
+      vars: this.theme(), figure: this.props.figure || 'male',
       levels: levels, focus: focus,
       hasFocus: !!cur, noFocus: !cur,
       chips: data.map(function (d) {

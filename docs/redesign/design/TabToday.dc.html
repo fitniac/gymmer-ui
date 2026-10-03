@@ -78,7 +78,7 @@ a{color:inherit}a:hover{color:inherit}
 </figure>
 <figure class="in" style="animation-delay:.2s;margin:0;padding:16px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
 <figcaption style="display:flex;justify-content:space-between;font-size:13px"><b>Muscle split</b><span style="color:var(--muted)">sets · 30 days</span></figcaption>
-<sc-for list="{{split}}" as="m" hint-placeholder-count="5"><div title="{{m.t}}" style="display:grid;grid-template-columns:70px minmax(0,1fr) 26px;gap:8px;align-items:center;font-size:13px"><span style="color:var(--body)">{{m.n}}</span><span style="height:12px;border-radius:0 4px 4px 0;background:var(--raised);overflow:hidden"><span class="barx" style="display:block;height:100%;border-radius:0 4px 4px 0;{{m.s}}"></span></span><span style="font:600 12px var(--mono);text-align:right">{{m.v}}</span></div></sc-for>
+<sc-for list="{{split}}" as="m" hint-placeholder-count="5"><div title="{{m.t}}" style="display:grid;grid-template-columns:70px minmax(0,1fr) 26px;gap:8px;align-items:center;font-size:13px"><span style="color:var(--body)">{{m.n}}</span><span style="height:12px;border-radius:0 4px 4px 0;background:var(--track);overflow:hidden"><span class="barx" style="display:block;height:100%;border-radius:0 4px 4px 0;{{m.s}}"></span></span><span style="font:600 12px var(--mono);text-align:right">{{m.v}}</span></div></sc-for>
 </figure>
 </div>
 
@@ -104,7 +104,7 @@ class Component extends DCLogic {
     var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
     return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
       ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
-      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--track:' + (dark ? '#3a3735' : '#d7d3d3') + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
   }
   renderVals() {
     var free = (this.props.plan || 'free') === 'free';
@@ -115,7 +115,7 @@ class Component extends DCLogic {
       week: [['M', '28', 'done'], ['T', '29', 'done'], ['W', '30', 'rest'], ['T', '1', 'rest'], ['F', '2', 'today'], ['S', '3', 'plan'], ['S', '4', 'rest']].map(function (d) { return { l: d[0], n: d[1], s: st[d[2]] }; }),
       bars: vols.map(function (v, i) {
         var locked = free && i < 4, last = i === vols.length - 1;
-        return { t: locked ? 'Older than 30 days' : v + ' t', s: 'height:' + Math.round(v / 5.6 * 100) + '%;animation-delay:' + (i * 0.04).toFixed(2) + 's;background:' + (locked ? 'repeating-linear-gradient(135deg,var(--raised) 0 4px,transparent 4px 8px)' : (last ? 'var(--acc)' : 'color-mix(in srgb, var(--acc) 38%, var(--raised))')) };
+        return { t: locked ? 'Older than 30 days' : v + ' t', s: 'height:' + Math.round(v / 5.6 * 100) + '%;animation-delay:' + (i * 0.04).toFixed(2) + 's;background:' + (locked ? 'repeating-linear-gradient(135deg,var(--track) 0 4px,transparent 4px 8px)' : (last ? 'var(--acc)' : 'var(--track)')) };
       }),
       split: [['Chest', 42], ['Back', 36], ['Shoulders', 24], ['Arms', 21], ['Legs', 12]].map(function (m, i) {
         return { n: m[0], v: String(m[1]), t: m[1] + ' sets', s: 'width:' + Math.round(m[1] / 42 * 100) + '%;animation-delay:' + (i * 0.05).toFixed(2) + 's;background:' + (i === 4 ? 'var(--muted)' : 'var(--acc)') };

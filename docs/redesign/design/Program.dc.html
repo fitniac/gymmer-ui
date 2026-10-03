@@ -39,7 +39,7 @@ a{color:inherit}a:hover{color:inherit}
 <h1 style="margin:0;font-size:34px;line-height:1.02;font-weight:800;font-stretch:112%;letter-spacing:-.02em">Chest Day</h1>
 <span style="font-size:14px;color:var(--body)">Chest · Upper chest</span>
 </div>
-<span style="flex:0 0 78px;height:110px;border-radius:var(--rs);background:var(--bg);padding:6px 0;box-sizing:border-box"><dc-import name="BodyMap" levels="{{bmChest}}" view="front" labels="{{ false }}" hint-size="100%,98px"></dc-import></span>
+<span style="flex:0 0 78px;height:110px;border-radius:var(--rs);background:var(--bg);padding:6px 0;box-sizing:border-box"><dc-import name="BodyMap" sex="{{figure}}" levels="{{bmChest}}" view="front" labels="{{ false }}" hint-size="100%,98px"></dc-import></span>
 </header>
 
 <dl style="margin:16px 20px 0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
@@ -79,7 +79,7 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"figure":{"editor":"enum","options":["male","female"],"default":"male"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   theme() {
     var p = this.props;
@@ -101,7 +101,7 @@ class Component extends DCLogic {
       { n: 'Incline Dumbbell Hammer Press', t: '3 × 10 reps', m: 'UPPER CHEST · REST 90S' },
       { n: 'Incline Cable Press', t: '3 × 10 reps', m: 'UPPER CHEST · REST 90S' }
     ];
-    return { vars: this.theme(), bmChest: { chest: 3, shoulders: 1, triceps: 1 }, ex: ex.map(function (e, i) { return Object.assign({}, e, { i: String(i + 1), delay: 'animation-delay:' + (i * 0.04).toFixed(2) + 's' }); }) };
+    return { vars: this.theme(), figure: this.props.figure || 'male', bmChest: { chest: 3, shoulders: 1, triceps: 1 }, ex: ex.map(function (e, i) { return Object.assign({}, e, { i: String(i + 1), delay: 'animation-delay:' + (i * 0.04).toFixed(2) + 's' }); }) };
   }
 }
 </script>
