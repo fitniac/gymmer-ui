@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Appearance settings (mobile)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+.tap{transition:transform .12s ease-out}
+.tap:active{transform:scale(.94)}
+.live,.live *{transition:background-color .35s ease,color .35s ease,border-color .35s ease,border-radius .3s ease}
+.scroll::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+<div class="live" style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main class="scroll" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:40px;box-sizing:border-box">
+
+<div style="display:flex;align-items:center;padding:6px 8px 0">
+<a href="Main.dc.html" class="tap" style="height:44px;display:flex;align-items:center;gap:2px;padding:0 8px;text-decoration:none;color:var(--acc-ink);font-size:16px;font-weight:600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6" /></svg>Settings</a>
+</div>
+<h1 style="margin:4px 20px 16px;font-size:34px;font-weight:800;font-stretch:112%;letter-spacing:-.02em">Appearance</h1>
+
+<div aria-label="Preview" style="margin:0 20px;padding:16px;border-radius:var(--r);background:var(--surf);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;font:500 11px var(--mono);letter-spacing:.06em;color:var(--muted)"><span>PREVIEW</span><span style="color:var(--acc-ink)">SET 2 / 4</span></div>
+<div style="display:flex;gap:12px;align-items:center"><span style="flex:0 0 39px;height:52px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 7px,var(--raised) 7px 14px)"></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:700;font-size:16px">Bent Over Barbell Row</span><span style="font-size:13px;color:var(--muted)">Lats · Rhomboids</span></span></div>
+<div style="display:flex;gap:6px"><span style="height:28px;padding:0 11px;border-radius:999px;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;font-size:12px;font-weight:700">8 reps</span><span style="height:28px;padding:0 11px;border-radius:999px;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;font-size:12px;font-weight:700">60 kg</span></div>
+<span style="height:46px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:15px">Complete set 2</span>
+</div>
+
+<h2 style="margin:26px 20px 8px;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">MODE</h2>
+<div role="radiogroup" aria-label="Mode" style="margin:0 20px;padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+<button role="radio" aria-checked="{{m.sel}}" class="tap" onClick="{{m.pick}}" style="height:40px;border:0;border-radius:999px;font:700 14px var(--font);{{m.style}}">{{m.n}}</button>
+</sc-for>
+</div>
+
+<h2 style="margin:26px 20px 8px;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">ACCENT</h2>
+<div role="radiogroup" aria-label="Accent color" style="margin:0 20px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{swatches}}" as="s" hint-placeholder-count="8">
+<button role="radio" aria-checked="{{s.sel}}" aria-label="{{s.n}}" class="tap" onClick="{{s.pick}}" style="height:76px;border-radius:var(--rs);background:var(--surf);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:var(--ink);font:600 12px var(--font);{{s.ring}}">
+<span style="width:30px;height:30px;border-radius:50%;background:{{s.c}};display:flex;align-items:center;justify-content:center;color:{{s.on}}"><sc-if value="{{s.isSel}}" hint-placeholder-val="{{ false }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5 10 17 19 7" /></svg></sc-if></span>{{s.n}}</button>
+</sc-for>
+</div>
+<p style="margin:10px 20px 0;font-size:13px;line-height:1.45;color:var(--muted)">Text on your accent switches between dark and light automatically, so buttons stay readable with any color.</p>
+
+<h2 style="margin:26px 20px 8px;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">CORNERS</h2>
+<div role="radiogroup" aria-label="Corner style" style="margin:0 20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{corners}}" as="c" hint-placeholder-count="3">
+<button role="radio" aria-checked="{{c.sel}}" class="tap" onClick="{{c.pick}}" style="height:76px;border-radius:var(--rs);background:var(--surf);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink);font:600 13px var(--font);{{c.ring}}"><span style="width:34px;height:24px;border:2px solid var(--ink);border-right:0;border-bottom:0;{{c.shape}}"></span>{{c.n}}</button>
+</sc-for>
+</div>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme(o) {
+    var p = this.props;
+    var acc = o.accent || p.accent || '#ff563c', mode = o.mode || p.mode || 'dark', corner = o.corner || p.corner || 'soft', dark = mode !== 'light';
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + this.onAcc(acc) + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  onAcc(acc) {
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    return L > 0.179 ? '#141312' : '#ffffff';
+  }
+  renderVals() {
+    var self = this, s = this.state || {}, p = this.props;
+    var mode = s.mode || 'system', acc = s.accent || p.accent || '#ff563c', corner = s.corner || p.corner || 'soft';
+    var effMode = mode === 'system' ? (p.mode || 'dark') : mode;
+    var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
+    var ringOn = 'border:2px solid var(--acc)', ringOff = 'border:2px solid transparent';
+    var presets = [['Ember', '#ff563c'], ['Volt', '#c8f031'], ['Glacier', '#5cc8ff'], ['Iris', '#a08bff'], ['Amber', '#ffb02e'], ['Mint', '#3fdc9a'], ['Rose', '#ff5f8f'], ['Bone', '#e8e2d6']];
+    return {
+      vars: this.theme({ accent: acc, mode: effMode, corner: corner }),
+      modes: [['system', 'System'], ['dark', 'Dark'], ['light', 'Light']].map(function (m) {
+        var on = m[0] === mode; return { n: m[1], sel: on ? 'true' : 'false', style: on ? segOn : segOff, pick: function () { self.setState({ mode: m[0] }); } };
+      }),
+      swatches: presets.map(function (x) {
+        var on = x[1].toLowerCase() === acc.toLowerCase();
+        return { n: x[0], c: x[1], on: self.onAcc(x[1]), isSel: on, sel: on ? 'true' : 'false', ring: on ? ringOn : ringOff, pick: function () { self.setState({ accent: x[1] }); } };
+      }),
+      corners: [['square', 'Square', '0'], ['soft', 'Soft', '8px'], ['round', 'Round', '16px']].map(function (c) {
+        var on = c[0] === corner;
+        return { n: c[1], sel: on ? 'true' : 'false', ring: on ? ringOn : ringOff, shape: 'border-top-left-radius:' + c[2], pick: function () { self.setState({ corner: c[0] }); } };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

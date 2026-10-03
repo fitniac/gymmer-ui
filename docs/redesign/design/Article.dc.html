@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Article — Push Pull Legs guide (mobile)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=Cormorant+Infant:ital,wght@1,500&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes kenburns{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.16) translate(-3%,-2%)}}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,12px)}12%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,12px)}}
+.in{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+.kb{animation:kenburns 9s ease-in-out infinite alternate}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.97)}
+.lift{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.card:hover .lift{transform:translateY(-4px)}
+.card:hover .cover{animation:kenburns 6s ease-in-out infinite alternate}
+.card:hover .nm{color:var(--acc-ink)}
+.nm{transition:color .2s}
+.toast{animation:toast 2.6s ease both}
+.snap{scroll-snap-type:x mandatory}.snap>*{scroll-snap-align:start}
+.snap::-webkit-scrollbar,.scroll::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main class="scroll" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:120px;box-sizing:border-box;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:6px 8px 0">
+<a href="Articles.dc.html" class="tap" style="height:44px;display:flex;align-items:center;gap:2px;padding:0 8px;text-decoration:none;color:var(--acc-ink);font-size:16px;font-weight:600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6" /></svg>Learn</a>
+<button aria-label="Share" class="tap" style="width:44px;height:44px;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6" /></svg></button>
+</div>
+<div style="margin:0 20px;display:flex;gap:6px"><span style="height:24px;padding:0 9px;border-radius:999px;background:var(--ink);color:var(--bg);display:flex;align-items:center;font:600 10px var(--mono);letter-spacing:.07em">PROGRAM GUIDE</span><span style="height:24px;padding:0 9px;border-radius:999px;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;font-size:12px;font-weight:700">Build muscle</span></div>
+<h1 style="margin:0 20px;font-size:30px;line-height:1.08;font-weight:800;font-stretch:110%;letter-spacing:-.02em">How to run Push Pull Legs: your first 8 weeks</h1>
+<span style="margin:0 20px;font-size:13px;color:var(--muted)">GYMMER coaching team · 28 Sep · 9 min read</span>
+<span style="margin:0 16px;aspect-ratio:3 / 2;border-radius:var(--r);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<p style="margin:0 20px;font-size:16px;line-height:1.65;color:var(--body);color:var(--ink);font-size:17px">Push Pull Legs is simple to plan, easy to recover from, and trains every muscle twice a week. Here’s how to run it for eight weeks.</p>
+
+<aside class="card" style="margin:4px 16px;padding:12px;border-radius:var(--r);background:var(--surf);border:1px solid var(--line);display:flex;gap:12px;align-items:center">
+<span style="position:relative;flex:0 0 72px;height:96px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--raised) 0 10px,var(--bg) 10px 20px)"></span>
+<div style="flex:1;display:flex;flex-direction:column;gap:5px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">THIS GUIDE GOES WITH</span><a href="ProgramPublic.dc.html" style="font-size:18px;font-weight:800;text-decoration:none">Push Pull Legs</a><span style="font-size:12px;color:var(--muted)">8 weeks · 6×/week · ~60 min</span>
+<button onClick="{{startProg}}" class="tap" style="align-self:flex-start;margin-top:2px;height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 13px var(--font);cursor:pointer">Start program</button></div>
+</aside>
+
+<h2 style="margin:12px 20px 0;font-size:23px;line-height:1.15;font-weight:800;font-stretch:108%">Push day: the four lifts</h2>
+<p style="margin:0 20px;font-size:16px;line-height:1.65;color:var(--body)">Start heavy and finish light. The first lift is where you push the weight.</p>
+<aside aria-label="Workout" style="margin:4px 16px;border-radius:var(--r);border:1px solid var(--line);overflow:hidden">
+<div style="padding:12px 14px;display:flex;justify-content:space-between;align-items:center;background:var(--surf)"><span style="display:flex;flex-direction:column"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">WORKOUT · PUSH A</span><b style="font-size:15px">4 exercises · ~60 min</b></span><button onClick="{{startWorkout}}" class="tap" style="height:36px;padding:0 13px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 13px var(--font);cursor:pointer">Start</button></div>
+<ul style="list-style:none;margin:0;padding:0">
+<sc-for list="{{exs}}" as="e" hint-placeholder-count="4">
+<li style="display:flex;align-items:center;gap:12px;padding:8px 12px 8px 14px;border-top:1px solid var(--line)">
+<a href="ExerciseSheet.dc.html" aria-label="Preview {{e.n}}" class="tap" style="position:relative;flex:0 0 54px;height:72px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"><span aria-hidden="true" style="position:absolute;right:4px;bottom:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" /></svg></span></a>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><b style="font-size:14px;line-height:1.25">{{e.n}}</b><span style="font:600 11px var(--mono);color:var(--muted)">{{e.s}}</span></span>
+<button onClick="{{e.add}}" aria-pressed="{{e.on}}" aria-label="{{e.aria}}" class="tap" style="flex:0 0 auto;height:34px;padding:0 11px;border-radius:999px;font:700 12px var(--font);cursor:pointer;{{e.style}}">{{e.cta}}</button>
+</li>
+</sc-for>
+</ul>
+<button onClick="{{addAll}}" class="tap" style="width:100%;height:46px;border:0;border-top:1px solid var(--line);background:transparent;color:var(--acc-ink);font:700 14px var(--font);cursor:pointer">+ Add all 4 to a program</button>
+</aside>
+
+<h2 style="margin:12px 20px 0;font-size:23px;line-height:1.15;font-weight:800;font-stretch:108%">How heavy to start</h2>
+<p style="margin:0 20px;font-size:16px;line-height:1.65;color:var(--body)">Pick a weight you could lift two or three more times than the plan asks. That buffer lets you add weight every week.</p>
+<blockquote style="margin:4px 20px;padding:4px 0 4px 16px;border-left:3px solid var(--acc);font:italic 500 21px/1.35 'Cormorant Infant',Georgia,serif;color:var(--ink)">“Hit the top of the range on every set, then add 2.5 kg.”</blockquote>
+<section style="margin:4px 16px;padding:16px;border-radius:var(--r);background:var(--acc-soft)"><b style="font-size:17px">Key takeaways</b><ul style="margin:8px 0 0;padding-left:18px;font-size:15px;line-height:1.5;display:flex;flex-direction:column;gap:4px"><li>Twice a week per muscle, six days.</li><li>Start 2–3 reps short of failure.</li><li>Add 2.5 kg at the top of the range.</li></ul></section>
+</main>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;display:flex;gap:10px;align-items:center;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)">
+<span style="flex:0 0 40px;height:52px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column"><b style="font-size:15px">Push Pull Legs</b><span style="font-size:12px;color:var(--muted)">8 weeks · free</span></span>
+<button onClick="{{startProg}}" class="tap" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 15px var(--font);cursor:pointer">Start</button>
+</div>
+<sc-if value="{{hasToast}}" hint-placeholder-val="{{ false }}"><div role="status" class="toast" style="position:absolute;left:50%;bottom:100px;z-index:9;width:max-content;max-width:340px;padding:11px 16px;border-radius:999px;background:var(--ink);color:var(--bg);font:600 13px var(--font);box-shadow:0 8px 30px rgba(0,0,0,.35)">{{toast}}</div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+
+  renderVals() {
+    var self = this, s = this.state || {};
+    var added = s.added || {};
+    var EX = [['Barbell Bench Press', '4×8'], ['Overhead Press', '3×8'], ['Incline Dumbbell Hammer Press', '3×10'], ['Cable Pushdown', '3×12']];
+    function mark(names, msg) { var o = {}; for (var k in added) { o[k] = added[k]; } names.forEach(function (n) { o[n] = true; }); self.setState({ added: o, toast: msg }); }
+    return {
+      vars: this.theme(),
+      exs: EX.map(function (e) {
+        var a = !!added[e[0]];
+        return { n: e[0], s: e[1], on: a ? 'true' : 'false', aria: 'Add ' + e[0] + ' to a program', cta: a ? '✓ Added' : '+ Add',
+          style: a ? 'border:1px solid var(--acc);background:var(--acc-soft);color:var(--acc-ink)' : 'border:1px solid var(--line);background:transparent;color:var(--ink)',
+          add: function () { mark([e[0]], e[0] + ' added to Chest Day'); } };
+      }),
+      addAll: function () { mark(EX.map(function (e) { return e[0]; }), '4 exercises added to Chest Day'); },
+      startProg: function () { self.setState({ toast: 'Push Pull Legs added — week 1 starts today' }); },
+      startWorkout: function () { self.setState({ toast: 'Push A is ready to start' }); },
+      hasToast: !!s.toast, toast: s.toast || ''
+    };
+  }
+}
+</script>
+</body>
+</html>

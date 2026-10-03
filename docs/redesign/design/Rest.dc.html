@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Rest timer — full screen</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes enter{from{opacity:0;transform:scale(.96)}to{opacity:1;transform:none}}
+.enter{animation:enter .4s cubic-bezier(.32,.72,0,1) both}
+.ring{transition:stroke-dashoffset 1s linear}
+.tap{transition:transform .12s ease-out,background-color .2s}
+.tap:active{transform:scale(.94)}
+.knob{transition:transform .25s cubic-bezier(.32,.72,0,1)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div class="enter" style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column">
+
+<header>
+<div style="display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:6px 8px 0">
+<a href="Dashboard.dc.html" aria-label="Minimise workout" class="tap" style="justify-self:start;width:44px;height:44px;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6" /></svg></a>
+<div style="display:flex;flex-direction:column;align-items:center"><span style="font-size:15px;font-weight:700">Chest Day</span><span style="font:600 12px var(--mono);color:var(--acc-ink)">14:02</span></div>
+<a href="Summary.dc.html" class="tap" style="justify-self:end;height:44px;padding:0 10px;display:flex;align-items:center;text-decoration:none;font-weight:700;font-size:15px;color:var(--acc-ink)">Finish</a>
+</div>
+<div style="padding:8px 16px 10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"><span style="height:4px;border-radius:2px;background:var(--acc)"></span><span style="height:4px;border-radius:2px;background:var(--raised);overflow:hidden"><span style="display:block;width:66%;height:100%;background:var(--acc)"></span></span><span style="height:4px;border-radius:2px;background:var(--raised)"></span><span style="height:4px;border-radius:2px;background:var(--raised)"></span></div>
+</header>
+
+<section style="padding:4px 20px 0;display:flex;flex-direction:column;gap:2px">
+<span style="font:600 11px var(--mono);letter-spacing:.08em;color:var(--acc-ink)">REST</span>
+<span style="font-size:15px;color:var(--body)">Next: <b style="color:var(--ink)">{{nextLabel}}</b></span>
+</section>
+
+<div style="padding:8px 16px 0;display:flex;align-items:center;justify-content:space-between">
+<button class="tap" aria-label="15 seconds less rest" onClick="{{minus15}}" style="width:60px;height:60px;border-radius:50%;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:700 15px var(--font)">−15</button>
+<div role="timer" aria-label="Rest remaining" style="position:relative;width:208px;height:208px">
+<svg width="208" height="208" viewBox="0 0 120 120" style="transform:rotate(-90deg)"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--raised)" stroke-width="6" /><circle class="ring" cx="60" cy="60" r="54" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="{{ringOff}}" /></svg>
+<span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span style="font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em">{{restLabel}}</span><span style="font:500 12px var(--mono);color:var(--muted)">OF {{totalLabel}}</span></span>
+</div>
+<button class="tap" aria-label="15 seconds more rest" onClick="{{plus15}}" style="width:60px;height:60px;border-radius:50%;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:700 15px var(--font)">+15</button>
+</div>
+
+<section aria-label="Last set" style="margin:14px 16px 0;padding:12px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:14px;font-weight:700">Set 2 logged <span style="font-weight:500;color:var(--muted)">· tap to correct</span></span><span style="font:500 11px var(--mono);color:var(--muted)">PLAN {{planLabel}}</span></div>
+<div style="display:flex;gap:8px">
+<sc-for list="{{fields}}" as="f" hint-placeholder-count="2">
+<div style="flex:1;display:flex;align-items:center;justify-content:space-between;height:50px;border-radius:var(--rs);background:var(--bg)"><button class="tap" aria-label="{{f.lessLabel}}" onClick="{{f.minus}}" style="width:44px;height:50px;border:0;background:transparent;color:var(--ink);font-size:22px">−</button><span style="display:flex;flex-direction:column;align-items:center"><span style="font-size:18px;font-weight:800">{{f.v}}</span><span style="font:500 9px var(--mono);color:var(--muted)">{{f.u}}</span></span><button class="tap" aria-label="{{f.moreLabel}}" onClick="{{f.plus}}" style="width:44px;height:50px;border:0;background:transparent;color:var(--ink);font-size:22px">+</button></div>
+</sc-for>
+</div>
+<div style="display:flex;align-items:center;gap:12px;min-height:44px">
+<label for="sv" style="flex:1;display:flex;flex-direction:column;gap:1px"><span style="font-size:14px;font-weight:700">Save to program</span><span style="font-size:12px;color:var(--muted)">{{saveNote}}</span></label>
+<button id="sv" role="switch" aria-checked="{{saveStr}}" onClick="{{toggleSave}}" style="flex:0 0 48px;height:30px;border-radius:999px;border:0;padding:3px;box-sizing:border-box;display:flex;{{trackStyle}}"><span class="knob" style="width:24px;height:24px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3)"></span></button>
+</div>
+</section>
+
+<sc-if value="{{isFree}}" hint-placeholder-val="{{ true }}">
+<aside aria-label="Advertisement" style="margin:12px 16px 0;border:1px solid var(--line);border-radius:var(--rs);overflow:hidden">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:4px 10px;border-bottom:1px solid var(--line)"><span style="font:600 10px var(--mono);letter-spacing:.1em;color:var(--muted)">AD</span><a href="Pro.dc.html" style="font-size:12px;font-weight:600;color:var(--acc-ink);text-decoration:none;padding:6px 0">Remove ads with Pro</a></div>
+<div style="height:72px;background:repeating-linear-gradient(135deg,var(--bg) 0 8px,var(--raised) 8px 16px);display:flex;align-items:center;justify-content:center;font:500 11px var(--mono);color:var(--muted)">[native ad · 320×72 · no sound]</div>
+</aside>
+</sc-if>
+
+<div style="margin-top:auto;padding:12px 16px 28px">
+<a href="Active.dc.html" class="tap" style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:17px"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M5 5v14l9-7zM14 5v14l9-7z" /></svg>Skip rest</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"plan":{"editor":"enum","options":["free","pro"],"default":"free"},"track":{"editor":"enum","options":["weight + reps","reps only","time"],"default":"weight + reps"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  st() {
+    var s = this.state || {};
+    return { rest: s.rest === undefined ? 58 : s.rest, total: s.total || 90, kg: s.kg === undefined ? 62.5 : s.kg, reps: s.reps === undefined ? 9 : s.reps, sec: s.sec === undefined ? 45 : s.sec, save: !!s.save };
+  }
+  componentDidMount() {
+    var self = this;
+    this.timer = setInterval(function () { var c = self.st(); if (c.rest > 0) { self.setState({ rest: c.rest - 1 }); } }, 1000);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  renderVals() {
+    var self = this, s = this.st(), track = this.props.track || 'weight + reps';
+    var fmt = function (sec) { var m = Math.floor(sec / 60), r = sec % 60; return m + ':' + (r < 10 ? '0' : '') + r; };
+    function step(key, d, min) { return function () { var o = {}; o[key] = Math.max(min, Math.round((self.st()[key] + d) * 10) / 10); self.setState(o); }; }
+    var kgF = { v: String(s.kg), u: 'KG', minus: step('kg', -2.5, 0), plus: step('kg', 2.5, 0), lessLabel: 'Less weight', moreLabel: 'More weight' };
+    var repF = { v: String(s.reps), u: 'REPS', minus: step('reps', -1, 0), plus: step('reps', 1, 0), lessLabel: 'One rep fewer', moreLabel: 'One rep more' };
+    var secF = { v: fmt(s.sec), u: 'TIME', minus: step('sec', -5, 0), plus: step('sec', 5, 0), lessLabel: '5 seconds less', moreLabel: '5 seconds more' };
+    var fields = track === 'time' ? [secF] : (track === 'reps only' ? [repF] : [kgF, repF]);
+    var planLabel = track === 'time' ? '0:45' : (track === 'reps only' ? '10 REPS' : '62.5 × 10');
+    var cur = track === 'time' ? fmt(s.sec) : (track === 'reps only' ? s.reps + ' reps' : s.kg + ' kg × ' + s.reps);
+    return {
+      vars: this.theme(),
+      isFree: (this.props.plan || 'free') === 'free',
+      restLabel: fmt(s.rest), totalLabel: fmt(s.total),
+      ringOff: String((339.3 * (1 - s.rest / s.total)).toFixed(1)),
+      minus15: function () { var c = self.st(); self.setState({ rest: Math.max(0, c.rest - 15) }); },
+      plus15: function () { var c = self.st(); self.setState({ rest: c.rest + 15, total: Math.max(c.total, c.rest + 15) }); },
+      nextLabel: track === 'time' ? 'set 3 · 0:45 hold' : (track === 'reps only' ? 'set 3 · 10 reps' : 'set 3 · 62.5 kg × 10'),
+      fields: fields, planLabel: planLabel,
+      saveStr: s.save ? 'true' : 'false',
+      toggleSave: function () { self.setState({ save: !self.st().save }); },
+      trackStyle: s.save ? 'background:var(--acc);justify-content:flex-end' : 'background:var(--raised);justify-content:flex-start',
+      saveNote: s.save ? 'Saved — future Chest Days plan ' + cur : 'Use ' + cur + ' as the plan next time'
+    };
+  }
+}
+</script>
+</body>
+</html>

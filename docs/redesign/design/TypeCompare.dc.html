@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Type pairing comparison</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:var(--display)}
+</style>
+</helmet>
+<div style="{{vars}}width:1200px;height:900px;box-sizing:border-box;background:var(--bg);color:var(--ink);font-family:var(--display);padding:28px 32px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end">
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font:600 11px 'IBM Plex Mono',monospace;letter-spacing:.1em;color:var(--muted)">TYPE PAIRING · SAME CONTENT, SAME SIZES</span><span style="font-size:28px;font-weight:800;font-stretch:112%;letter-spacing:-.02em">Headlines stay Archivo. Only body, captions and labels change.</span></div>
+<span style="font-size:13px;color:var(--muted);max-width:300px;text-align:right">Flip the same switch on any screen: Tweaks → type.</span>
+</div>
+
+<div style="flex:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;min-height:0">
+<sc-for list="{{cols}}" as="c" hint-placeholder-count="2">
+<section style="{{c.fonts}}border-radius:var(--r);background:var(--surf);border:1px solid var(--line);padding:22px;display:flex;flex-direction:column;gap:16px;min-width:0">
+<div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line)"><span style="font:700 15px var(--font)">{{c.name}}</span><span style="font:600 10px var(--mono);letter-spacing:.1em;padding:4px 8px;border-radius:4px;background:var(--acc-soft);color:var(--acc-ink)">{{c.tag}}</span></div>
+
+<div style="display:flex;flex-direction:column;gap:4px">
+<span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">WARM-UP · EXERCISE 1 OF 4 · 03:12</span>
+<span class="disp" style="font-size:30px;font-weight:800;font-stretch:112%;letter-spacing:-.02em">Decline Barbell Bench Press</span>
+<span style="font:400 13px var(--font);color:var(--muted)">Chest · Triceps · Front delts — barbell, decline bench</span>
+</div>
+
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 150px;gap:16px;align-items:center">
+<p style="margin:0;font:400 15px/1.5 var(--font);color:var(--body)">Nova: You added 2.5 kg on the top set and still hit 10 reps. Keep 62.5 kg next week and aim for 11 on the last set before moving up.</p>
+<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:10px 0;border-radius:var(--rs);background:var(--raised)"><span style="font:600 10px var(--mono);letter-spacing:.1em;color:var(--acc-ink)">REST</span><span class="num" style="font:800 46px var(--font);letter-spacing:-.02em;line-height:1">1:30</span><span style="font:500 11px var(--mono);color:var(--muted)">NEXT · SET 3</span></div>
+</div>
+
+<div style="display:flex;flex-direction:column;border-radius:var(--rs);border:1px solid var(--line);overflow:hidden">
+<div style="display:grid;grid-template-columns:44px repeat(3,minmax(0,1fr));padding:7px 12px;font:600 10px var(--mono);letter-spacing:.08em;color:var(--muted);background:var(--raised)"><span>SET</span><span>PREVIOUS</span><span>KG</span><span>REPS</span></div>
+<sc-for list="{{c.rows}}" as="r" hint-placeholder-count="3">
+<div class="num" style="display:grid;grid-template-columns:44px repeat(3,minmax(0,1fr));padding:9px 12px;border-top:1px solid var(--line);font:600 15px var(--font);align-items:center"><span style="font:600 13px var(--mono);color:var(--muted)">{{r.s}}</span><span style="font:400 13px var(--mono);color:var(--muted)">{{r.p}}</span><span>{{r.kg}}</span><span>{{r.reps}}</span></div>
+</sc-for>
+</div>
+
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+<span style="height:44px;padding:0 20px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;font:700 15px var(--font)">Start workout</span>
+<span style="height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font:600 13px var(--font)">Build muscle</span>
+<span style="height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font:600 13px var(--font)">Swap an exercise</span>
+<span style="font:700 9px var(--mono);padding:3px 5px;border-radius:3px;background:var(--raised);color:var(--body)">PRO</span>
+</div>
+
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));padding-top:10px;border-top:1px solid var(--line);font:600 11px var(--font);color:var(--muted);text-align:center"><span style="color:var(--ink);font-weight:700">Today</span><span>Programs</span><span>Train</span><span>Library</span><span>Coach</span></div>
+
+<div style="margin-top:auto;display:flex;flex-direction:column;gap:4px;font:400 13px var(--font);color:var(--body)">
+<span>Жим штанги лёжа · Wyciskanie · Άρση · Übung für Größe</span>
+<span class="num" style="font:500 12px var(--mono);color:var(--muted)">0123456789 · 4.0 T · 62.5 KG · +12% · 3×10 @ 62.5</span>
+</div>
+</section>
+</sc-for>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"$preview":{"width":1200,"height":900}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;';
+  }
+  renderVals() {
+    var rows = [['1', '60 × 10', '60', '10'], ['2', '60 × 10', '62.5', '10'], ['3', '60 × 9', '62.5', '9']].map(function (r) { return { s: r[0], p: r[1], kg: r[2], reps: r[3] }; });
+    return {
+      vars: this.theme(),
+      cols: [
+        { name: 'Archivo + IBM Plex Mono', tag: 'A · PREVIOUS', fonts: '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;', rows: rows },
+        { name: 'Archivo + Google Sans Flex', tag: 'B · CHOSEN', fonts: '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;', rows: rows }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

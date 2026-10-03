@@ -1,0 +1,188 @@
+# 01 · Shared components (`gymmer-nuxt/app/components`)
+
+Build or refactor these before the screens. Per `gymmer-ui/CLAUDE.md`, Vue components live in
+`gymmer-nuxt` and get promoted to the layer only once a second consumer needs them (the landing does
+not), so everything here is in `gymmer-nuxt` unless marked **layer**.
+
+Legend: **Reuse** = no change beyond tokens · **Refactor** = same component, new look and/or API ·
+**New** = does not exist.
+
+---
+
+## Navigation
+
+### `AppTabBar.vue` — Refactor
+Board: bottom bar on 09, 10, 11, 18 (and every tabbed screen).
+- 5 items in a `repeat(5, 1fr)` grid: **Today** (`gymmer-g`, 19px) → `/dashboard` · **Programs**
+  (`clipboard-list`) · **Train** (centre) → opens the start-workout sheet, or `/tracking` if a session
+  is open · **Library** (`book-open`) → `/exercises` · **Coach** (`sparkles`). Progress tab removed
+  (README D8); `/progress` stays reachable from Today and the desktop header.
+- Item: 52×30 icon pill + 11px label. Active: pill `--acc-soft`, icon `--acc-deep`, label `--gm-ink`
+  700. Inactive: `--gm-muted` 600.
+- Train: 56px circle, `--acc` fill, `--gm-on-acc` barbell 30px, raised 14px above the bar
+  (`margin-top:-14px`), ring `0 0 0 3px var(--gm-bg), 0 0 0 4px var(--gm-hairline)`. Label is
+  `aria-label` only. When a workout is running, show a 6px live dot top-right (pulse, §5).
+- Bar: 84px incl. safe area, `--gm-glass` + blur, 1px top hairline (was 2px divider).
+- Keep `data-testid`s; update e2e selectors for the removed Progress tab.
+
+### `AppRail.vue` — New (tablet 768–1199)
+Board: T1–T4 left rail. 72px column: logo G at top, the 56px Train button, then Today / Programs /
+Library / Coach / Progress as 48px icon+label stacks, avatar at the bottom. Same active treatment as
+the tab bar. `layouts/app.vue` renders `AppRail` instead of `AppTabBar` between 768 and 1199, and
+`AppHeader` only from 1200.
+
+### `AppHeader.vue` — Refactor
+Boards: D3–D5 top bar. 68px sticky, `--gm-glass`. Logo (`GmLogo variant="wordmark-g"`), nav
+(Today · Programs · Library · Progress · Coach), search field (280px, pill), primary "Start workout"
+pill, avatar. Marketing variant lives in `SiteNav.vue` (see Home spec).
+
+---
+
+## Exercise media and cards
+
+### `ExerciseThumb.vue` — Refactor
+- Add sizes: `xs` 48×64 · `sm` 60×80 · `md` 66×88 · `lg` 72×96 · `xl` 78×104 (keep `width` prop as
+  the mechanism; sizes are presets). Radius `--gm-radius-ctl`.
+- New prop `expandable?: boolean` → renders the expand badge (foundations §7) and makes the thumb a
+  `<button>` that emits `open`. The row's text stays a separate link to the exercise page, so there
+  are **two targets per row: thumb = sheet, text = page** (board 03). Never nest them.
+- New prop `live?: boolean` → slow Ken Burns on the picture (active workout only).
+- Keep the initials-over-muscle-hue fallback; it is still the common case.
+
+### `ExerciseCard.vue` — Refactor
+Boards: 02 featured, D2 grid, Home featured.
+- 3:4 media, `--gm-radius-card`, name 16/700 under it, caption "Muscle · Equipment" 13 muted.
+- Level pill top-left on media (`BEGINNER` etc., 10px label on `rgba(0,0,0,.55)`).
+- Hover/focus (desktop): media Ken Burns, "▶ PREVIEW" pill bottom-right fades in, name turns
+  `--acc-deep`. Keep the existing delayed hover clip and `useCenteredPreview` on touch — the zoom is
+  only the poster's behaviour while the clip loads.
+- List-view variant (D2 "list" toggle): `xs` thumb · name · muscle · equipment · level · chevron in a
+  6-column grid row.
+
+### `FacetTile.vue` — New (replaces the experimental `FacetCard` in grids)
+Boards: 02, T2, D2. 1:1 image (muscle render or equipment photo) + name 14/700 + count in muted
+label. Selected = 2px `--acc` border. Used for both "Browse by muscle" and "Browse by equipment".
+Keep `FacetHero` for the facet page header.
+
+### `ExerciseDetailModal.vue` → **exercise sheet** — Refactor (big)
+See `screens/02-exercise-sheet.md`. Becomes a bottom `GmSheet` on phone/tablet and a right-side
+panel on desktop; gains tabs and a Swap tab that absorbs `ProgramSwapSheet`'s variation logic.
+
+---
+
+## Controls
+
+### `GmSegmented.vue` — New
+Pill track `--gm-surface`, 4px padding, segments 38–42px tall, selected segment `--gm-bg` + soft
+shadow, unselected `--gm-muted`. Optional count badge per segment. Used on: library Muscle/Equipment,
+program builder mode, progress range, exercise tabs, exercise sheet tabs, swap scope, view toggle.
+`role="tablist"` or `radiogroup` by use (prop `semantics`).
+
+### `GmChip.vue` — New (or extend `GmChipSelect`)
+36–38px pill, 1px hairline border; `pressed` = `--gm-ink` fill + `--gm-bg` text (filters) or
+`--acc` fill (muscle chips on Progress). Removable variant with an `x` (active filters on D2).
+
+### `GmStepper.vue` — New (wraps `GmNumberInput`)
+Big value with `−` / `+` round buttons either side (44px). Used for rest ±15s, set weight ±2.5,
+reps ±1, time ±5s. Long-press repeats. Haptic tick via `useHaptics` on each step.
+
+### `GmButton.vue` — Refactor
+Variants used in mockups: `primary` (accent pill, 52–56px on mobile CTAs), `secondary` (surface
+pill + hairline), `ghost` (text, `--acc-deep`), `icon` (44px circle). Remove offset shadow on app
+surfaces (README D5).
+
+---
+
+## Data display
+
+### `TimerRing.vue` — New (extracted)
+The ring used by Rest (20), Cardio (16) and the in-workout rest overlay (15). SVG r=54 in a 120
+viewBox, 6px stroke, `--gm-raised` track, `--acc` progress, round caps, rotated −90°. Slot for
+label/digits/sub-label. Sizes 208 / 240. Extract from `RestSheet.vue` (which already credits
+`PhoneFlow.vue`) so all three share one implementation.
+
+### `GmBodyMap.vue` — Refactor (keep the engine)
+Boards: 12 header, 17 "What you trained", 23 Progress, Programs cards. The canvas `BodyMap` board is
+a **stand-in**; keep the real admin-artwork component and its relative-intensity logic. Restyle
+only: 4-step accent ramp (none = `--gm-raised`, light 38%, moderate 68%, heavy 100% of `--acc` mixed
+into `--gm-raised`), selected muscle full accent with others at 35% opacity, legend row
+NONE · LIGHT · MODERATE · HEAVY under the figure. Front/back side by side when width ≥ 300px,
+otherwise the existing switcher.
+
+### `GmBarChart.vue` — Refactor
+Rounded-top bars (4px), current period in `--acc`, previous in `--gm-raised`, values on tap.
+Used on Today (weekly volume), Summary (volume vs last time), Progress.
+
+### `GmStat.vue` — Refactor
+Tile on `--gm-surface`, value 20/800 with a small unit, label underneath as uppercase muted label.
+
+### `NovaCard.vue` — New
+`--acc-soft` panel, "✦ NOVA" label in `--acc-deep`, 15–16px message, optional suggestion chips or
+actions. Used on Today, empty Today, Summary review, Program detail, Settings coach note.
+
+---
+
+## Plans and ads (see `02-plans-and-monetisation.md`)
+
+### `AdSlot.vue` — New
+Header row: `AD` label left, "Remove ads with Pro" link right (`--acc-deep`) → opens `ProSheet`.
+Body: the ad (72px native unit on mobile, `[native ad · 320×72 · no sound]` in mocks). 1px hairline
+frame, `--gm-radius-ctl`. Renders only when `usePremium().showAds` is true (never while unknown).
+
+### `ProNudge.vue` — New
+One-line, low-key upsell: muted text + accent link, optional 3-dot quota indicator. Examples: Coach
+"2 questions left this week · Ask any time with Pro", Programs "1 of 3 programs", Progress locked
+ranges. Never a modal.
+
+### `ProSheet.vue` — New
+Board 21. Bottom sheet that starts the 7-day trial. Opened by any `ProNudge`, `AdSlot` link or
+locked control; carries a `trigger` prop for analytics and the headline.
+
+### `ProgramLimitUpsell.vue` — Refactor
+Keep the trigger (`useProgramLimit().handle(e)`) and the "delete one to free a slot" honesty;
+restyle into the `ProSheet` look with trigger `program_limit`.
+
+---
+
+## Public content (Goals, Programs, Articles) — see `screens/18-content-model.md`
+
+### `ProgramCard.vue` — New
+3:4 cover, primary goal chip(s) top-left, level label + name (22/800 display) over the bottom
+gradient, meta "8 weeks · 6×/week · 60 min" and equipment below. Hover: lift 4px + cover zoom, name to
+`--acc-deep`. Phone rail variant 210px wide; grid variant fills the column.
+
+### `ArticleCard.vue` — New
+3:2 cover with topic pill; accent "Guide · {program}" badge when the article has a `program_id`;
+goal label (accent, uppercase), title (19/800, 30 for the featured lead), excerpt, "6 min read · date".
+Phone row variant: text left, 108px 3:2 thumb right.
+
+### `GoalTile.vue` / `GoalChip.vue` — New
+Tile = `FacetTile` with goal image + "N PROGRAMS" count (used on Programs library). Chip = `GmChip`
+linking to `/goals/[slug]`; primary goal uses the `--acc-soft` fill.
+
+### Article widgets — New (rendered from article blocks)
+`ProgramWidget`, `WorkoutWidget`, `ExerciseWidget`: start / add actions, "+ Add" → "✓ Added",
+toast with Open/Undo, signed-out actions routed through `usePrimaryCta()` and replayed after signup.
+Specs in `screens/18-content-model.md`.
+
+### `ArticleToc.vue` — New
+Sticky "On this page" list (desktop), active section from `IntersectionObserver`, 2px accent rule.
+
+## Marketing (Home only)
+
+- `StoreButtons.vue` — New. App Store + Google Play pill buttons (official badge artwork if legal
+  requires it), shown under the hero CTA; hidden inside the native app.
+- `FeaturedExercises.vue` — New. Horizontal snap carousel (mobile) / 5-card grid (desktop) of 3:4
+  autoplaying, muted, zoomed clips with name + "MUSCLE · EQUIPMENT" label. Replaces `LibrarySection`
+  on Home.
+- `PhoneSlideshow.vue` — New (D1 hero). 4 slides (Log a set · Rest · Results · Library) inside a phone
+  frame, auto-advance 3.6s, tabs below, pause on hover/focus, `aria-roledescription="carousel"`.
+  Extends or replaces `PhoneFlow.vue`.
+
+## Acceptance
+
+- [ ] Each component has a story in `pages/dev/kitchen-sink.vue` in light + dark, all three corner
+      settings, and every state listed above.
+- [ ] No colour literals; `pnpm check:conventions` passes.
+- [ ] Unit tests for `GmStepper` (bounds, long-press), `GmSegmented` (keyboard arrows), `AdSlot`
+      (hidden while premium is unknown).

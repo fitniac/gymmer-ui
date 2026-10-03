@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Push Pull Legs — program (mobile)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes kenburns{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.16) translate(-3%,-2%)}}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,12px)}12%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,12px)}}
+.in{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+.kb{animation:kenburns 9s ease-in-out infinite alternate}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.97)}
+.lift{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.card:hover .lift{transform:translateY(-4px)}
+.card:hover .cover{animation:kenburns 6s ease-in-out infinite alternate}
+.card:hover .nm{color:var(--acc-ink)}
+.nm{transition:color .2s}
+.toast{animation:toast 2.6s ease both}
+.snap{scroll-snap-type:x mandatory}.snap>*{scroll-snap-align:start}
+.snap::-webkit-scrollbar,.scroll::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main class="scroll" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:120px;box-sizing:border-box">
+<div style="position:relative;height:430px;overflow:hidden;background:var(--surf)">
+<span class="kb" style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.35),transparent 30%,transparent 45%,var(--bg))"></span>
+<div style="position:absolute;left:8px;right:8px;top:6px;display:flex;justify-content:space-between">
+<a href="ProgramsLib.dc.html" aria-label="Back" class="tap" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:#fff"><span style="width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="m15 18-6-6 6-6" /></svg></span></a>
+<button aria-label="Share" class="tap" style="width:44px;height:44px;border:0;background:transparent;color:#fff;display:flex;align-items:center;justify-content:center"><span style="width:36px;height:36px;border-radius:50%;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6" /></svg></span></button>
+</div>
+<span style="position:absolute;right:16px;top:64px;font:500 9px var(--mono);color:var(--muted)">[program cover · 3:4 crop]</span>
+<div style="position:absolute;left:20px;right:20px;bottom:6px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;gap:6px"><a href="DeskCategory.dc.html" style="height:26px;padding:0 10px;border-radius:999px;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;text-decoration:none;font-size:12px;font-weight:700">Build muscle</a><span style="height:26px;padding:0 10px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font-size:12px;font-weight:600">Get stronger</span></div>
+<h1 style="margin:0;font-size:40px;line-height:.98;font-weight:800;font-stretch:116%;letter-spacing:-.025em">Push Pull Legs</h1>
+</div>
+</div>
+<p style="margin:10px 20px 0;font-size:15px;line-height:1.5;color:var(--body)">Push one day, pull the next, legs the third — every muscle twice a week with time to recover.</p>
+<dl style="margin:14px 20px 0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<div style="padding:10px;border-radius:var(--rs);background:var(--surf)"><dd style="margin:0;font-size:17px;font-weight:800">8 wk</dd><dt style="font:500 9px var(--mono);letter-spacing:.06em;color:var(--muted)">LENGTH</dt></div>
+<div style="padding:10px;border-radius:var(--rs);background:var(--surf)"><dd style="margin:0;font-size:17px;font-weight:800">6×</dd><dt style="font:500 9px var(--mono);letter-spacing:.06em;color:var(--muted)">PER WEEK</dt></div>
+<div style="padding:10px;border-radius:var(--rs);background:var(--surf)"><dd style="margin:0;font-size:17px;font-weight:800">60′</dd><dt style="font:500 9px var(--mono);letter-spacing:.06em;color:var(--muted)">SESSION</dt></div>
+<div style="padding:10px;border-radius:var(--rs);background:var(--surf)"><dd style="margin:0;font-size:17px;font-weight:800">Int.</dd><dt style="font:500 9px var(--mono);letter-spacing:.06em;color:var(--muted)">LEVEL</dt></div>
+</dl>
+
+<section style="margin:20px 16px 0;padding:12px 8px 10px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:6px">
+<div style="display:flex;justify-content:space-between;padding:0 8px;font-size:13px"><b>What you’ll train</b><span style="color:var(--muted)">Chest · Back · Legs</span></div>
+<div style="height:200px"><dc-import name="BodyMap" levels="{{levels}}" labels="{{ false }}" hint-size="100%,200px"></dc-import></div>
+</section>
+
+<section style="margin-top:22px;display:flex;flex-direction:column;gap:10px">
+<h2 style="margin:0 20px;font-size:21px;font-weight:800;font-stretch:110%">The plan</h2>
+<div role="tablist" aria-label="Phase" style="margin:0 20px;padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px">
+<sc-for list="{{phases}}" as="ph" hint-placeholder-count="3"><button role="tab" aria-selected="{{ph.sel}}" onClick="{{ph.pick}}" class="tap" style="height:38px;border:0;border-radius:999px;font:700 13px var(--font);cursor:pointer;{{ph.style}}">{{ph.n}}</button></sc-for>
+</div>
+<ol style="list-style:none;margin:0;padding:0 16px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{days}}" as="dy" hint-placeholder-count="6">
+<li style="border-radius:var(--r);background:var(--surf);overflow:hidden">
+<button onClick="{{dy.toggle}}" aria-expanded="{{dy.open}}" class="tap" style="width:100%;min-height:58px;padding:10px 14px;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;font-family:var(--font)">
+<span style="font:600 11px var(--mono);color:var(--acc-ink);width:44px">{{dy.k}}</span><span style="flex:1;display:flex;flex-direction:column"><b style="font-size:16px">{{dy.n}}</b><span style="font-size:12px;color:var(--muted)">{{dy.sum}}</span></span><span style="font-size:18px;color:var(--muted);{{dy.rot}}">⌄</span></button>
+<sc-if value="{{dy.isOpen}}" hint-placeholder-val="{{ false }}">
+<ul class="in" style="list-style:none;margin:0;padding:0 14px 8px">
+<sc-for list="{{dy.ex}}" as="e" hint-placeholder-count="4">
+<li style="display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line)">
+<a href="ExerciseSheet.dc.html" aria-label="Preview {{e.n}}" class="tap" style="position:relative;flex:0 0 54px;height:72px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--raised) 0 10px,var(--bg) 10px 20px)"><span aria-hidden="true" style="position:absolute;right:4px;bottom:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;display:flex;align-items:center;justify-content:center"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.8"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" /></svg></span></a>
+<span style="flex:1;min-width:0;font-size:15px;font-weight:700;line-height:1.25">{{e.n}}</span><span style="font:600 12px var(--mono);color:var(--muted)">{{e.s}}</span>
+</li>
+</sc-for>
+</ul>
+</sc-if>
+</li>
+</sc-for>
+</ol>
+</section>
+
+<a href="Article.dc.html" class="card" style="margin:18px 16px 0;padding:12px;border-radius:var(--r);border:1px solid var(--line);display:flex;gap:12px;align-items:center;text-decoration:none">
+<span style="flex:0 0 84px;height:56px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">READ THE GUIDE · 9 MIN</span><span class="nm" style="font-size:14px;font-weight:700;line-height:1.3">How to run Push Pull Legs: your first 8 weeks</span></span>
+</a>
+</main>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;display:flex;gap:10px;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)">
+<a href="Programs.dc.html" class="tap" aria-label="Copy and customise" style="flex:0 0 54px;height:54px;border-radius:999px;border:1px solid var(--line);background:var(--surf);display:flex;align-items:center;justify-content:center;color:var(--ink)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" /></svg></a>
+<a href="Dashboard.dc.html" class="tap" style="flex:1;height:54px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;flex-direction:column;align-items:center;justify-content:center;text-decoration:none"><b style="font-size:16px">Start this program</b><span style="font-size:11px;opacity:.8">Free · week 1 starts today</span></a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+
+  renderVals() {
+    var self = this, s = this.state || {};
+    var ph = s.ph || 0, open = s.open === undefined ? 0 : s.open;
+    var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
+    var sets = ['3×10', '4×8–12', '3×6–8'][ph];
+    var DAYS = [['DAY 1', 'Push A', ['Barbell Bench Press', 'Overhead Press', 'Incline Dumbbell Hammer Press', 'Cable Pushdown']], ['DAY 2', 'Pull A', ['Bent Over Barbell Row', 'Lat Pulldown', 'Face Pull', 'Hammer Curl']], ['DAY 3', 'Legs A', ['Back Squat', 'Romanian Deadlift', 'Leg Press', 'Standing Calf Raise']], ['DAY 4', 'Push B', ['Decline Barbell Bench Press', 'Arnold Press', 'Incline Cable Press', 'Triceps Dips']], ['DAY 5', 'Pull B', ['Pull-up', 'Kroc Row', 'Rear Delt Fly', 'Preacher Curl']], ['DAY 6', 'Legs B', ['Hip Thrust', 'Bulgarian Split Squat', 'Leg Curl', 'Hanging Knee Raise']]];
+    return {
+      vars: this.theme(),
+      levels: { chest: 3, shoulders: 2, triceps: 2, biceps: 2, lats: 3, rhomboids: 2, rearDelts: 2, quads: 3, glutes: 2, hamstrings: 2, calves: 1 },
+      phases: ['Wk 1–2', 'Wk 3–6', 'Wk 7–8'].map(function (n, i) { return { n: n, sel: i === ph ? 'true' : 'false', style: i === ph ? segOn : segOff, pick: function () { self.setState({ ph: i }); } }; }),
+      days: DAYS.map(function (d, i) {
+        var o = i === open;
+        return { k: d[0], n: d[1], sum: '4 exercises · ' + sets + ' · ~60 min', open: o ? 'true' : 'false', isOpen: o, rot: o ? 'transform:rotate(180deg)' : '',
+          toggle: function () { self.setState({ open: o ? -1 : i }); },
+          ex: d[2].map(function (e) { return { n: e, s: sets }; }) };
+      })
+    };
+  }
+}
+</script>
+</body>
+</html>

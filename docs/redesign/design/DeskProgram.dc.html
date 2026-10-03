@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Push Pull Legs — program (desktop)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes kenburns{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.16) translate(-3%,-2%)}}
+@keyframes toast{0%{opacity:0;transform:translate(-50%,12px)}12%,85%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,12px)}}
+.in{animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
+.kb{animation:kenburns 9s ease-in-out infinite alternate}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.97)}
+.lift{transition:transform .3s cubic-bezier(.2,.8,.2,1)}
+.card:hover .lift{transform:translateY(-4px)}
+.card:hover .cover{animation:kenburns 6s ease-in-out infinite alternate}
+.card:hover .nm{color:var(--acc-ink)}
+.nm{transition:color .2s}
+.toast{animation:toast 2.6s ease both}
+.snap{scroll-snap-type:x mandatory}.snap>*{scroll-snap-align:start}
+.snap::-webkit-scrollbar,.scroll::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}background:var(--bg);color:var(--ink);font-family:var(--font);min-height:3000px">
+<header style="position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line);background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)">
+<div style="max-width:1240px;margin:0 auto;padding:0 32px;min-height:68px;display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a href="DeskHome.dc.html" aria-label="GYMMER home" style="display:flex;align-items:center;min-height:44px;color:var(--ink)"><span style="display:flex;align-items:center;gap:1px"><svg width="20.5" height="20.5" viewBox="144.57 144.59 737.94 734.81" aria-hidden="true" style="margin-bottom:-0.5px"><path style="fill:var(--acc)" fill-rule="evenodd" d="M842.55 184.55 771.7 255.41 512 255.41Q459.78 255.41 412.13 275.56Q366.09 295.04 330.56 330.56Q295.04 366.09 275.56 412.13Q255.41 459.78 255.41 512Q255.41 564.22 275.56 611.87Q295.04 657.91 330.56 693.44Q366.09 728.96 412.13 748.44Q459.78 768.59 512 768.59Q564.22 768.59 611.87 748.44Q657.91 728.96 693.44 693.44Q728.96 657.91 748.44 611.87Q764.03 575.01 767.56 535.41H488.59V424.59H869.38L872.99 443.65Q883.67 500.07 876.67 556.9Q869.82 612.49 846.67 663.59Q823.53 714.69 786.26 756.5Q748.16 799.25 698.7 828.43Q649.23 857.62 593.4 870.3Q538.78 882.7 482.86 878.25Q426.94 873.8 374.97 852.92Q321.83 831.57 277.61 794.93Q233.38 758.29 202.52 710.06Q172.34 662.88 157.56 608.77Q142.79 554.65 144.81 498.68Q146.88 441.45 166.35 387.43Q185.83 333.4 220.74 288.01Q254.89 243.62 300.79 211.37Q346.69 179.12 400.03 162.05Q454.57 144.59 512 144.59L882.51 144.59Z" /></svg><svg width="97" height="20" viewBox="1496 -1432 6931 1432" aria-hidden="true"><path style="fill:currentColor" d="M1385 0 1386 -1432H1652L2125 -310L2602 -1432H2864V0H2656V-1087L2205 0H2040L1598 -1073V0ZM3118 0 3119 -1432H3385L3858 -310L4335 -1432H4597V0H4389V-1087L3938 0H3773L3331 -1073V0ZM5884 0V-1432H6383Q6595 -1432 6726 -1319.5Q6857 -1207 6857 -1008V-1007Q6857 -819 6727.5 -701.5Q6653.6 -634.4 6557.3 -605.6L6924 0H6677L6328 -584H6105V0ZM4851 0V-1432H5677V-1241H5073V-815H5621V-633H5073V-190H5683V0ZM508 0V-620.8L-6 -1432H240L577 -901L622 -829L665 -898L1003 -1432H1244L728 -623.8V0ZM6105 -762H6366Q6492 -762 6564.5 -824Q6637 -886 6637 -1004V-1005Q6637 -1120 6563.5 -1182.5Q6490 -1245 6364 -1245H6105V-762Z" transform="translate(1502.5 0)" /></svg></span></a>
+<nav aria-label="Primary" style="flex:1;display:flex;flex-wrap:wrap;gap:4px;font-size:15px;font-weight:600">
+<a href="DeskLibrary.dc.html" aria-current="page" style="padding:12px 14px;text-decoration:none;color:var(--ink);box-shadow:inset 0 -2px 0 var(--acc)">Library</a>
+<a href="DeskArticles.dc.html" style="padding:12px 14px;text-decoration:none;color:var(--body)">Learn</a>
+<a href="DeskHome.dc.html" style="padding:12px 14px;text-decoration:none;color:var(--body)">Apps</a>
+</nav>
+<button class="tap" aria-label="Language: English" style="height:44px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font:600 13px var(--mono)">EN</button>
+<a href="DeskToday.dc.html" style="padding:12px 6px;text-decoration:none;font-weight:600;font-size:15px">Sign in</a>
+<a href="DeskHome.dc.html" class="tap" style="height:44px;padding:0 20px;display:flex;align-items:center;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;font-weight:700;font-size:15px">Create free account</a>
+</div>
+</header>
+<nav aria-label="Library" style="border-bottom:1px solid var(--line)"><div style="max-width:1240px;margin:0 auto;padding:0 32px;display:flex;gap:28px;align-items:center"><span style="font:600 11px var(--mono);letter-spacing:.1em;color:var(--muted);margin-right:-6px">LIBRARY</span><a href="DeskLibrary.dc.html" style="height:48px;display:flex;align-items:center;gap:7px;text-decoration:none;font-size:15px;font-weight:600;color:var(--muted);box-shadow:inset 0 0 0 transparent">Exercises<span style="font:500 12px var(--mono);color:var(--muted)">412</span></a><a href="DeskPrograms.dc.html" aria-current="page" style="height:48px;display:flex;align-items:center;gap:7px;text-decoration:none;font-size:15px;font-weight:700;color:var(--ink);box-shadow:inset 0 -2px 0 var(--acc)">Programs<span style="font:500 12px var(--mono);color:var(--muted)">31</span></a><a href="DeskCategory.dc.html" style="height:48px;display:flex;align-items:center;gap:7px;text-decoration:none;font-size:15px;font-weight:600;color:var(--muted);box-shadow:inset 0 0 0 transparent">Goals<span style="font:500 12px var(--mono);color:var(--muted)">7</span></a><span style="flex:1"></span><span style="font-size:13px;color:var(--muted)">Free — no account needed to browse</span></div></nav>
+<main style="max-width:1240px;margin:0 auto;padding:28px 32px 80px">
+<nav aria-label="Breadcrumb" style="display:flex;gap:8px;font-size:14px;color:var(--muted)"><a href="DeskPrograms.dc.html" style="text-decoration:none">Programs</a><span>/</span><a href="DeskCategory.dc.html" style="text-decoration:none">Build muscle</a><span>/</span><span style="color:var(--ink)">Push Pull Legs</span></nav>
+
+<section style="margin-top:22px;display:grid;grid-template-columns:400px minmax(0,1fr);gap:48px;align-items:start">
+<figure style="margin:0;position:relative;aspect-ratio:3 / 4;border-radius:calc(var(--r) * 1.5);overflow:hidden;background:var(--surf)">
+<span class="kb" style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="position:absolute;left:14px;top:14px;height:26px;padding:0 10px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;gap:6px;font:600 11px var(--mono);letter-spacing:.06em"><span style="width:6px;height:6px;border-radius:50%;background:var(--acc)"></span>TRAILER</span>
+<figcaption style="position:absolute;left:14px;bottom:14px;font:500 10px var(--mono);color:var(--muted)">[program cover / trailer · 3:4]</figcaption>
+</figure>
+<div style="display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;gap:8px;flex-wrap:wrap"><a href="DeskCategory.dc.html" class="tap" style="height:32px;padding:0 13px;border-radius:999px;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;text-decoration:none;font-size:13px;font-weight:700">Build muscle</a><a href="DeskCategory.dc.html" class="tap" style="height:32px;padding:0 13px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:13px;font-weight:600">Get stronger</a></div>
+<h1 style="margin:0;font-size:60px;line-height:.98;font-weight:800;font-stretch:116%;letter-spacing:-.03em">Push Pull Legs</h1>
+<p style="margin:0;font-size:20px;line-height:1.45;color:var(--body);max-width:640px">The classic split: push muscles one day, pull the next, legs the third — so every muscle gets trained twice a week with time to recover.</p>
+<dl style="margin:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px">
+<div style="padding:12px 14px;border-radius:var(--rs);background:var(--surf)"><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">LENGTH</dt><dd style="margin:4px 0 0;font-size:17px;font-weight:800">8 weeks</dd></div>
+<div style="padding:12px 14px;border-radius:var(--rs);background:var(--surf)"><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">FREQUENCY</dt><dd style="margin:4px 0 0;font-size:17px;font-weight:800">6× / week</dd></div>
+<div style="padding:12px 14px;border-radius:var(--rs);background:var(--surf)"><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">SESSION</dt><dd style="margin:4px 0 0;font-size:17px;font-weight:800">~60 min</dd></div>
+<div style="padding:12px 14px;border-radius:var(--rs);background:var(--surf)"><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">LEVEL</dt><dd style="margin:4px 0 0;font-size:17px;font-weight:800">Intermediate</dd></div>
+<div style="padding:12px 14px;border-radius:var(--rs);background:var(--surf)"><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">KIT</dt><dd style="margin:4px 0 0;font-size:17px;font-weight:800">Full gym</dd></div>
+</dl>
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center">
+<a href="DeskToday.dc.html" class="tap" style="height:54px;padding:0 26px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:16px"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor" /></svg>Start this program</a>
+<a href="DeskToday.dc.html" class="tap" style="height:54px;padding:0 22px;border-radius:999px;border:1px solid var(--line);background:var(--surf);display:flex;align-items:center;gap:8px;text-decoration:none;font-weight:700;font-size:16px">Copy and customise</a>
+<span style="font-size:13px;color:var(--muted)">Free · uses 1 of your 3 program slots</span>
+</div>
+<div style="display:flex;align-items:center;gap:12px;padding-top:14px;border-top:1px solid var(--line);font-size:14px;color:var(--muted)"><span style="width:34px;height:34px;border-radius:50%;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font:800 12px var(--font)">G</span><span>Written by the GYMMER coaching team · Updated September 2026 · 4,210 people trained it</span></div>
+</div>
+</section>
+
+<section style="margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:40px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px"><h2 style="margin:0;font-size:32px;font-weight:800;font-stretch:110%">The plan</h2>
+<div role="tablist" aria-label="Phase" style="padding:4px;border-radius:999px;background:var(--surf);display:flex;gap:2px">
+<sc-for list="{{phases}}" as="ph" hint-placeholder-count="3"><button role="tab" aria-selected="{{ph.sel}}" onClick="{{ph.pick}}" class="tap" style="height:40px;padding:0 16px;border:0;border-radius:999px;font:700 14px var(--font);cursor:pointer;{{ph.style}}">{{ph.n}}</button></sc-for>
+</div></div>
+<p style="margin:0;font-size:16px;line-height:1.5;color:var(--body)">{{phaseNote}}</p>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px">
+<sc-for list="{{days}}" as="dy" hint-placeholder-count="6">
+<article class="in" style="padding:16px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:6px;{{dy.delay}}">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font:600 11px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">{{dy.k}}</span><span style="font:500 11px var(--mono);color:var(--muted)">{{dy.t}}</span></div>
+<h3 style="margin:0 0 4px;font-size:19px;font-weight:800">{{dy.n}}</h3>
+<ul style="list-style:none;margin:0;padding:0">
+<sc-for list="{{dy.ex}}" as="e" hint-placeholder-count="4">
+<li style="display:flex;align-items:center;gap:12px;padding:8px 0;border-top:1px solid var(--line)">
+<a href="ExerciseSheet.dc.html" aria-label="Preview {{e.n}}" class="tap" style="position:relative;flex:0 0 42px;height:56px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"><span aria-hidden="true" style="position:absolute;right:3px;bottom:3px;width:18px;height:18px;border-radius:50%;background:rgba(0,0,0,.62);color:#fff;display:flex;align-items:center;justify-content:center"><svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" /></svg></span></a>
+<a href="DeskExercise.dc.html" style="flex:1;min-width:0;text-decoration:none;font-size:14px;font-weight:600;line-height:1.3">{{e.n}}</a>
+<span style="font:600 12px var(--mono);color:var(--muted);white-space:nowrap">{{e.s}}</span>
+</li>
+</sc-for>
+</ul>
+</article>
+</sc-for>
+</div>
+<span style="font-size:13px;color:var(--muted)">Day 7 is rest. Tap a picture to see the exercise and swap it for a variation.</span>
+</div>
+
+<aside style="position:sticky;top:92px;display:flex;flex-direction:column;gap:16px">
+<div style="padding:18px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between"><b style="font-size:16px">What you’ll train</b><span style="font-size:13px;color:var(--muted)">sets per week</span></div>
+<div style="height:260px"><dc-import name="BodyMap" levels="{{levels}}" hint-size="100%,260px"></dc-import></div>
+<div style="display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{split}}" as="m" hint-placeholder-count="5"><div style="display:grid;grid-template-columns:90px minmax(0,1fr) 28px;gap:10px;align-items:center;font-size:13px"><span>{{m.n}}</span><span style="height:6px;border-radius:3px;background:var(--raised);overflow:hidden"><span style="display:block;height:100%;background:var(--acc);{{m.w}}"></span></span><span style="font:600 12px var(--mono);color:var(--muted);text-align:right">{{m.v}}</span></div></sc-for>
+</div>
+</div>
+<a href="DeskArticle.dc.html" class="card" style="padding:14px;border-radius:var(--r);border:1px solid var(--line);display:flex;gap:14px;align-items:center;text-decoration:none">
+<span style="flex:0 0 96px;height:64px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">READ THE GUIDE · 9 MIN</span><span class="nm" style="font-size:15px;font-weight:700;line-height:1.3">How to run Push Pull Legs: your first 8 weeks</span></span>
+</a>
+</aside>
+</section>
+
+<section style="margin-top:56px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px">
+<div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;font-size:28px;font-weight:800;font-stretch:110%">Who it’s for</h2>
+<ul style="margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px;font-size:16px;line-height:1.5;color:var(--body)">
+<li style="display:flex;gap:10px"><span style="color:var(--acc-ink);font-weight:800">✓</span>You’ve trained for 3+ months and know the main lifts.</li>
+<li style="display:flex;gap:10px"><span style="color:var(--acc-ink);font-weight:800">✓</span>You can be in the gym 6 days a week for about an hour.</li>
+<li style="display:flex;gap:10px"><span style="color:var(--acc-ink);font-weight:800">✓</span>Your main goal is muscle size, with strength as a bonus.</li>
+</ul></div>
+<div style="display:flex;flex-direction:column;gap:12px"><h2 style="margin:0;font-size:28px;font-weight:800;font-stretch:110%">How it progresses</h2>
+<p style="margin:0;font-size:16px;line-height:1.55;color:var(--body)">Weeks 1–2 set your working weights at 2–3 reps short of failure. Weeks 3–6 add a set to the first lift of each day and push loads by 2.5 kg when you hit the top of the rep range. Weeks 7–8 cut volume and go heavier. Nova adjusts each week from what you logged.</p></div>
+</section>
+
+<section style="margin-top:56px;display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end"><h2 style="margin:0;font-size:28px;font-weight:800;font-stretch:110%">More for building muscle</h2><a href="DeskPrograms.dc.html" style="font-size:15px;font-weight:700;color:var(--acc-ink);text-decoration:none;padding:10px 0">All programs →</a></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px">
+<sc-for list="{{related}}" as="p" hint-placeholder-count="4">
+<a href="DeskProgram.dc.html" class="card in" style="text-decoration:none;display:flex;flex-direction:column;gap:10px;{{p.delay}}">
+<span class="lift" style="position:relative;display:block;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;background:var(--surf)">
+<span class="cover" style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="position:absolute;left:0;right:0;bottom:0;height:58%;background:linear-gradient(transparent,rgba(0,0,0,.74))"></span>
+<span style="position:absolute;left:10px;top:10px;right:10px;display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{p.cats}}" as="c" hint-placeholder-count="1"><span style="height:24px;padding:0 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;font:600 11px var(--font)">{{c.n}}</span></sc-for></span>
+<span style="position:absolute;left:10px;top:42px;font:500 9px var(--mono);color:var(--muted)">[program cover 3:4]</span>
+<span style="position:absolute;left:14px;right:14px;bottom:14px;color:#fff;display:flex;flex-direction:column;gap:4px"><span style="font:600 10px var(--mono);letter-spacing:.08em;opacity:.85">{{p.lvl}}</span><span style="font-size:22px;line-height:1.05;font-weight:800;font-stretch:108%">{{p.n}}</span></span>
+</span>
+<span style="font-size:14px;color:var(--body)">{{p.meta}}</span><span style="font-size:13px;color:var(--muted);margin-top:-6px">{{p.eq}}</span>
+</a>
+</sc-for>
+</div>
+</section>
+</main>
+<footer style="border-top:1px solid var(--line)"><div style="max-width:1240px;margin:0 auto;padding:28px 32px;display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--muted)"><span>© 2026 GYMMER</span><a href="DeskLibrary.dc.html" style="text-decoration:none">Exercises</a><a href="DeskPrograms.dc.html" style="text-decoration:none">Programs</a><a href="DeskArticles.dc.html" style="text-decoration:none">Articles</a><a href="DeskHome.dc.html" style="text-decoration:none">About</a><a href="DeskHome.dc.html" style="text-decoration:none">Privacy</a><a href="DeskHome.dc.html" style="text-decoration:none">Terms</a><span style="flex:1 1 320px;text-align:right">General fitness information, not medical advice.</span></div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":1440,"height":3000}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+
+  data() {
+    var C = [
+      ['build', 'Build muscle', 'Grow size with steady volume and progressive loads.', 8, 146, 12],
+      ['strong', 'Get stronger', 'Lift heavier on the big compound movements.', 5, 88, 7],
+      ['lean', 'Lose fat', 'Keep your muscle while the scale moves.', 4, 120, 9],
+      ['fit', 'Get fit', 'Conditioning that makes stairs and sprints easy.', 4, 64, 6],
+      ['move', 'Move better', 'Mobility and control for joints that last.', 3, 72, 8],
+      ['home', 'Train at home', 'Little or no kit, real results.', 4, 97, 5],
+      ['start', 'First steps', 'New to lifting? Start here.', 3, 54, 10]
+    ];
+    var PR = [
+      ['ppl', 'Push Pull Legs', ['build'], 8, 6, 60, 'Intermediate', 'Full gym', 'Classic split: every muscle twice a week.'],
+      ['found', 'Foundations 4×4', ['start', 'build'], 4, 3, 40, 'Beginner', 'Full gym', 'Learn the main lifts with a coach in your pocket.'],
+      ['five', 'Strength 5×5', ['strong'], 12, 3, 55, 'Intermediate', 'Barbell', 'Five lifts, five sets, slow steady progress.'],
+      ['ul', 'Upper / Lower', ['build', 'strong'], 10, 4, 55, 'Intermediate', 'Full gym', 'Heavy and volume days in one week.'],
+      ['circuit', 'Lean Circuit', ['lean', 'fit'], 6, 4, 35, 'Beginner', 'Dumbbells', 'Short circuits that keep your heart rate up.'],
+      ['db', 'Two Dumbbells', ['home', 'build'], 6, 4, 45, 'Beginner', 'Dumbbells', 'A full week with one pair of dumbbells.'],
+      ['engine', 'Engine Builder', ['fit', 'lean'], 8, 4, 40, 'Intermediate', 'Rower · bike', 'Intervals and steady work for a bigger engine.'],
+      ['reset', 'Mobility Reset', ['move', 'home'], 4, 5, 20, 'All levels', 'None', 'Twenty minutes a day for hips, back and shoulders.'],
+      ['body', 'Bodyweight Base', ['home', 'start', 'lean'], 6, 3, 30, 'Beginner', 'None', 'No equipment, no excuses, real progressions.']
+    ];
+    var AR = [
+      ['ppl-guide', 'How to run Push Pull Legs: your first 8 weeks', 'Program guide', ['build'], 9, '28 Sep', 'ppl', 'What each day looks like, how heavy to start and when to add weight.'],
+      ['overload', 'Progressive overload, explained with one bench press', 'Training', ['strong', 'build'], 6, '24 Sep', '', 'The single idea behind every program that works — and how to apply it this week.'],
+      ['protein', 'How much protein do you actually need?', 'Nutrition', ['build', 'lean'], 7, '20 Sep', '', 'A simple daily number, where to get it and why timing matters less than you think.'],
+      ['warmup', 'The 10-minute warm-up that makes squats feel better', 'Training', ['move'], 5, '17 Sep', 'reset', 'Five drills, in order, with the exercises inside so you can add them to your program.'],
+      ['dumbbells', 'A full week with two dumbbells', 'Program guide', ['home'], 8, '12 Sep', 'db', 'Push, pull and legs at home — every exercise, with video.'],
+      ['rest', 'Rest days aren’t lazy days', 'Recovery', ['build', 'strong'], 4, '9 Sep', '', 'What actually happens when you rest, and how to plan it.'],
+      ['first-month', 'Your first month in the gym: what to expect', 'Mindset', ['start'], 8, '5 Sep', 'found', 'Sore legs, small wins and the habits that make month two easier.'],
+      ['cardio', 'Cardio that doesn’t eat your gains', 'Training', ['fit', 'lean'], 6, '1 Sep', 'engine', 'How to mix intervals with lifting without stalling your strength.']
+    ];
+    var cn = {}; C.forEach(function (c) { cn[c[0]] = c[1]; });
+    var prn = {}; PR.forEach(function (p) { prn[p[0]] = p[1]; });
+    return { C: C, PR: PR, AR: AR, cn: cn, prn: prn };
+  }
+  prog(p, i) {
+    var self = this;
+    return { id: p[0], n: p[1], cats: p[2].map(function (c) { return { n: self.data().cn[c] }; }), cat1: self.data().cn[p[2][0]],
+      meta: p[3] + ' weeks · ' + p[4] + '×/week · ' + p[5] + ' min', lvl: p[6].toUpperCase(), eq: p[7], d: p[8], delay: 'animation-delay:' + (i * 0.04).toFixed(2) + 's' };
+  }
+  art(a, i) {
+    var D = this.data();
+    return { id: a[0], n: a[1], topic: a[2].toUpperCase(), goal: D.cn[a[3][0]], mins: a[4] + ' min read', date: a[5], hasProg: !!a[6], prog: a[6] ? D.prn[a[6]] : '', d: a[7], delay: 'animation-delay:' + (i * 0.04).toFixed(2) + 's' };
+  }
+
+  renderVals() {
+    var self = this, s = this.state || {}, D = this.data();
+    var ph = s.ph || 0;
+    var P = [['Weeks 1–2', 'Foundation', 'Find your working weights. Stop every set with 2–3 reps left.', '3×10'], ['Weeks 3–6', 'Build', 'One more set on each day’s first lift. Add 2.5 kg when you hit 12 reps.', '4×8–12'], ['Weeks 7–8', 'Peak', 'Less volume, heavier loads. Finish strong.', '3×6–8']];
+    var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
+    var sets = P[ph][3];
+    var DAYS = [
+      ['DAY 1', 'Push A', '~60 MIN', ['Barbell Bench Press', 'Overhead Press', 'Incline Dumbbell Hammer Press', 'Cable Pushdown']],
+      ['DAY 2', 'Pull A', '~55 MIN', ['Bent Over Barbell Row', 'Lat Pulldown', 'Face Pull', 'Hammer Curl']],
+      ['DAY 3', 'Legs A', '~60 MIN', ['Back Squat', 'Romanian Deadlift', 'Leg Press', 'Standing Calf Raise']],
+      ['DAY 4', 'Push B', '~55 MIN', ['Decline Barbell Bench Press', 'Arnold Press', 'Incline Cable Press', 'Triceps Dips']],
+      ['DAY 5', 'Pull B', '~55 MIN', ['Pull-up', 'Kroc Row', 'Rear Delt Fly', 'One Arm Dumbbell Preacher Curl']],
+      ['DAY 6', 'Legs B', '~60 MIN', ['Hip Thrust', 'Bulgarian Split Squat', 'Leg Curl', 'Hanging Knee Raise']]
+    ];
+    var split = [['Chest', 18], ['Back', 18], ['Quads', 14], ['Shoulders', 12], ['Glutes', 10], ['Arms', 10]];
+    return {
+      vars: this.theme(),
+      phases: P.map(function (p, i) { return { n: p[0] + ' · ' + p[1], sel: i === ph ? 'true' : 'false', style: i === ph ? segOn : segOff, pick: function () { self.setState({ ph: i }); } }; }),
+      phaseNote: P[ph][2],
+      days: DAYS.map(function (d, i) { return { k: d[0], n: d[1], t: d[2], delay: 'animation-delay:' + (i * 0.04).toFixed(2) + 's', ex: d[3].map(function (e, j) { return { n: e, s: j === 0 && ph === 1 ? '4×8–12' : (j === 0 && ph === 2 ? '3×6' : sets) }; }) }; }),
+      levels: { chest: 3, shoulders: 2, triceps: 2, biceps: 2, lats: 3, rhomboids: 2, traps: 1, rearDelts: 2, quads: 3, glutes: 2, hamstrings: 2, calves: 1, abs: 1 },
+      split: split.map(function (m) { return { n: m[0], v: String(m[1]), w: 'width:' + Math.round(m[1] / 18 * 100) + '%' }; }),
+      related: D.PR.filter(function (p) { return p[0] !== 'ppl' && p[2].indexOf('build') >= 0; }).slice(0, 4).map(function (p, i) { return self.prog(p, i); })
+    };
+  }
+}
+</script>
+</body>
+</html>

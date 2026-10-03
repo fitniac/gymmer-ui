@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Bent Over Barbell Row — scrolled state (mobile)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes pip{from{opacity:0;transform:scale(.85) translateY(12px)}to{opacity:1;transform:none}}
+.pip{animation:pip .35s cubic-bezier(.32,.72,0,1) both}
+.tap{transition:transform .12s ease-out}
+.tap:active{transform:scale(.96)}
+.snap::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+
+<header style="position:absolute;left:0;right:0;top:0;z-index:6;background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid var(--line)">
+<div style="height:52px;display:flex;align-items:center;justify-content:space-between;padding:0 4px">
+<a href="Muscle.dc.html" aria-label="Back" class="tap" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;color:var(--acc-ink)"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6" /></svg></a>
+<span style="font-size:16px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Bent Over Barbell Row</span>
+<button aria-label="Share" class="tap" style="width:44px;height:44px;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v13M7 8l5-5 5 5M5 14v6h14v-6" /></svg></button>
+</div>
+<div style="padding:4px 20px 10px"><div style="padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;font:700 13px var(--font)">
+<span style="height:38px;display:flex;align-items:center;justify-content:center;color:var(--muted)">How to</span>
+<span style="height:38px;display:flex;align-items:center;justify-content:center;border-radius:999px;background:var(--bg);box-shadow:0 1px 3px rgba(0,0,0,.25)">Mistakes</span>
+<span style="height:38px;display:flex;align-items:center;justify-content:center;color:var(--muted)">Tips</span>
+<span style="height:38px;display:flex;align-items:center;justify-content:center;color:var(--muted)">Details</span>
+</div></div>
+</header>
+
+<div style="position:absolute;inset:0;overflow:hidden;padding:120px 20px 0;box-sizing:border-box;display:flex;flex-direction:column;gap:6px">
+<h2 style="margin:8px 0 0;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">COMMON MISTAKES</h2>
+<ul style="list-style:none;margin:0;padding:0">
+<li style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 26px;height:26px;border-radius:50%;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6 6 18" /></svg></span><span style="font-size:15px;line-height:1.45">Rounding the lower back under heavy load.</span></li>
+<li style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 26px;height:26px;border-radius:50%;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6 6 18" /></svg></span><span style="font-size:15px;line-height:1.45">Using momentum to swing the weight up.</span></li>
+<li style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 26px;height:26px;border-radius:50%;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6 6 18" /></svg></span><span style="font-size:15px;line-height:1.45">Pulling the bar too high toward the neck.</span></li>
+<li style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 26px;height:26px;border-radius:50%;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;justify-content:center"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M6 6l12 12M18 6 6 18" /></svg></span><span style="font-size:15px;line-height:1.45">Extending the spine at the top of the rep.</span></li>
+</ul>
+
+<h2 style="margin:18px 0 0;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">SAFETY</h2>
+<div style="padding:12px 14px;border-radius:var(--rs);background:var(--surf);display:flex;flex-direction:column;gap:6px;font-size:15px;line-height:1.45">
+<span>Avoid rounding the spine to prevent serious lower back injury.</span>
+<span>Do not hyperextend your back at the top of the movement.</span>
+</div>
+
+<div style="margin-top:20px;display:flex;justify-content:space-between;align-items:baseline"><h2 style="margin:0;font-size:20px;font-weight:800">Variations</h2><a href="Muscle.dc.html" style="font-size:14px;font-weight:600;color:var(--acc-ink);text-decoration:none;padding:10px 0">All 12</a></div>
+<div class="snap" style="display:flex;gap:10px;overflow-x:auto;margin:0 -20px;padding:0 20px">
+<a href="Exercise.dc.html" class="tap" style="flex:0 0 150px;text-decoration:none;display:flex;flex-direction:column;gap:6px"><span style="aspect-ratio:3 / 4;border-radius:var(--r);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span><span style="font-size:15px;font-weight:700">T-Bar Row</span><span style="font:500 11px var(--mono);color:var(--muted);margin-top:-3px">NEUTRAL GRIP</span></a>
+<a href="Exercise.dc.html" class="tap" style="flex:0 0 150px;text-decoration:none;display:flex;flex-direction:column;gap:6px"><span style="aspect-ratio:3 / 4;border-radius:var(--r);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span><span style="font-size:15px;font-weight:700">One-Arm Dumbbell Row</span><span style="font:500 11px var(--mono);color:var(--muted);margin-top:-3px">ONE ARM</span></a>
+<a href="Exercise.dc.html" class="tap" style="flex:0 0 150px;text-decoration:none;display:flex;flex-direction:column;gap:6px"><span style="aspect-ratio:3 / 4;border-radius:var(--r);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span><span style="font-size:15px;font-weight:700">Kroc Row</span><span style="font:500 11px var(--mono);color:var(--muted);margin-top:-3px">LEANING FORWARD</span></a>
+</div>
+</div>
+
+<button class="pip tap" aria-label="Expand demo video" style="position:absolute;right:14px;bottom:108px;width:84px;height:112px;border-radius:var(--rs);border:1px solid var(--line);background:repeating-linear-gradient(135deg,var(--surf) 0 8px,var(--raised) 8px 16px);box-shadow:0 10px 30px rgba(0,0,0,.4);padding:0;display:flex;align-items:center;justify-content:center;color:var(--ink)"><svg width="18" height="18" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor" /></svg></button>
+
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;display:flex;gap:10px;background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)">
+<button class="tap" aria-label="Add to a workout" style="flex:0 0 54px;height:54px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14" /></svg></button>
+<a href="Gate.dc.html" class="tap" style="flex:1;height:54px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:16px">Log a set of this</a>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() { return { vars: this.theme() }; }
+}
+</script>
+</body>
+</html>

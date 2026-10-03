@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Body map component</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0}
+</style>
+</helmet>
+<div role="img" aria-label="{{aria}}" style="{{rootStyle}}width:100%;height:100%;display:flex;gap:6%;justify-content:center;align-items:stretch;font-family:Archivo, system-ui, sans-serif;color:var(--muted, #959089)">
+<sc-if value="{{showFront}}" hint-placeholder-val="{{ true }}">
+<div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px">
+<svg viewBox="0 0 120 250" style="width:100%;height:100%;min-height:0;flex:1" aria-hidden="true">
+<g style="fill:var(--bm-body)">
+<circle cx="60" cy="20" r="13" /><rect x="54" y="31" width="12" height="10" rx="3" />
+<path d="M38 44 Q60 38 82 44 L86 70 Q84 100 78 120 L76 132 Q60 138 44 132 L42 120 Q36 100 34 70 Z" />
+<ellipse cx="28" cy="78" rx="8" ry="18" transform="rotate(10 28 78)" /><ellipse cx="92" cy="78" rx="8" ry="18" transform="rotate(-10 92 78)" />
+<ellipse cx="22" cy="116" rx="6.5" ry="17" transform="rotate(8 22 116)" /><ellipse cx="98" cy="116" rx="6.5" ry="17" transform="rotate(-8 98 116)" />
+<circle cx="19" cy="138" r="5" /><circle cx="101" cy="138" r="5" />
+<path d="M44 128 L76 128 L78 146 L42 146 Z" />
+<ellipse cx="50" cy="172" rx="11" ry="28" /><ellipse cx="70" cy="172" rx="11" ry="28" />
+<ellipse cx="50" cy="218" rx="7.5" ry="22" /><ellipse cx="70" cy="218" rx="7.5" ry="22" />
+<ellipse cx="50" cy="243" rx="7" ry="4" /><ellipse cx="70" cy="243" rx="7" ry="4" />
+</g>
+<g style="stroke:var(--bm-gap);stroke-width:1">
+<ellipse cx="36" cy="50" rx="9" ry="7" style="{{f.shoulders}}" /><ellipse cx="84" cy="50" rx="9" ry="7" style="{{f.shoulders}}" />
+<path d="M43 52 Q52 48 59 52 L59 66 Q50 70 42 64 Z" style="{{f.chest}}" /><path d="M77 52 Q68 48 61 52 L61 66 Q70 70 78 64 Z" style="{{f.chest}}" />
+<ellipse cx="28" cy="80" rx="6" ry="12" transform="rotate(10 28 80)" style="{{f.biceps}}" /><ellipse cx="92" cy="80" rx="6" ry="12" transform="rotate(-10 92 80)" style="{{f.biceps}}" />
+<rect x="52" y="72" width="16" height="40" rx="5" style="{{f.abs}}" />
+<ellipse cx="22" cy="114" rx="5" ry="13" transform="rotate(8 22 114)" style="{{f.forearms}}" /><ellipse cx="98" cy="114" rx="5" ry="13" transform="rotate(-8 98 114)" style="{{f.forearms}}" />
+<ellipse cx="50" cy="170" rx="9" ry="22" style="{{f.quads}}" /><ellipse cx="70" cy="170" rx="9" ry="22" style="{{f.quads}}" />
+<ellipse cx="50" cy="214" rx="5" ry="14" style="{{f.calves}}" /><ellipse cx="70" cy="214" rx="5" ry="14" style="{{f.calves}}" />
+</g>
+</svg>
+<sc-if value="{{labels}}" hint-placeholder-val="{{ true }}"><span style="font:600 10px IBM Plex Mono, ui-monospace, monospace;letter-spacing:.1em">FRONT</span></sc-if>
+</div>
+</sc-if>
+<sc-if value="{{showBack}}" hint-placeholder-val="{{ true }}">
+<div style="flex:1 1 0;min-width:0;display:flex;flex-direction:column;align-items:center;gap:4px">
+<svg viewBox="0 0 120 250" style="width:100%;height:100%;min-height:0;flex:1" aria-hidden="true">
+<g style="fill:var(--bm-body)">
+<circle cx="60" cy="20" r="13" /><rect x="54" y="31" width="12" height="10" rx="3" />
+<path d="M38 44 Q60 38 82 44 L86 70 Q84 100 78 120 L76 132 Q60 138 44 132 L42 120 Q36 100 34 70 Z" />
+<ellipse cx="28" cy="78" rx="8" ry="18" transform="rotate(10 28 78)" /><ellipse cx="92" cy="78" rx="8" ry="18" transform="rotate(-10 92 78)" />
+<ellipse cx="22" cy="116" rx="6.5" ry="17" transform="rotate(8 22 116)" /><ellipse cx="98" cy="116" rx="6.5" ry="17" transform="rotate(-8 98 116)" />
+<circle cx="19" cy="138" r="5" /><circle cx="101" cy="138" r="5" />
+<path d="M44 128 L76 128 L78 146 L42 146 Z" />
+<ellipse cx="50" cy="172" rx="11" ry="28" /><ellipse cx="70" cy="172" rx="11" ry="28" />
+<ellipse cx="50" cy="218" rx="7.5" ry="22" /><ellipse cx="70" cy="218" rx="7.5" ry="22" />
+<ellipse cx="50" cy="243" rx="7" ry="4" /><ellipse cx="70" cy="243" rx="7" ry="4" />
+</g>
+<g style="stroke:var(--bm-gap);stroke-width:1">
+<path d="M48 43 L72 43 L67 60 L53 60 Z" style="{{f.traps}}" />
+<ellipse cx="36" cy="52" rx="8" ry="6" style="{{f.rearDelts}}" /><ellipse cx="84" cy="52" rx="8" ry="6" style="{{f.rearDelts}}" />
+<rect x="53" y="61" width="14" height="18" rx="3" style="{{f.rhomboids}}" />
+<path d="M40 62 L51 66 L53 100 Q46 104 42 96 Z" style="{{f.lats}}" /><path d="M80 62 L69 66 L67 100 Q74 104 78 96 Z" style="{{f.lats}}" />
+<rect x="53" y="102" width="14" height="20" rx="4" style="{{f.lowerBack}}" />
+<ellipse cx="28" cy="80" rx="6" ry="12" transform="rotate(10 28 80)" style="{{f.triceps}}" /><ellipse cx="92" cy="80" rx="6" ry="12" transform="rotate(-10 92 80)" style="{{f.triceps}}" />
+<ellipse cx="51" cy="140" rx="10" ry="9" style="{{f.glutes}}" /><ellipse cx="69" cy="140" rx="10" ry="9" style="{{f.glutes}}" />
+<ellipse cx="50" cy="176" rx="8" ry="20" style="{{f.hamstrings}}" /><ellipse cx="70" cy="176" rx="8" ry="20" style="{{f.hamstrings}}" />
+<ellipse cx="50" cy="212" rx="6.5" ry="15" style="{{f.calves}}" /><ellipse cx="70" cy="212" rx="6.5" ry="15" style="{{f.calves}}" />
+</g>
+</svg>
+<sc-if value="{{labels}}" hint-placeholder-val="{{ true }}"><span style="font:600 10px IBM Plex Mono, ui-monospace, monospace;letter-spacing:.1em">BACK</span></sc-if>
+</div>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"levels":{"editor":null},"view":{"editor":"enum","options":["both","front","back"],"default":"both"},"focus":{"editor":"text","default":""},"labels":{"editor":"boolean","default":true},"$preview":{"width":360,"height":360}}'>
+class Component extends DCLogic {
+  renderVals() {
+    var p = this.props;
+    var lv = p.levels || { chest: 3, shoulders: 2, triceps: 2, biceps: 1, lats: 3, rhomboids: 2, traps: 1, rearDelts: 1, quads: 1, glutes: 1, abs: 1 };
+    var focus = p.focus || '';
+    var view = p.view || 'both';
+    var keys = ['shoulders', 'chest', 'biceps', 'abs', 'forearms', 'quads', 'calves', 'traps', 'rearDelts', 'rhomboids', 'lats', 'lowerBack', 'triceps', 'glutes', 'hamstrings'];
+    var mix = { 1: 38, 2: 68, 3: 100 };
+    var f = {};
+    keys.forEach(function (k) {
+      var l = lv[k] || 0;
+      var fill = l ? (l >= 3 ? 'var(--bm-acc)' : 'color-mix(in srgb, var(--bm-acc) ' + mix[l] + '%, var(--bm-body))') : 'var(--bm-body)';
+      var dim = focus && focus !== k ? ';opacity:.35' : '';
+      if (focus === k) { fill = 'var(--bm-acc)'; }
+      f[k] = 'fill:' + fill + dim + ';transition:fill .3s ease,opacity .3s ease';
+    });
+    var trained = keys.filter(function (k) { return lv[k]; });
+    return {
+      f: f,
+      showFront: view !== 'back', showBack: view !== 'front',
+      labels: p.labels !== false,
+      rootStyle: '--bm-acc:var(--acc, #ff563c);--bm-body:var(--raised, #2a2725);--bm-gap:var(--bg, #141312);',
+      aria: 'Body map. Trained: ' + (trained.length ? trained.join(', ') : 'none')
+    };
+  }
+}
+</script>
+</body>
+</html>

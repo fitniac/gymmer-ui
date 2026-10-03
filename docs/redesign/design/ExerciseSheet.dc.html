@@ -1,0 +1,217 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Exercise sheet — form, video and swap</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes kenburns{from{transform:scale(1.02)}to{transform:scale(1.16) translate(-2%,-2%)}}
+.sheet{animation:up .42s cubic-bezier(.32,.72,0,1) both}
+.dim{animation:fade .3s ease both}
+.in{animation:rise .3s cubic-bezier(.2,.8,.2,1) both}
+.kb{animation:kenburns 8s ease-in-out infinite alternate}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.96)}
+.scroll::-webkit-scrollbar,.snap::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+
+<div aria-hidden="true" style="position:absolute;inset:0;padding:16px 20px;display:flex;flex-direction:column;gap:10px;filter:blur(1px)">
+<span style="font-size:15px;font-weight:700;align-self:center">{{behind}}</span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+</div>
+<div class="dim" style="position:absolute;inset:0;background:rgba(0,0,0,.55)"></div>
+
+<section class="sheet" role="dialog" aria-modal="true" aria-labelledby="sx" style="position:absolute;left:0;right:0;top:44px;bottom:0;border-radius:22px 22px 0 0;background:var(--bg);border-top:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden">
+<div style="display:flex;justify-content:center;padding:8px 0 2px"><span style="width:38px;height:5px;border-radius:3px;background:var(--raised)"></span></div>
+
+<div class="scroll" style="flex:1;overflow-y:auto;padding:4px 0 {{padB}}px">
+<div style="padding:4px 12px 0 20px;display:flex;align-items:flex-start;gap:8px">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">{{eyebrow}}</span>
+<h1 id="sx" style="margin:0;font-size:23px;line-height:1.12;font-weight:800;font-stretch:108%">Decline Barbell Bench Press</h1>
+</div>
+<a href="{{closeHref}}" aria-label="Close" class="tap" style="flex:0 0 44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--muted)"><span style="width:30px;height:30px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 6l12 12M18 6 6 18" /></svg></span></a>
+</div>
+
+<div style="padding:14px 20px 0;display:flex;gap:14px">
+<figure style="margin:0;position:relative;flex:0 0 186px;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;background:var(--surf)">
+<span class="kb" style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span>
+<span style="position:absolute;left:8px;top:8px;height:22px;padding:0 8px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;gap:5px;font:600 10px var(--mono);letter-spacing:.06em"><span style="width:6px;height:6px;border-radius:50%;background:var(--acc)"></span>LOOP</span>
+<button aria-label="Full screen with sound" class="tap" style="position:absolute;right:8px;bottom:8px;width:36px;height:36px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 4h6v6M10 20H4v-6M20 4l-7 7M4 20l7-7" /></svg></button>
+<figcaption style="position:absolute;left:8px;bottom:12px;font:500 9px var(--mono);color:var(--muted)">[3:4 video]</figcaption>
+</figure>
+<dl style="flex:1;min-width:0;margin:0;display:flex;flex-direction:column;gap:12px">
+<div><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">TARGET</dt><dd style="margin:3px 0 0;font-size:15px;font-weight:700">Lower chest</dd></div>
+<div><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">ALSO WORKS</dt><dd style="margin:3px 0 0;font-size:14px;color:var(--body)">Triceps, front delts</dd></div>
+<div><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">EQUIPMENT</dt><dd style="margin:3px 0 0;font-size:15px;font-weight:700">Barbell · decline bench</dd></div>
+<div><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">LEVEL</dt><dd style="margin:3px 0 0;font-size:15px;font-weight:700">Intermediate</dd></div>
+<div style="padding:8px 10px;border-radius:var(--rs);background:var(--surf)"><dt style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)">{{planLabel}}</dt><dd style="margin:3px 0 0;font-size:15px;font-weight:800">{{plan}}</dd></div>
+</dl>
+</div>
+
+<div role="tablist" aria-label="Details" style="position:sticky;top:0;z-index:2;margin-top:16px;padding:8px 20px;background:var(--bg)">
+<div style="padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+<button role="tab" aria-selected="{{t.sel}}" onClick="{{t.pick}}" class="tap" style="height:38px;border:0;border-radius:999px;font:700 13px var(--font);display:flex;align-items:center;justify-content:center;gap:5px;cursor:pointer;{{t.style}}">{{t.n}}<span style="font:600 10px var(--mono);{{t.badge}}">{{t.c}}</span></button>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{isSteps}}" hint-placeholder-val="{{ true }}">
+<ol class="in" style="list-style:none;margin:0;padding:4px 20px 0">
+<sc-for list="{{steps}}" as="s" hint-placeholder-count="5">
+<li style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 26px;height:26px;border-radius:50%;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font:600 12px var(--mono)">{{s.i}}</span><span style="font-size:15px;line-height:1.45">{{s.t}}</span></li>
+</sc-for>
+</ol>
+</sc-if>
+
+<sc-if value="{{isList}}" hint-placeholder-val="{{ false }}">
+<ul class="in" style="list-style:none;margin:0;padding:4px 20px 0">
+<sc-for list="{{bullets}}" as="b" hint-placeholder-count="4">
+<li style="display:flex;gap:14px;padding:11px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;{{b.dot}}"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="{{b.icon}}" /></svg></span><span style="font-size:15px;line-height:1.45">{{b.t}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+
+<sc-if value="{{isSwap}}" hint-placeholder-val="{{ false }}">
+<div class="in" style="display:flex;flex-direction:column;gap:6px">
+<p style="margin:2px 20px 4px;font-size:14px;line-height:1.45;color:var(--body)">Same muscle, different setup — pick one if the bench is taken or something doesn’t feel right.</p>
+<div class="snap" role="group" aria-label="Equipment" style="display:flex;gap:8px;overflow-x:auto;padding:0 20px 6px">
+<sc-for list="{{eqs}}" as="q" hint-placeholder-count="5">
+<button aria-pressed="{{q.on}}" onClick="{{q.pick}}" class="tap" style="flex:0 0 auto;height:34px;padding:0 13px;border-radius:999px;font:600 13px var(--font);cursor:pointer;{{q.style}}">{{q.n}}</button>
+</sc-for>
+</div>
+<ul style="list-style:none;margin:0;padding:0">
+<sc-for list="{{vars2}}" as="v" hint-placeholder-count="5">
+<li style="display:flex;align-items:center;gap:12px;padding:8px 12px 8px 20px;{{v.row}}">
+<span style="position:relative;flex:0 0 60px;height:80px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 7px,var(--raised) 7px 14px)"><span aria-hidden="true" style="position:absolute;right:4px;bottom:4px;width:20px;height:20px;border-radius:50%;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;justify-content:center"><svg width="8" height="8" viewBox="0 0 24 24"><path d="M6 4v16l14-8z" fill="currentColor" /></svg></span></span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">{{v.tag}}</span><span style="font-size:15px;font-weight:700;line-height:1.25">{{v.n}}</span><span style="font-size:13px;color:var(--muted)">{{v.m}}</span></span>
+<button aria-pressed="{{v.on}}" aria-label="{{v.aria}}" onClick="{{v.pick}}" class="tap" style="flex:0 0 auto;height:36px;padding:0 13px;border-radius:999px;font:700 13px var(--font);cursor:pointer;{{v.btn}}">{{v.cta}}</button>
+</li>
+</sc-for>
+</ul>
+<a href="Muscle.dc.html" style="margin:6px 20px 0;min-height:44px;display:flex;align-items:center;gap:8px;text-decoration:none;font-size:14px;font-weight:600;color:var(--acc-ink)">Browse all 42 chest exercises<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m9 18 6-6-6-6" /></svg></a>
+</div>
+</sc-if>
+</div>
+
+<footer style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:color-mix(in srgb, var(--bg) 90%, transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;flex-direction:column;gap:10px">
+<sc-if value="{{hasSel}}" hint-placeholder-val="{{ false }}">
+<div class="in" style="display:flex;flex-direction:column;gap:10px">
+<div role="radiogroup" aria-label="Where to replace" style="padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px">
+<sc-for list="{{scopes}}" as="c" hint-placeholder-count="2">
+<button role="radio" aria-checked="{{c.sel}}" onClick="{{c.pick}}" class="tap" style="height:36px;border:0;border-radius:999px;font:700 13px var(--font);cursor:pointer;{{c.style}}">{{c.n}}</button>
+</sc-for>
+</div>
+<a href="{{doneHref}}" class="tap" style="height:54px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px;padding:0 16px;text-align:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 8h13l-3-3M20 16H7l3 3" /></svg>{{selCta}}</a>
+</div>
+</sc-if>
+<sc-if value="{{noSel}}" hint-placeholder-val="{{ true }}">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px">
+<button onClick="{{goSwap}}" class="tap" style="height:54px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--ink);display:flex;align-items:center;justify-content:center;gap:8px;font:700 15px var(--font);cursor:pointer">{{secondary}}</button>
+<a href="{{closeHref}}" class="tap" style="height:54px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:15px">{{primary}}</a>
+</div>
+</sc-if>
+</footer>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"context":{"editor":"enum","options":["workout","library"],"default":"workout"},"open":{"editor":"enum","options":["steps","swap"],"default":"steps"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() {
+    var self = this, s = this.state || {};
+    var ctx = this.props.context || 'workout';
+    var inWorkout = ctx === 'workout';
+    var tab = s.tab || (this.props.open === 'swap' ? 'swap' : 'steps');
+    var eq = s.eq || 'Any', sel = s.sel === undefined ? -1 : s.sel, scope = s.scope || 'workout';
+    var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
+    var V = [
+      ['Decline Dumbbell Press', 'Lower chest', 'Dumbbell', 'SAME MOVEMENT'],
+      ['High-to-Low Cable Fly', 'Lower chest', 'Cable', 'SAME MUSCLE'],
+      ['Chest Dips', 'Lower chest · Triceps', 'Bodyweight', 'SAME MUSCLE'],
+      ['Decline Machine Press', 'Lower chest', 'Machine', 'SAME MOVEMENT'],
+      ['Flat Barbell Bench Press', 'Chest', 'Barbell', 'CLOSE MATCH'],
+      ['Push-up, feet low', 'Chest · Triceps', 'Bodyweight', 'NO EQUIPMENT']
+    ];
+    var list = V.map(function (v, i) { return { v: v, i: i }; }).filter(function (o) { return eq === 'Any' || o.v[2] === eq; });
+    var cur = sel >= 0 ? V[sel] : null;
+    var TB = [['steps', 'Steps', ''], ['mistakes', 'Mistakes', ''], ['tips', 'Tips', ''], ['swap', 'Swap', String(V.length)]];
+    var mistakes = ['Bouncing the bar off the chest.', 'Flaring elbows straight out to the sides.', 'Lifting hips off the bench to finish the rep.', 'Letting feet slip from the leg pads.'];
+    var tips = ['Use a spotter or safety arms — racking from decline is awkward.', 'Lower to the bottom of the chest, not the neck.', 'Hold a one-second pause on the first set to own the position.'];
+    return {
+      vars: this.theme(),
+      behind: inWorkout ? 'Chest Day · 18:42' : 'Chest',
+      eyebrow: inWorkout ? 'EXERCISE 2 OF 4 · SET 2 OF 3' : 'CHEST · BARBELL',
+      planLabel: inWorkout ? 'TODAY' : 'TYPICAL',
+      plan: inWorkout ? '3 × 10 @ 62.5 kg' : '3 × 8–12',
+      closeHref: inWorkout ? 'Active.dc.html' : 'Muscle.dc.html',
+      tabs: TB.map(function (t) {
+        var on = t[0] === tab;
+        return { n: t[1], c: t[2], sel: on ? 'true' : 'false', style: on ? segOn : segOff,
+          badge: t[2] ? (on ? 'padding:1px 5px;border-radius:999px;background:var(--acc);color:var(--on-acc)' : 'padding:1px 5px;border-radius:999px;background:var(--raised);color:var(--body)') : 'display:none',
+          pick: function () { self.setState({ tab: t[0] }); } };
+      }),
+      isSteps: tab === 'steps', isList: tab === 'mistakes' || tab === 'tips', isSwap: tab === 'swap',
+      steps: ['Hook your feet under the pads and lie back on the decline bench.', 'Grip the bar slightly wider than shoulder width and unrack with straight arms.', 'Lower the bar to the bottom of your chest, elbows about 45° from your body.', 'Press up and slightly back until your arms are straight.', 'Rack the bar before you sit up.'].map(function (t, i) { return { i: String(i + 1), t: t }; }),
+      bullets: (tab === 'tips' ? tips : mistakes).map(function (t) {
+        return { t: t, icon: tab === 'tips' ? 'M5 12.5 10 17 19 7' : 'M6 6l12 12M18 6 6 18', dot: tab === 'tips' ? 'background:var(--raised);color:var(--ink)' : 'background:var(--acc-soft);color:var(--acc-ink)' };
+      }),
+      eqs: ['Any', 'Dumbbell', 'Cable', 'Machine', 'Bodyweight'].map(function (q) {
+        var on = q === eq;
+        return { n: q, on: on ? 'true' : 'false', pick: function () { self.setState({ eq: q }); },
+          style: on ? 'border:1px solid var(--ink);background:var(--ink);color:var(--bg)' : 'border:1px solid var(--line);background:transparent;color:var(--ink)' };
+      }),
+      vars2: list.map(function (o) {
+        var on = o.i === sel;
+        return { n: o.v[0], m: o.v[1] + ' · ' + o.v[2], tag: o.v[3], on: on ? 'true' : 'false', aria: (inWorkout ? 'Swap to ' : 'Add ') + o.v[0],
+          cta: on ? 'Selected' : (inWorkout ? 'Swap' : '+ Add'),
+          row: on ? 'background:var(--acc-soft)' : '',
+          btn: on ? 'border:1px solid var(--acc);background:var(--acc);color:var(--on-acc)' : 'border:1px solid var(--line);background:transparent;color:var(--ink)',
+          pick: function () { self.setState({ sel: on ? -1 : o.i }); } };
+      }),
+      hasSel: !!cur, noSel: !cur,
+      scopes: (inWorkout ? [['workout', 'Today only'], ['program', 'Today + program']] : [['add', 'Add alongside'], ['program', 'Replace in program']]).map(function (c) {
+        var on = c[0] === scope || (!inWorkout && scope === 'workout' && c[0] === 'add');
+        return { n: c[1], sel: on ? 'true' : 'false', style: on ? segOn : segOff, pick: function () { self.setState({ scope: c[0] }); } };
+      }),
+      selCta: cur ? (inWorkout ? 'Swap to ' + cur[0] : (scope === 'program' ? 'Replace with ' + cur[0] : 'Add ' + cur[0] + ' to Chest Day')) : '',
+      doneHref: inWorkout ? 'Active.dc.html' : 'Program.dc.html',
+      goSwap: function () { self.setState({ tab: 'swap' }); },
+      secondary: inWorkout ? 'Swap exercise' : 'See variants',
+      primary: inWorkout ? 'Back to sets' : 'Add to program',
+      padB: cur ? 170 : 110
+    };
+  }
+}
+</script>
+</body>
+</html>

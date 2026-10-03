@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>GYMMER — Home (desktop)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Cormorant+Infant:ital,wght@1,500&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+@keyframes slidein{from{opacity:0;transform:translateX(28px) scale(.98)}to{opacity:1;transform:none}}
+@keyframes fill{from{width:0}to{width:100%}}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes kenburns{from{transform:scale(1.02) translate(0,0)}to{transform:scale(1.2) translate(-3%,-2%)}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes tick{from{stroke-dashoffset:120}to{stroke-dashoffset:339.3}}
+.in{animation:rise .8s cubic-bezier(.2,.8,.2,1) both}
+.slide{animation:slidein .55s cubic-bezier(.2,.8,.2,1) both}
+.fill{animation:fill 3.6s linear both}
+.marquee{animation:marquee 38s linear infinite}
+.kb{animation:kenburns 9s ease-in-out infinite alternate}
+.float{animation:float 6s ease-in-out infinite}
+.ring{animation:tick 30s linear infinite}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s}
+.tap:active{transform:scale(.97)}
+.fcard .fmedia{transition:transform .35s cubic-bezier(.2,.8,.2,1),border-color .25s}
+.fcard:hover .fmedia,.fcard:focus-visible .fmedia{transform:translateY(-4px);border-color:var(--acc)}
+.fcard .kb{transition:filter .3s}
+.fcard:hover .kb{animation-duration:4s}
+.fplay{transform:scale(.85);opacity:.9;transition:transform .25s,opacity .25s}
+.fcard:hover .fplay{transform:scale(1);opacity:1}
+.chip{transition:background-color .2s,color .2s,border-color .2s}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}background:radial-gradient(1100px 700px at 88% -8%, color-mix(in srgb, var(--acc) 10%, transparent), transparent 62%),radial-gradient(900px 640px at -12% 34%, color-mix(in srgb, var(--acc) 6%, transparent), transparent 60%),radial-gradient(1000px 700px at 110% 78%, color-mix(in srgb, var(--acc) 5%, transparent), transparent 60%),var(--bg);color:var(--ink);font-family:var(--font);overflow:hidden">
+
+<header style="position:sticky;top:0;z-index:5;border-bottom:1px solid var(--line);background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)">
+<div style="max-width:1240px;margin:0 auto;padding:0 32px;min-height:68px;display:flex;flex-wrap:wrap;align-items:center;gap:24px">
+<a href="DeskHome.dc.html" aria-label="GYMMER home" style="display:flex;align-items:center;min-height:44px;color:var(--ink)"><span style="display:flex;align-items:center;gap:1px"><svg width="20.5" height="20.5" viewBox="144.57 144.59 737.94 734.81" aria-hidden="true" style="margin-bottom:-0.5px"><path style="fill:var(--acc)" fill-rule="evenodd" d="M842.55 184.55 771.7 255.41 512 255.41Q459.78 255.41 412.13 275.56Q366.09 295.04 330.56 330.56Q295.04 366.09 275.56 412.13Q255.41 459.78 255.41 512Q255.41 564.22 275.56 611.87Q295.04 657.91 330.56 693.44Q366.09 728.96 412.13 748.44Q459.78 768.59 512 768.59Q564.22 768.59 611.87 748.44Q657.91 728.96 693.44 693.44Q728.96 657.91 748.44 611.87Q764.03 575.01 767.56 535.41H488.59V424.59H869.38L872.99 443.65Q883.67 500.07 876.67 556.9Q869.82 612.49 846.67 663.59Q823.53 714.69 786.26 756.5Q748.16 799.25 698.7 828.43Q649.23 857.62 593.4 870.3Q538.78 882.7 482.86 878.25Q426.94 873.8 374.97 852.92Q321.83 831.57 277.61 794.93Q233.38 758.29 202.52 710.06Q172.34 662.88 157.56 608.77Q142.79 554.65 144.81 498.68Q146.88 441.45 166.35 387.43Q185.83 333.4 220.74 288.01Q254.89 243.62 300.79 211.37Q346.69 179.12 400.03 162.05Q454.57 144.59 512 144.59L882.51 144.59Z" /></svg><svg width="97" height="20" viewBox="1496 -1432 6931 1432" aria-hidden="true"><path style="fill:currentColor" d="M1385 0 1386 -1432H1652L2125 -310L2602 -1432H2864V0H2656V-1087L2205 0H2040L1598 -1073V0ZM3118 0 3119 -1432H3385L3858 -310L4335 -1432H4597V0H4389V-1087L3938 0H3773L3331 -1073V0ZM5884 0V-1432H6383Q6595 -1432 6726 -1319.5Q6857 -1207 6857 -1008V-1007Q6857 -819 6727.5 -701.5Q6653.6 -634.4 6557.3 -605.6L6924 0H6677L6328 -584H6105V0ZM4851 0V-1432H5677V-1241H5073V-815H5621V-633H5073V-190H5683V0ZM508 0V-620.8L-6 -1432H240L577 -901L622 -829L665 -898L1003 -1432H1244L728 -623.8V0ZM6105 -762H6366Q6492 -762 6564.5 -824Q6637 -886 6637 -1004V-1005Q6637 -1120 6563.5 -1182.5Q6490 -1245 6364 -1245H6105V-762Z" transform="translate(1502.5 0)" /></svg></span></a>
+<nav aria-label="Primary" style="flex:1;display:flex;flex-wrap:wrap;gap:4px;font-size:15px;font-weight:600">
+<a href="DeskLibrary.dc.html" style="padding:12px 14px;text-decoration:none;color:var(--body)">Library</a>
+<a href="DeskArticles.dc.html" style="padding:12px 14px;text-decoration:none;color:var(--body)">Learn</a>
+<a href="DeskHome.dc.html" style="padding:12px 14px;text-decoration:none;color:var(--body)">Apps</a>
+</nav>
+<button class="tap" aria-label="Language: English" style="height:44px;padding:0 12px;border:1px solid var(--line);border-radius:999px;background:transparent;color:var(--muted);font:600 13px var(--mono)">EN</button>
+<a href="DeskToday.dc.html" style="padding:12px 6px;text-decoration:none;font-weight:600;font-size:15px">Sign in</a>
+<a href="#join" class="tap" style="height:44px;padding:0 20px;display:flex;align-items:center;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;font-weight:700;font-size:15px">Create free account</a>
+</div>
+</header>
+
+<section style="position:relative;max-width:1240px;margin:0 auto;padding:64px 32px 56px;display:flex;flex-wrap:wrap;gap:48px;align-items:center">
+<span aria-hidden="true" style="position:absolute;inset:-40px -400px 0;pointer-events:none;background-image:repeating-linear-gradient(135deg,color-mix(in srgb, var(--ink) 5%, transparent) 0 1px,transparent 1px 16px);-webkit-mask-image:radial-gradient(ellipse 60% 70% at 70% 40%,#000,transparent 75%);mask-image:radial-gradient(ellipse 60% 70% at 70% 40%,#000,transparent 75%)"></span>
+<svg aria-hidden="true" viewBox="140 140 748 748" style="position:absolute;right:-120px;top:-40px;width:760px;height:760px;opacity:.07;pointer-events:none"><path style="fill:var(--acc)" fill-rule="evenodd" d="M842.55 184.55 771.7 255.41 512 255.41Q459.78 255.41 412.13 275.56Q366.09 295.04 330.56 330.56Q295.04 366.09 275.56 412.13Q255.41 459.78 255.41 512Q255.41 564.22 275.56 611.87Q295.04 657.91 330.56 693.44Q366.09 728.96 412.13 748.44Q459.78 768.59 512 768.59Q564.22 768.59 611.87 748.44Q657.91 728.96 693.44 693.44Q728.96 657.91 748.44 611.87Q764.03 575.01 767.56 535.41H488.59V424.59H869.38L872.99 443.65Q883.67 500.07 876.67 556.9Q869.82 612.49 846.67 663.59Q823.53 714.69 786.26 756.5Q748.16 799.25 698.7 828.43Q649.23 857.62 593.4 870.3Q538.78 882.7 482.86 878.25Q426.94 873.8 374.97 852.92Q321.83 831.57 277.61 794.93Q233.38 758.29 202.52 710.06Q172.34 662.88 157.56 608.77Q142.79 554.65 144.81 498.68Q146.88 441.45 166.35 387.43Q185.83 333.4 220.74 288.01Q254.89 243.62 300.79 211.37Q346.69 179.12 400.03 162.05Q454.57 144.59 512 144.59L882.51 144.59Z" /></svg>
+
+<div class="in" style="position:relative;flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:24px">
+<span style="align-self:flex-start;height:32px;padding:0 14px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;gap:8px;font:600 12px var(--mono);letter-spacing:.08em;color:var(--acc-ink)"><span style="width:7px;height:7px;border-radius:50%;background:var(--acc)"></span>FREE FOREVER · FULL LIBRARY</span>
+<h1 style="margin:0;font-size:clamp(52px,7vw,96px);line-height:.92;font-weight:800;font-stretch:118%;letter-spacing:-.035em;text-wrap:balance">Train with a plan, not a guess.</h1>
+<p style="margin:0;max-width:540px;font-size:20px;line-height:1.5;color:var(--body)">Log every set, rest on a timer that coaches you, and see exactly what you trained. 412 exercises with real instructions — free, for good.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a href="#join" class="tap" style="height:60px;padding:0 30px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px">Create free account<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M13 6l6 6-6 6" /></svg></a>
+<a href="#apps" class="tap" style="height:60px;padding:0 26px;border-radius:999px;border:1px solid var(--line);text-decoration:none;display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3" /><path d="M11 18h2" /></svg>Get the app</a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:22px;font-size:14px;color:var(--muted)"><span>No card</span><span>·</span><span>iPhone, Android &amp; web</span><span>·</span><span>25 languages</span></div>
+</div>
+
+<div style="position:relative;flex:0 1 380px;min-width:0;display:flex;flex-direction:column;align-items:center;gap:18px">
+<div class="float" style="width:310px;height:640px;box-sizing:border-box;border-radius:48px;border:9px solid var(--raised);background:var(--bg);overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.45);position:relative">
+<sc-if value="{{s0}}" hint-placeholder-val="{{ true }}">
+<div class="slide" style="position:absolute;inset:0;padding:30px 16px 16px;display:flex;flex-direction:column;gap:12px">
+<span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--muted)">EXERCISE 2 OF 4</span>
+<div style="display:flex;gap:10px;align-items:center"><span style="flex:0 0 36px;height:48px;border-radius:6px;background:repeating-linear-gradient(135deg,var(--surf) 0 6px,var(--raised) 6px 12px)"></span><b style="font-size:18px;line-height:1.15">Decline Barbell Bench Press</b></div>
+<div style="display:flex;flex-direction:column;gap:5px;margin-top:4px">
+<div style="display:grid;grid-template-columns:28px 1fr 46px 36px 28px;align-items:center;height:42px;padding:0 6px;border-radius:8px;background:var(--surf);font-size:14px"><b style="font-family:var(--mono)">1</b><span style="font:500 11px var(--mono);color:var(--muted)">57.5×10</span><b>60</b><b>10</b><span style="width:22px;height:22px;border-radius:50%;background:var(--acc)"></span></div>
+<div style="display:grid;grid-template-columns:28px 1fr 46px 36px 28px;align-items:center;height:42px;padding:0 6px;border-radius:8px;background:var(--surf);font-size:14px"><b style="font-family:var(--mono)">2</b><span style="font:500 11px var(--mono);color:var(--muted)">60×10</span><b>62.5</b><b>10</b><span style="width:22px;height:22px;border-radius:50%;background:var(--acc)"></span></div>
+<div style="display:grid;grid-template-columns:28px 1fr 46px 36px 28px;align-items:center;height:42px;padding:0 6px;border-radius:8px;background:var(--acc-soft);font-size:14px"><b style="font-family:var(--mono)">3</b><span style="font:500 11px var(--mono);color:var(--muted)">60×9</span><b>62.5</b><b>10</b><span style="width:22px;height:22px;border-radius:50%;border:2px solid var(--acc);box-sizing:border-box"></span></div>
+</div>
+<div style="margin-top:auto;display:grid;grid-template-columns:1fr 1fr;gap:6px"><div style="height:50px;border-radius:8px;background:var(--surf);display:flex;align-items:center;justify-content:space-around"><span>−</span><b>62.5</b><span>+</span></div><div style="height:50px;border-radius:8px;background:var(--surf);display:flex;align-items:center;justify-content:space-around"><span>−</span><b>10</b><span>+</span></div></div>
+<span style="height:50px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font-weight:700">Complete set 3</span>
+</div>
+</sc-if>
+<sc-if value="{{s1}}" hint-placeholder-val="{{ false }}">
+<div class="slide" style="position:absolute;inset:0;padding:30px 16px 16px;display:flex;flex-direction:column;align-items:center;gap:14px">
+<span style="align-self:flex-start;font:600 10px var(--mono);letter-spacing:.08em;color:var(--acc-ink)">REST</span>
+<div style="width:100%;display:flex;align-items:center;justify-content:space-between;margin-top:30px"><span style="width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">−15</span>
+<div style="position:relative;width:170px;height:170px"><svg width="170" height="170" viewBox="0 0 120 120" style="transform:rotate(-90deg)"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--raised)" stroke-width="6" /><circle class="ring" cx="60" cy="60" r="54" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="120" /></svg><span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center"><b style="font-size:42px">0:58</b><span style="font:500 10px var(--mono);color:var(--muted)">OF 1:30</span></span></div>
+<span style="width:44px;height:44px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12px">+15</span></div>
+<span style="font-size:13px;color:var(--body)">Next: <b style="color:var(--ink)">set 3 · 62.5 kg × 10</b></span>
+<p style="margin:10px 0 0;font:italic 500 21px/1.3 'Cormorant Infant',Georgia,serif;text-align:center">“Breathe — the set is won here.”</p>
+<span style="margin-top:auto;width:100%;height:50px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font-weight:700">Skip rest</span>
+</div>
+</sc-if>
+<sc-if value="{{s2}}" hint-placeholder-val="{{ false }}">
+<div class="slide" style="position:absolute;inset:0;padding:30px 16px 16px;display:flex;flex-direction:column;gap:12px">
+<span style="font:600 10px var(--mono);letter-spacing:.08em;color:var(--acc-ink)">WORKOUT COMPLETE</span>
+<b style="font-size:30px;line-height:1;font-stretch:112%">Chest Day,<br>done.</b>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px"><div style="padding:10px;border-radius:8px;background:var(--surf)"><b style="font-size:20px">47:12</b><div style="font:500 9px var(--mono);color:var(--muted)">DURATION</div></div><div style="padding:10px;border-radius:8px;background:var(--surf)"><b style="font-size:20px">4.0 t</b><div style="font:500 9px var(--mono);color:var(--muted)">VOLUME</div></div></div>
+<div style="padding:12px;border-radius:10px;border:2px solid var(--acc);display:flex;justify-content:space-between;align-items:center"><span style="display:flex;flex-direction:column"><span style="font-size:11px;color:var(--muted)">NEW PR · Decline bench</span><b style="font-size:18px">65 kg × 10</b></span></div>
+<div style="padding:12px;border-radius:10px;background:var(--surf);display:flex;flex-direction:column;gap:8px"><span style="font-size:11px;color:var(--muted)">Best set · last 6 sessions</span><div style="height:74px;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;align-items:end"><span style="height:48%;border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span><span style="height:56%;border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span><span style="height:56%;border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span><span style="height:64%;border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span><span style="height:72%;border-radius:3px 3px 0 0;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span><span style="height:80%;border-radius:3px 3px 0 0;background:var(--acc)"></span></div></div>
+<span style="margin-top:auto;height:50px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font-weight:700">Save workout</span>
+</div>
+</sc-if>
+<sc-if value="{{s3}}" hint-placeholder-val="{{ false }}">
+<div class="slide" style="position:absolute;inset:0;padding:30px 16px 16px;display:flex;flex-direction:column;gap:10px">
+<b style="font-size:26px;font-stretch:112%">Back</b>
+<span style="height:40px;border-radius:999px;background:var(--surf);border:1px solid var(--line);display:flex;align-items:center;padding:0 14px;font-size:13px;color:var(--muted)">Search 72 exercises</span>
+<div style="display:flex;gap:6px"><span style="height:30px;padding:0 11px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;font-size:12px;font-weight:700">All</span><span style="height:30px;padding:0 11px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font-size:12px;font-weight:600">Barbell</span><span style="height:30px;padding:0 11px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;font-size:12px;font-weight:600">Cable</span></div>
+<sc-for list="{{rows}}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:1px solid var(--line)"><span style="flex:0 0 36px;height:48px;border-radius:6px;background:repeating-linear-gradient(135deg,var(--surf) 0 6px,var(--raised) 6px 12px)"></span><span style="display:flex;flex-direction:column"><b style="font-size:13px">{{r.n}}</b><span style="font-size:11px;color:var(--muted)">{{r.m}}</span></span></div>
+</sc-for>
+</div>
+</sc-if>
+</div>
+<div role="tablist" aria-label="App screens" style="width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
+<sc-for list="{{tabs}}" as="t" hint-placeholder-count="4">
+<button role="tab" aria-selected="{{t.sel}}" class="tap" onClick="{{t.pick}}" style="padding:10px 4px 0;border:0;background:transparent;color:var(--ink);display:flex;flex-direction:column;gap:8px;text-align:left;font:700 13px var(--font);{{t.op}}"><span style="height:3px;border-radius:2px;background:var(--raised);overflow:hidden;display:block"><sc-if value="{{t.active}}" hint-placeholder-val="{{ false }}"><span class="fill" style="display:block;height:100%;background:var(--acc)"></span></sc-if></span>{{t.n}}</button>
+</sc-for>
+</div>
+</div>
+</section>
+
+<div aria-hidden="true" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:16px 0">
+<div class="marquee" style="display:flex;width:max-content;gap:28px;font:800 26px var(--font);font-stretch:118%;letter-spacing:.02em;text-transform:uppercase;white-space:nowrap">
+<sc-for list="{{marquee}}" as="m" hint-placeholder-count="12"><span style="{{m.s}}">{{m.n}}</span></sc-for>
+</div>
+</div>
+
+<section style="max-width:1240px;margin:0 auto;padding:80px 32px 40px;display:flex;flex-direction:column;gap:24px">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:600 12px var(--mono);letter-spacing:.08em;color:var(--acc-ink)">FEATURED THIS WEEK</span><h2 style="margin:0;font-size:52px;line-height:.95;font-weight:800;font-stretch:115%;letter-spacing:-.025em">Watch it. Then lift it.</h2></div>
+<a href="DeskExercise.dc.html" class="tap" style="height:48px;padding:0 22px;border-radius:999px;border:1px solid var(--line);text-decoration:none;display:flex;align-items:center;font-weight:700">All 412 exercises →</a>
+</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(200px,100%),1fr));gap:16px">
+<sc-for list="{{featured}}" as="f" hint-placeholder-count="5">
+<a href="DeskExercise.dc.html" class="fcard" style="text-decoration:none;display:flex;flex-direction:column;gap:10px">
+<span class="fmedia" style="position:relative;display:block;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;background:var(--surf);border:1px solid var(--line)">
+<span class="kb" style="position:absolute;inset:0;background:repeating-linear-gradient(135deg,var(--surf) 0 12px,var(--raised) 12px 24px);{{f.delay}}"></span>
+<span style="position:absolute;top:10px;left:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(0,0,0,.6);color:#fff;display:flex;align-items:center;gap:6px;font:600 9px var(--mono);letter-spacing:.08em"><span style="width:6px;height:6px;border-radius:50%;background:var(--acc)"></span>AUTOPLAY</span>
+<span style="position:absolute;top:50%;left:0;right:0;text-align:center;font:500 10px var(--mono);color:var(--muted)">[3:4 demo · zoomed]</span>
+<span class="fplay" style="position:absolute;right:10px;bottom:10px;width:40px;height:40px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" fill="currentColor" /></svg></span>
+</span>
+<span style="display:flex;flex-direction:column;gap:2px"><b style="font-size:16px;line-height:1.25">{{f.n}}</b><span style="font:500 11px var(--mono);letter-spacing:.06em;color:var(--muted)">{{f.m}}</span></span>
+</a>
+</sc-for>
+</div>
+</section>
+
+
+
+<section style="max-width:1240px;margin:0 auto;padding:40px 32px 60px;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:600 12px var(--mono);letter-spacing:.1em;color:var(--acc-ink)">PROGRAMS</span><h2 style="margin:0;font-size:44px;line-height:1;font-weight:800;font-stretch:114%;letter-spacing:-.02em">A program for every goal.</h2></div>
+<a href="DeskPrograms.dc.html" style="font-size:15px;font-weight:700;color:var(--acc-ink);text-decoration:none;padding:10px 0">All 31 programs →</a>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px"><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Build muscle</a><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Get stronger</a><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Lose fat</a><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Get fit</a><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Move better</a><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Train at home</a><a href="DeskCategory.dc.html" class="chip" style="height:38px;padding:0 15px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">First steps</a></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:18px">
+<a href="DeskProgram.dc.html" class="fcard" style="text-decoration:none;display:flex;flex-direction:column;gap:10px"><span class="fmedia" style="position:relative;display:block;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;border:2px solid transparent;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"><span style="position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,.72))"></span><span style="position:absolute;left:10px;top:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;font:600 11px var(--font)">Build muscle</span><span style="position:absolute;left:14px;bottom:14px;right:14px;color:#fff;font-size:22px;line-height:1.05;font-weight:800;font-stretch:108%">Push Pull Legs</span></span><span style="font-size:14px;color:var(--body)">8 weeks · 6×/week · 60 min</span></a>
+<a href="DeskProgram.dc.html" class="fcard" style="text-decoration:none;display:flex;flex-direction:column;gap:10px"><span class="fmedia" style="position:relative;display:block;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;border:2px solid transparent;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"><span style="position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,.72))"></span><span style="position:absolute;left:10px;top:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;font:600 11px var(--font)">Get stronger</span><span style="position:absolute;left:14px;bottom:14px;right:14px;color:#fff;font-size:22px;line-height:1.05;font-weight:800;font-stretch:108%">Strength 5×5</span></span><span style="font-size:14px;color:var(--body)">12 weeks · 3×/week · 55 min</span></a>
+<a href="DeskProgram.dc.html" class="fcard" style="text-decoration:none;display:flex;flex-direction:column;gap:10px"><span class="fmedia" style="position:relative;display:block;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;border:2px solid transparent;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"><span style="position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,.72))"></span><span style="position:absolute;left:10px;top:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;font:600 11px var(--font)">Lose fat</span><span style="position:absolute;left:14px;bottom:14px;right:14px;color:#fff;font-size:22px;line-height:1.05;font-weight:800;font-stretch:108%">Lean Circuit</span></span><span style="font-size:14px;color:var(--body)">6 weeks · 4×/week · 35 min</span></a>
+<a href="DeskProgram.dc.html" class="fcard" style="text-decoration:none;display:flex;flex-direction:column;gap:10px"><span class="fmedia" style="position:relative;display:block;aspect-ratio:3 / 4;border-radius:var(--r);overflow:hidden;border:2px solid transparent;background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"><span style="position:absolute;left:0;right:0;bottom:0;height:55%;background:linear-gradient(transparent,rgba(0,0,0,.72))"></span><span style="position:absolute;left:10px;top:10px;height:24px;padding:0 9px;border-radius:999px;background:rgba(0,0,0,.55);color:#fff;display:flex;align-items:center;font:600 11px var(--font)">Train at home</span><span style="position:absolute;left:14px;bottom:14px;right:14px;color:#fff;font-size:22px;line-height:1.05;font-weight:800;font-stretch:108%">Two Dumbbells</span></span><span style="font-size:14px;color:var(--body)">6 weeks · 4×/week · 45 min</span></a>
+</div>
+<div style="margin-top:18px;padding-top:22px;border-top:1px solid var(--line);display:grid;grid-template-columns:200px repeat(3,minmax(0,1fr));gap:24px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:600 12px var(--mono);letter-spacing:.1em;color:var(--muted)">FROM THE ARTICLES</span><a href="DeskArticles.dc.html" style="font-size:14px;font-weight:700;color:var(--acc-ink);text-decoration:none">Read more →</a></div>
+<a href="DeskArticle.dc.html" style="text-decoration:none;display:flex;gap:14px"><span style="flex:0 0 96px;height:64px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span><span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">PROGRAM GUIDE</span><b style="font-size:15px;line-height:1.3">How to run Push Pull Legs: your first 8 weeks</b></span></a>
+<a href="DeskArticle.dc.html" style="text-decoration:none;display:flex;gap:14px"><span style="flex:0 0 96px;height:64px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span><span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">TRAINING</span><b style="font-size:15px;line-height:1.3">Progressive overload, explained with one bench press</b></span></a>
+<a href="DeskArticle.dc.html" style="text-decoration:none;display:flex;gap:14px"><span style="flex:0 0 96px;height:64px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 10px,var(--raised) 10px 20px)"></span><span style="display:flex;flex-direction:column;gap:3px"><span style="font:600 10px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">NUTRITION</span><b style="font-size:15px;line-height:1.3">How much protein do you actually need?</b></span></a>
+</div>
+</section>
+
+<section id="how" style="position:relative;max-width:1240px;margin:0 auto;padding:60px 32px;background-image:linear-gradient(color-mix(in srgb, var(--ink) 4%, transparent) 1px,transparent 1px),linear-gradient(90deg,color-mix(in srgb, var(--ink) 4%, transparent) 1px,transparent 1px);background-size:48px 48px;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px">
+<div class="in" style="padding:28px;border-radius:var(--r);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px"><span style="font:800 64px/1 var(--font);font-stretch:118%;color:var(--acc)">01</span><b style="font-size:24px">Tell Nova your goal</b><span style="font-size:15px;line-height:1.5;color:var(--body)">Days a week, time per session and the kit you have.</span></div>
+<div class="in" style="animation-delay:.1s;padding:28px;border-radius:var(--r);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px"><span style="font:800 64px/1 var(--font);font-stretch:118%;color:var(--acc)">02</span><b style="font-size:24px">Get the program</b><span style="font-size:15px;line-height:1.5;color:var(--body)">A full week with sets, loads and rest — change anything.</span></div>
+<div class="in" style="animation-delay:.2s;padding:28px;border-radius:var(--r);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px"><span style="font:800 64px/1 var(--font);font-stretch:118%;color:var(--acc)">03</span><b style="font-size:24px">Train and log</b><span style="font-size:15px;line-height:1.5;color:var(--body)">One thumb per set. Nova adjusts next week from what you did.</span></div>
+</section>
+
+<section id="apps" style="max-width:1240px;margin:0 auto;padding:40px 32px 60px">
+<div style="padding:48px;border-radius:calc(var(--r) * 2);background:repeating-linear-gradient(135deg,color-mix(in srgb, var(--ink) 3%, transparent) 0 1px,transparent 1px 12px),radial-gradient(600px 300px at 100% 0%, color-mix(in srgb, var(--acc) 12%, transparent), transparent 70%),var(--surf);border:1px solid var(--line);display:flex;flex-wrap:wrap;gap:40px;align-items:center">
+<div style="flex:1 1 420px;min-width:0;display:flex;flex-direction:column;gap:18px">
+<h2 style="margin:0;font-size:48px;line-height:.95;font-weight:800;font-stretch:115%;letter-spacing:-.025em">Your gym bag needs one more thing.</h2>
+<p style="margin:0;font-size:18px;line-height:1.5;color:var(--body)">Offline logging, lock-screen rest timer and Apple Health sync. Your account follows you to the web and tablet.</p>
+<div style="display:flex;flex-wrap:wrap;gap:12px">
+<a href="#ios" class="tap" style="height:60px;padding:0 22px;border-radius:14px;background:var(--ink);color:var(--bg);text-decoration:none;display:flex;align-items:center;gap:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3" /><path d="M11 18h2" /></svg><span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-size:11px;opacity:.75">Download for</span><b style="font-size:17px">iPhone</b></span></a>
+<a href="#android" class="tap" style="height:60px;padding:0 22px;border-radius:14px;background:var(--ink);color:var(--bg);text-decoration:none;display:flex;align-items:center;gap:12px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="6" y="2" width="12" height="20" rx="3" /><path d="M11 18h2" /></svg><span style="display:flex;flex-direction:column;line-height:1.1"><span style="font-size:11px;opacity:.75">Download for</span><b style="font-size:17px">Android</b></span></a>
+<a href="DeskToday.dc.html" class="tap" style="height:60px;padding:0 22px;border-radius:14px;border:1px solid var(--line);text-decoration:none;display:flex;align-items:center;font-weight:700">Open web app</a>
+</div>
+<span style="font-size:12px;color:var(--muted)">[Use the official App Store / Google Play badges here once the store listings are live.]</span>
+</div>
+<div style="flex:0 0 auto;display:flex;flex-direction:column;align-items:center;gap:10px"><span style="width:160px;height:160px;border-radius:16px;background:repeating-linear-gradient(45deg,var(--ink) 0 6px,var(--bg) 6px 12px);display:flex;align-items:center;justify-content:center"><span style="padding:6px 8px;background:var(--surf);font:500 10px var(--mono);color:var(--muted)">[QR]</span></span><span style="font-size:13px;color:var(--muted)">Scan to get the app</span></div>
+</div>
+</section>
+
+<section id="join" style="max-width:1240px;margin:0 auto;padding:40px 32px 100px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:20px">
+<h2 style="margin:0;font-size:clamp(48px,6vw,88px);line-height:.92;font-weight:800;font-stretch:118%;letter-spacing:-.035em">Free forever.<br><span style="color:var(--acc)">Full library.</span></h2>
+<p style="margin:0;max-width:560px;font-size:18px;line-height:1.5;color:var(--body)">Every exercise, unlimited logging and your own programs — no card, no trial clock.</p>
+<form style="width:100%;max-width:520px;display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;flex-wrap:wrap;gap:10px"><label for="je" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Email</label><input id="je" type="email" placeholder="you@email.com" style="flex:1 1 260px;height:58px;box-sizing:border-box;padding:0 20px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:17px var(--font)"><button type="submit" class="tap" style="height:58px;padding:0 28px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:800 17px var(--font)">Create account</button></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px"><button type="button" class="tap" style="height:50px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 15px var(--font)">Continue with Google</button><button type="button" class="tap" style="height:50px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 15px var(--font)">Continue with Apple</button></div>
+</form>
+</section>
+
+<footer style="border-top:1px solid var(--line)"><div style="max-width:1240px;margin:0 auto;padding:28px 32px;display:flex;flex-wrap:wrap;gap:18px;font-size:13px;color:var(--muted)"><span>© 2026 GYMMER</span><a href="#about" style="text-decoration:none">About</a><a href="#privacy" style="text-decoration:none">Privacy</a><a href="#terms" style="text-decoration:none">Terms</a><a href="#ai" style="text-decoration:none">AI transparency</a><span style="flex:1 1 320px">General fitness information, not medical advice.</span></div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":1440,"height":3700}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  componentDidMount() {
+    var self = this;
+    this.timer = setInterval(function () {
+      var s = self.state || {};
+      if (s.paused) { return; }
+      self.setState({ slide: ((s.slide || 0) + 1) % 4 });
+    }, 3600);
+  }
+  componentWillUnmount() { clearInterval(this.timer); }
+  renderVals() {
+    var self = this, s = this.state || {};
+    var slide = s.slide || 0;
+    var focus = s.focus === undefined ? 'lats' : s.focus;
+    var names = ['Log a set', 'Rest', 'Results', 'Library'];
+    var ex = {
+      chest: ['Decline Barbell Bench Press', 'Incline Dumbbell Hammer Press', 'Incline Cable Press'],
+      shoulders: ['Overhead Press', 'Lateral Raise', 'Arnold Press'],
+      lats: ['Bent Over Barbell Row', 'Lat Pulldown', 'Kroc Row'],
+      biceps: ['One Arm Dumbbell Preacher Curl', 'Alternate Incline Dumbbell Curl', 'Hammer Curl'],
+      triceps: ['Triceps Dips', 'Cable Pushdown', 'Skull Crusher'],
+      quads: ['Back Squat', 'Leg Press', 'Bulgarian Split Squat'],
+      glutes: ['Hip Thrust', 'Romanian Deadlift', 'Cable Kickback'],
+      abs: ['Hanging Knee Raise', 'Cable Crunch', 'Plank']
+    };
+    var counts = { chest: 42, shoulders: 38, lats: 48, biceps: 68, triceps: 48, quads: 55, glutes: 61, abs: 37 };
+    var label = { chest: 'Chest', shoulders: 'Shoulders', lats: 'Back', biceps: 'Biceps', triceps: 'Triceps', quads: 'Quads', glutes: 'Glutes', abs: 'Abs' };
+    var equip = ['BARBELL', 'DUMBBELL', 'CABLE'];
+    var mq = ['Bench press', 'Pull-up', 'Overhead press', 'Face pull', 'Hip thrust', 'Lat pulldown', 'Kettlebell swing', 'Farmer carry', 'Romanian deadlift', 'Back squat', 'Dips', 'Row'];
+    var bm = {}; Object.keys(counts).forEach(function (k) { bm[k] = k === focus ? 3 : 1; }); bm.rhomboids = focus === 'lats' ? 2 : 0;
+    return {
+      vars: this.theme(),
+      s0: slide === 0, s1: slide === 1, s2: slide === 2, s3: slide === 3,
+      tabs: names.map(function (n, i) {
+        return { n: n, sel: i === slide ? 'true' : 'false', active: i === slide, op: i === slide ? '' : 'opacity:.55', pick: function () { self.setState({ slide: i, paused: false }); } };
+      }),
+      rows: [['Bent Over Barbell Row', 'Lats · Barbell'], ['T-Bar Row', 'Lats · T-bar'], ['One-Arm Dumbbell Row', 'Rhomboids · Dumbbell'], ['Cable Low Row', 'Lats · Cable'], ['Kroc Row', 'Lats · Dumbbell']].map(function (r) { return { n: r[0], m: r[1] }; }),
+      marquee: mq.concat(mq).map(function (n, i) { return { n: n + ' ·', s: i % 3 === 1 ? 'color:var(--acc)' : 'color:transparent;-webkit-text-stroke:1px var(--muted)' }; }),
+      featured: [['Bent Over Barbell Row', 'BACK · BARBELL'], ['Incline Dumbbell Hammer Press', 'UPPER CHEST · DUMBBELL'], ['One Arm Dumbbell Preacher Curl', 'BICEPS · DUMBBELL'], ['Hip Thrust', 'GLUTES · BARBELL'], ['Kettlebell Swing', 'FULL BODY · KETTLEBELL']].map(function (f, i) { return { n: f[0], m: f[1], delay: 'animation-delay:-' + (i * 2.2) + 's' }; }),
+      muscles: Object.keys(counts).map(function (k) {
+        var on = k === focus;
+        return { n: label[k], c: String(counts[k]), on: on ? 'true' : 'false', pick: function () { self.setState({ focus: k }); },
+          style: on ? 'border:1px solid var(--acc);background:var(--acc);color:var(--on-acc)' : 'border:1px solid var(--line);background:transparent;color:var(--ink)' };
+      }),
+      picks: (ex[focus] || []).map(function (n, i) { return { n: n, e: equip[i], d: 'animation-delay:' + (i * 0.06) + 's' }; }),
+      focus: focus, bmLevels: bm
+    };
+  }
+}
+</script>
+</body>
+</html>

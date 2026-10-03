@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Today — first run (no history)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.in{animation:rise .5s cubic-bezier(.2,.8,.2,1) both}
+.tap{transition:transform .12s ease-out}
+.tap:active{transform:scale(.97)}
+.scroll::-webkit-scrollbar{display:none}
+.tb{display:flex;flex-direction:column;align-items:center;gap:3px;text-decoration:none;color:var(--muted);font-size:11px;font-weight:600}
+.tb span{display:flex;width:52px;height:30px;align-items:center;justify-content:center;border-radius:999px}
+.tb[aria-current]{color:var(--ink);font-weight:700}
+.tb[aria-current] span{background:var(--acc-soft);color:var(--acc-ink)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main class="scroll" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:110px;box-sizing:border-box">
+
+<div style="padding:6px 16px 0 20px;display:flex;justify-content:space-between;align-items:center">
+<a href="Dashboard.dc.html" aria-label="GYMMER" style="height:44px;display:flex;align-items:center;color:var(--ink)"><span style="display:flex;align-items:center;gap:1px"><svg width="20.5" height="20.5" viewBox="144.57 144.59 737.94 734.81" aria-hidden="true" style="margin-bottom:-0.5px"><path style="fill:var(--acc)" fill-rule="evenodd" d="M842.55 184.55 771.7 255.41 512 255.41Q459.78 255.41 412.13 275.56Q366.09 295.04 330.56 330.56Q295.04 366.09 275.56 412.13Q255.41 459.78 255.41 512Q255.41 564.22 275.56 611.87Q295.04 657.91 330.56 693.44Q366.09 728.96 412.13 748.44Q459.78 768.59 512 768.59Q564.22 768.59 611.87 748.44Q657.91 728.96 693.44 693.44Q728.96 657.91 748.44 611.87Q764.03 575.01 767.56 535.41H488.59V424.59H869.38L872.99 443.65Q883.67 500.07 876.67 556.9Q869.82 612.49 846.67 663.59Q823.53 714.69 786.26 756.5Q748.16 799.25 698.7 828.43Q649.23 857.62 593.4 870.3Q538.78 882.7 482.86 878.25Q426.94 873.8 374.97 852.92Q321.83 831.57 277.61 794.93Q233.38 758.29 202.52 710.06Q172.34 662.88 157.56 608.77Q142.79 554.65 144.81 498.68Q146.88 441.45 166.35 387.43Q185.83 333.4 220.74 288.01Q254.89 243.62 300.79 211.37Q346.69 179.12 400.03 162.05Q454.57 144.59 512 144.59L882.51 144.59Z"></path></svg><svg width="97" height="20" viewBox="1496 -1432 6931 1432" aria-hidden="true"><path style="fill:currentColor" d="M1385 0 1386 -1432H1652L2125 -310L2602 -1432H2864V0H2656V-1087L2205 0H2040L1598 -1073V0ZM3118 0 3119 -1432H3385L3858 -310L4335 -1432H4597V0H4389V-1087L3938 0H3773L3331 -1073V0ZM5884 0V-1432H6383Q6595 -1432 6726 -1319.5Q6857 -1207 6857 -1008V-1007Q6857 -819 6727.5 -701.5Q6653.6 -634.4 6557.3 -605.6L6924 0H6677L6328 -584H6105V0ZM4851 0V-1432H5677V-1241H5073V-815H5621V-633H5073V-190H5683V0ZM508 0V-620.8L-6 -1432H240L577 -901L622 -829L665 -898L1003 -1432H1244L728 -623.8V0ZM6105 -762H6366Q6492 -762 6564.5 -824Q6637 -886 6637 -1004V-1005Q6637 -1120 6563.5 -1182.5Q6490 -1245 6364 -1245H6105V-762Z" transform="translate(1502.5 0)"></path></svg></span></a>
+<a href="Settings.dc.html" aria-label="Account and settings" class="tap" style="width:44px;height:44px;border-radius:50%;background:var(--surf);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-decoration:none;font:700 13px var(--font)">IF</a>
+</div>
+<header style="padding:8px 20px 6px">
+<div style="display:flex;flex-direction:column;gap:6px">
+<h1 style="margin:0;font-size:32px;line-height:1.05;font-weight:800;font-stretch:112%;letter-spacing:-.02em">Hello, Igor.</h1>
+<p style="margin:0;font-size:15px;line-height:1.4;color:var(--body);max-width:260px">Your first session is the hardest. Everything after is momentum.</p>
+</div>
+</header>
+
+<section class="in" style="margin:18px 16px 0;padding:16px 16px 6px;border-radius:var(--r);background:var(--surf);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font-size:16px;font-weight:800">Get set up</span><span style="font:600 12px var(--mono);color:var(--acc-ink)">2 / 4</span></div>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px"><span style="height:4px;border-radius:2px;background:var(--acc)"></span><span style="height:4px;border-radius:2px;background:var(--acc)"></span><span style="height:4px;border-radius:2px;background:var(--raised)"></span><span style="height:4px;border-radius:2px;background:var(--raised)"></span></div>
+<ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
+<li style="display:flex;align-items:center;gap:12px;min-height:48px;border-bottom:1px solid var(--line)"><span style="width:24px;height:24px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12.5 10 17 19 7"></path></svg></span><span style="font-size:15px;color:var(--muted);text-decoration:line-through">Create your account</span></li>
+<li style="display:flex;align-items:center;gap:12px;min-height:48px;border-bottom:1px solid var(--line)"><span style="width:24px;height:24px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.2"><path d="M5 12.5 10 17 19 7"></path></svg></span><span style="font-size:15px;color:var(--muted);text-decoration:line-through">Make your first program</span></li>
+<li><a href="Coach.dc.html" style="display:flex;align-items:center;gap:12px;min-height:52px;border-bottom:1px solid var(--line);text-decoration:none"><span style="width:24px;height:24px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="flex:1;font-size:15px;font-weight:600">Tell Nova your goal</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></a></li>
+<li><a href="Active.dc.html" style="display:flex;align-items:center;gap:12px;min-height:52px;text-decoration:none"><span style="width:24px;height:24px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="flex:1;font-size:15px;font-weight:600">Log your first workout</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="m9 18 6-6-6-6"></path></svg></a></li>
+</ul>
+</section>
+
+<section class="in" style="animation-delay:.06s;margin:14px 16px 0;padding:18px;border-radius:var(--r);background:var(--surf);border:1px solid var(--line);display:flex;flex-direction:column;gap:12px">
+<span style="font:600 11px var(--mono);letter-spacing:.07em;color:var(--acc-ink)">READY WHEN YOU ARE</span>
+<div style="display:flex;flex-direction:column;gap:4px"><span style="font-size:24px;font-weight:800;font-stretch:108%">Chest Day</span><span style="font-size:14px;color:var(--muted)">4 exercises · 10 sets · ~45 min</span></div>
+<a href="Active.dc.html" class="tap" style="height:52px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:16px"><svg width="16" height="16" viewBox="0 0 24 24"><path d="M7 4v16l13-8z" fill="currentColor"></path></svg>Start first workout</a>
+</section>
+
+<section class="in" style="animation-delay:.12s;margin:14px 16px 0;padding:16px;border-radius:var(--r);background:var(--acc-soft);display:flex;flex-direction:column;gap:12px">
+<span style="display:flex;align-items:center;gap:8px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--acc-ink)"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"></path></svg>NOVA</span>
+<span style="font-size:16px;line-height:1.45">I’m Nova. Tell me what you’re training for and how many days you have — I’ll build the week around it.</span>
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<a href="Coach.dc.html" class="tap" style="height:38px;padding:0 14px;border-radius:999px;background:var(--bg);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Build muscle</a>
+<a href="Coach.dc.html" class="tap" style="height:38px;padding:0 14px;border-radius:999px;background:var(--bg);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Get stronger</a>
+<a href="Coach.dc.html" class="tap" style="height:38px;padding:0 14px;border-radius:999px;background:var(--bg);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Lose fat</a>
+<a href="Coach.dc.html" class="tap" style="height:38px;padding:0 14px;border-radius:999px;background:var(--bg);display:flex;align-items:center;text-decoration:none;font-size:14px;font-weight:600">Train consistently</a>
+</div>
+</section>
+
+<section class="in" style="animation-delay:.18s;margin:22px 20px 0;display:flex;flex-direction:column;gap:10px">
+<h2 style="margin:0;font-size:17px;font-weight:800">Progress</h2>
+<div style="padding:16px;border-radius:var(--r);border:1.5px dashed var(--line);display:flex;flex-direction:column;gap:12px">
+<div aria-hidden="true" style="height:60px;display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;align-items:end"><span style="height:30%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:45%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:38%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:55%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:60%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:52%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:72%;border-radius:4px 4px 0 0;background:var(--surf)"></span><span style="height:85%;border-radius:4px 4px 0 0;background:var(--surf)"></span></div>
+<span style="font-size:14px;line-height:1.45;color:var(--muted)">Volume, records and your weekly streak appear here after your first logged session.</span>
+</div>
+</section>
+</main>
+
+<nav aria-label="App" style="position:absolute;left:0;right:0;bottom:0;height:84px;box-sizing:border-box;padding:6px 6px 22px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;background:color-mix(in srgb, var(--bg) 84%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)">
+<a href="Dashboard.dc.html" class="tb tap" aria-current="page"><span><svg width="19" height="19" viewBox="140 140 748 748" aria-hidden="true"><path style="fill:currentColor" fill-rule="evenodd" d="M842.55 184.55 771.7 255.41 512 255.41Q459.78 255.41 412.13 275.56Q366.09 295.04 330.56 330.56Q295.04 366.09 275.56 412.13Q255.41 459.78 255.41 512Q255.41 564.22 275.56 611.87Q295.04 657.91 330.56 693.44Q366.09 728.96 412.13 748.44Q459.78 768.59 512 768.59Q564.22 768.59 611.87 748.44Q657.91 728.96 693.44 693.44Q728.96 657.91 748.44 611.87Q764.03 575.01 767.56 535.41H488.59V424.59H869.38L872.99 443.65Q883.67 500.07 876.67 556.9Q869.82 612.49 846.67 663.59Q823.53 714.69 786.26 756.5Q748.16 799.25 698.7 828.43Q649.23 857.62 593.4 870.3Q538.78 882.7 482.86 878.25Q426.94 873.8 374.97 852.92Q321.83 831.57 277.61 794.93Q233.38 758.29 202.52 710.06Q172.34 662.88 157.56 608.77Q142.79 554.65 144.81 498.68Q146.88 441.45 166.35 387.43Q185.83 333.4 220.74 288.01Q254.89 243.62 300.79 211.37Q346.69 179.12 400.03 162.05Q454.57 144.59 512 144.59L882.51 144.59Z" /></svg></span>Today</a>
+<a href="Programs.dc.html" class="tb tap"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><rect x="5" y="4" width="14" height="17" rx="2"></rect><path d="M9 9h6M9 13h6M9 17h4"></path></svg></span>Programs</a>
+<a href="Train.dc.html" aria-label="Train" class="tap" style="justify-self:center;width:56px;height:56px;margin-top:-14px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 3px var(--bg), 0 0 0 4px var(--line)"><svg width="30" height="30" viewBox="0 0 32 32" fill="currentColor" aria-hidden="true"><rect x="1.5" y="14.6" width="29" height="2.8" rx="1.4" /><rect x="5" y="8.5" width="4" height="15" rx="1.6" /><rect x="10" y="11" width="3" height="10" rx="1.3" /><rect x="23" y="8.5" width="4" height="15" rx="1.6" /><rect x="19" y="11" width="3" height="10" rx="1.3" /></svg></a>
+<a href="Library.dc.html" class="tb tap"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5z"></path><path d="M4 20.5V5.5"></path></svg></span>Library</a>
+<a href="Coach.dc.html" class="tb tap"><span><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z"></path></svg></span>Coach</a>
+</nav>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f5f3f1', surf: '#ffffff', raised: '#e9e6e3', ink: '#1d1b1a', body: '#43403e', muted: '#6a6663', line: 'rgba(29,27,26,0.12)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() { return { vars: this.theme() }; }
+}
+</script>
+</body>
+</html>
