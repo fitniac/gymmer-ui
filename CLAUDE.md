@@ -17,9 +17,9 @@ Google Sans Flex UI text (D2/D3), colour photography (D4), no offset shadows on 
 closed accent list kept (D7), 5-tab bar with `gymmer-g` and `barbell` glyphs (D8), pre-launch CTAs (D9),
 guest nav grouped as Library (Exercises | Programs | Goals) + Learn (articles) with a centre "Join free" button (D10).
 
-- **Signed off 2026-10-03: D1, D2, D3, D6, D7, D8, D9, D10.** The Non-negotiables below are updated
-  to match (rules 2 and 8). **D4 (colour photography) and D5 (offset shadows on app surfaces) are
-  still open** — keep rules 5 and 6 as written and build the redesign value behind a token.
+- **Signed off 2026-10-03: D1, D2, D3, D5, D6, D7, D8, D9, D10.** The Non-negotiables below are
+  updated to match (rules 2, 5 and 8). **Only D4 (colour photography) is still open** — keep rule 6
+  as written and build the redesign value behind a token.
 - Token work for the redesign lands here first (`00-foundations.md`): new `--gm-radius-card`,
   `--gm-radius-ctl`, `--gm-radius-sheet`, `--gm-font-display`, motion tokens, `data-corners`.
   `pnpm test:contrast` still gates every accent change.
@@ -53,8 +53,15 @@ These are not style preferences; they are what makes accent switching and dark m
    1px `--gm-hairline` inside lists. Don't replace a rule with whitespace — including on mobile,
    where a collapsing grid's vertical rules should become horizontal ones.
 4. **Flush left.** Headings, copy and button labels align left; the grid is visible.
-5. **Offset shadows only.** `5px 5px 0` on buttons, `12px 12px 0` on framed cards, `-8px 8px 0` on
-   corner badges. `--shadow-bubble` is the one soft ambient shadow in the system.
+5. **Offset shadows are marketing-only.** D5, approved 2026-10-03. On the **marketing** site they
+   stay exactly as they were — `5px 5px 0` on buttons, `12px 12px 0` on framed cards, `-8px 8px 0` on
+   corner badges — because that hard-edged offset *is* the brand's print echo and the landing is
+   where it earns its keep.
+   On **app** surfaces they are gone: cards separate by surface tone plus a 1px `--gm-hairline`
+   instead. The only soft shadow an app screen keeps is on the selected segment of a segmented
+   control (`0 1px 3px` of `--gm-sh`), which is doing a different job — saying which segment is on
+   top, not framing a card.
+   The `--gm-sh*` tokens are unchanged and are not deprecated; what changed is where they are used.
 6. **Photography prints black and white** — `filter: grayscale(1) contrast(1.08)`; `tokens.css` adds
    `brightness(.86)` in dark so prints don't punch a hole in the page. Use the `photo` utility.
 7. **Accent is sparing**: primary actions, small emphasis, one tinted band per screen at most.

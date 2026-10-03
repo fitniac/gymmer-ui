@@ -1,6 +1,6 @@
 # GYMMER redesign — refactoring handoff
 
-Status: **design approved; D1, D2, D3, D6–D10 signed off 2026-10-03 — D4, D5 still open** (see §3).
+Status: **design approved; D1, D2, D3, D5, D6–D10 signed off 2026-10-03 — only D4 (photo colour) still open** (see §3).
 Date: 2026-10-03. Design source: the "GYMMER redesign" Design canvas on claude.ai
 (owner: Igor) — the `.dc.html` files in [`design/`](design/) are a snapshot of it.
 
@@ -37,9 +37,9 @@ i18n · Acceptance · Open questions.** "Reuse", "Refactor" and "New" mark what 
 
 ## 3. Decisions that change the current system
 
-Signed off by Igor on **2026-10-03**: D1, D2, D3, D6, D7, D8, D9, D10. **D4 and D5 remain open** —
-build those two with the **current** rule and leave the redesign value behind a token so flipping it
-is one line.
+Signed off by Igor on **2026-10-03**: D1, D2, D3, **D5**, D6, D7, D8, D9, D10. **Only D4 (colour vs
+black-and-white photography) remains open** — build that one with the **current** rule (`.photo`
+stays grayscale) and leave the redesign value behind a token so flipping it is one line.
 
 The redesign was drawn on a fresh token set. These rows collide with current non-negotiables in
 `gymmer-ui/CLAUDE.md` or `gymmer-nuxt/CLAUDE.md`.
@@ -50,7 +50,7 @@ The redesign was drawn on a fresh token set. These rows collide with current non
 | D2 | Body/UI text in **Google Sans Flex**; headlines stay **Archivo** (wide, 800) | Archivo for everything (non-negotiable 8) | ✅ **Approved** 2026-10-03 — with a measured caveat, see §3a. Google Sans Flex ships **no Cyrillic and no Greek**, and neither does Archivo, so the fallback this row proposed is a no-op. Four locales are unaffected by the change because they already render UI in the system face. |
 | D3 | Small uppercase labels (section eyebrows, units, set numbers) were IBM Plex Mono; now Google Sans Flex with letter-spacing | No mono face | ✅ **Approved** 2026-10-03. Drop Plex Mono entirely (it was never added to the layer). Small uppercase labels use the UI face with letter-spacing. |
 | D4 | Exercise media in **colour**, 3:4, slow Ken Burns zoom on featured cards | Photography prints black-and-white (non-negotiable 6) | Undecided — the mockups use placeholders. Keep `.photo` grayscale until Igor decides; the zoom works either way. |
-| D5 | Cards separated by surface tone + 1px line, no offset shadows | "Rules, not shadows" + offset shadows `5px 5px 0` on buttons (non-negotiables 3, 5) | Redesign removes offset shadows on app surfaces. Keep them on marketing CTAs only if Igor wants the brand echo. |
+| D5 | Cards separated by surface tone + 1px line, no offset shadows | "Rules, not shadows" + offset shadows `5px 5px 0` on buttons (non-negotiables 3, 5) | ✅ **Approved** 2026-10-03. Offset shadows are removed from **app** surfaces; they stay on **marketing CTAs** as the brand echo. Replaces non-negotiable 5 for app components — `--gm-sh*` tokens remain, and the marketing site keeps using them. The one soft shadow kept in the app is on the selected segment of a segmented control. |
 | D6 | Dark theme is the default look in mockups | `system` default | ✅ **Approved** 2026-10-03. Keep `system` as the default theme; dark in the mockups is presentation only. |
 | D7 | Accent picker in mockups accepts any colour | Closed accent list, contrast-tested (`useAppearance`) | ✅ **Approved** 2026-10-03. Accent list stays closed; new palettes only via `theme.ts` + `tokens.css` + `pnpm test:contrast`. |
 | D8 | 5 tabs: Today (small G mark) · Programs · **Train (centre, barbell)** · Library · Coach. Progress moves into Today ("See all") | 6 tabs incl. Progress, Lucide icons only | ✅ **Approved** 2026-10-03. 5 tabs; `gymmer-g` and `barbell` are the two custom glyphs allowed outside Lucide. |
