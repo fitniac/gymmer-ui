@@ -78,6 +78,28 @@ html[data-corners="round"]  { --gm-radius-card: 20px; --gm-radius-ctl: 12px; --g
 - Accent budget per screen (non-negotiable 7 still applies): one filled primary action, active
   states, progress fills, one tinted panel (Nova or Pro). Everything else is ink.
 
+### Measured 2026-10-03 — the mockup swatches are dark-mode values only
+
+Scored against the layer's real grounds (`--gm-bg` light `#f3f2f2`, dark `#191817`) with the same
+WCAG maths `test/contrast.test.mjs` uses. **No swatch below can be pasted in as a palette**: each
+fails the ≥3:1 gate on the light ground by a wide margin, because the boards are drawn dark (D6) and
+the swatch is the dark-theme value. Every new palette therefore needs a *derived, darker* light-mode
+value the way Ember has one (light `#ec3013` vs dark `#ff563c`) — picking one is two values, not one.
+
+| Swatch | on light ground | on dark ground | `--gm-on-acc` by luminance |
+|---|---|---|---|
+| Lime `#c8f031` | 1.18:1 ❌ | 13.48:1 ✅ | **dark ink** (12.62:1; light ink is 1.21:1) |
+| Sky `#5cc8ff` | 1.68:1 ❌ | 9.42:1 ✅ | **dark ink** (8.82:1) |
+| Violet `#a08bff` | 2.46:1 ❌ | 6.44:1 ✅ | **dark ink** (6.03:1; light ink is 2.53:1) |
+| *Ember dark `#ff563c` (for reference)* | 2.83:1 | 5.61:1 ✅ | dark ink — which is what the dark block already does |
+
+So §2's "lime needs dark text in **both** themes" understates it: on these three, light-on-accent
+fails at body size in dark mode too. Violet is the one to watch — it looks like it could carry white
+text and cannot (2.53:1).
+
+Deriving a light-mode value is the recipe already documented in `tokens.css` under the accent
+palettes; the gate to clear is `--acc` ≥ 3:1 and `--acc-deep` ≥ 4.5:1 on `#f3f2f2`.
+
 ## 3. Typography
 
 | Role | Face | Size / weight / extras | Example |
