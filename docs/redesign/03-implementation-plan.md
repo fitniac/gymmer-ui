@@ -59,6 +59,7 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 |---|---|---|
 | 3.1 | `tracking.vue` → `TrackingHeader` + confirm dialogs; `CurrentExercisePanel` → `ExerciseHeader`, `SetEntryBar`, `CardioPanel`. `SetTable` and `RestOverlay` already ship as `ExerciseSetStrip` and `RestSheet`/`PausedOverlay` (see 01 §workout screen) — mapped, not built. **No visual change**, all tests green | 03 |
 | 3.2 | App shell: 5-tab `AppTabBar` (G Today, barbell Train), `AppRail` for tablet, `AppHeader` for desktop; hide coach launcher on phone; e2e selectors | 01-app-shell |
+| 3.2b | Desktop signed-in shell is the `DeskToday` sidebar: `AppRail` expands to 240px at ≥1200, `AppHeader`'s desktop row retires, rail goes to the board's 88px | 01-app-shell |
 | 3.3 | Exercise sheet: `ExerciseDetailModal` → sheet with tabs; Swap tab absorbs `ProgramSwapSheet` logic; scopes Today only / Today + program | 02 |
 | 3.4 | Active workout restyle (phone, tablet, desktop keyboard shortcuts) + first-run hint | 03 |
 | 3.5 | Rest overlay/sheet restyle with `TimerRing`, per-measurement steppers, Save to program, `AdSlot` | 04 |
@@ -87,8 +88,8 @@ when the active tab changes.
 | 360 | 56 | (360−56)/4 = 76.00 | **72.00** |
 | 390 | 56 | (390−56)/4 = 83.50 | **79.50** |
 
-The **tablet rail is held to the same 72.00** — an 80px column with the item filling it bar 4px a
-side (see 01 §AppRail). A label that fits a phone must not fail on a bigger screen.
+The **rail clears it comfortably** — an 88px column with the item filling it bar 4px a side gives
+80px (see 01 §AppRail). A label that fits a phone must not fail on a bigger screen.
 
 That is 4px more at 360 than five equal slots would have given, and it is the 4px that decides the
 Russian label.
@@ -96,10 +97,9 @@ Russian label.
 **Russian, settled: Сегодня · Программы · [centre] · Каталог · Тренер.**
 
 «Каталог», not «Библиотека» (ruled 2026-10-03). «Библиотека» measures 68.2 and *would* fit the
-72.00 slot, but it is the book sense: this tab opens the exercise catalogue. The catalogue note on
-`nav.library` now says so, and names the trap, so a re-translation cannot walk it back. German and
-Polish carry the same defect — «Bibliothek», «Biblioteka» — and are **not** fixed here; they are
-their own call.
+72.00 slot, but it is the book sense: this tab opens the exercise catalogue. German and Polish
+carried the same defect and were corrected to «Katalog» on 2026-10-04. The catalogue note on
+`nav.library` names all three traps by language, so a re-translation cannot walk any of them back.
 
 Measured in the running bar's own style — **Google Sans Flex 700 at 11px**, the face that ships from
 `@gymmer/ui` v0.3.4:
