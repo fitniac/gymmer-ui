@@ -27,7 +27,9 @@ their names. When a board says "ghost", it means `text`.
 does.* `ExerciseCard` gets a sibling (`ExerciseCardV2`, deleted and renamed back by the screen phase
 that adopts it) because the redesign changes its structure. `GmBodyMap` gets a prop (`scale="ramp"`)
 because only the colouring changes and **the engine must not fork**. `ExerciseThumb` stays one
-component with additive props.
+component with additive props — and the one prop that *would* have changed its layout, the
+expandable thumb-as-button, moved out into the new `ExerciseRow` instead, which is the same rule
+applied one level up.
 
 ---
 
@@ -62,14 +64,31 @@ pill, avatar. Marketing variant lives in `SiteNav.vue` (see Home spec).
 
 ## Exercise media and cards
 
-### `ExerciseThumb.vue` — Refactor
+### `ExerciseThumb.vue` — Refactor, and it stays **presentational**
 - Add sizes: `xs` 48×64 · `sm` 60×80 · `md` 66×88 · `lg` 72×96 · `xl` 78×104 (keep `width` prop as
   the mechanism; sizes are presets). Radius `--gm-radius-ctl`.
-- New prop `expandable?: boolean` → renders the expand badge (foundations §7) and makes the thumb a
-  `<button>` that emits `open`. The row's text stays a separate link to the exercise page, so there
-  are **two targets per row: thumb = sheet, text = page** (board 03). Never nest them.
+- New prop `badge?: 'expand'` → draws the expand badge (foundations §7). **Visual only.** It does
+  not make the thumb a button and emits nothing: the thumb is an image with a label on it, and a
+  component that is sometimes an image and sometimes a button has two different tab orders
+  depending on a prop.
 - New prop `live?: boolean` → slow Ken Burns on the picture (active workout only).
 - Keep the initials-over-muscle-hue fallback; it is still the common case.
+
+### `ExerciseRow.vue` — New
+Board 03 list rows, and the swap/add sheets.
+
+**Two targets per row — thumb opens the exercise sheet, text goes to the exercise page** — and this
+component is where that rule lives, because "never nest them" is something one component can
+*enforce* and two cooperating ones can only hope for. It owns the thumb `<button>` (emits `open`)
+and the title `<a>` (the page link) as siblings, so neither can end up inside the other.
+
+- Slots: `meta` (the muscle · equipment line, counts, level) and `action` (a trailing control —
+  chevron, add, swap, overflow).
+- Props: `exercise`, `size` (passes through to `ExerciseThumb`), `live`.
+- The thumb renders with `badge="expand"` because in a row it *does* open the sheet; the badge is
+  the row's statement, not the thumb's.
+- No existing call site changes in Phase 2. Screens adopt `ExerciseRow` in their own phase; until
+  then every current list keeps its single-link row.
 
 ### `ExerciseCard.vue` — Refactor **as a sibling** (`ExerciseCardV2.vue`)
 Boards: 02 featured, D2 grid, Home featured.
