@@ -296,6 +296,52 @@
   white-space: nowrap;
 }
 
+/* ---- header lockup, variant A6 (board 22b) ----------------------------
+   Outlined G in --acc beside outlined YMMER in currentColor.
+
+   Everything is in `em` off the element's own font-size, so <GmLogo
+   variant="wordmark-g" :size="20" /> and a responsive `text-[26px]` both
+   produce the same lockup at different scales. The size prop sets font-size
+   here rather than --logo-size, because the optical correction is a ratio of
+   the type size and nothing else.
+
+   The A6 correction: the mark is 1.025em tall against the letters' 1em and is
+   pushed down by the same 0.025em, so its TOP aligns with the letters and it
+   overshoots below the baseline. A round letterform at the same measured
+   height reads smaller than a flat-topped one; this is the standard overshoot,
+   and the design board settled on half of what was first tried. Shadow
+   variants A1-A4 were tried and rejected — do not add one.
+
+   align-items: flex-start, not center: the whole point is that the two are
+   aligned at the top and deliberately NOT centred on each other. */
+.logo-wg {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0.05em;
+  color: var(--gm-ink);
+  text-decoration: none;
+  line-height: 1;
+}
+.logo-wg-mark,
+.logo-wg-type {
+  display: flex;
+  flex: none;
+}
+.logo-wg-mark svg {
+  height: 1.025em;
+  width: 1.025em;
+  margin-bottom: -0.025em;
+  display: block;
+  color: var(--acc);
+}
+/* 97 x 20 at the reference size — the aspect is carried by the viewBox, so
+   only the height is set and the width follows. */
+.logo-wg-type svg {
+  height: 1em;
+  width: 4.85em;
+  display: block;
+}
+
 /* On the always-dark Pro card and inverted bands, where --gm-ink would vanish. */
 .logo-inv {
   color: var(--gm-on-pro);

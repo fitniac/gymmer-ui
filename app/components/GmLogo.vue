@@ -22,6 +22,8 @@
  * HTML parser, which does not want a `<?xml ?>` processing instruction.
  */
 import rawLogo from '../assets/img/logo.svg?raw'
+import rawG from '../assets/img/gymmer-g.svg?raw'
+import rawYmmer from '../assets/img/gymmer-ymmer.svg?raw'
 
 const props = withDefaults(
   defineProps<{
@@ -42,20 +44,63 @@ const props = withDefaults(
     inverse?: boolean
     /** Renders a NuxtLink instead of a span. */
     to?: string
+    /**
+     * Which lockup.
+     *
+     * `gradient` (default) is the original: the gradient mark plus the word
+     * GYMMER set in Archivo. It stays the app-icon lockup and nothing about it
+     * changes.
+     *
+     * `wordmark-g` is the header lockup from board 22, variant A6 — an
+     * outlined single-ring G in `--acc` beside outlined YMMER letters in
+     * currentColor. Outlines, not live text, so the lockup is identical on a
+     * machine without Archivo and cannot be restyled by an inherited
+     * font-weight.
+     */
+    variant?: 'gradient' | 'wordmark-g'
   }>(),
-  { size: undefined, wordmark: true, responsive: false, inverse: false, to: undefined },
+  { size: undefined, wordmark: true, responsive: false, inverse: false, to: undefined, variant: 'gradient' },
 )
 
-const markup = rawLogo
+/** `v-html` goes into an HTML parser, which does not want an XML prolog. */
+const clean = (svg: string) => svg
   .replace(/<\?xml[^>]*\?>/g, '')
   .replace(/<!--[\s\S]*?-->/g, '')
   .trim()
+
+const markup = clean(rawLogo)
+const gMarkup = clean(rawG)
+const ymmerMarkup = clean(rawYmmer)
 
 const root = computed(() => (props.to ? resolveComponent('NuxtLink') : 'span'))
 </script>
 
 <template>
+  <!-- A6 (board 22b): the G is drawn 2.5% larger than the letters and dropped
+       by the same 2.5%, so its top aligns with them and it overshoots the
+       baseline — a round letter needs that to read as the same height. Sized
+       in `em` off the lockup's own font-size so it survives any scale, which
+       a px pair would not. -->
   <component
+    v-if="variant === 'wordmark-g'"
+    :is="root"
+    :to="to"
+    class="logo-wg"
+    :style="size == null ? undefined : { fontSize: `${size}px` }"
+    role="img"
+    aria-label="GYMMER"
+  >
+    <!-- Both halves are outlines, so there is no text to read: the accessible
+         name is on the root. Deliberately NOT Tailwind's .sr-only — this layer
+         owns no Tailwind (see CLAUDE.md), and a component that depends on a
+         utility class from the consumer breaks the moment one of them is
+         configured differently. -->
+    <span class="logo-wg-mark" aria-hidden="true" v-html="gMarkup" />
+    <span v-if="wordmark" class="logo-wg-type" aria-hidden="true" v-html="ymmerMarkup" />
+  </component>
+
+  <component
+    v-else
     :is="root"
     :to="to"
     class="logo"
