@@ -241,39 +241,58 @@ html[data-theme="dark"][data-accent="cyan"] { --acc:#22b8d6; --acc-deep:#7fdcee;
      soft  = base @14%,  sel = base @32%
      tint  = base mixed ~14% into the dark --gm-bg  */
 
-/* ---- base ------------------------------------------------------------- */
-*, *::before, *::after { box-sizing: border-box; }
+/**
+ * The reset, in `@layer base`, where it LOSES to utilities.
+ *
+ * `a { color: var(--acc-deep) }` was unlayered, so it beat `text-onacc` and
+ * every other colour utility in every consuming app, regardless of
+ * specificity. gymmer-nuxt paid for that three times in one branch — a label
+ * on an accent fill rendering in the link colour, legible enough to pass a
+ * glance and not enough to read — and each time the fix was a scoped rule
+ * working around this file.
+ *
+ * The token blocks above stay unlayered on purpose: they declare custom
+ * properties, which do not participate in the cascade the way declarations do,
+ * and `html[data-theme]` must keep winning over `:root`.
+ *
+ * `!important` is unaffected by layers, so the reduced-motion rule below keeps
+ * overriding everything, which is what it is for.
+ */
+@layer base {
+  /* ---- base ------------------------------------------------------------- */
+  *, *::before, *::after { box-sizing: border-box; }
 
-body {
-  margin: 0;
-  background: var(--gm-bg);
-  color: var(--gm-ink);
-  font-family: var(--gm-font-ui);
-  font-size: 15px;
-  line-height: 1.55;
-  transition: background .2s ease, color .2s ease;
-}
-/* The display face (D2). Headings and anything opting in with .display get
-   Archivo; everything else inherits --gm-font-ui from body.
+  body {
+    margin: 0;
+    background: var(--gm-bg);
+    color: var(--gm-ink);
+    font-family: var(--gm-font-ui);
+    font-size: 15px;
+    line-height: 1.55;
+    transition: background .2s ease, color .2s ease;
+  }
+  /* The display face (D2). Headings and anything opting in with .display get
+     Archivo; everything else inherits --gm-font-ui from body.
 
-   Scoped to the elements rather than applied by a utility so a heading is the
-   right face without the author remembering. Small uppercase labels must NOT
-   pick this up (00-foundations §3) — they are spans and divs, so they do not,
-   and that is why this selector is h1/h2/h3 and not a class on every title. */
-h1, h2, h3, .display {
-  font-family: var(--gm-font-display);
-}
+     Scoped to the elements rather than applied by a utility so a heading is the
+     right face without the author remembering. Small uppercase labels must NOT
+     pick this up (00-foundations §3) — they are spans and divs, so they do not,
+     and that is why this selector is h1/h2/h3 and not a class on every title. */
+  h1, h2, h3, .display {
+    font-family: var(--gm-font-display);
+  }
 
-/* Live numerals line up in a column: timers, weights, reps, volume. */
-.tnum {
-  font-variant-numeric: tabular-nums;
-}
+  /* Live numerals line up in a column: timers, weights, reps, volume. */
+  .tnum {
+    font-variant-numeric: tabular-nums;
+  }
 
-a { color: var(--acc-deep); text-decoration: none; }
-a:hover { color: var(--acc); }
-::selection { background: var(--acc-sel); }
-:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+  a { color: var(--acc-deep); text-decoration: none; }
+  a:hover { color: var(--acc); }
+  ::selection { background: var(--acc-sel); }
+  :focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 
-@media (prefers-reduced-motion: reduce) {
-  * { animation: none !important; transition: none !important; }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+  }
 }

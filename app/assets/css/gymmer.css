@@ -196,202 +196,221 @@
   filter: grayscale(1) contrast(1.08);
 }
 
-/* ── Components ───────────────────────────────────────────────────────────── */
+/**
+ * Component CSS, in `@layer components`, where it LOSES to utilities.
+ *
+ * Unlayered CSS beats every layered rule regardless of specificity, and
+ * Tailwind puts utilities in a layer. So while these rules sat outside one,
+ * `.logo-wg { display: inline-flex }` beat `hidden` in every consuming app —
+ * a consumer could not turn one of this layer's own components off without
+ * writing an unlayered rule of its own. That cost gymmer-nuxt four separate
+ * bugs before the pattern was named: three labels drawn in the link colour on
+ * an accent fill, and a logo that appeared to wrap because both lockups drew.
+ *
+ * `@theme` and `@utility` above stay where they are — they are Tailwind
+ * directives, not rules, and Tailwind layers what they generate.
+ */
+@layer components {
+  /* ── Components ───────────────────────────────────────────────────────────── */
 
-/* Offset-shadow press. Hover lifts toward the light, active sinks into it. */
-.pri,
-.gho {
-  box-shadow: var(--shadow-btn);
-  transition:
-    transform 0.12s ease,
-    box-shadow 0.12s ease,
-    background 0.15s ease;
-}
-.pri:hover,
-.gho:hover {
-  transform: translate(-2px, -2px);
-  box-shadow: var(--shadow-btn-hover);
-}
-.pri:active,
-.gho:active {
-  transform: translate(2px, 2px);
-  box-shadow: var(--shadow-btn-active);
-}
-.pri:hover {
-  background: var(--acc-hover);
-  border-color: var(--acc-hover);
-}
-.pri:active {
-  background: var(--acc-deep);
-  border-color: var(--acc-deep);
-}
-.pri:disabled,
-.gho:disabled {
-  cursor: not-allowed;
-  opacity: 0.65;
-}
-.pri:disabled:hover,
-.gho:disabled:hover {
-  transform: none;
-  box-shadow: var(--shadow-btn);
-  background: var(--acc);
-  border-color: var(--acc);
-}
-.gho:hover {
-  background: var(--acc-soft);
-}
+  /* Offset-shadow press. Hover lifts toward the light, active sinks into it. */
+  .pri,
+  .gho {
+    box-shadow: var(--shadow-btn);
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease,
+      background 0.15s ease;
+  }
+  .pri:hover,
+  .gho:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: var(--shadow-btn-hover);
+  }
+  .pri:active,
+  .gho:active {
+    transform: translate(2px, 2px);
+    box-shadow: var(--shadow-btn-active);
+  }
+  .pri:hover {
+    background: var(--acc-hover);
+    border-color: var(--acc-hover);
+  }
+  .pri:active {
+    background: var(--acc-deep);
+    border-color: var(--acc-deep);
+  }
+  .pri:disabled,
+  .gho:disabled {
+    cursor: not-allowed;
+    opacity: 0.65;
+  }
+  .pri:disabled:hover,
+  .gho:disabled:hover {
+    transform: none;
+    box-shadow: var(--shadow-btn);
+    background: var(--acc);
+    border-color: var(--acc);
+  }
+  .gho:hover {
+    background: var(--acc-soft);
+  }
 
-/* Library row: the arrow is the affordance, revealed on hover. */
-.row:hover {
-  background: var(--gm-surface);
-}
-.row:hover .arw {
-  transform: translateX(4px);
-  opacity: 1;
-}
-.arw {
-  opacity: 0;
-  transition:
-    transform 0.2s,
-    opacity 0.2s;
-}
+  /* Library row: the arrow is the affordance, revealed on hover. */
+  .row:hover {
+    background: var(--gm-surface);
+  }
+  .row:hover .arw {
+    transform: translateX(4px);
+    opacity: 1;
+  }
+  .arw {
+    opacity: 0;
+    transition:
+      transform 0.2s,
+      opacity 0.2s;
+  }
 
-/* Checklist bullet — 20px icon gutter, so wrapped lines stay aligned. */
-.bul {
-  display: grid;
-  grid-template-columns: 20px 1fr;
-  gap: 11px;
-  align-items: start;
-}
-.bul svg {
-  width: 14px;
-  height: 14px;
-  margin-top: 4px;
-  color: var(--acc);
-}
+  /* Checklist bullet — 20px icon gutter, so wrapped lines stay aligned. */
+  .bul {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    gap: 11px;
+    align-items: start;
+  }
+  .bul svg {
+    width: 14px;
+    height: 14px;
+    margin-top: 4px;
+    color: var(--acc);
+  }
 
-/* ── Brand lockup ───────────────────────────────────────────────────────────
-   The mark is app/assets/img/logo.svg and must be INLINED, not referenced with
-   <img src>: its fill is a 45° gradient between --acc and --acc-deep, and an
-   external image cannot see document tokens, so it would freeze on light orange
-   whatever the live accent is. brand/README.md has the full rationale.
+  /* ── Brand lockup ───────────────────────────────────────────────────────────
+     The mark is app/assets/img/logo.svg and must be INLINED, not referenced with
+     <img src>: its fill is a 45° gradient between --acc and --acc-deep, and an
+     external image cannot see document tokens, so it would freeze on light orange
+     whatever the live accent is. brand/README.md has the full rationale.
 
-   Everything scales off --logo-size, so a lockup is resized in one place:
-   `<a class="logo" style="--logo-size:44px">`. */
-.logo {
-  /* The default is a var() FALLBACK, never `--logo-size: 32px` as a
-     declaration. These component classes are unlayered, Tailwind's utilities
-     live in `@layer utilities`, and unlayered CSS beats layered CSS at equal
-     specificity — so a declaration here would silently win over
-     `[--logo-size:26px]` and every responsive lockup would render at 32px.
-     Resolving the fallback into a private var keeps that in one place. */
-  --_logo: var(--logo-size, 32px);
-  display: inline-flex;
-  align-items: center;
-  gap: calc(var(--_logo) * 0.34);
-  color: var(--gm-ink);
-  text-decoration: none;
-}
-/* Descendant, not child: <GmLogo> injects the mark through v-html, so the svg
-   sits inside a wrapper span rather than directly under .logo. */
-.logo-mark {
-  display: flex;
-  flex: none;
-}
-.logo svg {
-  width: var(--_logo);
-  height: var(--_logo);
-  flex: none;
-  display: block;
-}
+     Everything scales off --logo-size, so a lockup is resized in one place:
+     `<a class="logo" style="--logo-size:44px">`. */
+  .logo {
+    /* The default is a var() FALLBACK, never `--logo-size: 32px` as a
+       declaration. These component classes are unlayered, Tailwind's utilities
+       live in `@layer utilities`, and unlayered CSS beats layered CSS at equal
+       specificity — so a declaration here would silently win over
+       `[--logo-size:26px]` and every responsive lockup would render at 32px.
+       Resolving the fallback into a private var keeps that in one place. */
+    --_logo: var(--logo-size, 32px);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--_logo) * 0.34);
+    color: var(--gm-ink);
+    text-decoration: none;
+  }
+  /* Descendant, not child: <GmLogo> injects the mark through v-html, so the svg
+     sits inside a wrapper span rather than directly under .logo. */
+  .logo-mark {
+    display: flex;
+    flex: none;
+  }
+  .logo svg {
+    width: var(--_logo);
+    height: var(--_logo);
+    flex: none;
+    display: block;
+  }
 
-/* The name is ALWAYS set GYMMER. text-transform is here rather than in the
-   template so a lowercase string in any consumer still renders correctly —
-   there is no lowercase form of the wordmark to fall back to. */
-.logo-type {
-  font-family: var(--gm-font-ui);
-  font-weight: 800;
-  font-size: calc(var(--_logo) * 0.62);
-  line-height: 1;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
+  /* The name is ALWAYS set GYMMER. text-transform is here rather than in the
+     template so a lowercase string in any consumer still renders correctly —
+     there is no lowercase form of the wordmark to fall back to. */
+  .logo-type {
+    font-family: var(--gm-font-ui);
+    font-weight: 800;
+    font-size: calc(var(--_logo) * 0.62);
+    line-height: 1;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
 
-/* ---- header lockup, variant A6 (board 22b) ----------------------------
-   Outlined G in --acc beside outlined YMMER in currentColor.
+  /* ---- header lockup, variant A6 (board 22b) ----------------------------
+     Outlined G in --acc beside outlined YMMER in currentColor.
 
-   Everything is in `em` off the element's own font-size, so <GmLogo
-   variant="wordmark-g" :size="20" /> and a responsive `text-[26px]` both
-   produce the same lockup at different scales. The size prop sets font-size
-   here rather than --logo-size, because the optical correction is a ratio of
-   the type size and nothing else.
+     Everything is in `em` off the element's own font-size, so <GmLogo
+     variant="wordmark-g" :size="20" /> and a responsive `text-[26px]` both
+     produce the same lockup at different scales. The size prop sets font-size
+     here rather than --logo-size, because the optical correction is a ratio of
+     the type size and nothing else.
 
-   The A6 correction: the mark is 1.025em tall against the letters' 1em and is
-   pushed down by the same 0.025em, so its TOP aligns with the letters and it
-   overshoots below the baseline. A round letterform at the same measured
-   height reads smaller than a flat-topped one; this is the standard overshoot,
-   and the design board settled on half of what was first tried. Shadow
-   variants A1-A4 were tried and rejected — do not add one.
+     The A6 correction: the mark is 1.025em tall against the letters' 1em and is
+     pushed down by the same 0.025em, so its TOP aligns with the letters and it
+     overshoots below the baseline. A round letterform at the same measured
+     height reads smaller than a flat-topped one; this is the standard overshoot,
+     and the design board settled on half of what was first tried. Shadow
+     variants A1-A4 were tried and rejected — do not add one.
 
-   align-items: flex-start, not center: the whole point is that the two are
-   aligned at the top and deliberately NOT centred on each other. */
-.logo-wg {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 0.05em;
-  color: var(--gm-ink);
-  text-decoration: none;
-  line-height: 1;
-}
-.logo-wg-mark,
-.logo-wg-type {
-  display: flex;
-  flex: none;
-}
-.logo-wg-mark svg {
-  height: 1.025em;
-  width: 1.025em;
-  margin-bottom: -0.025em;
-  display: block;
-  color: var(--acc);
-}
-/* 97 x 20 at the reference size — the aspect is carried by the viewBox, so
-   only the height is set and the width follows. */
-.logo-wg-type svg {
-  height: 1em;
-  width: 4.85em;
-  display: block;
-}
+     align-items: flex-start, not center: the whole point is that the two are
+     aligned at the top and deliberately NOT centred on each other. */
+  .logo-wg {
+    display: inline-flex;
+    align-items: flex-start;
+    gap: 0.05em;
+    color: var(--gm-ink);
+    text-decoration: none;
+    line-height: 1;
+  }
+  .logo-wg-mark,
+  .logo-wg-type {
+    display: flex;
+    flex: none;
+  }
+  .logo-wg-mark svg {
+    height: 1.025em;
+    width: 1.025em;
+    margin-bottom: -0.025em;
+    display: block;
+    color: var(--acc);
+  }
+  /* 97 x 20 at the reference size — the aspect is carried by the viewBox, so
+     only the height is set and the width follows. */
+  .logo-wg-type svg {
+    height: 1em;
+    width: 4.85em;
+    display: block;
+  }
 
-/* On the always-dark Pro card and inverted bands, where --gm-ink would vanish. */
-.logo-inv {
-  color: var(--gm-on-pro);
-}
+  /* On the always-dark Pro card and inverted bands, where --gm-ink would vanish. */
+  .logo-inv {
+    color: var(--gm-on-pro);
+  }
 
-/* Collapse to the mark alone below the first breakpoint. The mark is legible at
-   24px; the wordmark is not, so it goes rather than shrinking further. */
-@media (max-width: 560px) {
-  .logo-type-sm {
-    display: none;
+  /* Collapse to the mark alone below the first breakpoint. The mark is legible at
+     24px; the wordmark is not, so it goes rather than shrinking further. */
+  @media (max-width: 560px) {
+    .logo-type-sm {
+      display: none;
+    }
+  }
+
+  /* Scroll reveal. Elements start offset and settle once; see useReveal(). */
+  .rv {
+    opacity: 0;
+    transform: translateY(26px);
+    transition:
+      opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .rv.in {
+    opacity: 1;
+    transform: none;
   }
 }
 
-/* Scroll reveal. Elements start offset and settle once; see useReveal(). */
-.rv {
-  opacity: 0;
-  transform: translateY(26px);
-  transition:
-    opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
-    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
-}
-.rv.in {
-  opacity: 1;
-  transform: none;
-}
-
-
-input::placeholder {
-  color: var(--gm-faint);
+/* Base, not components: an element default, and a consumer's `text-muted` on a
+   placeholder should win. */
+@layer base {
+  input::placeholder {
+    color: var(--gm-faint);
+  }
 }
 
