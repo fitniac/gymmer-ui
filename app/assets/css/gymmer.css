@@ -38,6 +38,16 @@
   --color-ondark: var(--gm-on-dark);
   --color-faintdark: var(--gm-faint-dark);
 
+  /* redesign surfaces (v0.3.1).
+     These three shipped as tokens in v0.3.0 but had no @theme entry, so there
+     was no utility for them and the first consumer had to write
+     bg-[var(--gm-scrim)]. They are colours like any other here; the only
+     reason they were missed is that they arrived with the radius and motion
+     tokens, which are NOT colours and have no place in this block. */
+  --color-scrim: var(--gm-scrim);
+  --color-glass: var(--gm-glass);
+  --color-media-badge: var(--gm-media-badge);
+
   /* lines — borders are their own token: in dark mode they sit well below
      text brightness, so they must not reuse --gm-ink */
   --color-line: var(--gm-border);

@@ -7,6 +7,28 @@ not), so everything here is in `gymmer-nuxt` unless marked **layer**.
 Legend: **Reuse** = no change beyond tokens · **Refactor** = same component, new look and/or API ·
 **New** = does not exist.
 
+## Names — the code wins
+
+The boards were drawn with their own vocabulary, and three of those words already mean something
+else in `gymmer-nuxt`. **The code's names are canonical**; this table is the map, and the rest of
+these specs use the code's names from here on.
+
+| Board / earlier draft | In the code | Why |
+|---|---|---|
+| `ghost` (borderless text in `--acc-deep`) | **`variant="text"`** | `ghost` is already a bordered pill with 174 call sites |
+| `icon` (44px circle) | **`shape="icon"`** | `chip` is already the square icon button; shape and variant are separate axes |
+| `secondary` | `variant="secondary"` | no collision — same word, same thing |
+| "remove the offset shadow (D5)" | **`flat`** prop | marketing and app share one build, so it is a per-call-site choice, not a global switch |
+
+Our existing `ghost` (bordered pill), `quiet` (borderless muted) and `danger` are unchanged and keep
+their names. When a board says "ghost", it means `text`.
+
+**Component shape — sibling or prop?** *Sibling when the layout changes; prop when only the styling
+does.* `ExerciseCard` gets a sibling (`ExerciseCardV2`, deleted and renamed back by the screen phase
+that adopts it) because the redesign changes its structure. `GmBodyMap` gets a prop (`scale="ramp"`)
+because only the colouring changes and **the engine must not fork**. `ExerciseThumb` stays one
+component with additive props.
+
 ---
 
 ## Navigation
@@ -49,8 +71,11 @@ pill, avatar. Marketing variant lives in `SiteNav.vue` (see Home spec).
 - New prop `live?: boolean` → slow Ken Burns on the picture (active workout only).
 - Keep the initials-over-muscle-hue fallback; it is still the common case.
 
-### `ExerciseCard.vue` — Refactor
+### `ExerciseCard.vue` — Refactor **as a sibling** (`ExerciseCardV2.vue`)
 Boards: 02 featured, D2 grid, Home featured.
+Built beside the current card, not inside it: the redesign changes the card's structure, and one
+component rendering two layouts forever is worse than two that exist for one phase. The screen phase
+that adopts it deletes `ExerciseCard.vue` and renames the sibling back in the same commit.
 - 3:4 media, `--gm-radius-card`, name 16/700 under it, caption "Muscle · Equipment" 13 muted.
 - Level pill top-left on media (`BEGINNER` etc., 10px label on `rgba(0,0,0,.55)`).
 - Hover/focus (desktop): media Ken Burns, "▶ PREVIEW" pill bottom-right fades in, name turns
@@ -87,9 +112,10 @@ Big value with `−` / `+` round buttons either side (44px). Used for rest ±15s
 reps ±1, time ±5s. Long-press repeats. Haptic tick via `useHaptics` on each step.
 
 ### `GmButton.vue` — Refactor
-Variants used in mockups: `primary` (accent pill, 52–56px on mobile CTAs), `secondary` (surface
-pill + hairline), `ghost` (text, `--acc-deep`), `icon` (44px circle). Remove offset shadow on app
-surfaces (README D5).
+Variants: `primary` (accent pill, 52–56px on mobile CTAs), `secondary` (surface pill + hairline),
+**`text`** (borderless, `--acc-deep` — the boards call this "ghost"), and **`shape="icon"`** (44px
+circle). The offset shadow comes off app surfaces via the **`flat`** prop (README D5), not globally.
+Shipped additively in 2.3: existing variants and defaults are untouched.
 
 ---
 
@@ -101,7 +127,9 @@ viewBox, 6px stroke, `--gm-raised` track, `--acc` progress, round caps, rotated 
 label/digits/sub-label. Sizes 208 / 240. Extract from `RestSheet.vue` (which already credits
 `PhoneFlow.vue`) so all three share one implementation.
 
-### `GmBodyMap.vue` — Refactor (keep the engine)
+### `GmBodyMap.vue` — Refactor via a prop (`scale="ramp"`), one component
+**The engine must not fork.** Only the colouring changes, so this is a prop with the current
+colouring as the default — not a sibling.
 Boards: 12 header, 17 "What you trained", 23 Progress, Programs cards. The canvas `BodyMap` board is
 a **stand-in**; keep the real admin-artwork component and its relative-intensity logic. Restyle
 only: 4-step accent ramp (none = `--gm-raised`, light 38%, moderate 68%, heavy 100% of `--acc` mixed
@@ -185,4 +213,4 @@ Sticky "On this page" list (desktop), active section from `IntersectionObserver`
       settings, and every state listed above.
 - [ ] No colour literals; `pnpm check:conventions` passes.
 - [ ] Unit tests for `GmStepper` (bounds, long-press), `GmSegmented` (keyboard arrows), `AdSlot`
-      (hidden while premium is unknown).
+      (hidden while premium is unknown). They land with 2.2 and 2.7.

@@ -136,6 +136,12 @@ Non-negotiable, because they are what makes the accent swap and dark mode work a
 rationale in `CLAUDE.md`. Rules 2 and 8 now carry the signed-off redesign values (D1, D2/D3);
 rules 5 and 6 are still under review (D4, D5) and apply as written until signed off.
 
+### What `v0.3.1` adds
+
+`bg-scrim`, `bg-glass` and `bg-media-badge` — the `@theme` entries for three tokens v0.3.0 shipped
+without a Tailwind utility. Patch, not minor: nothing new is defined, three existing tokens just
+become reachable the way every other colour already was.
+
 ### What `v0.3.0` adds
 
 | Token | Value | Notes |
