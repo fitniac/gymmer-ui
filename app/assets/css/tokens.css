@@ -67,20 +67,24 @@
      install can succeed while the dev server keeps the version it had, and
      two "different" capture passes come back byte-identical. package.json is
      not served to the browser; this is. */
-  --gm-version: "0.3.3";
+  --gm-version: "0.3.4";
 
   --gm-font-display: "Archivo", system-ui, sans-serif;
-  /* Archivo, deliberately, until the font PR lands.
-     v0.3.0 pointed this at Google Sans Flex. Measured against the live app,
-     that switch is the ONLY visible effect of the v0.2.x -> v0.3.x bump: with
-     the face pinned on both sides, the whole bump plus all of Phase 2 renders
-     zero changed pixels. Holding the face here lets the component work ship on
-     its own evidence and makes the font its own reviewable change.
+  /* Google Sans Flex for UI and body; Archivo keeps the headlines (D2).
+     Held at Archivo for v0.3.3 so the Phase 2 component work could ship on a
+     zero-pixel diff; this is that change, on its own, with its own
+     screenshots.
 
-     Not a flag and not a conditional -- the token's previous value. Nothing
-     references the Google family while this line stands, so @nuxt/fonts emits
-     no face for it. */
-  --gm-font-ui: "Archivo", system-ui, sans-serif;
+     Both stacks name Archivo explicitly before the generic fallbacks. For the
+     21 Latin-script locales that is inert -- Google Sans Flex renders
+     everything. For ru / ua / bg / gr it is the one line that matters:
+     neither face has Cyrillic or Greek, so every such character falls through
+     to system-ui either way (measured: `Привет` is 132.07px wide under both
+     stacks), and naming Archivo keeps a mixed line like "GYMMER · Жим лёжа"
+     on two related faces rather than one brand face and one arbitrary system
+     one. See O5 -- a product question about those four locales, and
+     independent of this switch. */
+  --gm-font-ui: "Google Sans Flex", "Archivo", system-ui, sans-serif;
   --gm-font-quote: "Cormorant Infant", Georgia, serif;
 
   /* radius — D1 (approved 2026-10-03).
