@@ -47,8 +47,22 @@
   --gm-pro-2: #201e1d;
   --gm-pro-3: #181615;
 
-  /* type */
-  --gm-font-ui: "Archivo", system-ui, sans-serif;
+  /* type — D2/D3 (approved 2026-10-03).
+     Two faces now: Archivo keeps the headlines, Google Sans Flex takes UI and
+     body. The split is applied by the h1-h3/.display rule in gymmer.css.
+
+     Both stacks name Archivo explicitly before the generic fallbacks. For the
+     21 Latin-script locales that is inert — Google Sans Flex is there and
+     renders everything. For ru / uk / bg / el it is the one line that matters:
+     neither face has Cyrillic or Greek (measured, README §3a), so every such
+     character falls through, and naming Archivo keeps a mixed line like
+     "GYMMER · Жим лёжа" on two related faces rather than on one brand face
+     and one arbitrary system face.
+     TODO(O5): give those four locales a face that actually covers their
+     script, for --gm-font-ui AND --gm-font-display. Candidates: Roboto Flex,
+     Noto Sans. Until then this fallback is the whole mitigation. */
+  --gm-font-display: "Archivo", system-ui, sans-serif;
+  --gm-font-ui: "Google Sans Flex", "Archivo", system-ui, sans-serif;
   --gm-font-quote: "Cormorant Infant", Georgia, serif;
 
   /* radius — D1 (approved 2026-10-03).
@@ -217,6 +231,22 @@ body {
   line-height: 1.55;
   transition: background .2s ease, color .2s ease;
 }
+/* The display face (D2). Headings and anything opting in with .display get
+   Archivo; everything else inherits --gm-font-ui from body.
+
+   Scoped to the elements rather than applied by a utility so a heading is the
+   right face without the author remembering. Small uppercase labels must NOT
+   pick this up (00-foundations §3) — they are spans and divs, so they do not,
+   and that is why this selector is h1/h2/h3 and not a class on every title. */
+h1, h2, h3, .display {
+  font-family: var(--gm-font-display);
+}
+
+/* Live numerals line up in a column: timers, weights, reps, volume. */
+.tnum {
+  font-variant-numeric: tabular-nums;
+}
+
 a { color: var(--acc-deep); text-decoration: none; }
 a:hover { color: var(--acc); }
 ::selection { background: var(--acc-sel); }

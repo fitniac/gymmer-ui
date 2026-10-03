@@ -97,8 +97,14 @@ Rules:
   else inherits `--gm-font-ui` from `body`. Uppercase labels must **not** pick up the display face.
 - All numbers that update live (timers, weights, reps, volume) use `tabular-nums`.
 - **Fonts config** (`nuxt.config.ts` in this repo): add `{ name: 'Google Sans Flex', provider:
-  'google', global: true, weights: [400, 500, 600, 700, 800], subsets: ['latin', 'latin-ext'] }`.
+  'google', global: true, weights: [400, 500, 600, 700, 800] }` — **no `subsets`**.
   Remove nothing yet; drop Plex Mono (never added to the layer).
+  *Corrected 2026-10-03 after building it:* `subsets: ['latin','latin-ext']` on this family is
+  **inert** — the build is byte-identical with and without (15 files, 343 KB, 8 scripts), because
+  Google serves it from the variable-font endpoint rather than as per-subset static files and
+  @nuxt/fonts cannot slice that. Leaving the option in would read as a restriction that is in force.
+  It is not a payload problem: 50 of the 55 emitted `@font-face` blocks carry a `unicode-range`, so a
+  browser only fetches the subsets the page's text needs.
   **Measured 2026-10-03 (README §3a): Google Sans Flex serves no Cyrillic and no Greek — and neither
   does Archivo.** So there is nothing to scope with `html:lang(...)` here: `ru`, `uk`, `bg` and `el`
   already fall through `--gm-font-ui` to `system-ui` today and will continue to, unchanged. Do not

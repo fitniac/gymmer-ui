@@ -30,6 +30,24 @@ export default defineNuxtConfig({
     // then falls back to system fonts in production while still looking correct
     // in dev on a machine that happens to have Archivo installed.
     families: [
+      // The UI face (D2/D3).
+      //
+      // No `subsets` here, and that is measured rather than careless. Google
+      // serves this family from the variable-font endpoint (/l/font?kit=…)
+      // rather than as per-subset static files, and @nuxt/fonts cannot slice
+      // that: passing subsets: ['latin','latin-ext'] produced a byte-identical
+      // build (15 files, 343 KB, 8 scripts). An option that does nothing is
+      // worse than none — it reads as a restriction that is in force.
+      //
+      // The 8 scripts are not a payload problem. 50 of the 55 emitted
+      // @font-face blocks carry a unicode-range, so a browser fetches only the
+      // subsets the text on the page actually needs; the Cherokee and Syriac
+      // files sit in .output and are never requested. Build size, not user
+      // bytes.
+      //
+      // What this family does NOT serve is cyrillic and greek — see O5 and
+      // tokens.css. There is nothing to request for those.
+      { name: 'Google Sans Flex', provider: 'google', global: true, weights: [400, 500, 600, 700, 800] },
       { name: 'Archivo', provider: 'google', global: true },
       { name: 'Cormorant Infant', provider: 'google', global: true },
       // The quote face for Russian, Ukrainian, Bulgarian and Greek (see the
