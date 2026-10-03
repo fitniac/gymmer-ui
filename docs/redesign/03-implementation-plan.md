@@ -75,19 +75,48 @@ guess at, every time they look at the one piece of chrome they look at most.
 label — not a smaller font, not a narrower slot, and never `text-overflow`. Labels are chosen per
 locale, by someone reading them.
 
-Russian proposal (5 tabs): **Сегодня · Планы · Старт · Каталог · Тренер**. Two to look at again:
+**Russian, settled: Сегодня · Планы · [centre] · Каталог · Тренер.**
 
-- **Старт** — the Train tab is an action, and a Russian reader meets «Старт» as a race start or a
-  button on a stopwatch rather than as a place in the app. The tab's job is "begin a workout", so a
-  verb carries it better: **«Начать»** (6 characters, one fewer than «Старт» is long in practice)
-  reads as the invitation it is. «Тренировка» is the precise word and is far too long for a slot.
-- **Планы** — understood, and slightly generic: on its own it is "plans" in the diary sense rather
-  than training programmes. **«Программы»** is the exact word at 9 characters; if that does not fit,
-  «Планы» is the right compromise and should be a deliberate one. Note the house vocabulary already
-  settled «тренировка» for a workout and «сет» for a set — a training plan is a «программа».
+Measured in the running bar's own style — Archivo 700 at 11px, a 72px slot at 360 with 2px padding
+each side, so **68px usable**:
 
-**Сегодня**, **Каталог** and **Тренер** are right. «Каталог» is arguably clearer than the
-«Библиотека» that ships today, and it is three characters shorter.
+| Label | Width | |
+|---|---|---|
+| Сегодня | 48.4 | fits |
+| **Программы** | **69.7** | **does not fit at 360** — misses by 1.68px |
+| Планы | 38.7 | fits |
+| Каталог | 46.1 | fits |
+| Тренер | 42.2 | fits |
+| Тренировка | 69.4 | does not fit |
+| Библиотека | 68.2 | the label that truncates today |
+
+«Программы» is the exact word and it **fits at 390** (74px usable) but not at 360, so **«Планы» is
+the shipped label — a deliberate compromise, not a default.** It is the one place the Russian bar
+says something slightly more general than the English, and it is recorded here so nobody
+"corrects" it back into a truncation later. German «Programme» (64.6) and Polish «Programy` (53.8)
+both fit and keep the exact word.
+
+**The centre Train button carries no label, in any locale.**
+
+Today's bar has no centre button and no active-workout state at all: the middle tab is an ordinary
+tab labelled "Train", and it reads "Train" whether or not a session is open. The redesign makes it
+a raised barbell, which is the only raised element in the bar — the affordance is the shape, and a
+label under it restates what the shape already says.
+
+It also removes the hardest localisation problem in the bar rather than papering over it:
+«Тренировка» is 69.4px and does not fit, and the alternatives that do fit («Старт», «Начать») are
+each slightly wrong in one direction — «Старт» reads as a race start, «Начать» as a bare verb with
+no object.
+
+The name lives in `aria-label`, which changes with state where the visible label never could:
+
+| State | en | ru |
+|---|---|---|
+| idle | `Train` | `Тренировка` |
+| session open | `Resume workout` | `Продолжить тренировку` |
+
+The one cost is discoverability for a first-time user, and 3.4's first-run hint is where that is
+answered — not by a label that four of five locales cannot fit.
 
 **Fallback: measured at runtime, never configured per locale.** If any label would overflow its
 slot at the current width *and text size*, the bar switches to **label on the active tab only**. A
