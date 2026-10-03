@@ -179,6 +179,20 @@ Today's bar is six equal slots: 390/6 = 65, minus 4px padding = **61px usable**.
 fixed-centre layout gives **72.00 at 360** and **79.50 at 390**, so `Programme` (64.1) and
 `Библиотека` (68.2) both fit without a shortened label. German needs no special handling.
 
+**3.2 acceptance — edge-to-edge, and the insets that go with it.**
+
+The new `AppHeader` / `AppTabBar` / `AppRail` use `env(safe-area-inset-*)` on every edge they touch,
+not only the bottom. Today only the bottom is wired (`--gm-safe-bottom`), which is why the native
+shell currently insets the WebView rather than drawing under the system bars — and why the bars
+have to be repainted at runtime instead of simply showing the page behind them.
+
+Going edge-to-edge is a 3.2 change rather than a native-shell one because it moves where every
+screen meets the top of the display, not just the colour of a band.
+
+**The web proves it costs nothing:** `env(safe-area-inset-*)` is `0` in a browser, so the
+screenshot diff across all seven routes must stay at zero. A non-zero diff means a layout was
+written against the inset rather than merely padded by it.
+
 **Exit:** a full workout (start → sets → rest → swap → finish) on iPhone (Capacitor), Android and
 desktop web, offline included; outbox and watch sync unchanged.
 
