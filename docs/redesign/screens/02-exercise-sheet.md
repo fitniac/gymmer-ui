@@ -26,7 +26,8 @@ Bottom sheet, top edge 44px below the status bar, `--gm-radius-sheet` top corner
 2. Media row: 3:4 looping video 186px wide (`--gm-radius-card`, "● LOOP" pill, full-screen button
    bottom-right → opens `GmLightbox` with sound control) + facts column: TARGET, ALSO WORKS,
    EQUIPMENT, LEVEL, and a tinted box TODAY "3 × 10 @ 62.5 kg" (workout) / TYPICAL "3 × 8–12" (library).
-3. Sticky `GmSegmented` tabs: **Steps · Mistakes · Tips · Swap (6)**.
+3. Sticky `GmSegmented` tabs: **Steps · Mistakes · Tips · Swap (6)** — four, and
+   only four. Swap is absent without a session (above); there is no History tab.
    - Steps: numbered list (26px ink circles).
    - Mistakes: ✕ in `--acc-soft` circles. Tips: ✓ in `--gm-raised` circles.
    - Swap: one-line explainer; equipment filter chips (Any · Dumbbell · Cable · Machine · Bodyweight);
@@ -35,13 +36,44 @@ Bottom sheet, top edge 44px below the status bar, `--gm-radius-sheet` top corner
 4. Footer (glass): no selection → secondary "Swap exercise" (jumps to Swap tab) + primary "Back to
    sets" (workout) / secondary "See variants" + primary "Add to program" (library).
    With a selection → scope `GmSegmented` + primary action:
-   - workout: **Today only** | **Today + program** → "Swap to {name}".
+   - workout: **Today only** | **Today + program · saved when you finish** → "Swap to {name}".
    - library/program: **Add alongside** | **Replace in program** → "Add {name} to {program}" /
      "Replace with {name}".
 
 ## Layout (desktop)
 Right-side panel 480px (same content, media 220px wide) over a scrim; the list behind stays
 interactive-looking but inert.
+
+## Programme edits during a workout apply at completion
+
+**The rule, for this screen and every other one:** a change a user makes to
+their *programme* while a workout is running is recorded as an intent on the
+session and written to the programme **when the workout ends** — never
+mid-session.
+
+A workout that is abandoned has therefore edited nothing. The alternative, an
+immediate write, means someone who swaps an exercise, decides against the whole
+session and walks out has silently changed their plan for next week; the change
+they would have to undo is one they never knowingly made.
+
+So "Today + program" sets `keep` on the session exercise, exactly as the code
+does today (`keepExerciseForNextTime`, applied at completion), and the label
+says so: **"Today + program · saved when you finish"**. The same rule governs
+3.5's Save to program.
+
+Undo before completion is "swap back": the `replaces` chain resolves a
+swap-of-a-swap to the original, so the programme sees one change or none.
+
+## The Swap tab needs a session
+
+Swap exists only where there is something to swap *in*: a live workout, or a
+programme being edited. Opened from the library or a public exercise page the
+sheet shows **Steps · Mistakes · Tips** and no Swap tab — there is no target,
+and a tab that opens onto "pick an alternative for nothing" is a dead end
+dressed as a feature.
+
+Browsing alternatives outside a session is **6.3**'s job, on the exercise page,
+where it can be a real list with filters and a URL.
 
 ## Data
 - Detail: existing public detail endpoint via `ExerciseDetailModal`.

@@ -63,6 +63,7 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 | 3.3 | Exercise sheet: `ExerciseDetailModal` → sheet with tabs; Swap tab absorbs `ProgramSwapSheet` logic; scopes Today only / Today + program | 02 |
 | 3.4 | Active workout restyle (phone, tablet, desktop keyboard shortcuts) + first-run hint | 03 |
 | 3.5 | Rest overlay/sheet restyle with `TimerRing`, per-measurement steppers, Save to program, `AdSlot` | 04 |
+|  | ↳ Save to program obeys the completion rule below: it records an intent, and the programme is written when the workout ends. |
 | 3.6 | Start-workout sheet from the Train button | 06 |
 | 3.7 | Workout complete: body map, PR card, Nova review card, feel rating (rating hidden until 3.8 api) | 05 |
 | 3.8 | **api** — feel rating field on session; Nova review sampling flag for Free | 05, 02 |
@@ -89,6 +90,23 @@ Two things it needs:
 - **`WaitlistForm`'s fused input + pill** (`rounded-r-pill`) becomes a
   `GmButton` size/shape variant or an input-group component — designed, not a
   one-off. Its geometry is the reason it cannot simply move.
+
+**Programme edits during a workout apply at completion** (ruled 2026-10-04,
+applies to 3.3's swap scope, 3.5's Save to program, and anything after them).
+
+A change to the user's *programme* made while a workout is running is recorded
+as an intent on the session and written when the workout ends. A session that
+is abandoned has edited nothing.
+
+The reason is the abandonment case: someone who swaps an exercise, thinks
+better of the whole session and walks out would otherwise have silently changed
+their plan for next week — a change they would have to notice before they could
+undo it. The copy says so rather than leaving it to be discovered:
+**"Today + program · saved when you finish"**.
+
+This is already how the code behaves (`keepExerciseForNextTime`, applied at
+completion, covered by `swap-exercise.spec.ts`); the rule makes it deliberate
+rather than incidental, and binds 3.5.
 
 **3.2 acceptance — the tab bar, in every shipped locale.**
 
