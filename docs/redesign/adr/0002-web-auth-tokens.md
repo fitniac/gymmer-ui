@@ -72,11 +72,35 @@ The login routes come from the framework's login module
 | `POST /login/revoke` | Revoke the family and clear the cookie (`Max-Age=0`). |
 | — | **Token families + reuse detection**: store an id per issued refresh token with a family id and a used flag; a second presentation of a used token revokes the family. |
 
-**How a caller says which it is.** Native must keep getting
-`refresh_token` in the body. Options, for the gobackend session to settle: a
-`X-Client: native` header, a scope on the token request, or inferring from the
-`Origin` (`capacitor://localhost` / `http://localhost`). The header is the least
-magical and the easiest to test.
+**How a caller says which it is: `Origin`, and nothing else.**
+
+Native must keep getting `refresh_token` in the body. The decision of who may
+receive one is made from the request's `Origin` header, and **never** from a
+custom header such as `X-Client: native`.
+
+A custom header is forgeable *by the very attacker this ADR exists to stop*.
+Script running on the web origin can set any header it likes on its own fetch,
+so `X-Client: native` would let an XSS ask for the refresh token in the response
+body — pulling the credential straight back into JS and defeating the entire
+design. The browser sets `Origin` and script cannot override it; that is the
+whole reason it is trustworthy.
+
+The rule, failing closed:
+
+| Request `Origin` | Refresh token in the body? |
+|---|---|
+| `https://gymmer.com` and any other web origin | **never** — cookie only, whatever other headers say |
+| `capacitor://localhost` (iOS) | yes |
+| `http://localhost` (Android WebView) | yes |
+| absent (a native HTTP client, a server-to-server call) | yes |
+| anything else | **no** |
+
+Two consequences worth stating. An `Origin`-less request is treated as native,
+because a plain HTTP client sends none and a browser always does — so the
+absence is itself evidence. And `http://localhost` is on the native list, which
+means a developer running the web app locally also gets a body token; that is
+the same origin the Android WebView uses and they cannot be told apart, so the
+exposure is a local dev machine, which is acceptable where production is not.
 
 ## Migration for already-logged-in users
 
@@ -94,6 +118,19 @@ magical and the easiest to test.
 
 The one case that cannot be saved is a client whose refresh token has already
 expired — that is an ordinary re-login, and it would have happened anyway.
+
+## The backend sanitises on save, too
+
+`ContentPage` and the `about`/`contact` fragments sanitise the CMS HTML on
+render (`sanitizeCms`, allowlist + DOMPurify). That is the layer that protects
+today's readers, and it is the right place for it — but it is the *last* layer.
+Admin-api should sanitise the same HTML **on save**, so a payload never reaches
+the database at all and every other consumer of that content — an email, an
+export, a future native renderer — is covered without each one remembering.
+
+Routed to the gobackend session with the same allowlist:
+`a br em h1 h2 h3 li ol p strong ul`, attribute `href`, schemes `http`,
+`https`, `mailto`, `tel` and relative.
 
 ## Consequences
 

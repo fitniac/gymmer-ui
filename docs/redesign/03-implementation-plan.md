@@ -315,6 +315,16 @@ forced logout: ship the backend first accepting the token from body *or*
 cookie, then the client migrates each live session on its next boot and deletes
 the readable copy.
 
+Native vs web is decided by **`Origin`**, never by a custom header — a header
+is forgeable by script on the web origin, which would let an XSS ask for the
+refresh token in the response body and defeat the whole design.
+
+| # | What |
+|---|---|
+| 7.7 | **CSP enforced.** Ships report-only with a server-side report endpoint (`/api/csp-report`). Flip `Content-Security-Policy-Report-Only` → `Content-Security-Policy` **after ~1 week of production reports with nothing in them** — not before, and not on a local measurement. Review the logs on the date, and if a directive is wrong, fix the directive rather than widening it. |
+| 7.8 | **Nonces instead of `script-src 'unsafe-inline'`**, alongside 7.6. `nuxt-security` or equivalent: a per-response nonce threaded into the no-flash theme script and Nuxt's hydration bootstrap. Until this lands the CSP does not stop injected inline script, which is the one thing it most wants to stop. |
+| 7.9 | **admin-api sanitises CMS HTML on save** (gobackend session), same allowlist the client uses. The client-side sanitiser is the last layer, not the only one — a payload should never reach the database, and every other consumer of that content gets covered without remembering to. |
+
 ---
 
 ## Critical path and parallelism
