@@ -67,6 +67,29 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 | 3.7 | Workout complete: body map, PR card, Nova review card, feel rating (rating hidden until 3.8 api) | 05 |
 | 3.8 | **api** — feel rating field on session; Nova review sampling flag for Free | 05, 02 |
 
+**6.7 — the button classes come home.**
+
+`.pri` and `.gho` are `@gymmer/ui`'s button classes and they carry the
+offset-shadow press. Written into a template by hand they look like styling and
+behave like a contract: the press comes from the layer, the hover and active
+**colours** must come from utilities on the same element, and a call site that
+knows the first half and not the second renders a button that never reacts to
+the pointer. Nine sites shipped exactly that — the landing hero and the site
+nav's primary call to action among them — and only a forced-state dump found
+it.
+
+`test/layer-classes.test.ts` ratchets it: no new hand-written use, and every
+site still on the grandfathered list must carry its own state colours. 6.7
+rebuilds those CTAs anyway, so it is where the list empties.
+
+Two things it needs:
+
+- **`GmButton` gains `to`**, rendering a `NuxtLink`. Eight of the nine are
+  links, and the component renders a `<button>` today.
+- **`WaitlistForm`'s fused input + pill** (`rounded-r-pill`) becomes a
+  `GmButton` size/shape variant or an input-group component — designed, not a
+  one-off. Its geometry is the reason it cannot simply move.
+
 **3.2 acceptance — the tab bar, in every shipped locale.**
 
 **Ellipsis is never acceptable, in either mode.** A truncated label is a word the reader has to
@@ -262,7 +285,7 @@ Starts in parallel with Phase 3 on the **api/admin** side — it's the longest l
 | 6.4 | Programs library (D6/24) + program detail (D7/25) with phase switch and day cards/accordion | 18 |
 | 6.5 | Goal hub `/goals/[slug]` (D8) | 18 |
 | 6.6 | Learn: articles list (D9/26) + article page (D10/27) with `ProgramWidget`, `WorkoutWidget`, `ExerciseWidget`, TOC, toasts, replay-after-signup | 18 |
-| 6.7 | Home rebuild: hero slideshow, featured 3:4 clips, "A program for every goal", "From the articles", apps, join; remove pricing | 17 |
+| 6.7 | Home rebuild: hero slideshow, featured 3:4 clips, "A program for every goal", "From the articles", apps, join; remove pricing. **Also:** `GmButton` gains `to` (renders `NuxtLink`); landing/nav/waitlist/contact/about CTAs built on `GmButton`; the grandfathered list in `layer-classes.test.ts` is emptied and the test then bans raw `.pri`/`.gho` outright | 17 |
 | 6.8 | SEO pass: JSON-LD (ItemList, HowTo, Article, Breadcrumb, VideoObject), canonicals, hreflang, sitemaps for goals/programs/articles | 12, 13, 18 |
 
 **Exit:** Lighthouse SEO ≥ 95 and CLS < 0.05 on home, library hub, facet, exercise, programs, program,
