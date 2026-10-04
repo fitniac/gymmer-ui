@@ -62,6 +62,7 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 | 3.2b | Desktop signed-in shell is the `DeskToday` sidebar: `AppRail` expands to 240px at ≥1200, `AppHeader`'s desktop row retires, rail goes to the board's 88px | 01-app-shell |
 | 3.3 | Exercise sheet: `ExerciseDetailModal` → sheet with tabs; Swap tab absorbs `ProgramSwapSheet` logic; scopes Today only / Today + program | 02 |
 | 3.4 | Active workout restyle (phone, tablet, desktop keyboard shortcuts) + first-run hint | 03 |
+|  | ↳ `AddExerciseSheet` still carries its own copy of the “what the catalogue offers instead” fetch — variations, similar, the de-duplication and the stale-request guard — line for line with the copy 3.3 extracted. **Remove the duplicate and use `useExerciseSwap`.** It was left in place during 3.3 because converting the live workout's sheet is not a refactor to fold into an extraction commit; it belongs to the step that restyles that sheet. Two copies is how the stale-request guard goes missing in one of them. |
 | 3.5 | Rest overlay/sheet restyle with `TimerRing`, per-measurement steppers, Save to program, `AdSlot` | 04 |
 |  | ↳ Save to program obeys the completion rule below: it records an intent, and the programme is written when the workout ends. |
 | 3.6 | Start-workout sheet from the Train button | 06 |
