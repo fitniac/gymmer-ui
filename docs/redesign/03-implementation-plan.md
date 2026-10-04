@@ -300,7 +300,7 @@ goal, articles, article.
 | 7.3 | Visual regression screenshots at 390 / 834 / 1440, light + dark |
 | 7.4 | Flip `prelaunch` → false path tested: CTAs, store buttons, Join free → signup |
 | 7.5 | Ads SDK integration behind `showAds` (after O3) |
-| 7.6 | **Web auth tokens out of `localStorage`** — access token in memory, refresh token in a server-set HttpOnly cookie, rotated with reuse detection. See [ADR 0002](adr/0002-web-auth-tokens.md). **Launch blocker: must land before `prelaunch` → false.** |
+| 7.6 | **Auth tokens out of readable storage, web AND native** — web: access token in memory, refresh token in a server-set HttpOnly cookie, rotated with reuse detection. Native: refresh token into the iOS Keychain (`ThisDeviceOnly`, excluded from backups) and the Android Keystore via a secure-storage plugin, with a first-launch migration out of `@capacitor/preferences` that deletes the old copy only after confirming the new one. See [ADR 0002](adr/0002-web-auth-tokens.md). **Launch blocker: must land before `prelaunch` → false.** |
 
 **7.6 is a blocker, not a nice-to-have.** Both tokens are in `localStorage` on
 web today, including the refresh token, so one XSS anywhere on the site takes an
@@ -308,6 +308,13 @@ account for as long as that token lives — and takes it silently. The access
 token's exposure is bounded by its TTL; the refresh token's is not. Making the
 existing `gm_at` cookie `HttpOnly` would change nothing while this is true,
 which is the trap in the obvious framing.
+
+**Native is in the same state, for a different reason.** `@capacitor/preferences`
+is `UserDefaults` on iOS and `SharedPreferences` on Android — not secure
+storage, by its own documentation — and the simulator confirms both tokens sit
+in plaintext in `com.gymmer.app.plist`, a file included in device backups. The
+threat is device or backup access rather than an XSS, but it is the same
+credential with the same lifetime.
 
 The backend half (cookie-setting on every login route, rotation, token families,
 reuse detection) is routed to the gobackend session. The migration needs no

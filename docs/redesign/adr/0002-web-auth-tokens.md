@@ -54,11 +54,61 @@ decided.
 own fetch, and `Strict` breaks the case where a user lands on an authed route
 from an external link — exactly the share links Phase 6 adds.
 
-**Native keeps the secure store.** A Capacitor build has no SSR and no
-cross-site surface, `@capacitor/preferences` is backed by the Keychain and
-Android Keystore, and a WebView under `capacitor://localhost` cannot rely on a
-cookie at all. `useSecureStore` stays the native path; the two diverge
-deliberately and `useApi` already branches on platform.
+**Native does not use cookies, and its store needs replacing too.**
+
+Verified on the iOS simulator rather than assumed: under `capacitor://localhost`
+there is **no cookie store at all** — `Library/Cookies/` is empty and there is
+no cookie database anywhere in `WebKit/WebsiteData`. So a cookie design cannot
+reach native even if we wanted it to, and `useApi` branching on platform is not
+a preference but a requirement.
+
+**An earlier draft of this ADR said `@capacitor/preferences` is "backed by the
+Keychain and Android Keystore". That is wrong.** It is `UserDefaults` on iOS
+and `SharedPreferences` on Android — Capacitor's own documentation says it is
+not secure storage. The simulator confirms it: both tokens sit in plaintext in
+`com.gymmer.app.plist` as `CapacitorStorage.gm.access_token` and
+`CapacitorStorage.gm.refresh_token`, in a file that is included in device
+backups.
+
+So the refresh token is readable on native by anything that can read the app
+container or an unencrypted backup. That is a different exposure from the web's
+— it needs device or backup access rather than an XSS — but it is the same
+credential with the same lifetime, and it belongs in the same piece of work.
+
+## Native storage: a real secure store
+
+**The pick: `@aparajita/capacitor-secure-storage`.**
+
+Why that one over the alternatives:
+
+- It wraps the **iOS Keychain** with the accessibility class exposed, so the
+  refresh token can be stored `…ThisDeviceOnly` — which is what keeps it out
+  of iCloud and iTunes backups. A plugin that does not expose accessibility
+  cannot make that promise.
+- On **Android** it uses a Keystore-backed key over EncryptedSharedPreferences,
+  so the key material never leaves the hardware-backed store on devices that
+  have one.
+- Its API is close enough to `@capacitor/preferences` that the native branch of
+  `useSecureStore` is a near drop-in — one interface, two implementations, which
+  is what that composable already is.
+
+**Confirm Capacitor 8 support before committing to it.** This project is on
+Capacitor 8 and the plugin's published peer range needs checking; if it has not
+caught up, the shortlist is `capacitor-secure-storage-plugin` (older, wider
+compatibility, no accessibility control) or a thin in-repo plugin over Keychain
+and Keystore directly — which this repo already has the shape for, since
+`GymmerShellPlugin` is exactly that.
+
+**What moves, and what does not.** The refresh token goes to the secure store.
+The access token stays in memory on native too, for the same reason it does on
+web: it is re-minted in milliseconds and a copy at rest is a copy to steal.
+
+**Migration, first launch, no forced logout.** On boot the native client reads
+the refresh token from `Preferences`; if one is there, it writes it to the
+secure store, confirms the write by reading it back, and only then deletes the
+`Preferences` copy. A failure at any step leaves the old copy alone and retries
+next launch — losing a session to a migration is worse than a week of
+plaintext.
 
 ## gobackend endpoint changes
 
