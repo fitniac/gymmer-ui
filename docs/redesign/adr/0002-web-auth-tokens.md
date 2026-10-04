@@ -68,7 +68,7 @@ The login routes come from the framework's login module
 | Endpoint | Change |
 |---|---|
 | `POST /login/login`, `/login/oauth`, `/login/social`, `/login/claim/{email}`, `/login/magic/{email}`, `/login/totp` | On success, **set the refresh cookie** (`HttpOnly`, `Secure`, `SameSite=Lax`, `Path=/api/v1/login/refresh`, `Max-Age` = refresh TTL) and return the access token in the body as now. Stop returning `refresh_token` in the body **for web callers**; native still needs it. |
-| `POST /login/refresh` | Read the refresh token from the **cookie** when the body has none. Rotate: issue a new refresh token, set the new cookie, invalidate the old. Return the new access token. |
+| `POST /login/refresh` | Read the refresh token from the **cookie** when the body has none. Rotate: issue a new refresh token, set the new cookie, invalidate the old. Return the new access token. **POST only** — see below. |
 | `POST /login/revoke` | Revoke the family and clear the cookie (`Max-Age=0`). |
 | — | **Token families + reuse detection**: store an id per issued refresh token with a family id and a used flag; a second presentation of a used token revokes the family. |
 
@@ -95,6 +95,27 @@ The rule, failing closed:
 | absent (a native HTTP client, a server-to-server call) | yes |
 | anything else | **no** |
 
+**`/login/refresh` must be POST-only, and that is load-bearing.**
+
+The "absent `Origin` → native, give it a body token" rule rests entirely on
+browsers always sending `Origin` on this request. They do for POST, and for any
+cross-origin fetch. They do **not** for a top-level GET navigation — so if
+refresh ever answered a GET, pointing a browser at
+`https://api.gymmer.com/api/v1/login/refresh` would arrive with no `Origin`,
+be read as a native client, and hand the refresh token back in a response body
+the page could then read. The method restriction is not tidiness; it is the
+thing that keeps the Origin rule sound.
+
+The server rejects every other method with 405, and that has a test of its own
+rather than being left to a router default — a framework that quietly answers
+HEAD or OPTIONS the same way would reopen it.
+
+**CSRF, while we are here.** The refresh cookie is `SameSite=Lax`, which means
+the browser does not attach it to a cross-site POST at all; a form on another
+site submitting to the refresh endpoint carries no cookie and gets nothing. Lax
+*does* attach cookies to top-level GET navigations — which is the second reason
+POST-only matters, and why the two are one story and not two.
+
 Two consequences worth stating. An `Origin`-less request is treated as native,
 because a plain HTTP client sends none and a browser always does — so the
 absence is itself evidence. And `http://localhost` is on the native list, which
@@ -118,6 +139,30 @@ exposure is a local dev machine, which is acceptable where production is not.
 
 The one case that cannot be saved is a client whose refresh token has already
 expired — that is an ordinary re-login, and it would have happened anyway.
+
+## Later, maybe: `androidScheme: 'https'`
+
+Android's WebView currently serves `http://localhost`, which is why it is on
+the native list and why a `Secure` cookie is dropped there. Capacitor can serve
+`https://localhost` instead (`androidScheme: 'https'`), and that would be
+better in two ways at once: the origin stops colliding with a developer running
+the web app on `http://localhost`, so the native exception narrows to something
+that cannot be a browser; and `Secure` cookies start working in the WebView, so
+Android could use the same refresh-cookie design as the web instead of a second
+path.
+
+**It is blocked on data, not on configuration.** Changing the scheme changes the
+origin, and every origin-scoped store goes with it. `localStorage` and
+IndexedDB under `http://localhost` are simply not visible from
+`https://localhost`: on the first launch after the switch the user is **logged
+out**, and — worse — the workout journal and the outbox are empty. Sets logged
+in a basement and not yet synced would be gone, silently, which is the single
+most alarming thing this app can do.
+
+So: only behind a migration that runs on the old origin first, reads the
+journal, the outbox and the tokens, and hands them across — and only once that
+migration has been proven on a device with pending writes. **Not now**, and not
+as part of 7.6.
 
 ## The backend sanitises on save, too
 
