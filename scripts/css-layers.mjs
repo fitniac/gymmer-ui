@@ -95,6 +95,38 @@ export function isRootTokenRule(rule) {
   return rule.props.every(p => p.startsWith('--') || p === 'color-scheme')
 }
 
+/**
+ * Every rule in a file, layered or not, with the layer it sits in.
+ *
+ * `unlayeredRules` answers "what escapes a layer"; this answers "what does
+ * each rule do", which is the question the state-paint guard asks.
+ */
+export function readRules(file) {
+  const src = fs.readFileSync(file, 'utf8')
+  const css = src.replace(/\/\*[\s\S]*?\*\//g, m => ' '.repeat(m.length))
+  const lineAt = pos => css.slice(0, pos).split('\n').length
+  const out = []
+
+  const walk = (text, base, layered) => {
+    let i = 0
+    while (i < text.length) {
+      const open = text.indexOf('{', i)
+      if (open === -1) break
+      const close = matchBrace(text, open)
+      const selector = text.slice(i, open).trim().replace(/\s+/g, ' ')
+      const body = text.slice(open + 1, close)
+      if (/^@layer\b/.test(selector)) walk(body, base + open + 1, true)
+      else if (/^@(media|supports|container)\b/.test(selector)) walk(body, base + open + 1, layered)
+      else if (selector && !selector.startsWith('@')) {
+        out.push({ selector, layered, line: lineAt(base + open), props: propsOf(body) })
+      }
+      i = close + 1
+    }
+  }
+  walk(css, 0, false)
+  return out
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
   for (const file of process.argv.slice(2)) {
     const rules = unlayeredRules(file)

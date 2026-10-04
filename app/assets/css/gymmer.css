@@ -209,6 +209,21 @@
  *
  * `@theme` and `@utility` above stay where they are — they are Tailwind
  * directives, not rules, and Tailwind layers what they generate.
+ *
+ * ## State rules cannot live here either
+ *
+ * v0.3.6 moved this CSS into a layer and took every button's hover and press
+ * state with it: `.pri:hover { background }` lost to the static `bg-accent` a
+ * consumer puts on the same element, because layer order outranks both
+ * specificity and state. Nothing looked broken — buttons simply stopped
+ * reacting to the pointer, which is the kind of thing a screenshot of a
+ * resting page cannot show.
+ *
+ * So a state rule here may only set properties no utility competes with: the
+ * press transform and its shadow. Anything that paints — background, colour,
+ * border-colour, outline, box-shadow as decoration — belongs on the component
+ * as a `hover:` / `active:` / `focus-visible:` / `disabled:` utility.
+ * `test/css-layers.test.mjs` enforces it.
  */
 @layer components {
   /* ── Components ───────────────────────────────────────────────────────────── */
@@ -232,28 +247,26 @@
     transform: translate(2px, 2px);
     box-shadow: var(--shadow-btn-active);
   }
-  .pri:hover {
-    background: var(--acc-hover);
-    border-color: var(--acc-hover);
-  }
-  .pri:active {
-    background: var(--acc-deep);
-    border-color: var(--acc-deep);
-  }
+  /* The hover and press COLOURS are not here. They cannot be: this file is
+     layered, and a consumer's static `bg-accent` is a utility, which beats a
+     layered `:hover` however specific it is. They live on the component as
+     `hover:bg-accent-hover` / `active:bg-accent-deep` instead — see the note
+     at the top of this layer. What stays is the part no utility competes
+     with: the transform and the shadow. */
   .pri:disabled,
   .gho:disabled {
     cursor: not-allowed;
-    opacity: 0.65;
   }
+  /* Only the press is undone. Restoring the background here was how a disabled
+     button got its resting colour back when hover had taken it — and it was
+     wrong for `gho`, which it painted accent. Now hover never takes the
+     background in the first place unless the component asks for it with a
+     `hover:` utility, and `disabled:` sits later in the same layer, so the
+     component settles it. */
   .pri:disabled:hover,
   .gho:disabled:hover {
     transform: none;
     box-shadow: var(--shadow-btn);
-    background: var(--acc);
-    border-color: var(--acc);
-  }
-  .gho:hover {
-    background: var(--acc-soft);
   }
 
   /* Library row: the arrow is the affordance, revealed on hover. */
