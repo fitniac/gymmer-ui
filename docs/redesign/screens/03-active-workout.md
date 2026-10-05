@@ -3,7 +3,9 @@
 **Boards:** 15 Active · strength + rest timer (interactive), 16 Active · timed cardio, T4 Active
 workout · rest, D5 Active workout · rest panel.
 
-**Route & files:** `pages/tracking.vue` (960 lines — split as part of this work),
+**Route & files:** `pages/tracking.vue` (**993 lines on 2026-10-05**: 652 of script, 340 of
+template — the template is wiring and overlays, the workout UI itself lives in
+`CurrentExercisePanel.vue`, 532 lines),
 `components/tracking/CurrentExercisePanel.vue`, `ExerciseSetStrip.vue`, `SetInputs.vue`,
 `OtherExercises.vue`, `WorkoutStatusBar.vue`, `PausedOverlay.vue`, `EditSetModal.vue`,
 composables `tracking/useSetLogging.ts`, `useRestTimer.ts`, `useExerciseTimer.ts`,
@@ -17,12 +19,20 @@ Outbox as the only write path (idempotency keys) · store authoritative while ou
 one-tap prefill from plan/previous · wake lock, haptics, watch sync · paused state · immersive shell ·
 `ExerciseSetStrip` neighbours logic (kept on tablet/desktop where there is room; see below).
 
-## Refactor plan for `tracking.vue`
-Split into: `TrackingHeader.vue` (minimise · title + elapsed · Finish), `ExerciseHeader.vue`
-(thumb + eyebrow + name + Form/Swap/Rest chips + first-run hint), `SetTable.vue`,
-`SetEntryBar.vue` (steppers + CTA), `RestOverlay.vue` (wraps `RestSheet` content, spec 04),
-`CardioPanel.vue`. The page keeps orchestration only. No behaviour change in this step; ship it before
-the restyle so the visual PR diff is reviewable.
+## Refactor plan for `tracking.vue` — mostly DONE
+
+3.1 (#20) extracted `TrackingHeader.vue` (84), `ExerciseHeader.vue` (114), `SetEntryBar.vue` (79),
+`CardioPanel.vue` (78) and `ConfirmDialog.vue` (57). `SetTable` and `RestOverlay` map to the
+existing `ExerciseSetStrip.vue` (381), `RestSheet.vue` (321) and `PausedOverlay.vue` (90) rather
+than being new files.
+
+What is left is NOT the page: at 993 lines it is 652 of script (orchestration — modal state,
+handlers, lifecycle) and 340 of template that is almost entirely wiring and overlays. The workout
+UI the boards restyle is inside **`CurrentExercisePanel.vue` (532)**, which is the one file worth
+measuring again before anything is moved.
+
+Rule for 3.4: any remaining no-behaviour-change extraction is the **first commit of the 3.4 PR**,
+not a PR of its own — so the restyle diff that follows it stays readable.
 
 ## Layout — phone (board 15)
 1. **Header** (immersive): chevron-down "Minimise" (→ dashboard, session keeps running) · centre
