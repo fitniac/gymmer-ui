@@ -105,6 +105,18 @@
   --gm-glass: color-mix(in srgb, var(--gm-bg) 86%, transparent);
   --gm-media-badge: rgba(0, 0, 0, .6);   /* the expand badge on tappable media */
 
+  /* Destructive and warning, and NOT the accent.
+     The accent is this product's voice — it is on the primary button, the
+     current set and the brand mark — so spending it on "this deletes your
+     workout" and on "three sets are waiting to upload" makes those two say
+     the same thing as "complete set 2". Two tokens, used only for discarding
+     and for sync trouble, and never anywhere the accent belongs.
+     Both are a notch darker in light mode than their dark-mode twins for the
+     usual reason: a colour that reads as a warning on #191817 reads as a
+     highlighter on #f3f2f2. */
+  --gm-danger: #b42318;
+  --gm-warn: #8a5a00;
+
   /* motion — one place for the curves and durations in 00-foundations §5.
      Durations are plain numbers so a component can compose them; the
      reduced-motion block at the bottom of this file already zeroes
@@ -172,6 +184,8 @@ html[data-theme="dark"] {
   --gm-faint: #7a746f;
   --gm-track: #3a3735;
   --gm-on-acc: #141312;       /* dark text on the brighter dark-mode accent */
+  --gm-danger: #ff6b6b;       /* destructive actions only — never the accent */
+  --gm-warn: #f2b84b;         /* sync warnings only */
   --gm-on-pro: #f4f1ef;       /* unchanged: the Pro card is dark in both themes */
   --gm-on-dark: #c4c0bb;
   --gm-faint-dark: #a8a29c;  /* stays light: the Pro card is dark in both themes */
