@@ -86,8 +86,17 @@ where it can be a real list with filters and a URL.
 
 ## States
 Loading (skeleton facts + grey media) · error (retry inline) · no variants ("No close swaps — browse
-the library") · offline (Steps/Mistakes/Tips from cache; Swap disabled with reason) · busy on the
-action button (spinner, sheet stays open until success, then closes with a toast).
+the library") · **offline (everything from cache, Swap included)** · busy on the action button
+(spinner, sheet stays open until success, then closes with a toast).
+
+**Offline, in detail.** When the workout opens, the session's swap options are pulled onto the
+device: each exercise's detail, and for the first 8 alternatives of each, both that exercise's
+detail and its catalogue record (~400 KB for a six-exercise session, in the background, two
+requests at a time). So with no signal the sheet shows Steps/Mistakes/Tips, the Swap tab lists the
+alternatives, tapping one opens it in the same sheet, and the swap commits through the outbox. The
+"Alternatives need a connection" line survives for the case it is actually true — an exercise added
+mid-workout, which the prefetch never saw, or a device that cannot store anything. A deeper
+alternative past the 8th still needs a connection to open.
 
 ## Interactions & motion
 Sheet 420ms up, drag to dismiss, scrim tap closes. Tabs cross-fade 240ms. Selecting a variant tints
