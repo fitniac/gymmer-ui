@@ -371,6 +371,30 @@
       "x": 4770,
       "y": 1264,
       "title": "22b Logo \u00b7 G variants (A6 applied)"
+    },
+    "ActiveHeader.dc.html": {
+      "x": 3760,
+      "y": 3752,
+      "w": 390,
+      "h": 844,
+      "is_interactive": true,
+      "title": "15c Active \u00b7 header, options menu, paused, rest chip"
+    },
+    "SyncSheet.dc.html": {
+      "x": 4230,
+      "y": 3752,
+      "w": 390,
+      "h": 844,
+      "is_interactive": true,
+      "title": "15d Active \u00b7 sync status chip + sheet"
+    },
+    "AddExercise.dc.html": {
+      "x": 4700,
+      "y": 3752,
+      "w": 390,
+      "h": 844,
+      "is_interactive": true,
+      "title": "15e Active \u00b7 add exercise"
     }
   },
   "createdOnFiles": {
@@ -417,7 +441,7 @@
     },
     "t4": {
       "kind": "title1",
-      "maxW": 3210,
+      "maxW": 5090,
       "text": "In the workout \u00b7 Coach \u00b7 Settings \u00b7 Free vs Pro",
       "w": 240,
       "x": 0,
@@ -467,6 +491,9 @@
     "Train.dc.html",
     "Active.dc.html",
     "ExerciseSheet.dc.html",
+    "ActiveHeader.dc.html",
+    "SyncSheet.dc.html",
+    "AddExercise.dc.html",
     "Cardio.dc.html",
     "Summary.dc.html",
     "Coach.dc.html",

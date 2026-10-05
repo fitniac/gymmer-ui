@@ -94,7 +94,7 @@ dependency order. Boards are named as on the canvas.
 | 1 | [`01-components.md`](01-components.md) | all | `app/components/**` |
 | 2 | [`screens/01-app-shell.md`](screens/01-app-shell.md) | tab bar on 09–19, tablet rail, desktop header | `layouts/app.vue`, `AppTabBar.vue`, `AppHeader.vue` |
 | 3 | [`screens/02-exercise-sheet.md`](screens/02-exercise-sheet.md) | 15b | `ExerciseDetailModal.vue`, `ProgramSwapSheet.vue`, `AddExerciseSheet.vue` |
-| 4 | [`screens/03-active-workout.md`](screens/03-active-workout.md) | 15, 16, T4, D5 | `pages/tracking.vue` + `components/tracking/*` |
+| 4 | [`screens/03-active-workout.md`](screens/03-active-workout.md) | 15, **15c**, **15d**, **15e**, 16, T4, D5 | `pages/tracking.vue` + `components/tracking/*` |
 | 5 | [`screens/04-rest.md`](screens/04-rest.md) | 20 (+ overlay in 15) | `RestSheet.vue` |
 | 6 | [`screens/05-workout-complete.md`](screens/05-workout-complete.md) | 17 | `SessionCompleteSummary.vue`, `CompleteWorkoutModal.vue` |
 | 7 | [`screens/06-start-workout.md`](screens/06-start-workout.md) | 14 | `StartWorkoutPanel.vue` |

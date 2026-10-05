@@ -1,7 +1,15 @@
 # Screen · Active workout (strength + timed cardio)
 
-**Boards:** 15 Active · strength + rest timer (interactive), 16 Active · timed cardio, T4 Active
-workout · rest, D5 Active workout · rest panel.
+**Boards:** 15 Active · strength + rest timer (interactive), **15c header, options menu, paused,
+rest chip**, **15d sync status chip + sheet**, **15e add exercise**, 16 Active · timed cardio,
+T4 Active workout · rest, D5 Active workout · rest panel.
+
+**15c/15d/15e land after the behaviour.** They restyle what 3.4 builds — the ⋯ overflow, the sync
+chip and sheet, the two-step add — rather than describing anything new, with three exceptions
+recorded in the rulings: drift is informational and has **no** "use server version" button (no such
+action exists); a refused op's only control is **"Got it"**, which acknowledges and hides, leaving
+the op in the journal and in Details; and the add sheet's scope control **replaces** "Keep it for
+next time" with the same semantics and the swap sheet's wording.
 
 **Route & files:** `pages/tracking.vue` (**993 lines on 2026-10-05**: 652 of script, 340 of
 template — the template is wiring and overlays, the workout UI itself lives in

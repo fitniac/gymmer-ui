@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Active workout — sync status and sheet</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sheet{animation:up .42s cubic-bezier(.32,.72,0,1) both}
+.dim{animation:fade .3s ease both}
+.spin{animation:spin 1s linear infinite}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.96)}
+.scroll::-webkit-scrollbar,.snap::-webkit-scrollbar{display:none}
+summary::-webkit-details-marker{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main aria-hidden="{{behindHidden}}" style="position:absolute;inset:0;overflow:hidden">
+<header style="background:color-mix(in srgb, var(--bg) 88%, transparent)">
+<div style="display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;padding:6px 8px 0;gap:4px">
+<a href="Active.dc.html" aria-label="Minimise workout" class="tap" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6" /></svg></a>
+<div style="min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px">
+<span style="font-size:15px;font-weight:700">Chest Day</span>
+<span style="display:flex;align-items:center;gap:6px;height:22px"><span style="font:600 12px var(--mono);color:{{elapsedColor}}">{{elapsed}}</span>
+<sc-if value="{{chipOn}}" hint-placeholder-val="{{ true }}"><button onClick="{{chipTap}}" aria-label="{{chipAria}}" class="tap" style="height:22px;padding:0 8px;border-radius:999px;border:0;display:flex;align-items:center;gap:5px;font:600 11px var(--font);cursor:pointer;{{chipStyle}}"><sc-if value="{{chipSpin}}" hint-placeholder-val="{{ false }}"><svg class="spin" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 12a9 9 0 1 1-6.2-8.6" /></svg></sc-if><sc-if value="{{chipDot}}" hint-placeholder-val="{{ true }}"><span style="width:7px;height:7px;border-radius:50%;{{chipDotStyle}}"></span></sc-if>{{chipLabel}}</button></sc-if>
+</span>
+</div>
+<div style="display:flex;align-items:center">
+<sc-if value="{{showFinish}}" hint-placeholder-val="{{ true }}"><a href="Summary.dc.html" class="tap" style="height:44px;padding:0 8px;display:flex;align-items:center;text-decoration:none;font-weight:700;font-size:15px;color:var(--acc-ink)">Finish</a></sc-if>
+<sc-if value="{{showMore}}" hint-placeholder-val="{{ true }}"><button onClick="{{openMenu}}" aria-label="Workout options" aria-haspopup="menu" aria-expanded="{{menuOpenStr}}" class="tap" style="width:44px;height:44px;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" /></svg></button></sc-if>
+</div>
+</div>
+<div aria-label="Workout progress" style="padding:8px 16px 10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span style="height:4px;border-radius:2px;background:var(--acc)"></span>
+<span style="height:4px;border-radius:2px;background:linear-gradient(90deg,var(--acc) 33%,var(--raised) 33%)"></span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+</div>
+</header>
+<section style="padding:10px 20px 0;display:flex;gap:14px;align-items:center">
+<span style="flex:0 0 78px;height:104px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 8px,var(--raised) 8px 16px)"></span>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">EXERCISE 2 OF 4</span>
+<h1 style="margin:0;font-size:21px;line-height:1.15;font-weight:800">Decline Barbell Bench Press</h1>
+</div>
+</section>
+<table style="margin:18px 12px 0;width:calc(100% - 24px);border-collapse:separate;border-spacing:0 4px">
+<thead><tr style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted);text-align:left"><th scope="col" style="padding-left:12px;font-weight:500">SET</th><th scope="col" style="font-weight:500">PREVIOUS</th><th scope="col" style="text-align:center;font-weight:500">KG</th><th scope="col" style="text-align:center;font-weight:500">REPS</th><th scope="col" style="width:44px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Done</span></th></tr></thead>
+<tbody>
+<tr style="height:52px;background:var(--surf)"><td style="padding-left:12px;font:700 14px var(--mono);border-radius:var(--rs) 0 0 var(--rs)">1</td><td style="font:500 13px var(--mono);color:var(--muted)">57.5 × 10</td><td style="text-align:center;font-weight:800;font-size:17px">60</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td style="border-radius:0 var(--rs) var(--rs) 0"><span style="width:32px;height:32px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5 10 17 19 7" /></svg></span></td></tr>
+<tr style="height:52px;background:var(--acc-soft)"><td style="padding-left:12px;font:700 14px var(--mono);border-radius:var(--rs) 0 0 var(--rs)">2</td><td style="font:500 13px var(--mono);color:var(--muted)">60 × 10</td><td style="text-align:center;font-weight:800;font-size:17px">62.5</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td style="border-radius:0 var(--rs) var(--rs) 0"><span style="display:block;width:32px;height:32px;border-radius:50%;border:2px solid var(--acc);box-sizing:border-box"></span></td></tr>
+<tr style="height:52px;color:var(--muted)"><td style="padding-left:12px;font:700 14px var(--mono)">3</td><td style="font:500 13px var(--mono)">60 × 9</td><td style="text-align:center;font-weight:800;font-size:17px">62.5</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td><span style="display:block;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);box-sizing:border-box"></span></td></tr>
+</tbody>
+</table>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:color-mix(in srgb, var(--bg) 88%, transparent);border-top:1px solid var(--line)">
+<span style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font:700 17px var(--font)">Complete set 2</span>
+</div>
+</main>
+
+<sc-if value="{{open}}" hint-placeholder-val="{{ true }}">
+<button aria-label="Close" onClick="{{close}}" class="dim" style="position:absolute;inset:0;border:0;padding:0;background:rgba(0,0,0,.55);cursor:pointer"></button>
+<section class="sheet" role="dialog" aria-modal="true" aria-labelledby="syt" style="position:absolute;left:0;right:0;top:150px;bottom:0;border-radius:22px 22px 0 0;background:var(--bg);border-top:1px solid var(--line);display:flex;flex-direction:column;overflow:hidden">
+<div style="display:flex;justify-content:center;padding:8px 0 2px"><span style="width:38px;height:5px;border-radius:3px;background:var(--raised)"></span></div>
+<div class="scroll" style="flex:1;overflow-y:auto;padding:4px 0 120px">
+<div style="padding:4px 20px 0;display:flex;align-items:center;gap:12px">
+<span style="flex:0 0 44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;{{iconStyle}}"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="{{iconPath}}" /></svg></span>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><h2 id="syt" style="margin:0;font-size:20px;font-weight:800">{{title}}</h2><span style="font-size:14px;line-height:1.4;color:var(--body)">{{lead}}</span></div>
+</div>
+
+<sc-if value="{{hasRefused}}" hint-placeholder-val="{{ true }}">
+<h3 style="margin:22px 20px 6px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--danger)">COULDN&#8217;T SAVE · 1</h3>
+<div style="margin:0 16px;padding:12px 14px;border-radius:var(--r);border:1px solid color-mix(in srgb, var(--danger) 40%, transparent);display:flex;flex-direction:column;gap:10px">
+<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:700">Cable Fly · set 3 removed</span><span style="font-size:13px;line-height:1.4;color:var(--muted)">The server turned this change down, so retrying won&#8217;t help. The set is still on the server and shown as it is there.</span></div>
+<div style="display:flex;align-items:center;gap:10px"><button class="tap" style="height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:700 13px var(--font);cursor:pointer">Got it</button><span style="font-size:12px;color:var(--muted)">Hides the warning. Kept in Details.</span></div>
+</div>
+</sc-if>
+
+<sc-if value="{{hasDrift}}" hint-placeholder-val="{{ true }}">
+<h3 style="margin:22px 20px 6px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--warn)">CHANGED ON ANOTHER DEVICE · 2 SETS</h3>
+<div style="margin:0 16px;padding:12px 14px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
+<span style="font-size:14px;font-weight:600">Bench Press · sets 1–2</span>
+<span style="font-size:13px;line-height:1.4;color:var(--body)">Another device changed these. The server&#8217;s version is the one shown.</span>
+</div>
+</sc-if>
+
+<sc-if value="{{hasWaiting}}" hint-placeholder-val="{{ true }}">
+<h3 style="margin:22px 20px 6px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--muted)">WAITING TO UPLOAD · {{waitingN}}</h3>
+<ul style="list-style:none;margin:0;padding:0 16px;display:flex;flex-direction:column">
+<sc-for list="{{waiting}}" as="w" hint-placeholder-count="3">
+<li style="display:flex;align-items:center;gap:12px;padding:10px 4px;border-bottom:1px solid var(--line)"><span style="width:8px;height:8px;border-radius:50%;background:var(--warn)"></span><span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font-size:15px;font-weight:600">{{w.n}}</span><span style="font:500 12px var(--mono);color:var(--muted)">{{w.d}}</span></span><span style="font-size:12px;color:var(--muted)">{{w.t}}</span></li>
+</sc-for>
+</ul>
+</sc-if>
+
+<h3 style="margin:22px 20px 6px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--muted)">PHOTOS · 1</h3>
+<div style="margin:0 16px;display:flex;align-items:center;gap:12px;padding:6px 4px">
+<span style="flex:0 0 44px;height:44px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 6px,var(--raised) 6px 12px)"></span>
+<span style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font-size:14px;font-weight:600">Custom: Landmine Press</span><span style="height:4px;border-radius:2px;background:var(--raised);overflow:hidden"><span style="display:block;height:100%;width:{{photoPct}};background:var(--acc)"></span></span></span>
+<span style="font:500 12px var(--mono);color:var(--muted)">{{photoLabel}}</span>
+</div>
+
+<details style="margin:22px 16px 0;border-top:1px solid var(--line)">
+<summary style="list-style:none;min-height:48px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;font-size:14px;font-weight:600;color:var(--muted)">Details for support<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6" /></svg></summary>
+<ul style="list-style:none;margin:0;padding:0 0 8px;display:flex;flex-direction:column;gap:6px;font:500 11px var(--mono);color:var(--muted)">
+<li>set.complete · attempt 4 · /sessions/…/sets/b2</li>
+<li>set.complete · attempt 4 · /sessions/…/sets/b3</li>
+<li>set.delete · refused 409 · /sessions/…/sets/c3</li>
+</ul>
+</details>
+</div>
+<footer style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:color-mix(in srgb, var(--bg) 90%, transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px">
+<button class="tap" style="height:52px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:700 15px var(--font);cursor:pointer">{{retryLabel}}</button>
+<button onClick="{{close}}" class="tap" style="height:52px;border-radius:999px;border:0;background:var(--acc);color:var(--on-acc);font:700 15px var(--font);cursor:pointer">Done</button>
+</footer>
+</section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"chip":{"editor":"enum","options":["saving","offline","issue"],"default":"offline"},"open":{"editor":"boolean","default":true},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--danger:' + (dark ? '#ff6b6b' : '#b42318') + ';--warn:' + (dark ? '#f2b84b' : '#8a5a00') + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() {
+    var self = this, s = this.state || {};
+    var chip = this.props.chip || 'offline';
+    var open = s.open === undefined ? (this.props.open !== false) : s.open;
+    var C = {
+      saving: { label: 'Saving\u2026', style: 'background:transparent;color:var(--muted)', spin: true, dot: false, aria: 'Saving your sets' },
+      offline: { label: 'Offline \u00b7 3 waiting', style: 'background:color-mix(in srgb, var(--warn) 18%, transparent);color:var(--warn)', spin: false, dot: true, dot2: 'background:var(--warn)', aria: 'Offline, 3 sets waiting to upload. Open sync details' },
+      issue: { label: 'Sync issue', style: 'background:color-mix(in srgb, var(--danger) 18%, transparent);color:var(--danger)', spin: false, dot: true, dot2: 'background:var(--danger)', aria: 'Sync issue. Open sync details' }
+    }[chip];
+    var isIssue = chip === 'issue', isOff = chip === 'offline';
+    var W = [['Bench Press \u00b7 set 2', '62.5 kg \u00d7 10', '2 min ago'], ['Bench Press \u00b7 set 3', '62.5 kg \u00d7 9', '40 s ago'], ['Cable Fly \u00b7 set 1', '15 kg \u00d7 12', 'now']];
+    return {
+      vars: this.theme(),
+      behindHidden: open ? 'true' : 'false',
+      elapsed: '12:48', elapsedColor: 'var(--acc-ink)',
+      chipOn: true, chipSpin: C.spin, chipDot: C.dot, chipDotStyle: C.dot2 || '', chipLabel: C.label, chipStyle: C.style, chipAria: C.aria,
+      chipTap: function () { self.setState({ open: true }); },
+      showFinish: true, showMore: true, menuOpenStr: 'false', openMenu: function () {},
+      open: open && chip !== 'saving',
+      close: function () { self.setState({ open: false }); },
+      title: isIssue ? 'Sync issue' : 'You\u2019re offline',
+      lead: isIssue ? 'One change couldn\u2019t be saved. Everything else is up to date.' : 'Your sets are safe on this phone and upload by themselves when you\u2019re back online.',
+      iconPath: isIssue ? 'M12 8v5M12 16.5v.5M10.3 3.9 2.6 17.5A2 2 0 0 0 4.3 20.5h15.4a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z' : 'M2 8.5a15 15 0 0 1 20 0M5.5 12a10 10 0 0 1 13 0M9 15.5a5 5 0 0 1 6 0M12 19h.01M3 3l18 18',
+      iconStyle: isIssue ? 'background:color-mix(in srgb, var(--danger) 16%, transparent);color:var(--danger)' : 'background:color-mix(in srgb, var(--warn) 16%, transparent);color:var(--warn)',
+      hasRefused: isIssue, hasDrift: isIssue, hasWaiting: isOff,
+      waitingN: String(W.length),
+      waiting: W.map(function (w) { return { n: w[0], d: w[1], t: w[2] }; }),
+      photoPct: isOff ? '0%' : '64%', photoLabel: isOff ? 'waiting' : '64%',
+      retryLabel: isOff ? 'Try now' : 'Retry'
+    };
+  }
+}
+</script>
+</body>
+</html>

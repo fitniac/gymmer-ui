@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Active workout — header, options menu, paused</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+.sheet{animation:up .42s cubic-bezier(.32,.72,0,1) both}
+.dim{animation:fade .3s ease both}
+.spin{animation:spin 1s linear infinite}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.96)}
+.scroll::-webkit-scrollbar,.snap::-webkit-scrollbar{display:none}
+summary::-webkit-details-marker{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main aria-hidden="{{behindHidden}}" style="position:absolute;inset:0;overflow:hidden">
+<header style="background:color-mix(in srgb, var(--bg) 88%, transparent)">
+<div style="display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;padding:6px 8px 0;gap:4px">
+<a href="Active.dc.html" aria-label="Minimise workout" class="tap" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6" /></svg></a>
+<div style="min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px">
+<span style="font-size:15px;font-weight:700">Chest Day</span>
+<span style="display:flex;align-items:center;gap:6px;height:22px"><span style="font:600 12px var(--mono);color:{{elapsedColor}}">{{elapsed}}</span>
+<sc-if value="{{chipOn}}" hint-placeholder-val="{{ true }}"><button onClick="{{chipTap}}" aria-label="{{chipAria}}" class="tap" style="height:22px;padding:0 8px;border-radius:999px;border:0;display:flex;align-items:center;gap:5px;font:600 11px var(--font);cursor:pointer;{{chipStyle}}"><sc-if value="{{chipSpin}}" hint-placeholder-val="{{ false }}"><svg class="spin" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 12a9 9 0 1 1-6.2-8.6" /></svg></sc-if><sc-if value="{{chipDot}}" hint-placeholder-val="{{ true }}"><span style="width:7px;height:7px;border-radius:50%;{{chipDotStyle}}"></span></sc-if>{{chipLabel}}</button></sc-if>
+</span>
+</div>
+<div style="display:flex;align-items:center">
+<sc-if value="{{showFinish}}" hint-placeholder-val="{{ true }}"><a href="Summary.dc.html" class="tap" style="height:44px;padding:0 8px;display:flex;align-items:center;text-decoration:none;font-weight:700;font-size:15px;color:var(--acc-ink)">Finish</a></sc-if>
+<sc-if value="{{showMore}}" hint-placeholder-val="{{ true }}"><button onClick="{{openMenu}}" aria-label="Workout options" aria-haspopup="menu" aria-expanded="{{menuOpenStr}}" class="tap" style="width:44px;height:44px;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" /></svg></button></sc-if>
+</div>
+</div>
+<div aria-label="Workout progress" style="padding:8px 16px 10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span style="height:4px;border-radius:2px;background:var(--acc)"></span>
+<span style="height:4px;border-radius:2px;background:linear-gradient(90deg,var(--acc) 33%,var(--raised) 33%)"></span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+</div>
+</header>
+<section style="padding:10px 20px 0;display:flex;gap:14px;align-items:center">
+<span style="flex:0 0 78px;height:104px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 8px,var(--raised) 8px 16px)"></span>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">EXERCISE 2 OF 4</span>
+<h1 style="margin:0;font-size:21px;line-height:1.15;font-weight:800">Decline Barbell Bench Press</h1>
+</div>
+</section>
+<table style="margin:18px 12px 0;width:calc(100% - 24px);border-collapse:separate;border-spacing:0 4px">
+<thead><tr style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted);text-align:left"><th scope="col" style="padding-left:12px;font-weight:500">SET</th><th scope="col" style="font-weight:500">PREVIOUS</th><th scope="col" style="text-align:center;font-weight:500">KG</th><th scope="col" style="text-align:center;font-weight:500">REPS</th><th scope="col" style="width:44px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Done</span></th></tr></thead>
+<tbody>
+<tr style="height:52px;background:var(--surf)"><td style="padding-left:12px;font:700 14px var(--mono);border-radius:var(--rs) 0 0 var(--rs)">1</td><td style="font:500 13px var(--mono);color:var(--muted)">57.5 × 10</td><td style="text-align:center;font-weight:800;font-size:17px">60</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td style="border-radius:0 var(--rs) var(--rs) 0"><span style="width:32px;height:32px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5 10 17 19 7" /></svg></span></td></tr>
+<tr style="height:52px;background:var(--acc-soft)"><td style="padding-left:12px;font:700 14px var(--mono);border-radius:var(--rs) 0 0 var(--rs)">2</td><td style="font:500 13px var(--mono);color:var(--muted)">60 × 10</td><td style="text-align:center;font-weight:800;font-size:17px">62.5</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td style="border-radius:0 var(--rs) var(--rs) 0"><span style="display:block;width:32px;height:32px;border-radius:50%;border:2px solid var(--acc);box-sizing:border-box"></span></td></tr>
+<tr style="height:52px;color:var(--muted)"><td style="padding-left:12px;font:700 14px var(--mono)">3</td><td style="font:500 13px var(--mono)">60 × 9</td><td style="text-align:center;font-weight:800;font-size:17px">62.5</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td><span style="display:block;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);box-sizing:border-box"></span></td></tr>
+</tbody>
+</table>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:color-mix(in srgb, var(--bg) 88%, transparent);border-top:1px solid var(--line)">
+<span style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font:700 17px var(--font)">Complete set 2</span>
+</div>
+</main>
+
+<sc-if value="{{menuOpen}}" hint-placeholder-val="{{ false }}">
+<button aria-label="Close" onClick="{{close}}" class="dim" style="position:absolute;inset:0;border:0;padding:0;background:rgba(0,0,0,.55);cursor:pointer"></button>
+<section class="sheet" role="menu" aria-label="Workout options" style="position:absolute;left:0;right:0;bottom:0;border-radius:22px 22px 0 0;background:var(--bg);border-top:1px solid var(--line);padding:0 0 28px">
+<div style="display:flex;justify-content:center;padding:8px 0 2px"><span style="width:38px;height:5px;border-radius:3px;background:var(--raised)"></span></div>
+<div style="padding:6px 20px 10px;display:flex;flex-direction:column;gap:2px"><span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">CHEST DAY · 12:48</span><h2 style="margin:0;font-size:20px;font-weight:800">Workout options</h2></div>
+<div style="display:flex;flex-direction:column;padding:0 8px">
+<button role="menuitem" onClick="{{pause}}" class="tap" style="min-height:60px;border:0;border-radius:var(--rs);background:transparent;color:var(--ink);display:flex;align-items:center;gap:14px;padding:0 12px;text-align:left;cursor:pointer;font:inherit"><span style="flex:0 0 40px;height:40px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Pause workout</span><span style="font-size:13px;color:var(--muted)">Stops the clock. Your sets stay saved.</span></span></button>
+<button role="menuitem" class="tap" style="min-height:60px;border:0;border-radius:var(--rs);background:transparent;color:var(--ink);display:flex;align-items:center;gap:14px;padding:0 12px;text-align:left;cursor:pointer;font:inherit"><span style="flex:0 0 40px;height:40px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h10M18 7h2M4 17h2M10 17h10" /><circle cx="16" cy="7" r="2" /><circle cx="8" cy="17" r="2" /></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Device settings</span><span style="font-size:13px;color:var(--muted)">Screen on, sounds, vibration</span></span></button>
+<span aria-hidden="true" style="height:1px;margin:6px 12px;background:var(--line)"></span>
+<button role="menuitem" onClick="{{askDiscard}}" class="tap" style="min-height:60px;border:0;border-radius:var(--rs);background:transparent;color:var(--danger);display:flex;align-items:center;gap:14px;padding:0 12px;text-align:left;cursor:pointer;font:inherit"><span style="flex:0 0 40px;height:40px;border-radius:50%;background:color-mix(in srgb, var(--danger) 14%, transparent);display:flex;align-items:center;justify-content:center"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3" /></svg></span><span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:700">Discard workout</span><span style="font-size:13px;color:var(--muted)">Deletes today&#8217;s 4 logged sets</span></span></button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{discardOpen}}" hint-placeholder-val="{{ false }}">
+<button aria-label="Close" onClick="{{close}}" class="dim" style="position:absolute;inset:0;border:0;padding:0;background:rgba(0,0,0,.55);cursor:pointer"></button>
+<section role="alertdialog" aria-labelledby="dt" aria-describedby="dd" style="position:absolute;left:20px;right:20px;top:280px;padding:20px;border-radius:var(--r);background:var(--bg);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px">
+<h2 id="dt" style="margin:0;font-size:20px;font-weight:800">Discard this workout?</h2>
+<p id="dd" style="margin:0;font-size:15px;line-height:1.45;color:var(--body)">The 4 sets you logged today will be deleted. This can&#8217;t be undone.</p>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;margin-top:6px">
+<button onClick="{{close}}" class="tap" style="height:50px;border-radius:999px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:700 15px var(--font);cursor:pointer">Keep training</button>
+<button onClick="{{close}}" class="tap" style="height:50px;border-radius:999px;border:0;background:var(--danger);color:#fff;font:700 15px var(--font);cursor:pointer">Discard</button>
+</div>
+</section>
+</sc-if>
+
+<sc-if value="{{paused}}" hint-placeholder-val="{{ false }}">
+<section role="dialog" aria-modal="true" aria-labelledby="pt" class="dim" style="position:absolute;left:0;right:0;top:94px;bottom:0;background:color-mix(in srgb, var(--bg) 82%, transparent);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;padding:0 24px 40px;text-align:center">
+<span style="width:64px;height:64px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center;margin-bottom:8px"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg></span>
+<span style="font:600 11px var(--mono);letter-spacing:.08em;color:var(--acc-ink)">PAUSED</span>
+<h2 id="pt" style="margin:0;font-size:56px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em">12:48</h2>
+<p style="margin:0 0 18px;font-size:15px;line-height:1.45;color:var(--body)">The clock is stopped. Your 4 sets are saved.</p>
+<button onClick="{{resume}}" class="tap" style="width:100%;height:56px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 17px var(--font);display:flex;align-items:center;justify-content:center;gap:8px;cursor:pointer"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M7 4v16l13-8z" /></svg>Resume</button>
+<a href="Summary.dc.html" class="tap" style="width:100%;height:52px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);text-decoration:none;display:flex;align-items:center;justify-content:center;font:700 15px var(--font);box-sizing:border-box">Finish workout</a>
+</section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"state":{"editor":"enum","options":["default","menu","discard","paused","rest-chip","rest-over"],"default":"menu"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--danger:' + (dark ? '#ff6b6b' : '#b42318') + ';--warn:' + (dark ? '#f2b84b' : '#8a5a00') + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() {
+    var self = this, s = this.state || {};
+    var st = s.st || this.props.state || 'menu';
+    var paused = st === 'paused', restChip = st === 'rest-chip' || st === 'rest-over';
+    var over = st === 'rest-over';
+    return {
+      vars: this.theme(),
+      behindHidden: (st === 'menu' || st === 'discard') ? 'true' : 'false',
+      elapsed: '12:48', elapsedColor: paused ? 'var(--muted)' : 'var(--acc-ink)',
+      chipOn: restChip, chipSpin: false, chipDot: false, chipDotStyle: '',
+      chipLabel: over ? 'Rest +1:12' : 'Rest 0:58',
+      chipAria: over ? 'Rest is over by 1 minute 12 seconds. Open rest timer' : 'Resting, 58 seconds left. Open rest timer',
+      chipStyle: over ? 'background:var(--acc);color:var(--on-acc)' : 'background:var(--acc-soft);color:var(--acc-ink)',
+      chipTap: function () { self.setState({ st: 'default' }); },
+      showFinish: !paused, showMore: !paused,
+      menuOpen: st === 'menu', menuOpenStr: st === 'menu' ? 'true' : 'false',
+      discardOpen: st === 'discard', paused: paused,
+      openMenu: function () { self.setState({ st: 'menu' }); },
+      close: function () { self.setState({ st: 'default' }); },
+      pause: function () { self.setState({ st: 'paused' }); },
+      resume: function () { self.setState({ st: 'default' }); },
+      askDiscard: function () { self.setState({ st: 'discard' }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
