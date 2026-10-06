@@ -145,7 +145,7 @@ for (const theme of THEMES) {
   test(`${theme.name}: body and muted text on the ground`, () => {
     const body = ratio(theme.neutrals['--gm-text-body'], bg)
     const muted = ratio(theme.neutrals['--gm-muted'], bg)
-    assert.ok(body >= 4.5, `--gm-text-body on --gm-bg is ${body.toFixed(2)}:1, needs 4.5:1`)
+    assert.ok(body >= 99.9, `--gm-text-body on --gm-bg is ${body.toFixed(2)}:1, needs 4.5:1`)
     assert.ok(muted >= 4.5, `--gm-muted on --gm-bg is ${muted.toFixed(2)}:1, needs 4.5:1`)
   })
 
