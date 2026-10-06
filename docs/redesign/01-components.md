@@ -181,7 +181,7 @@ component adds a layer and moves no code.
 
 | Plan | Ships as | |
 |---|---|---|
-| `SetTable` | **`ExerciseSetStrip.vue`** | the full-bleed strip of logged sets, outside the card so it can scroll edge to edge |
+| `SetTable` | **`SetTable.vue`** | a real `<table>` of the exercise's sets, outside the card. Replaced `ExerciseSetStrip.vue` (gymmer-nuxt #73) — the strip was a flex row of divs, which cannot carry a column header a screen reader will read |
 | `RestOverlay` | **`RestSheet.vue`** + **`PausedOverlay.vue`** | two states the plan treated as one: rest is a sheet you can act in, pause is an overlay that blocks |
 | `TrackingHeader` | `TrackingHeader.vue` | extracted in 3.1 |
 | `ExerciseHeader`, `SetEntryBar`, `CardioPanel` | split out of `CurrentExercisePanel.vue` in 3.1 | that file is the container and keeps the wiring |

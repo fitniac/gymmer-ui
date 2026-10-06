@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>15f Active · labelled chips + rest picker (presets 3×2 below 360px)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes up{from{transform:translateY(100%)}to{transform:none}}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.sheet{animation:up .42s cubic-bezier(.32,.72,0,1) both}
+.dim{animation:fade .3s ease both}
+.tap{transition:transform .12s ease-out,background-color .2s,border-color .2s,color .2s}
+.tap:active{transform:scale(.96)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main aria-hidden="{{behindHidden}}" style="position:absolute;inset:0;overflow:hidden">
+<header>
+<div style="display:grid;grid-template-columns:44px minmax(0,1fr) auto;align-items:center;padding:6px 8px 0;gap:4px">
+<a href="Active.dc.html" aria-label="Minimise workout" class="tap" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m6 9 6 6 6-6" /></svg></a>
+<div style="min-width:0;display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:15px;font-weight:700">Chest Day</span><span style="font:600 12px var(--mono);color:var(--acc-ink)">12:48</span></div>
+<div style="display:flex;align-items:center"><a href="Summary.dc.html" class="tap" style="height:44px;padding:0 8px;display:flex;align-items:center;text-decoration:none;font-weight:700;font-size:15px;color:var(--acc-ink)">Finish</a><span aria-hidden="true" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" /></svg></span></div>
+</div>
+<div aria-label="Workout progress" style="padding:8px 16px 10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span style="height:4px;border-radius:2px;background:var(--acc)"></span>
+<span style="height:4px;border-radius:2px;background:linear-gradient(90deg,var(--acc) 33%,var(--raised) 33%)"></span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+</div>
+</header>
+
+<section style="padding:10px 20px 0;display:flex;gap:14px;align-items:center">
+<span style="flex:0 0 78px;height:104px;border-radius:var(--rs);background:repeating-linear-gradient(135deg,var(--surf) 0 8px,var(--raised) 8px 16px)"></span>
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px">
+<span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">EXERCISE 2 OF 4</span>
+<h1 style="margin:0;font-size:21px;line-height:1.15;font-weight:800">Decline Barbell Bench Press</h1>
+</div>
+</section>
+
+<div role="group" aria-label="Exercise actions" style="padding:14px 16px 0;display:flex;flex-wrap:wrap;gap:8px">
+<a href="ExerciseSheet.dc.html" class="tap" style="height:36px;padding:0 14px;border-radius:999px;background:var(--surf);display:flex;align-items:center;gap:7px;text-decoration:none;font:600 13px var(--font)"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M7 5v14l12-7z" /></svg>Form</a>
+<a href="ExerciseSheet.dc.html" class="tap" style="height:36px;padding:0 14px;border-radius:999px;background:var(--surf);display:flex;align-items:center;gap:7px;text-decoration:none;font:600 13px var(--font)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M4 8h13l-3-3M20 16H7l3 3" /></svg>Swap</a>
+<button onClick="{{openPicker}}" aria-label="{{restAria}}" aria-haspopup="dialog" class="tap" style="height:36px;padding:0 14px;border-radius:999px;border:0;background:var(--surf);color:var(--ink);display:flex;align-items:center;gap:7px;font:600 13px var(--font);cursor:pointer"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="13" r="8" /><path d="M12 9v4l2.5 2M10 2h4" /></svg><span style="font-variant-numeric:tabular-nums">{{chipLabel}}</span></button>
+</div>
+
+<table style="margin:14px 12px 0;width:calc(100% - 24px);border-collapse:separate;border-spacing:0 4px">
+<thead><tr style="font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted);text-align:left"><th scope="col" style="padding-left:12px;font-weight:500">SET</th><th scope="col" style="font-weight:500">PREVIOUS</th><th scope="col" style="text-align:center;font-weight:500">KG</th><th scope="col" style="text-align:center;font-weight:500">REPS</th><th scope="col" style="width:44px"><span style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Done</span></th></tr></thead>
+<tbody>
+<tr style="height:52px;background:var(--surf)"><td style="padding-left:12px;font:700 14px var(--mono);border-radius:var(--rs) 0 0 var(--rs)">1</td><td style="font:500 13px var(--mono);color:var(--muted)">57.5 × 10</td><td style="text-align:center;font-weight:800;font-size:17px">60</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td style="border-radius:0 var(--rs) var(--rs) 0"><span style="width:32px;height:32px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 12.5 10 17 19 7" /></svg></span></td></tr>
+<tr style="height:52px;background:var(--acc-soft)"><td style="padding-left:12px;font:700 14px var(--mono);border-radius:var(--rs) 0 0 var(--rs)">2</td><td style="font:500 13px var(--mono);color:var(--muted)">60 × 10</td><td style="text-align:center;font-weight:800;font-size:17px">62.5</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td style="border-radius:0 var(--rs) var(--rs) 0"><span style="display:block;width:32px;height:32px;border-radius:50%;border:2px solid var(--acc);box-sizing:border-box"></span></td></tr>
+<tr style="height:52px;color:var(--muted)"><td style="padding-left:12px;font:700 14px var(--mono)">3</td><td style="font:500 13px var(--mono)">60 × 9</td><td style="text-align:center;font-weight:800;font-size:17px">62.5</td><td style="text-align:center;font-weight:800;font-size:17px">10</td><td><span style="display:block;width:32px;height:32px;border-radius:50%;border:2px solid var(--line);box-sizing:border-box"></span></td></tr>
+</tbody>
+</table>
+<div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:color-mix(in srgb, var(--bg) 88%, transparent);border-top:1px solid var(--line)">
+<span style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;font:700 17px var(--font)">Complete set 2</span>
+</div>
+</main>
+
+<sc-if value="{{open}}" hint-placeholder-val="{{ true }}">
+<button onClick="{{close}}" aria-label="Close" class="dim" style="position:absolute;inset:0;border:0;padding:0;background:var(--gm-scrim, rgba(0,0,0,.55))"></button>
+<section class="sheet" role="dialog" aria-modal="true" aria-labelledby="rpt" style="position:absolute;left:0;right:0;bottom:0;border-radius:22px 22px 0 0;background:var(--bg);border-top:1px solid var(--line);display:flex;flex-direction:column;padding-bottom:28px">
+<div style="display:flex;justify-content:center;padding:8px 0 2px"><span style="width:38px;height:5px;border-radius:3px;background:var(--raised)"></span></div>
+<div style="padding:4px 12px 0 20px;display:flex;align-items:center;gap:8px">
+<div style="flex:1;min-width:0;display:flex;flex-direction:column;gap:2px"><span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">DECLINE BARBELL BENCH PRESS</span><h2 id="rpt" style="margin:0;font-size:22px;font-weight:800;font-stretch:108%">Rest after each set</h2></div>
+<button onClick="{{close}}" aria-label="Close" class="tap" style="flex:0 0 44px;height:44px;border:0;background:transparent;display:flex;align-items:center;justify-content:center;color:var(--muted);cursor:pointer"><span style="width:30px;height:30px;border-radius:50%;background:var(--surf);display:flex;align-items:center;justify-content:center"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M6 6l12 12M18 6 6 18" /></svg></span></button>
+</div>
+
+<div style="padding:18px 16px 0;display:grid;grid-template-columns:64px minmax(0,1fr) 64px;align-items:center;gap:8px">
+<button onClick="{{less}}" aria-label="15 seconds less" class="tap" style="height:64px;border-radius:50%;border:0;background:var(--surf);color:var(--ink);font-size:26px;cursor:pointer;{{lessStyle}}">&#8722;</button>
+<div aria-live="polite" style="display:flex;flex-direction:column;align-items:center;gap:2px"><span style="font-size:48px;line-height:1;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em">{{big}}</span><span style="font:500 11px var(--mono);letter-spacing:.07em;color:var(--muted)">{{bigSub}}</span></div>
+<button onClick="{{more}}" aria-label="15 seconds more" class="tap" style="height:64px;border-radius:50%;border:0;background:var(--surf);color:var(--ink);font-size:26px;cursor:pointer;{{moreStyle}}">+</button>
+</div>
+
+<div role="radiogroup" aria-label="Presets" style="padding:18px 16px 0;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px">
+<sc-for list="{{presets}}" as="p" hint-placeholder-count="6">
+<button role="radio" aria-checked="{{p.sel}}" aria-label="{{p.aria}}" onClick="{{p.pick}}" class="tap" style="height:40px;border-radius:999px;font:700 13px var(--font);font-variant-numeric:tabular-nums;cursor:pointer;{{p.style}}">{{p.n}}</button>
+</sc-for>
+</div>
+
+<div style="padding:20px 16px 0;display:flex;flex-direction:column;gap:8px">
+<div role="radiogroup" aria-label="Where to change it" style="padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px">
+<sc-for list="{{scopes}}" as="c" hint-placeholder-count="2">
+<button role="radio" aria-checked="{{c.sel}}" onClick="{{c.pick}}" class="tap" style="height:36px;border:0;border-radius:999px;font:700 13px var(--font);cursor:pointer;{{c.style}}">{{c.n}}</button>
+</sc-for>
+</div>
+<span style="margin:0 4px;font:400 12px/1.4 var(--font);letter-spacing:0;color:var(--muted);text-align:center">{{scopeHint}}</span>
+</div>
+
+<div style="padding:16px 16px 0">
+<button onClick="{{save}}" class="tap" style="width:100%;height:56px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 16px var(--font);cursor:pointer">{{saveLabel}}</button>
+</div>
+</section>
+</sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"state":{"editor":"enum","options":["chips","picker","picker-program","picker-off"],"default":"picker"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--danger:' + (dark ? '#ff6b6b' : '#b42318') + ';--warn:' + (dark ? '#f2b84b' : '#8a5a00') + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() {
+    var self = this, s = this.state || {};
+    var st = this.props.state || 'picker';
+    var open = s.open !== undefined ? s.open : st !== 'chips';
+    var saved = s.saved !== undefined ? s.saved : (st === 'picker-off' ? 0 : 90);
+    var val = s.val !== undefined ? s.val : (st === 'picker-off' ? 0 : 90);
+    var scope = s.scope || (st === 'picker-program' ? 'program' : 'today');
+    var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
+    function clock(x) { if (x < 60) return x + ' s'; var m = Math.floor(x / 60), r = x % 60; return m + ':' + (r < 10 ? '0' : '') + r; }
+    function chip(x) { return x === 0 ? 'Off' : clock(x); }
+    function words(x) { if (x === 0) return 'off'; var m = Math.floor(x / 60), r = x % 60, a = []; if (m) a.push(m + (m === 1 ? ' minute' : ' minutes')); if (r) a.push(r + ' seconds'); return a.join(' '); }
+    var P = [0, 30, 60, 90, 120, 180];
+    return {
+      vars: this.theme(),
+      behindHidden: open ? 'true' : 'false',
+      open: open,
+      chipLabel: chip(saved),
+      restAria: 'Rest ' + words(saved) + ', change',
+      openPicker: function () { self.setState({ open: true, val: saved }); },
+      close: function () { self.setState({ open: false }); },
+      big: val === 0 ? 'Off' : clock(val),
+      bigSub: val === 0 ? 'NO REST TIMER' : (val >= 60 ? 'MIN:SEC' : 'SECONDS'),
+      less: function () { self.setState({ val: Math.max(0, val - 15) }); },
+      more: function () { self.setState({ val: Math.min(600, val + 15) }); },
+      lessStyle: val === 0 ? 'opacity:.4' : '',
+      moreStyle: val === 600 ? 'opacity:.4' : '',
+      presets: P.map(function (x) {
+        var on = x === val;
+        return { n: x === 0 ? 'Off' : (x >= 60 ? clock(x) : String(x)), aria: x === 0 ? 'No rest' : words(x), sel: on ? 'true' : 'false',
+          pick: function () { self.setState({ val: x }); },
+          style: on ? 'border:1px solid var(--ink);background:var(--ink);color:var(--bg)' : 'border:1px solid var(--line);background:transparent;color:var(--ink)' };
+      }),
+      scopes: [['today', 'Today only'], ['program', '+ Program']].map(function (c) {
+        var on = c[0] === scope;
+        return { n: c[1], sel: on ? 'true' : 'false', style: on ? segOn : segOff, pick: function () { self.setState({ scope: c[0] }); } };
+      }),
+      scopeHint: scope === 'program'
+        ? 'Chest Day keeps this rest when you finish. Not saved if you discard the workout.'
+        : 'Only for this exercise today. A running timer keeps going; this applies from the next set.',
+      saveLabel: val === 0 ? 'Turn rest off' : 'Set rest to ' + clock(val),
+      save: function () { self.setState({ open: false, saved: val }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -42,6 +42,18 @@
   --gm-sh-card-soft: rgba(32, 30, 29, .12);  /* phone frame */
   --gm-sh-deep: rgba(32, 30, 29, .35);       /* on dark surfaces */
 
+  /* elevation (soft, blurred) — NOT the offset family above.
+     Every --shadow-* in gymmer.css is a hard 12px/5px offset: the brand's
+     printed echo, meant for marketing surfaces. Behind a 36px control at rest
+     it reads as a misaligned duplicate of the thing, not as depth.
+     This is the other kind — the one an app surface wants when a selected
+     segment or a resting card should sit a millimetre above its track.
+
+     Built on --gm-sh rather than a literal: the dark block below redefines
+     that colour, and a baked rgba() here would light-shadow a dark theme. */
+  --gm-shadow-soft: 0 1px 3px var(--gm-sh);
+  --gm-shadow-soft-raised: 0 4px 12px var(--gm-sh-card);
+
   /* Pro pricing card gradient stops */
   --gm-pro-1: #2c2a29;
   --gm-pro-2: #201e1d;
