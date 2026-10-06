@@ -5,7 +5,7 @@
     "Active.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "15 Active \u00b7 strength + rest timer",
+      "title": "15 Active · strength + rest timer",
       "w": 390,
       "x": 0,
       "y": 3752
@@ -13,7 +13,7 @@
     "Cardio.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "16 Active \u00b7 timed cardio",
+      "title": "16 Active · timed cardio",
       "w": 390,
       "x": 470,
       "y": 3752
@@ -21,7 +21,7 @@
     "Coach.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "18 Coach \u00b7 Nova",
+      "title": "18 Coach · Nova",
       "w": 390,
       "x": 1410,
       "y": 3752
@@ -37,7 +37,7 @@
     "Dashboard.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "09 Today \u00b7 with history",
+      "title": "09 Today · with history",
       "w": 390,
       "x": 0,
       "y": 2508
@@ -45,7 +45,7 @@
     "DashboardEmpty.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "10 Today \u00b7 first run",
+      "title": "10 Today · first run",
       "w": 390,
       "x": 470,
       "y": 2508
@@ -54,7 +54,7 @@
       "expand": "fill",
       "h": 900,
       "page": "desktop",
-      "title": "D5 Active workout \u00b7 rest panel",
+      "title": "D5 Active workout · rest panel",
       "w": 1440,
       "x": 6080,
       "y": 0
@@ -72,7 +72,7 @@
       "expand": "fill",
       "h": 3700,
       "page": "desktop",
-      "title": "D1 Home \u00b7 register & get the app",
+      "title": "D1 Home · register & get the app",
       "w": 1440,
       "x": 0,
       "y": 0,
@@ -82,7 +82,7 @@
       "expand": "fill",
       "h": 1000,
       "page": "desktop",
-      "title": "D4 Today \u00b7 app with Nova panel",
+      "title": "D4 Today · app with Nova panel",
       "w": 1440,
       "x": 4560,
       "y": 0
@@ -90,14 +90,14 @@
     "Exercise.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "04 Exercise \u00b7 top",
+      "title": "04 Exercise · top",
       "w": 390,
       "x": 1410,
       "y": 0
     },
     "ExerciseScrolled.dc.html": {
       "h": 844,
-      "title": "05 Exercise \u00b7 scrolled",
+      "title": "05 Exercise · scrolled",
       "w": 390,
       "x": 1880,
       "y": 0
@@ -142,7 +142,7 @@
     "Muscle.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "03 Muscle \u00b7 Back",
+      "title": "03 Muscle · Back",
       "w": 390,
       "x": 940,
       "y": 0
@@ -150,7 +150,7 @@
     "Pro.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "21 Pro \u00b7 7-day free trial",
+      "title": "21 Pro · 7-day free trial",
       "w": 390,
       "x": 2820,
       "y": 3752
@@ -158,7 +158,7 @@
     "Program.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "12 Program \u00b7 Chest Day",
+      "title": "12 Program · Chest Day",
       "w": 390,
       "x": 1410,
       "y": 2508
@@ -174,7 +174,7 @@
     "Rest.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "20 Rest timer \u00b7 edit last set \u00b7 ad on Free",
+      "title": "20 Rest timer · edit last set · ad on Free",
       "w": 390,
       "x": 2350,
       "y": 3752
@@ -198,7 +198,7 @@
     "TabActive.dc.html": {
       "h": 1194,
       "page": "tablet",
-      "title": "T4 Active workout \u00b7 rest",
+      "title": "T4 Active workout · rest",
       "w": 834,
       "x": 2742,
       "y": 0
@@ -248,7 +248,7 @@
       "y": 2508,
       "w": 390,
       "h": 844,
-      "title": "23 Progress \u00b7 body map",
+      "title": "23 Progress · body map",
       "is_interactive": true
     },
     "BodyMap.dc.html": {
@@ -256,20 +256,20 @@
       "y": 1264,
       "w": 360,
       "h": 360,
-      "title": "Component \u00b7 Body map (stand-in) \u2014 male / female figure"
+      "title": "Component · Body map (stand-in) — male / female figure"
     },
     "TypeCompare.dc.html": {
       "h": 900,
       "w": 1200,
       "x": 3490,
       "y": 1264,
-      "title": "Type \u00b7 Archivo + Plex Mono vs Google Sans Flex"
+      "title": "Type · Archivo + Plex Mono vs Google Sans Flex"
     },
     "DeskLibrary.dc.html": {
       "expand": "fill",
       "h": 2400,
       "page": "desktop",
-      "title": "D2 Library \u00b7 browse & filter (SEO)",
+      "title": "D2 Library · browse & filter (SEO)",
       "w": 1440,
       "x": 1520,
       "y": 0,
@@ -281,13 +281,13 @@
       "x": 3290,
       "y": 3752,
       "is_interactive": true,
-      "title": "15b Exercise sheet \u00b7 form, video, swap"
+      "title": "15b Exercise sheet · form, video, swap"
     },
     "DeskPrograms.dc.html": {
       "expand": "fill",
       "h": 2600,
       "page": "desktop",
-      "title": "D6 Programs \u00b7 a program for every goal",
+      "title": "D6 Programs · a program for every goal",
       "w": 1440,
       "x": 0,
       "y": 4100,
@@ -297,7 +297,7 @@
       "expand": "fill",
       "h": 3000,
       "page": "desktop",
-      "title": "D7 Program \u00b7 public detail",
+      "title": "D7 Program · public detail",
       "w": 1440,
       "x": 1520,
       "y": 4100,
@@ -327,7 +327,7 @@
       "expand": "fill",
       "h": 4200,
       "page": "desktop",
-      "title": "D10 Article \u00b7 with program & exercise widgets",
+      "title": "D10 Article · with program & exercise widgets",
       "w": 1440,
       "x": 6080,
       "y": 4100,
@@ -339,7 +339,7 @@
       "x": 0,
       "y": 4996,
       "is_interactive": true,
-      "title": "24 Programs \u00b7 discover by goal"
+      "title": "24 Programs · discover by goal"
     },
     "ProgramPublic.dc.html": {
       "h": 844,
@@ -347,7 +347,7 @@
       "x": 470,
       "y": 4996,
       "is_interactive": true,
-      "title": "25 Program \u00b7 public detail"
+      "title": "25 Program · public detail"
     },
     "Articles.dc.html": {
       "h": 844,
@@ -363,14 +363,14 @@
       "x": 1410,
       "y": 4996,
       "is_interactive": true,
-      "title": "27 Article \u00b7 widgets"
+      "title": "27 Article · widgets"
     },
     "LogoShadow.dc.html": {
       "h": 1220,
       "w": 1160,
       "x": 4770,
       "y": 1264,
-      "title": "22b Logo \u00b7 G variants (A6 applied)"
+      "title": "22b Logo · G variants (A6 applied)"
     },
     "ActiveHeader.dc.html": {
       "x": 3760,
@@ -378,7 +378,7 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15c Active \u00b7 header, options menu, paused, rest chip"
+      "title": "15c Active · header, options menu, paused, rest chip"
     },
     "SyncSheet.dc.html": {
       "x": 4230,
@@ -386,7 +386,7 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15d Active \u00b7 sync status chip + sheet"
+      "title": "15d Active · sync status chip + sheet"
     },
     "AddExercise.dc.html": {
       "x": 4700,
@@ -394,7 +394,15 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15e Active \u00b7 add exercise"
+      "title": "15e Active · add exercise"
+    },
+    "RestPicker.dc.html": {
+      "x": 5170,
+      "y": 3752,
+      "w": 390,
+      "h": 844,
+      "is_interactive": true,
+      "title": "15f Active · labelled chips + rest picker (presets 3\u00d72 below 360px)"
     }
   },
   "createdOnFiles": {
@@ -410,7 +418,7 @@
       "kind": "title1",
       "maxW": 6000,
       "page": "desktop",
-      "text": "Desktop \u2014 marketing, exercise page, app",
+      "text": "Desktop — marketing, exercise page, app",
       "w": 240,
       "x": 0,
       "y": -300
@@ -418,7 +426,7 @@
     "t1": {
       "kind": "title1",
       "maxW": 2740,
-      "text": "Mobile flow \u2014 Home \u2192 Library \u2192 Muscle \u2192 Exercise",
+      "text": "Mobile flow — Home → Library → Muscle → Exercise",
       "w": 240,
       "x": 0,
       "y": -300
@@ -434,7 +442,7 @@
     "t3": {
       "kind": "title1",
       "maxW": 3210,
-      "text": "Signed-in app \u2014 Today, Programs, Train",
+      "text": "Signed-in app — Today, Programs, Train",
       "w": 240,
       "x": 0,
       "y": 2208
@@ -442,7 +450,7 @@
     "t4": {
       "kind": "title1",
       "maxW": 5090,
-      "text": "In the workout \u00b7 Coach \u00b7 Settings \u00b7 Free vs Pro",
+      "text": "In the workout · Coach · Settings · Free vs Pro",
       "w": 240,
       "x": 0,
       "y": 3452
@@ -451,7 +459,7 @@
       "kind": "title1",
       "maxW": 3576,
       "page": "tablet",
-      "text": "Tablet \u2014 iPad 11\" portrait",
+      "text": "Tablet — iPad 11\" portrait",
       "w": 240,
       "x": 0,
       "y": -300
@@ -459,7 +467,7 @@
     "t5": {
       "kind": "title1",
       "maxW": 3210,
-      "text": "Public content \u2014 Programs, Goals (categories), Articles",
+      "text": "Public content — Programs, Goals (categories), Articles",
       "w": 240,
       "x": 0,
       "y": 4696
@@ -468,7 +476,7 @@
       "kind": "title1",
       "maxW": 7600,
       "page": "desktop",
-      "text": "Public content \u2014 Programs, Goals (categories), Articles",
+      "text": "Public content — Programs, Goals (categories), Articles",
       "w": 240,
       "x": 0,
       "y": 3800
@@ -494,6 +502,7 @@
     "ActiveHeader.dc.html",
     "SyncSheet.dc.html",
     "AddExercise.dc.html",
+    "RestPicker.dc.html",
     "Cardio.dc.html",
     "Summary.dc.html",
     "Coach.dc.html",

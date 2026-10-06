@@ -4,10 +4,36 @@
 // that the consumer resolves this by REAL path (realpathSync of the
 // node_modules entry), owns the single `@import 'tailwindcss'`, and points a
 // Tailwind `@source` glob at node_modules/@gymmer/ui.
+import { dirname } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
+/**
+ * Is this layer the project being built, or is it somebody's layer?
+ *
+ * `modules` is INHERITED by every consumer. `@nuxt/eslint` was listed here and
+ * carried only in devDependencies — and a git-tarball install (which is how
+ * gymmer-nuxt pins this layer) takes `dependencies` alone. So the consumer's
+ * build inherited a module it had no copy of, and resolved it out of its own
+ * node_modules by luck: it worked while gymmer-nuxt happened to depend on
+ * @nuxt/eslint, and would have broken the production image the moment it
+ * stopped.
+ *
+ * Moving the package to `dependencies` would fix the resolution by shipping a
+ * linting module into every consumer's production bundle, which is the wrong
+ * half of the problem to solve. A design system has no business choosing a
+ * consumer's lint setup.
+ *
+ * So the module is added only when this directory IS the project root — when
+ * someone runs `nuxt prepare`, `lint` or `typecheck` in this repo, which is
+ * the only context that needs the generated flat config `eslint.config.mjs`
+ * imports.
+ */
+const selfBuild = process.cwd() === dirname(fileURLToPath(import.meta.url))
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
 
-  modules: ['@nuxt/eslint', '@nuxt/fonts'],
+  modules: [...(selfBuild ? ['@nuxt/eslint'] : []), '@nuxt/fonts'],
 
   // Deliberately NO `css:` entry. A layer that loads its own stylesheet gets a
   // second Tailwind instance in a layered build (`@import "tailwindcss"`

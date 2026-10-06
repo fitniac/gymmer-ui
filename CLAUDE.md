@@ -194,3 +194,30 @@ layer's `main` and keeps one issue labelled `layer-drift` open while it fails.
 It is a safety net for the gap between merge and tag, not permission to live in
 it.
 
+
+## Before reporting something shipped or deployed
+
+Three checks, every time, in every repo the change touched. Each exists because
+a report was wrong in exactly this way.
+
+1. **`git status` is clean in every touched repo.** A fix sitting uncommitted in
+   the working tree is not shipped, however green the tests were when you ran
+   them. The rest-picker's programme write was reported live while its fix was
+   still unstaged — production ran the version with the bug.
+2. **The SHA you report equals `origin/production`.** Not `main`, not HEAD:
+   pushing `main` deploys nothing here.
+3. **Every running task's image tag equals that SHA.**
+
+   ```bash
+   docker service ps <stack>_<service> --filter desired-state=running \
+     --no-trunc --format '{{.Name}}|{{.Node}}|{{.CurrentState}}|{{.Image}}'
+   ```
+
+   Read the **IMAGE**, not the STATE. Swarm replaces tasks one at a time, so
+   mid-rollout every replica reads `Running` while some still carry the previous
+   image — "nothing is Starting" is true in the gaps as well as at the end. A
+   health check read at that moment answers from the old binary and looks
+   exactly like a verified deploy.
+
+Then verify by behaviour — a real route, a real log line — rather than by the
+pipeline going green.

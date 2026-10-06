@@ -57,7 +57,7 @@ The highest-value, highest-risk part. Behaviour-preserving splits land **before*
 
 | # | PR | Spec |
 |---|---|---|
-| 3.1 | `tracking.vue` → `TrackingHeader` + confirm dialogs; `CurrentExercisePanel` → `ExerciseHeader`, `SetEntryBar`, `CardioPanel`. `SetTable` and `RestOverlay` already ship as `ExerciseSetStrip` and `RestSheet`/`PausedOverlay` (see 01 §workout screen) — mapped, not built. **No visual change**, all tests green | 03 |
+| 3.1 | `tracking.vue` → `TrackingHeader` + confirm dialogs; `CurrentExercisePanel` → `ExerciseHeader`, `SetEntryBar`, `CardioPanel`. `RestOverlay` already ships as `RestSheet`/`PausedOverlay` (see 01 §workout screen) — mapped, not built. `SetTable` WAS mapped to `ExerciseSetStrip`; it was built instead (gymmer-nuxt #73), because a flex row of divs has no row or column for assistive technology to announce. **No visual change**, all tests green | 03 |
 | 3.2 | App shell: 5-tab `AppTabBar` (G Today, barbell Train), `AppRail` for tablet, `AppHeader` for desktop; hide coach launcher on phone; e2e selectors | 01-app-shell |
 | 3.2b | Desktop signed-in shell is the `DeskToday` sidebar: `AppRail` expands to 240px at ≥1200, `AppHeader`'s desktop row retires, rail goes to the board's 88px | 01-app-shell |
 | 3.3 | Exercise sheet: `ExerciseDetailModal` → sheet with tabs; Swap tab absorbs `ProgramSwapSheet` logic; scopes Today only / Today + program | 02 |

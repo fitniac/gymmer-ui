@@ -14,7 +14,7 @@ next time" with the same semantics and the swap sheet's wording.
 **Route & files:** `pages/tracking.vue` (**993 lines on 2026-10-05**: 652 of script, 340 of
 template — the template is wiring and overlays, the workout UI itself lives in
 `CurrentExercisePanel.vue`, 532 lines),
-`components/tracking/CurrentExercisePanel.vue`, `ExerciseSetStrip.vue`, `SetInputs.vue`,
+`components/tracking/CurrentExercisePanel.vue`, `SetTable.vue`, `SetInputs.vue`,
 `OtherExercises.vue`, `WorkoutStatusBar.vue`, `PausedOverlay.vue`, `EditSetModal.vue`,
 composables `tracking/useSetLogging.ts`, `useRestTimer.ts`, `useExerciseTimer.ts`,
 `useTrackingSession.ts`, `useSessionLifecycle.ts`.
@@ -25,13 +25,13 @@ Log a set with one thumb, see what's next, and never lose data.
 ## Behaviour that must survive
 Outbox as the only write path (idempotency keys) · store authoritative while outbox non-empty ·
 one-tap prefill from plan/previous · wake lock, haptics, watch sync · paused state · immersive shell ·
-`ExerciseSetStrip` neighbours logic (kept on tablet/desktop where there is room; see below).
+`SetTable` neighbours logic (kept on tablet/desktop where there is room; see below).
 
 ## Refactor plan for `tracking.vue` — mostly DONE
 
 3.1 (#20) extracted `TrackingHeader.vue` (84), `ExerciseHeader.vue` (114), `SetEntryBar.vue` (79),
 `CardioPanel.vue` (78) and `ConfirmDialog.vue` (57). `SetTable` and `RestOverlay` map to the
-existing `ExerciseSetStrip.vue` (381), `RestSheet.vue` (321) and `PausedOverlay.vue` (90) rather
+existing `SetTable.vue`, `RestSheet.vue` (321) and `PausedOverlay.vue` (90) rather
 than being new files.
 
 What is left is NOT the page: at 993 lines it is 652 of script (orchestration — modal state,
