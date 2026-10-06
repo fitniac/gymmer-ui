@@ -7,7 +7,7 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
 
-  modules: ['@nuxt/fonts'],
+  modules: ['@nuxt/eslint', '@nuxt/fonts'],
 
   // Deliberately NO `css:` entry. A layer that loads its own stylesheet gets a
   // second Tailwind instance in a layered build (`@import "tailwindcss"`

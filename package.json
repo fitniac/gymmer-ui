@@ -5,18 +5,25 @@
   "type": "module",
   "description": "Gymmer design system as a Nuxt 4 layer \u2014 tokens, theme, and shared component classes",
   "scripts": {
-    "test:contrast": "node --test test/contrast.test.mjs",
-    "test": "node --test test/contrast.test.mjs test/css-layers.test.mjs",
     "brand": "node scripts/generate-brand.mjs && node scripts/verify-brand.mjs",
     "brand:verify": "node scripts/verify-brand.mjs",
+    "css:audit": "node scripts/css-layers.mjs app/assets/css/tokens.css app/assets/css/gymmer.css",
+    "lint": "eslint .",
+    "postinstall": "nuxt prepare",
+    "test": "node --test test/contrast.test.mjs test/css-layers.test.mjs",
+    "test:contrast": "node --test test/contrast.test.mjs",
     "test:layers": "node --test test/css-layers.test.mjs",
-    "css:audit": "node scripts/css-layers.mjs app/assets/css/tokens.css app/assets/css/gymmer.css"
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@nuxt/fonts": "^0.11.4"
   },
   "devDependencies": {
-    "nuxt": "^4.0.1"
+    "@nuxt/eslint": "^1.17.0",
+    "eslint": "^9.39.5",
+    "nuxt": "^4.0.1",
+    "typescript": "^5.9.3",
+    "vue-tsc": "^3.3.12"
   },
   "packageManager": "pnpm@10.33.2"
 }
