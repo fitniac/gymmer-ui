@@ -368,10 +368,20 @@ Phase 0 ─► Phase 1 (ui) ─► Phase 2 ─► Phase 3 ─► Phase 4 ─┐
 
 ## Feature flags
 
+`redesign.shell` and `redesign.workout` are **gone**. The app is not in
+production for real users, so the redesign became the only path in the
+signed-in app rather than something to flip: the flags, the `gm_shell` /
+`gm_workout` cookies, the `?shell=` / `?workout=` parameters and every
+component they gated were removed, and `test/exercise-popup-host.test.ts`
+fails if any of them comes back. The flag-off matrix went with them; the
+visual harness stays for review shots and the A/A noise floor.
+
+PUBLIC routes — home, library, exercise pages, the gate, the waitlist — are
+live at gymmer.com in prelaunch and are not covered by that: they change with
+the same care as before, until Phase 6 replaces them.
+
 | Flag | Guards | Default until |
 |---|---|---|
-| `redesign.shell` | new tab bar / rail / header | 3.2 shipped and tested on native |
-| `redesign.workout` | new tracking UI | Phase 3 exit |
 | `nova.programBuilder` | Create program "With Nova" | 4.6 |
 | `nova.quota` | Coach quota line | 4.6 |
 | `content.public` | Programs library, goals, Learn, new nav items | Phase 5 seed content live |
