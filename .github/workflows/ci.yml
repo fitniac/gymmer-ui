@@ -1,0 +1,54 @@
+# The layer every app extends, gated like the app that extends it.
+#
+# Until now `@gymmer/ui` had one gate — `node --test` over two files — and no
+# workflow at all: its TypeScript and Vue were checked by nobody until they
+# reached a consumer, and a consumer only sees them after a manual version
+# bump. GmStepper and the 15c-15e restyle land here next, so it stops being
+# unguarded first.
+#
+# The three gates are the app's, by the same names, so "run what CI runs" means
+# the same three commands in both repos.
+name: ci
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      # `--frozen-lockfile`: a lockfile that drifts from package.json is a
+      # different dependency tree than the one anyone reviewed.
+      - name: Install
+        run: pnpm install --frozen-lockfile
+
+      # `nuxt prepare` runs via postinstall and generates .nuxt/, which both
+      # the typecheck's project references and the eslint flat config are built
+      # from. Without it, typecheck reports an empty project and passes on
+      # anything — the exact trap documented in gymmer-nuxt's CLAUDE.md.
+      - name: Test
+        run: pnpm test
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Lint
+        run: pnpm lint
