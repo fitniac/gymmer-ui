@@ -176,3 +176,21 @@ repo. Component classes here are CSS (`.pri`, `.gho`, `.bul`, `.rv`, `.row/.arw`
 deliberately no Vue components yet, because the landing is all page sections and would never consume
 them. Vue primitives get built in `gymmer-nuxt` and promoted here only once they've stopped moving
 and a second consumer actually exists.
+
+### A layer change is not done until the pin moves
+
+`@gymmer/ui` is consumed by a pinned tag — `github:fitniac/gymmer-ui#vX.Y.Z` —
+so the app never sees the layer's `main`. A change there ships as one sequence,
+inside the same work item:
+
+> **ui PR merged → tag → bump the pin in gymmer-nuxt.**
+
+Never leave the layer's `main` ahead of the pin across work items. Thirteen
+commits accumulated that way once, none of them ever built against the app; the
+bump that eventually collects them is then a change nobody reviewed as a change.
+
+The nightly `layer drift` workflow in gymmer-nuxt builds the app against the
+layer's `main` and keeps one issue labelled `layer-drift` open while it fails.
+It is a safety net for the gap between merge and tag, not permission to live in
+it.
+
