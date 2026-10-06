@@ -272,7 +272,7 @@ until this phase.
 |---|---|---|---|
 | 4.1 | A | Today (phone, tablet, desktop + Nova panel), first-run checklist | 07 |
 | 4.2 | A | Progress with body map ⇄ chips, Free range lock | 08 |
-| 4.3 | B | Programs list (Mine) + Free meter; Program detail edit-in-place (merge with `edit.vue`) | 09, 10 |
+| 4.3 | B | Programs list (Mine) + Free meter; Program detail edit-in-place (merge with `edit.vue`); **move `ProgramSwapSheet` onto the same visual pattern as the ExerciseSheet's Swap tab** — one way to swap in the app | 09, 10 |
 | 4.4 | B | Create program (Template + Blank now; **With Nova behind a flag** until 4.6) | 11 |
 | 4.5 | C | Settings split + Appearance (mode, accent, corners); Coach restyle + quota line (hidden until api) | 15, 14 |
 | 4.6 | api | Nova program generation flow; Nova weekly quota endpoint; trial state (`trial_ends_at`) | 11, 14, 16 |
