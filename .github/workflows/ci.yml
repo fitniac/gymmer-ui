@@ -18,7 +18,15 @@ on:
 
 jobs:
   ci:
-    runs-on: self-hosted
+    # GitHub-hosted, unlike gymmer-nuxt's self-hosted runner.
+    #
+    # The app needs self-hosted because it pushes images to the tailnet
+    # registry and fetches private Go modules. This layer does neither: it is a
+    # public repository whose dependencies are public npm, so there is nothing
+    # here a hosted runner cannot reach — and the org's single self-hosted
+    # runner is not granted to this repository anyway, which left the first run
+    # queued indefinitely while the app's runs finished beside it.
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
