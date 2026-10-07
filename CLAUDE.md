@@ -195,6 +195,18 @@ It is a safety net for the gap between merge and tag, not permission to live in
 it.
 
 
+## Nothing lands on main except through a PR
+
+Every commit on `main` arrives by a pull request merged on green. **Docs
+included** — a one-line backlog note and a deploy record are commits on the
+branch that deploys, and a tiny PR costs a minute.
+
+Two docs commits reached `main` and then production directly during the 15g
+work. Nothing broke, which is exactly why it is worth writing down: the habit
+that pushes a backlog note straight to `main` is the same habit that pushes a
+fix straight to `main`, and `main` is one `git push origin main:production` away
+from users.
+
 ## Before reporting something shipped or deployed
 
 Three checks, every time, in every repo the change touched. Each exists because
