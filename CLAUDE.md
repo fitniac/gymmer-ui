@@ -232,6 +232,22 @@ defects and a third, separate error — an e2e suite reported 10/10 green that w
 in fact 10/10 failing, because the run was taken against a dev server that had
 not finished rebuilding.
 
+## Never merge with a check failing or pending
+
+Run `gh pr checks <n>` **immediately before** merging, and read it. Every check
+green — `e2e` included, which runs after `ci` and finishes about a minute later,
+so a PR that looked green when CI went green may still have a job running.
+
+There is no branch protection to catch this. Required checks need GitHub Pro or
+Team for a private repository and this organisation is on the free plan: both
+`/branches/main/protection` and `/rulesets` answer 403. The e2e suite met its
+bar — six consecutive clean runs on real branches — and still cannot be
+enforced. **Not upgrading for it; the discipline is the enforcement.**
+
+Which means the usual reasoning does not apply. A required check protects you
+from somebody else merging past red. With one person, the only thing between a
+red check and `main` is whether that person looked.
+
 ## Before reporting something shipped or deployed
 
 Three checks, every time, in every repo the change touched. Each exists because
