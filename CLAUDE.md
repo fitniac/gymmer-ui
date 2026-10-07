@@ -207,6 +207,31 @@ that pushes a backlog note straight to `main` is the same habit that pushes a
 fix straight to `main`, and `main` is one `git push origin main:production` away
 from users.
 
+## A build that departs from the board waits for a look
+
+Pre-authorisation to ship an item covers the agreed spec. It does **not** cover
+a build that had to deviate from it. When the measurements force a different
+answer than the board or the brief gave — a different breakpoint, a different
+layout, a bound the spec did not name — send the frames and wait for an explicit
+OK before merging and deploying.
+
+Deviating is usually right: the board is drawn at one width against one
+container, and arithmetic beats a drawing. The entry bar genuinely could not sit
+two columns wide in the exercise card at any phone size, and saying so was
+correct.
+
+**Shipping that deviation unreviewed was not.** The same PR carried a weight
+ceiling applied to every field — so a 5 km run could not be logged — and a value
+box that was zero pixels tall when empty, so a cardio speed field with no plan
+could not be tapped at all. Both were live for an hour. A review of the frames
+is the step where a second pair of eyes sees the fields that are not weight and
+the states that are not full.
+
+The cost of waiting is one message. The cost of not waiting was two production
+defects and a third, separate error — an e2e suite reported 10/10 green that was
+in fact 10/10 failing, because the run was taken against a dev server that had
+not finished rebuilding.
+
 ## Before reporting something shipped or deployed
 
 Three checks, every time, in every repo the change touched. Each exists because
