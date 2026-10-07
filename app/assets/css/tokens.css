@@ -23,7 +23,17 @@
   --gm-text-body: #444141;
   --gm-muted: #605d5d;
   --gm-faint: #7d7979;
-  --gm-track: #d7d3d3;       /* progress-ring track, inactive dots */
+  --gm-track: #d7d3d3;       /* progress-ring track, inactive dots, 15g pending
+                                segment. This IS board 15g's "ink 14%": over
+                                --gm-bg it computes to #d5d5d5, two levels off
+                                the value already here, and it already has a
+                                `bg-track` utility. A second token for the same
+                                colour is the drift this file exists to avoid. */
+  --gm-skip: color-mix(in srgb, var(--gm-muted) 55%, transparent);
+                             /* 15g: an exercise or set the user SKIPPED. Neutral
+                                on purpose — it is neither progress (accent) nor
+                                work still to do (track), and colouring it as
+                                either would misreport the workout. */
   --gm-on-acc: #f7f5f3;      /* text/icons on an accent fill (flips dark in dark mode) */
   --gm-on-pro: #f4f1ef;      /* text on the always-dark Pro card — light in BOTH themes */
   --gm-on-dark: #d7d3d3;     /* body text on the Pro card */
@@ -195,6 +205,8 @@ html[data-theme="dark"] {
   --gm-muted: #948e89;
   --gm-faint: #7a746f;
   --gm-track: #3a3735;
+  /* --gm-skip needs no dark value: it mixes --gm-muted, which this block
+     already redefines. */
   --gm-on-acc: #141312;       /* dark text on the brighter dark-mode accent */
   --gm-danger: #ff6b6b;       /* destructive actions only — never the accent */
   --gm-warn: #f2b84b;         /* sync warnings only */

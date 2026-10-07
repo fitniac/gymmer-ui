@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Active workout — segmented progress strip, all states</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+.seg{height:4px;border-radius:2px}
+.cap{font:500 10px var(--mono);letter-spacing:.07em;color:var(--muted)}
+.note{margin:0;font-size:12px;line-height:1.4;color:var(--body)}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;flex-direction:column">
+<header style="padding:16px 16px 6px;display:flex;flex-direction:column;gap:2px">
+<span class="cap">15g · SPEC BOARD</span>
+<h1 style="margin:0;font-size:20px;font-weight:800">Workout progress strip</h1>
+<p class="note">One segment per exercise · 4px · radius 2 · gap 4 · padding 8/16/10. Each block below is one state.</p>
+</header>
+
+<div style="flex:1;overflow:hidden;padding:4px 16px 0;display:flex;flex-direction:column;gap:11px">
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">1 · STANDARD — EXERCISE 2 OF 4</span>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span class="seg" style="background:var(--acc)"></span>
+<span class="seg" style="background:linear-gradient(90deg,var(--acc) 33%,var(--track) 33%)"></span>
+<span class="seg" style="background:var(--track)"></span>
+<span class="seg" style="background:var(--track)"></span>
+</div>
+<p class="note">Done = accent. Current = hard stop at its share of sets. Pending = track.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">2 · SKIPS — EXERCISE 3 OF 4</span>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span class="seg" style="background:var(--acc)"></span>
+<span class="seg" style="background:var(--skip)"></span>
+<span class="seg" style="background:linear-gradient(90deg,var(--acc) 40%,var(--skip) 40% 60%,var(--track) 60%)"></span>
+<span class="seg" style="background:var(--track)"></span>
+</div>
+<p class="note">Skipped exercise = full <b>skip</b> fill (neutral, never accent). Inside the current segment the fill is (done + skipped) / total: done in accent first, skipped after it, rest is track.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">3 · CAP — UP TO 8 SEGMENTS</span>
+<div style="display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:4px">
+<span class="seg" style="background:var(--acc)"></span><span class="seg" style="background:var(--acc)"></span><span class="seg" style="background:var(--acc)"></span>
+<span class="seg" style="background:linear-gradient(90deg,var(--acc) 50%,var(--track) 50%)"></span>
+<span class="seg" style="background:var(--track)"></span><span class="seg" style="background:var(--track)"></span><span class="seg" style="background:var(--track)"></span><span class="seg" style="background:var(--track)"></span>
+</div>
+<p class="note">8 is the most: ~41px each at 390, ~34px at 320, still a bar.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">4 · 9+ EXERCISES — ONE BAR (EX. 5 OF 12)</span>
+<div style="height:4px;border-radius:2px;background:linear-gradient(90deg,var(--acc) 37%,var(--skip) 37% 40%,var(--track) 40%)"></div>
+<p class="note">Above 8, no segments: one bar, fill = resolved sets / all sets (same accent-then-skip order). The eyebrow carries "exercise N of M". Never scroll the strip.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">5 · EXERCISE ADDED MID-WORKOUT — 4 → 5</span>
+<div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px">
+<span class="seg" style="background:var(--acc)"></span>
+<span class="seg" style="background:linear-gradient(90deg,var(--acc) 33%,var(--track) 33%)"></span>
+<span class="seg" style="background:var(--track)"></span><span class="seg" style="background:var(--track)"></span>
+<span class="seg" style="background:var(--track);outline:1px dashed var(--muted);outline-offset:1px"></span>
+</div>
+<p class="note">New segment sits at the exercise's position in the list (end unless inserted). Widths ease 200ms; reduced motion snaps. Swap replaces in place. Temporary ("today only") exercise: dashed outline, matching its dashed set ring.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">6 · CARDIO RUNNING — 2:30 OF 5:00</span>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span class="seg" style="background:linear-gradient(90deg,var(--acc) 50%,var(--track) 50%)"></span>
+<span class="seg" style="background:var(--track)"></span><span class="seg" style="background:var(--track)"></span><span class="seg" style="background:var(--track)"></span>
+</div>
+<p class="note">With a target (time or distance), the segment fills live against it, capped at 100%. No target: empty until done, then full.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:5px">
+<span class="cap">7 · FINISHED EARLY — STAYS HONEST</span>
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
+<span class="seg" style="background:var(--acc)"></span><span class="seg" style="background:var(--acc)"></span><span class="seg" style="background:var(--acc)"></span>
+<span class="seg" style="background:linear-gradient(90deg,var(--acc) 50%,var(--track) 50%)"></span>
+</div>
+<p class="note">Finish never fills the strip. Outstanding sets stay track; the summary says what was done.</p>
+</section>
+
+<section style="display:flex;flex-direction:column;gap:6px;padding-top:2px;border-top:1px solid var(--line)">
+<span class="cap" style="padding-top:8px">TOKENS · BOTH THEMES</span>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<div style="display:flex;flex-direction:column;gap:4px"><span class="seg" style="background:var(--acc)"></span><span class="cap">DONE · --acc</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span class="seg" style="background:var(--skip)"></span><span class="cap">SKIP · muted 55%</span></div>
+<div style="display:flex;flex-direction:column;gap:4px"><span class="seg" style="background:var(--track)"></span><span class="cap">PENDING · --gm-track</span></div>
+</div>
+<p class="note">Pending is <b>not</b> --raised: in light, --raised (#fbfafa) is lighter than the page and the track disappears. Use the layer’s existing <b>--gm-track</b> (≈ ink 14%, opaque) in both themes; it never reads as a second accent. Skip = new <b>--gm-skip</b>.</p>
+<p class="note">A11y: role="progressbar", aria-valuemin 0, aria-valuemax = all sets, aria-valuenow = resolved sets, aria-valuetext "Exercise 2 of 4 · 3 of 12 sets done".</p>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', dark = mode !== 'light';
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
+    return '--acc:' + acc + ';--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink + ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line +
+      ';--track:color-mix(in srgb, ' + t.ink + ' 14%, transparent);--skip:color-mix(in srgb, ' + t.muted + ' 55%, transparent)' +
+      ';--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() { return { vars: this.theme() }; }
+}
+</script>
+</body>
+</html>

@@ -44,9 +44,9 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 <div aria-label="Workout progress" style="padding:8px 16px 10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px">
 <span style="height:4px;border-radius:2px;background:var(--acc)"></span>
-<span style="height:4px;border-radius:2px;background:var(--raised);overflow:hidden"><span style="display:block;height:100%;background:var(--acc);{{prog}}"></span></span>
-<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
-<span style="height:4px;border-radius:2px;background:var(--raised)"></span>
+<span style="height:4px;border-radius:2px;background:var(--track);overflow:hidden"><span style="display:block;height:100%;background:var(--acc);{{prog}}"></span></span>
+<span style="height:4px;border-radius:2px;background:var(--track)"></span>
+<span style="height:4px;border-radius:2px;background:var(--track)"></span>
 </div>
 </header>
 
@@ -154,7 +154,7 @@ class Component extends DCLogic {
     var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
     return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
       ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
-      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--track:color-mix(in srgb, ' + t.ink + ' 14%, transparent)' + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
   }
   st() {
     var s = this.state || {};

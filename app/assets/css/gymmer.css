@@ -33,6 +33,7 @@
   --color-muted: var(--gm-muted);
   --color-faint: var(--gm-faint);
   --color-track: var(--gm-track);
+  --color-skip: var(--gm-skip);
   --color-onacc: var(--gm-on-acc);
   --color-onpro: var(--gm-on-pro);
   --color-ondark: var(--gm-on-dark);
