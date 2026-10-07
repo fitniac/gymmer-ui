@@ -402,7 +402,14 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15f Active · labelled chips + rest picker (presets 3\u00d72 below 360px)"
+      "title": "15f Active · labelled chips + rest picker (presets 3×2 below 360px)"
+    },
+    "ActiveProgress.dc.html": {
+      "x": 5640,
+      "y": 3752,
+      "w": 390,
+      "h": 844,
+      "title": "15g Active · progress strip (≤8 segments, then one bar · pending = --gm-track)"
     }
   },
   "createdOnFiles": {
@@ -503,6 +510,7 @@
     "SyncSheet.dc.html",
     "AddExercise.dc.html",
     "RestPicker.dc.html",
+    "ActiveProgress.dc.html",
     "Cardio.dc.html",
     "Summary.dc.html",
     "Coach.dc.html",
