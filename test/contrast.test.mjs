@@ -73,6 +73,20 @@ function oklabToLin([L, a, b]) {
   ]
 }
 
+/**
+ * What a semi-transparent fill actually looks like once it is painted.
+ *
+ * `--acc-soft` is `color-mix(in srgb, acc 16%, transparent)`, and a ratio
+ * against a colour with an alpha is meaningless — the reader sees it over
+ * something. Every chip in the gallery sits on the page ground, so that is
+ * what it is composited over here.
+ */
+function composite(fg, alpha, bg) {
+  const f = toRgb(fg)
+  const b = toRgb(bg)
+  return `#${[0, 1, 2].map(i => Math.round(f[i] * alpha + b[i] * (1 - alpha)).toString(16).padStart(2, '0')).join('')}`
+}
+
 function toRgb(value) {
   const v = value.trim()
   const hex = v.match(/^#([0-9a-f]{6})$/i)
@@ -311,6 +325,43 @@ for (const theme of THEMES) {
       `${theme.name}/${id}/on-acc`,
       `${theme.name}/${id}: button labels on an accent fill reach 4.5:1`,
       ratio(theme.neutrals['--gm-on-acc'], acc['--acc']),
+      4.5,
+    )
+
+    /*
+     * A status chip's text against ITS OWN background, not against the page.
+     *
+     * The accent tone fills with `--acc-soft` — the accent at 16% over
+     * whatever is behind — and that is a DARKER ground than the page. Text
+     * tuned to the page is not tuned to the chip: measured at 3.83:1 (orange)
+     * to 4.48:1 (lime) on it, and the lime PRO chip was lime on lime, which is
+     * how this was found. By eye, on the gallery.
+     *
+     * `--acc-deep` is now the largest darkening that clears 4.5:1 on both.
+     */
+    expect(
+      `${theme.name}/${id}/chip-accent`,
+      `${theme.name}/${id}: accent status-chip text on its own fill reaches 4.5:1`,
+      ratio(acc['--acc-deep'], composite(acc['--acc'], 0.16, bg)),
+      4.5,
+    )
+  }
+
+  /*
+   * The other three tones fill with `--gm-surface`, so they are judged against
+   * that and not against the page either. They were already comfortable; they
+   * are asserted so they stay that way when a neutral moves, which is the kind
+   * of change nobody re-checks a chip after.
+   */
+  for (const [tone, token] of [
+    ['neutral', '--gm-text-body'],
+    ['warn', '--gm-warn'],
+    ['danger', '--gm-danger'],
+  ]) {
+    expect(
+      `${theme.name}/chip-${tone}`,
+      `${theme.name}: ${tone} status-chip text on its own fill reaches 4.5:1`,
+      ratio(theme.neutrals[token], theme.neutrals['--gm-surface']),
       4.5,
     )
   }

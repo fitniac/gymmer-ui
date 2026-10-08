@@ -104,7 +104,7 @@
      install can succeed while the dev server keeps the version it had, and
      two "different" capture passes come back byte-identical. package.json is
      not served to the browser; this is. */
-  --gm-version: "0.4.2";
+  --gm-version: "0.5.0";
 
   --gm-font-display: "Archivo", system-ui, sans-serif;
   /* Google Sans Flex for UI and body; Archivo keeps the headlines (D2).
@@ -300,10 +300,16 @@ html[data-theme="dark"] .photo {
    one to the default). Every value below is computed, not chosen:
 
      family   acc        acc-line light         on a fill   acc-deep light
-     orange   #ff563c    97%  #f55239  3.06:1    5.88:1     82%  #c4402c  4.57:1
-     lime     #c8f031    70%  #7b951a  3.05:1   14.11:1     59%  #617513  4.63:1
-     sky      #5cc8ff    80%  #4294be  3.03:1    9.86:1     67%  #327495  4.62:1
-     violet   #a08bff    92%  #8f7ce4  3.05:1    6.74:1     78%  #7262b7  4.53:1
+     orange   #ff563c    97%  #f55239  3.06:1    5.88:1     76%  #b13927  5.39:1
+     lime     #c8f031    70%  #7b951a  3.05:1   14.11:1     58%  #5e7312  4.77:1
+     sky      #5cc8ff    80%  #4294be  3.03:1    9.86:1     65%  #306f8f  4.95:1
+     violet   #a08bff    92%  #8f7ce4  3.05:1    6.74:1     73%  #6759a8  5.26:1
+
+   `--acc-deep` is darker than the page alone needs, because it is also the
+   text on an ACCENT-SOFT chip — the accent at 16% over the page, which is a
+   DARKER ground than the page. Tuned to the page it measured 3.83:1 to 4.48:1
+   on that chip, and the lime PRO chip was lime-on-lime. The percentages above
+   are the largest that clear 4.5:1 against BOTH.
 
    All four take near-black on a fill — lime and sky included, which are the
    two the eye expects to want white — because every one is far above the
@@ -340,8 +346,8 @@ html[data-theme="dark"] .photo {
    three rules above to apply. Each is above 0.179 in both modes, so all six
    take the dark ink. */
 
-html[data-accent="orange"] { --acc:#ff563c; --acc-deep:color-mix(in oklch, #ff563c 82%, #000); --acc-hover:color-mix(in oklch, #ff563c 92%, #000);
-  --acc-ink:color-mix(in oklch, #ff563c 82%, #000);
+html[data-accent="orange"] { --acc:#ff563c; --acc-deep:color-mix(in oklch, #ff563c 76%, #000); --acc-hover:color-mix(in oklch, #ff563c 92%, #000);
+  --acc-ink:color-mix(in oklch, #ff563c 76%, #000);
   --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:color-mix(in srgb, #ff563c 30%, transparent);
   --acc-tint:color-mix(in srgb, #ff563c 12%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #ff563c 97%, #000); }
@@ -351,8 +357,8 @@ html[data-theme="dark"][data-accent="orange"] { --acc:#ff563c; --acc-deep:#ff563
   --acc-tint:color-mix(in srgb, #ff563c 14%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:#ff563c; }
 
-html[data-accent="lime"] { --acc:#c8f031; --acc-deep:color-mix(in oklch, #c8f031 59%, #000); --acc-hover:color-mix(in oklch, #c8f031 92%, #000);
-  --acc-ink:color-mix(in oklch, #c8f031 59%, #000);
+html[data-accent="lime"] { --acc:#c8f031; --acc-deep:color-mix(in oklch, #c8f031 58%, #000); --acc-hover:color-mix(in oklch, #c8f031 92%, #000);
+  --acc-ink:color-mix(in oklch, #c8f031 58%, #000);
   --acc-soft:color-mix(in srgb, #c8f031 16%, transparent); --acc-sel:color-mix(in srgb, #c8f031 30%, transparent);
   --acc-tint:color-mix(in srgb, #c8f031 12%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #c8f031 70%, #000); }
@@ -362,8 +368,8 @@ html[data-theme="dark"][data-accent="lime"] { --acc:#c8f031; --acc-deep:#c8f031;
   --acc-tint:color-mix(in srgb, #c8f031 14%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:#c8f031; }
 
-html[data-accent="sky"] { --acc:#5cc8ff; --acc-deep:color-mix(in oklch, #5cc8ff 67%, #000); --acc-hover:color-mix(in oklch, #5cc8ff 92%, #000);
-  --acc-ink:color-mix(in oklch, #5cc8ff 67%, #000);
+html[data-accent="sky"] { --acc:#5cc8ff; --acc-deep:color-mix(in oklch, #5cc8ff 65%, #000); --acc-hover:color-mix(in oklch, #5cc8ff 92%, #000);
+  --acc-ink:color-mix(in oklch, #5cc8ff 65%, #000);
   --acc-soft:color-mix(in srgb, #5cc8ff 16%, transparent); --acc-sel:color-mix(in srgb, #5cc8ff 30%, transparent);
   --acc-tint:color-mix(in srgb, #5cc8ff 12%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #5cc8ff 80%, #000); }
@@ -373,8 +379,8 @@ html[data-theme="dark"][data-accent="sky"] { --acc:#5cc8ff; --acc-deep:#5cc8ff; 
   --acc-tint:color-mix(in srgb, #5cc8ff 14%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:#5cc8ff; }
 
-html[data-accent="violet"] { --acc:#a08bff; --acc-deep:color-mix(in oklch, #a08bff 78%, #000); --acc-hover:color-mix(in oklch, #a08bff 92%, #000);
-  --acc-ink:color-mix(in oklch, #a08bff 78%, #000);
+html[data-accent="violet"] { --acc:#a08bff; --acc-deep:color-mix(in oklch, #a08bff 73%, #000); --acc-hover:color-mix(in oklch, #a08bff 92%, #000);
+  --acc-ink:color-mix(in oklch, #a08bff 73%, #000);
   --acc-soft:color-mix(in srgb, #a08bff 16%, transparent); --acc-sel:color-mix(in srgb, #a08bff 30%, transparent);
   --acc-tint:color-mix(in srgb, #a08bff 12%, var(--gm-bg));
   --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #a08bff 92%, #000); }
