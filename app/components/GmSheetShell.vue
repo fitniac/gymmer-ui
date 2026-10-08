@@ -28,15 +28,38 @@ const emit = defineEmits<{ close: [] }>()
 
 const el = ref<HTMLDialogElement | null>(null)
 
-watch(() => props.open, (open) => {
+/**
+ * `showModal` is what puts it in the top layer and traps focus; `open=true` as
+ * an attribute does neither, which is the quiet way to ship a sheet the page
+ * behind can still be tabbed into.
+ *
+ * Called from a watcher AND on mount. The watcher alone, even `immediate`,
+ * runs during setup while the template ref is still null — so a sheet created
+ * already-open silently stayed shut. Found on the gallery, where both the
+ * sheet and the dialog render open and neither appeared; `open=false`,
+ * `display: none`, a 0×0 box.
+ */
+function sync() {
   const d = el.value
   if (!d) return
-  // `showModal` is what puts it in the top layer and traps focus; `open=true`
-  // as an attribute does neither, which is the quiet way to ship a sheet that
-  // the page behind can still be tabbed into.
-  if (open && !d.open) d.showModal()
-  if (!open && d.open) d.close()
-}, { immediate: true })
+  if (props.open && !d.open) {
+    // Only one element can be modal at a time. A second `showModal` throws
+    // InvalidStateError and would take the page's JS with it, so a non-modal
+    // fallback is better than a blank screen: it loses focus trapping, which
+    // a specimen does not need and a real screen never hits, because a real
+    // screen does not open two sheets at once.
+    try {
+      d.showModal()
+    }
+    catch {
+      d.show()
+    }
+  }
+  if (!props.open && d.open) d.close()
+}
+
+watch(() => props.open, sync)
+onMounted(sync)
 </script>
 
 <template>
