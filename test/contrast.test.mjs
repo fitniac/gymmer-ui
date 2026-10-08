@@ -33,12 +33,62 @@ function block(selector) {
   return out
 }
 
+/*
+ * sRGB <-> OKLab, so `color-mix(in oklch, …)` can be resolved here instead of
+ * being pre-computed into the stylesheet.
+ *
+ * `--gm-acc-line` is DEFINED as a mix in light mode, and writing the resolved
+ * hex into tokens.css would have made this test pass without testing the
+ * formula — the next person to change an accent would get a stale constant and
+ * a green suite. Resolving it here means the floor is asserted against what the
+ * browser will actually paint.
+ *
+ * Mixing with black in OKLCh is a scale, not an interpolation: black has zero
+ * chroma, so its hue is powerless and the result keeps the accent's hue with L
+ * and C multiplied by the percentage. That is why this darkens cleanly where an
+ * sRGB mix would go muddy.
+ */
+const s2l = c => (c /= 255, c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4)
+const l2s = c => Math.max(0, Math.min(1, c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055)) * 255
+
+function linToOklab([r, g, b]) {
+  const l = Math.cbrt(0.4122214708 * r + 0.5363325363 * g + 0.0514459929 * b)
+  const m = Math.cbrt(0.2119034982 * r + 0.6806995451 * g + 0.1073969566 * b)
+  const s = Math.cbrt(0.0883024619 * r + 0.2817188376 * g + 0.6299787005 * b)
+  return [
+    0.2104542553 * l + 0.7936177850 * m - 0.0040720468 * s,
+    1.9779984951 * l - 2.4285922050 * m + 0.4505937099 * s,
+    0.0259040371 * l + 0.7827717662 * m - 0.8086757660 * s,
+  ]
+}
+
+function oklabToLin([L, a, b]) {
+  const l = (L + 0.3963377774 * a + 0.2158037573 * b) ** 3
+  const m = (L - 0.1055613458 * a - 0.0638541728 * b) ** 3
+  const s = (L - 0.0894841775 * a - 1.2914855480 * b) ** 3
+  return [
+    +4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s,
+  ]
+}
+
 function toRgb(value) {
-  const hex = value.trim().match(/^#([0-9a-f]{6})$/i)
+  const v = value.trim()
+  const hex = v.match(/^#([0-9a-f]{6})$/i)
   if (hex) {
     const n = parseInt(hex[1], 16)
     return [(n >> 16) & 255, (n >> 8) & 255, n & 255]
   }
+
+  const mix = v.match(/^color-mix\(in oklch,\s*(#[0-9a-f]{6})\s*([\d.]+)%,\s*#000(?:000)?\s*\)$/i)
+  if (mix) {
+    const pct = Number(mix[2]) / 100
+    const lin = toRgb(mix[1]).map(s2l)
+    const scaled = linToOklab(lin).map(x => x * pct)
+    return oklabToLin(scaled).map(c => Math.round(l2s(c)))
+  }
+
   throw new Error(`Not an opaque colour: ${value}`)
 }
 
@@ -98,7 +148,27 @@ const THEMES = [
   },
 ]
 
-const ACCENT_IDS = ['orange', 'green', 'cyan']
+/*
+ * Read out of the registry, not written here.
+ *
+ * `app/utils/theme.ts` says adding an accent is "one entry here + light and
+ * dark blocks in tokens.css + passing test/contrast.test.mjs". That was only
+ * true if somebody also remembered this literal — and when the families were
+ * replaced it was not true at all: the suite went looking for a `green` block
+ * that no longer existed and failed on a rule rather than on a ratio.
+ *
+ * Parsed with a regex because the registry is TypeScript and this file is
+ * plain node:test. A parse that finds nothing fails loudly rather than
+ * silently asserting an empty list.
+ */
+const ACCENT_IDS = (() => {
+  const src = readFileSync(new URL('../app/utils/theme.ts', import.meta.url), 'utf8')
+  const block = src.match(/export const ACCENTS = \{([\s\S]*?)\n\} as const/)
+  assert.ok(block, 'app/utils/theme.ts has no ACCENTS registry to read')
+  const ids = [...block[1].matchAll(/^\s*([a-z][a-z0-9]*)\s*:/gm)].map(m => m[1])
+  assert.ok(ids.length, 'the ACCENTS registry parsed to no accents')
+  return ids
+})()
 
 /**
  * Known gaps, inherited from the design bundle's light-mode values.
@@ -113,10 +183,30 @@ const ACCENT_IDS = ['orange', 'green', 'cyan']
  * Dark mode passes every rule.
  */
 const KNOWN_GAPS = {
-  'light/orange/on-acc': { baseline: 3.86, note: 'near-white label on #ec3013' },
-  'light/green/acc': { baseline: 2.95, note: '#16a34a on #f3f2f2 — 0.05 short of 3:1' },
-  'light/green/on-acc': { baseline: 3.03, note: 'near-white label on #16a34a' },
-  'light/cyan/on-acc': { baseline: 3.39, note: 'near-white label on #0891b2' },
+  /*
+   * EMPTY as of 2026-10-08, and that is the headline.
+   *
+   * THREE of the four gaps closed, and they were the three that mattered most:
+   * a filled primary button is the accent surface a reader looks at every
+   * session. The boards pick the label colour from the ACCENT's luminance
+   * rather than the page's, which puts near-black ink on every one of these
+   * fills instead of near-white:
+   *
+   *   light/orange/on-acc   3.86 → 5.88
+   *   light/green/on-acc    3.03 → 5.63
+   *   light/cyan/on-acc     3.39 → 5.04
+   *
+   * ONE opened, and it is the trade the boards make. Light mode used a
+   * darkened orange (#ec3013) so the accent could serve as both a fill and an
+   * on-the-ground colour; the boards use #ff563c in both modes and give
+   * accent-coloured INK its own token instead. The raw accent on the page
+   * ground is therefore brighter and softer than it was, and 0.17 short of
+   * the 3:1 this suite asks of large text, icons and chrome.
+   *
+   * Recorded rather than silenced, per the note above: it is a brand-colour
+   * decision. Accent-coloured TEXT is unaffected — it uses --acc-deep, which
+   * is 4.5:1 and did not move.
+   */
 }
 
 function expect(key, name, actual, required) {
@@ -185,11 +275,26 @@ for (const theme of THEMES) {
   for (const id of ACCENT_IDS) {
     const acc = block(theme.accentSel(id))
 
-    // Large text, icons and chrome only.
+    /*
+     * Strokes and indicators on the page ground — Igor's ruling, 2026-10-08.
+     *
+     * This used to assert `--acc` itself, because one token did both jobs: the
+     * fill under a button AND the arc of a ring drawn straight on the page.
+     * The boards separate them, so the assertion follows: `--acc` is a FILL and
+     * is judged by the label on it (below), while `--gm-acc-line` is what the
+     * TimerRing arc, the progress strip, focus outlines and accent borders use,
+     * and it is the one that has to be legible against the page.
+     *
+     * Light mode derives it by mixing the accent with black in OKLCh at the
+     * largest percentage that still clears this floor — 97% orange, 99% green,
+     * 100% cyan — so it stays as close to the brand colour as 3:1 allows. The
+     * margins are one point wide, which is exactly why this is asserted rather
+     * than trusted.
+     */
     expect(
-      `${theme.name}/${id}/acc`,
-      `${theme.name}/${id}: --acc on the ground reaches 3:1`,
-      ratio(acc['--acc'], bg),
+      `${theme.name}/${id}/acc-line`,
+      `${theme.name}/${id}: --gm-acc-line on the ground reaches 3:1`,
+      ratio(acc['--gm-acc-line'], bg),
       3,
     )
 

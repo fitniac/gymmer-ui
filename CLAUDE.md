@@ -171,11 +171,28 @@ components, so `<GmLogo />` works in gymmer-landing and gymmer-nuxt with no impo
 
 ## Adding to the layer
 
-Only things **both** consumers need. A marketing-only wash or an app-only widget belongs in its own
-repo. Component classes here are CSS (`.pri`, `.gho`, `.bul`, `.rv`, `.row/.arw`) — there are
-deliberately no Vue components yet, because the landing is all page sections and would never consume
-them. Vue primitives get built in `gymmer-nuxt` and promoted here only once they've stopped moving
-and a second consumer actually exists.
+**Changed 2026-10-08 by the top-down redesign.** The rule below was right while
+the layer was tokens plus a logo and the app was the only place primitives were
+used. It is not right for a redesign that matches fifty boards: a primitive
+built in the app and promoted later is a primitive built twice, and the second
+build is the one that has to match the board.
+
+> **Primitives are built HERE now, from the boards, once.** The button tiers,
+> the chip, the metric tile, the sheet, the list row, the header, the progress
+> strip, the ring and the toast live in this layer and the app consumes them.
+> `docs/redesign/primitives-spec.md` carries the measurements each is built to.
+
+What has NOT changed: only things both consumers could need. A marketing-only
+wash or an app-only widget still belongs in its own repo, and the bar for
+"primitive" is that a board draws it more than once.
+
+The previous rule, for the record — *"Vue primitives get built in `gymmer-nuxt`
+and promoted here only once they've stopped moving and a second consumer
+actually exists"* — is why there is exactly one Vue component here today.
+
+Component classes here are also CSS (`.pri`, `.gho`, `.bul`, `.rv`,
+`.row/.arw`), and those stay: the landing is all page sections and consumes the
+classes rather than components.
 
 ### A layer change is not done until the pin moves
 

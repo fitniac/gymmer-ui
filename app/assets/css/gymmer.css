@@ -33,6 +33,12 @@
   --color-muted: var(--gm-muted);
   --color-faint: var(--gm-faint);
   --color-track: var(--gm-track);
+  /* The accent as a STROKE on the page ground — the ring arc, the progress
+     strip, focus and selected outlines, accent borders. Not the same colour as
+     --color-accent, which is a FILL and is brighter than a 3:1 floor allows in
+     light mode. Igor's ruling, 2026-10-08; tokens.css carries the arithmetic. */
+  --color-accent-line: var(--gm-acc-line);
+  --color-line: var(--gm-line);
   --color-skip: var(--gm-skip);
   --color-onacc: var(--gm-on-acc);
   --color-onpro: var(--gm-on-pro);
