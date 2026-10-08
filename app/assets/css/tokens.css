@@ -20,7 +20,7 @@
   --gm-band: #201e1d;        /* inverted bands (exercise ticker) */
   --gm-band-fg: #f7f5f3;
   --gm-fill: #201e1d;        /* ink-ish filled marks: completed set chips, trend bars */
-  --gm-text-body: #444141;
+  --gm-text-body: #3f3c3b;   /* board `body` */
   --gm-muted: #605d5d;
   --gm-faint: #7d7979;
   --gm-track: #d7d3d3;       /* progress-ring track, inactive dots, 15g pending
@@ -29,12 +29,27 @@
                                 the value already here, and it already has a
                                 `bg-track` utility. A second token for the same
                                 colour is the drift this file exists to avoid. */
+  --gm-line: rgba(32, 30, 29, .14);
+                             /* The boards' `--line`: the hairline AROUND things —
+                                a dashed tile, a ring track's edge, the outline on
+                                a secondary button. Distinct from --gm-hairline
+                                (.25), which is heavier and is for rules BETWEEN
+                                things, and from --gm-divider (.4), heavier again.
+                                Added 2026-10-08: the boards use one weight for
+                                outlines and the app had been picking whichever of
+                                the two existing ones looked closest. */
   --gm-skip: color-mix(in srgb, var(--gm-muted) 55%, transparent);
                              /* 15g: an exercise or set the user SKIPPED. Neutral
                                 on purpose — it is neither progress (accent) nor
                                 work still to do (track), and colouring it as
                                 either would misreport the workout. */
-  --gm-on-acc: #f7f5f3;      /* text/icons on an accent fill (flips dark in dark mode) */
+  --gm-on-acc: #141312;      /* text/icons on an accent fill. The SAME in both
+                                themes since 2026-10-08: the boards choose it
+                                from the accent's luminance, not the page's, and
+                                every accent this product ships is bright enough
+                                to take dark ink. The per-family blocks below
+                                restate it so a new family cannot inherit the
+                                wrong one by forgetting to. */
   --gm-on-pro: #f4f1ef;      /* text on the always-dark Pro card — light in BOTH themes */
   --gm-on-dark: #d7d3d3;     /* body text on the Pro card */
   --gm-faint-dark: #9b9797;  /* muted text on the Pro card */
@@ -107,6 +122,14 @@
      one. See O5 -- a product question about those four locales, and
      independent of this switch. */
   --gm-font-ui: "Google Sans Flex", "Archivo", system-ui, sans-serif;
+  --gm-font-mono: "Google Sans Flex", system-ui, sans-serif;
+                             /* NOT a monospace face. Every `var(--mono)` caption
+                                on the boards — unit labels, the TARGET line, the
+                                status chips — is Google Sans Flex with tracking,
+                                and the app had been asking for `font-mono`, which
+                                is whatever the browser happens to ship. The name
+                                is the boards' and is kept so the two read the
+                                same; the value is a sans. */
   --gm-font-quote: "Cormorant Infant", Georgia, serif;
 
   /* radius — D1 (approved 2026-10-03).
@@ -190,24 +213,29 @@ html[data-corners="round"] {
 
 /* ---- dark theme ------------------------------------------------------- */
 html[data-theme="dark"] {
-  --gm-bg: #191817;
-  --gm-surface: #211f1e;
-  --gm-raised: #262423;
+  /* The five grounds and the four text levels below are the boards' own dark
+     palette, exactly — adopted 2026-10-08. They were two to six units off,
+     which is invisible on one screen and is drift once fifty are built on it.
+     docs/redesign/token-audit.md records what each was. */
+  --gm-bg: #141312;
+  --gm-surface: #1d1b1a;
+  --gm-raised: #2a2725;
   --gm-stripe: #1e1d1c;
   --gm-stripe2: #232120;
 
-  --gm-ink: #e4e1de;          /* text inverts, but stays under pure white */
+  --gm-ink: #efebe7;          /* text inverts, but stays under pure white */
   --gm-border: #4d4946;       /* borders stay well below text brightness */
   --gm-band: #0f0f0e;         /* the ticker band goes darker, not white */
   --gm-band-fg: #e4e1de;
   --gm-fill: #5c5754;         /* filled marks stay below text brightness */
-  --gm-text-body: #bfbbb6;
-  --gm-muted: #948e89;
+  --gm-text-body: #c4beb8;
+  --gm-muted: #959089;
   --gm-faint: #7a746f;
+  --gm-line: rgba(239, 235, 231, .12);
   --gm-track: #3a3735;
   /* --gm-skip needs no dark value: it mixes --gm-muted, which this block
      already redefines. */
-  --gm-on-acc: #141312;       /* dark text on the brighter dark-mode accent */
+  /* --gm-on-acc needs no dark value any more: it no longer flips. */
   --gm-danger: #ff6b6b;       /* destructive actions only — never the accent */
   --gm-warn: #f2b84b;         /* sync warnings only */
   --gm-on-pro: #f4f1ef;       /* unchanged: the Pro card is dark in both themes */
@@ -252,20 +280,58 @@ html[data-theme="dark"] .photo {
    brightens and --acc-deep becomes a LIGHT step (accent text must be light on
    a dark ground), --acc-tint becomes a dark wash. */
 
-html[data-accent="orange"] { --acc:#ec3013; --acc-deep:#ae1800; --acc-hover:#dd2b0f;
-  --acc-soft:rgba(236,48,19,.1); --acc-sel:rgba(236,48,19,.3); --acc-tint:#fdece8; }
+/* ── The accent, by the boards' rules ────────────────────────────────────
+   Adopted 2026-10-08. The boards do not pick accent tokens per mode; they
+   DERIVE three of them from the accent colour, and that is now what happens
+   here:
+
+     --acc-soft   color-mix(in srgb, acc 16%, transparent)      both modes
+     --acc-ink    acc in dark; color-mix(in oklch, acc 62%, #000) in light
+     --gm-on-acc  dark ink when the accent's relative luminance is over
+                  0.179, white otherwise
+
+   The orange family also takes the boards' own value — #ff563c in BOTH modes,
+   where this file had darkened it to #ec3013 for light. Measured, because it
+   decides whether text on the primary button is readable:
+
+     #141312 on #ff563c   5.94:1      the board, both modes
+     #141312 on #ec3013   4.46:1      the board's rule on the old light accent
+     #f7f5f3 on #ec3013   4.20:1      what light mode shipped before
+
+   So the board is the best of the three, and the flip from near-white to
+   near-black text on a light-mode primary is a gain rather than a trade.
+
+   Green and cyan keep their hues: the boards offer four accent options and
+   none of them is a green or a cyan, so there is nothing to match — only the
+   three rules above to apply. Each is above 0.179 in both modes, so all six
+   take the dark ink. */
+
+html[data-accent="orange"] { --acc:#ff563c; --acc-deep:#ae1800; --acc-hover:#dd2b0f;
+  --acc-ink:color-mix(in oklch, #ff563c 62%, #000);
+  --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:rgba(255,86,60,.3); --acc-tint:#fdece8;
+  --gm-on-acc:#141312; }
 html[data-theme="dark"][data-accent="orange"] { --acc:#ff563c; --acc-deep:#ff9783; --acc-hover:#ff7a62;
-  --acc-soft:rgba(255,86,60,.14); --acc-sel:rgba(255,86,60,.32); --acc-tint:#2b1a16; }
+  --acc-ink:#ff563c;
+  --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:rgba(255,86,60,.32); --acc-tint:#2b1a16;
+  --gm-on-acc:#141312; }
 
 html[data-accent="green"] { --acc:#16a34a; --acc-deep:#14663a; --acc-hover:#12833d;
-  --acc-soft:rgba(22,163,74,.1); --acc-sel:rgba(22,163,74,.3); --acc-tint:#e9f7ee; }
+  --acc-ink:color-mix(in oklch, #16a34a 62%, #000);
+  --acc-soft:color-mix(in srgb, #16a34a 16%, transparent); --acc-sel:rgba(22,163,74,.3); --acc-tint:#e9f7ee;
+  --gm-on-acc:#141312; }
 html[data-theme="dark"][data-accent="green"] { --acc:#22c55e; --acc-deep:#7ee2a8; --acc-hover:#4ade80;
-  --acc-soft:rgba(34,197,94,.14); --acc-sel:rgba(34,197,94,.32); --acc-tint:#14251c; }
+  --acc-ink:#22c55e;
+  --acc-soft:color-mix(in srgb, #22c55e 16%, transparent); --acc-sel:rgba(34,197,94,.32); --acc-tint:#14251c;
+  --gm-on-acc:#141312; }
 
 html[data-accent="cyan"] { --acc:#0891b2; --acc-deep:#0b5e75; --acc-hover:#077d99;
-  --acc-soft:rgba(8,145,178,.1); --acc-sel:rgba(8,145,178,.3); --acc-tint:#e6f5f9; }
+  --acc-ink:color-mix(in oklch, #0891b2 62%, #000);
+  --acc-soft:color-mix(in srgb, #0891b2 16%, transparent); --acc-sel:rgba(8,145,178,.3); --acc-tint:#e6f5f9;
+  --gm-on-acc:#141312; }
 html[data-theme="dark"][data-accent="cyan"] { --acc:#22b8d6; --acc-deep:#7fdcee; --acc-hover:#3fc8e2;
-  --acc-soft:rgba(34,184,214,.14); --acc-sel:rgba(34,184,214,.32); --acc-tint:#12242a; }
+  --acc-ink:#22b8d6;
+  --acc-soft:color-mix(in srgb, #22b8d6 16%, transparent); --acc-sel:rgba(34,184,214,.32); --acc-tint:#12242a;
+  --gm-on-acc:#141312; }
 
 /* Adding a palette — light variant:
      deep  = same hue, L ~0.38 → must hit 4.5:1 on --gm-bg

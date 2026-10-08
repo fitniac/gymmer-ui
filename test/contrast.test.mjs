@@ -113,10 +113,32 @@ const ACCENT_IDS = ['orange', 'green', 'cyan']
  * Dark mode passes every rule.
  */
 const KNOWN_GAPS = {
-  'light/orange/on-acc': { baseline: 3.86, note: 'near-white label on #ec3013' },
+  /*
+   * Revised 2026-10-08, when the accent tokens were matched to the boards.
+   *
+   * THREE of the four gaps closed, and they were the three that mattered most:
+   * a filled primary button is the accent surface a reader looks at every
+   * session. The boards pick the label colour from the ACCENT's luminance
+   * rather than the page's, which puts near-black ink on every one of these
+   * fills instead of near-white:
+   *
+   *   light/orange/on-acc   3.86 → 5.88
+   *   light/green/on-acc    3.03 → 5.63
+   *   light/cyan/on-acc     3.39 → 5.04
+   *
+   * ONE opened, and it is the trade the boards make. Light mode used a
+   * darkened orange (#ec3013) so the accent could serve as both a fill and an
+   * on-the-ground colour; the boards use #ff563c in both modes and give
+   * accent-coloured INK its own token instead. The raw accent on the page
+   * ground is therefore brighter and softer than it was, and 0.17 short of
+   * the 3:1 this suite asks of large text, icons and chrome.
+   *
+   * Recorded rather than silenced, per the note above: it is a brand-colour
+   * decision. Accent-coloured TEXT is unaffected — it uses --acc-deep, which
+   * is 4.5:1 and did not move.
+   */
+  'light/orange/acc': { baseline: 2.83, note: '#ff563c on #f3f2f2 — the boards\' light accent, 0.17 short of 3:1' },
   'light/green/acc': { baseline: 2.95, note: '#16a34a on #f3f2f2 — 0.05 short of 3:1' },
-  'light/green/on-acc': { baseline: 3.03, note: 'near-white label on #16a34a' },
-  'light/cyan/on-acc': { baseline: 3.39, note: 'near-white label on #0891b2' },
 }
 
 function expect(key, name, actual, required) {
