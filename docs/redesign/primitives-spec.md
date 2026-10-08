@@ -168,3 +168,42 @@ all of which the app uses today (Progress' muscle chips, the filter rail, goal
 chips). **The swap has to either carry them across or drop them, and that is a
 decision rather than a merge.** Raised before the swap rather than discovered
 during it.
+
+
+## The gallery is blocked on the pin, and I had the reason backwards
+
+I reported twice that the layer's token changes were "already live in local
+builds via the symlink". **They were not.** `node_modules/@gymmer/ui` is a pnpm
+symlink into the STORE, and the store holds the pinned tarball:
+
+    node_modules/.pnpm/@gymmer+ui@…gymmer-ui+tar.gz+f572053…/node_modules/@gymmer/ui
+
+`f572053` is this layer's `main` before any of this work. Checked directly, that
+copy has `--gm-bg: #191817` (not the board's `#141312`), no `--gm-acc-line`, and
+one component — `GmLogo.vue`. I had read `ls -ld` output showing a symlink and
+concluded "sibling checkout"; it was the store.
+
+Two consequences, one good and one that reorders the plan.
+
+**Good: nothing was contaminated.** The cardio PR never depended on the layer
+changes, and it was building against the same pinned tag CI uses. Had the dev
+link been real, local and CI would have diverged silently — which is the trap
+`CLAUDE.md` already warns about under "A layer change is not done until the pin
+moves".
+
+**The gallery cannot be built in 0.2 as planned.** It renders the LAYER's
+primitives, and the app cannot see them: not by auto-import (the app's copies
+shadow them), and not by path (the pinned tarball does not contain them). The
+same is true of the geometry guard, which measures the gallery.
+
+So one of these has to happen first, and it is a sequencing decision:
+
+1. **Merge and tag `@gymmer/ui` now, bump the pin, then build the gallery.**
+   The gallery and its guard then work in dev and in CI identically. It splits
+   Phase 0 across two PRs rather than one.
+2. **Wire the documented dev override** (`pnpm-workspace.yaml` overrides, the
+   `make workspace` pattern) so local builds resolve the sibling. One PR — and
+   local stops matching CI, which is exactly the divergence that made this
+   worth finding.
+
+Option 1 is the one this repo's own rule already prescribes. Not chosen here.
