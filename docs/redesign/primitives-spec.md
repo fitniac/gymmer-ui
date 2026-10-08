@@ -152,10 +152,45 @@ The weight is settled and the size is not — a card title and a page title are
 different things wearing the same type. So the weight is fixed in the primitive
 and the size is a prop with the two the boards reach for most (20 and 28).
 
-## Still to measure
+## Toast — `Article.dc.html`
 
-Toast. Drawn on few enough boards that counting adds nothing; it gets read off
-its own board and recorded with the name.
+The only board that draws one properly, so this is a reading rather than a
+count:
+
+```
+position: absolute; left: 50%; bottom: 100px; z-index: 9
+width: max-content; max-width: 340px
+padding: 11px 16px; border-radius: 999px
+background: var(--ink); color: var(--bg)
+font: 600 13px var(--font)
+box-shadow: 0 8px 30px rgba(0,0,0,.35)
+animation: toast 2.6s ease both      (in at 12%, out after 85%)
+```
+
+Two things that are easy to "improve" wrongly. It is **inverted, not
+accented** — a toast is the one thing on screen deliberately not part of the
+page, and the brand colour would make it compete with the primary button it
+usually appears beside. And `width: max-content` with a 340px cap means it is
+as wide as its sentence and no wider; full width reads as a banner, which is a
+heavier thing.
+
+`bottom: 100px` is the board's number for a screen with a tab bar, so it is the
+default of a prop rather than a constant — the layer already publishes
+`--gm-tabbar-h` for this.
+
+**All eight 0.2 primitives are built.** Nothing below is reviewed: the gallery
+and its geometry guard are blocked until the pin moves.
+
+| | |
+|---|---|
+| `GmPrimary` | 56 / 52 / 50 / 36 / 56-round |
+| `GmChip` | status 22, tag 24, action 36 drawn / ≥44 target |
+| `GmTile` | 62 |
+| `GmSheetShell` | sheet + dialog, 22px radius, `.55` scrim |
+| `GmHeader` | weight 800 fixed, size a prop |
+| `GmListRow` | 44 floor, content-sized |
+| `GmProgressStrip` | 4px, accent-line on track |
+| `GmToast` | above |
 
 ## Where they live today
 
