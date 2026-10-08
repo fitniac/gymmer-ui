@@ -58,10 +58,53 @@ height the row around it wants. Counting cannot answer this one, so it is a
 every board that used another is wrong, or the primitive takes a size prop and
 the screens pick. Raised in the PR; not guessed at here.
 
+## TimerRing
+
+| | board | count |
+|---|---|---|
+| geometry | `r=54`, `stroke-width=6`, `viewBox 0 0 120 120` | 12 |
+
+Unanimous — every ring on every board is the same circle, and it is already
+what `TimerRing`'s `board` preset draws. (`viewBox 24` ×230 is the icon set,
+not rings.) Nothing to change; it moves into the layer as it stands.
+
+## The mono subline
+
+| | count |
+|---|---|
+| 11px / 600, tracking `.08em` | 38 |
+| 11px / 600, tracking `.07em` | 32 |
+| 10px / 500, tracking `.07em` | 27 |
+| 11px / 500, tracking `.07em` | 25 |
+
+Two axes vary independently — size/weight and tracking — and no combination
+clears a third of the field. What IS unanimous is the shape: small, mono,
+semibold-ish, positively tracked, uppercase. The primitive takes the modal
+**11px / 600 / .07em** (32, and within one notch of the top three on every
+axis), and that is a decision rather than a reading: it is stated here so a
+board that uses `.08em` is a difference to list, not a bug to fix.
+
+## List row
+
+| | count |
+|---|---|
+| `min-height: 44px` | 17 |
+| 68px | 8 |
+| 52px | 8 |
+| 60px | 6 |
+
+The 44 is the tap-target floor again, not a row height — the same figure that
+dominates the button table for the same reason. The real spread is 52/60/68,
+which is content-driven: a row with a thumbnail is taller than one without.
+**The list row takes a min-height of 44 and is otherwise sized by content**,
+which is what the boards are doing; a fixed row height would contradict 22 of
+them.
+
 ## Still to measure
 
-Metric tile · dialog · list row · header (title + mono subline) · TimerRing ·
-toast. Each gets a row here as it is built, counted the same way.
+Metric tile · dialog · toast. These three are drawn on few enough boards that
+counting adds nothing — they get read off their own board and recorded with
+its name.
 
 ## Where they live today
 
