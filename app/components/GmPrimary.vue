@@ -48,7 +48,7 @@ const paint = computed(() => {
 
 /** The two tiers that draw under 44 earn their target without taking layout. */
 const hit = computed(() => (
-  props.tier === 'small' ? 'after:absolute after:-inset-x-0.5 after:-inset-y-1 after:content-[\'\']' : ''
+  props.tier === 'small' ? 'after:absolute after:inset-x-[-2px] after:top-1/2 after:h-11 after:-translate-y-1/2 after:content-[\'\']' : ''
 ))
 </script>
 

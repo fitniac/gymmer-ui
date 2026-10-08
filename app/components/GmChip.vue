@@ -15,9 +15,15 @@
  * The same trap the button table has: 44px outnumbers every real button tier on
  * the boards three to one because it is the floor a tappable thing is padded
  * to, not a size anything is drawn at. An action chip therefore DRAWS 36 and
- * reaches 44 through an `::after` hit area at a negative inset — no layout
- * added, so a row of chips keeps its 36px rhythm and every one is still a legal
- * target. `e2e/gallery.spec.ts` measures both numbers.
+ * reaches 44 through an `::after` hit area — no layout added, so a row of chips
+ * keeps its 36px rhythm and every one is still a legal target.
+ *
+ * The hit area is given an explicit **height** and centred, NOT a negative
+ * inset. A negative inset is laid out against the PADDING box, and with
+ * `box-sizing: border-box` an unselected chip's 1px border eats 2px of the 36 —
+ * so `-inset-y-1` produced 42px on bordered chips and 44px on the one without a
+ * border. Measured, by the geometry guard, on a row where the three chips
+ * looked identical: the selected one passed and the other two did not.
  *
  * ## Merged with the app's chip, not forked from it
  *
@@ -113,7 +119,7 @@ function onActivate() {
       interactive && !selected && 'border border-line',
       disabled && 'pointer-events-none opacity-60',
       // 44px of target without 44px of layout.
-      interactive && 'after:absolute after:-inset-x-0.5 after:-inset-y-1 after:content-[\'\']',
+      interactive && 'after:absolute after:inset-x-[-2px] after:top-1/2 after:h-11 after:-translate-y-1/2 after:content-[\'\']',
     ]"
     :aria-pressed="interactive && !isLink && !removable ? selected : undefined"
     :aria-current="isLink && selected ? 'page' : undefined"
