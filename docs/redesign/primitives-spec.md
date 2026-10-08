@@ -53,10 +53,30 @@ and nothing to rule on.
 | 32px | 17 |
 
 No majority, and the spread is flat — a chip on these boards takes whatever
-height the row around it wants. Counting cannot answer this one, so it is a
-**design question** rather than a measurement: either chips get one height and
-every board that used another is wrong, or the primitive takes a size prop and
-the screens pick. Raised in the PR; not guessed at here.
+height the row around it wants. Counting cannot answer this one, so it was
+raised as a design question rather than settled by picking the tallest bar of a
+flat histogram.
+
+**Ruled 2026-10-08 (Igor).** Split on what a chip *is*, not on what it
+measured — two variants of **one** primitive, `GmChip`:
+
+| variant | height | tappable | state |
+|---|---|---|---|
+| `status` | **22px** | no | — |
+| `tag` | **24px** | no | — |
+| `action` | **36px** drawn, **≥44px** target | yes | `aria-pressed` |
+
+The 44 is the same trap as the button table: it is the floor a tappable thing
+is padded to, not a height anything is drawn at. So an action chip draws 36 and
+reaches 44 through an `::after` hit area with a negative inset — no layout
+added, so a row of chips keeps its 36px rhythm and every chip in it is still a
+legal target.
+
+One component because they share everything that can drift: the pill radius,
+the surface and line tokens, the truncation rule. The variant decides height,
+interactivity and whether there is a pressed state, and nothing else. An inert
+chip renders a `<span>` with no tab stop; an action chip renders a `<button>` —
+a reader should not be offered a control that does nothing.
 
 ## TimerRing
 
