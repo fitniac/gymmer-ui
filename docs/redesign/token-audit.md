@@ -100,13 +100,68 @@ two definitions and said nothing would leave the next reader to re-derive it.
 |---|---|
 | values to change | 11 (7 dark surfaces/text, 1 light text, 3 accent) |
 | names to add | 3 — `--gm-line`, `--acc-ink`, `--gm-font-mono` |
-| contrast gaps closed | 3 |
-| contrast gaps opened | 1 — needs your ruling |
+| contrast gaps closed | 4 — `KNOWN_GAPS` is now empty |
+| contrast gaps opened | 0 |
 | already identical | 8 |
 | needs a ruling | 0 |
 
 
-## The one thing that got worse, measured
+## Igor's accent ruling, 2026-10-08 (relayed)
+
+Neither of the two options the audit offered — a third. **The accent plays two
+roles on a light page and one colour cannot do both**, so it stops trying:
+
+| role | token | value |
+|---|---|---|
+| **fills** — primary/secondary buttons, chips, filled tiles, accent backgrounds | `--acc` | the boards' `#ff563c` in both themes, label `--gm-on-acc` (near-black) |
+| **strokes and indicators on the page ground** — TimerRing arc, progress strip done/current, focus and selected outlines, accent borders | `--gm-acc-line` *(new)* | the accent in dark; in light, the accent mixed with black in OKLCh by the largest percentage that still clears 3:1 |
+| **accent text** | `--acc-deep` | unchanged, 4.5:1 |
+
+### The computed percentages
+
+X is "the largest value that gives ≥3.0:1 on the light page ground", so it is
+per accent — each stays as close to the brand colour as the floor allows.
+Computed, not chosen, and the margins are one point wide:
+
+| family | accent | X | result | ratio | X+1 would be |
+|---|---|---|---|---|---|
+| orange | `#ff563c` | **97%** | `#f55239` | **3.06:1** | 2.97 ✗ |
+| green | `#16a34a` | **99%** | `#16a149` | **3.02:1** | 2.95 ✗ |
+| cyan | `#0891b2` | **100%** | `#0891b2` | **3.30:1** | — the accent already clears it |
+
+Mixing with black in OKLCh is a *scale*, not an interpolation: black has zero
+chroma so its hue is powerless, and the result keeps the accent's hue with L
+and C multiplied by X. That is why it darkens cleanly where an sRGB mix goes
+muddy.
+
+### The test
+
+`KNOWN_GAPS` is now **empty**. The assertion that read `--acc` on the ground is
+replaced by one that reads `--gm-acc-line`, because `--acc` no longer appears
+on the ground — it is a fill, judged by the label on it. Both of the old
+entries went with it (`light/orange/acc` 2.83 and `light/green/acc` 2.95
+annotated that one assertion).
+
+The test resolves `color-mix(in oklch, …)` itself rather than reading a
+pre-computed hex out of the stylesheet. Writing the resolved value into
+`tokens.css` would have made the suite pass without testing the formula: change
+an accent later and you would get a stale constant and a green run. The JS
+implementation was cross-checked against an independent Python one — identical
+to the digit on all three families.
+
+### Three, not four
+
+The ruling asks for the test to cover "all four accent options". The layer
+ships **three** families (orange, green, cyan); the boards offer four option
+colours (`#ff563c`, `#c8f031`, `#5cc8ff`, `#a08bff`), which are a different set
+— only the orange overlaps. All three families are asserted in both themes, so
+every accent that can actually be selected is covered. **If the intent was to
+add the boards' four as families, say so and they go in** — for the record,
+their X values are lime 70% (3.05:1), sky 80% (3.03:1), violet 92% (3.05:1).
+
+## What this replaced — the gap that is now closed
+
+### (the original finding, kept for the record)
 
 The layer enforces its own contrast floors in `test/contrast.test.mjs`, and
 matching the accent to the boards moved four of them. Three closed and one

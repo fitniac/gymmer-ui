@@ -281,6 +281,31 @@ html[data-theme="dark"] .photo {
    a dark ground), --acc-tint becomes a dark wash. */
 
 /* ── The accent, by the boards' rules ────────────────────────────────────
+   Igor's ruling, 2026-10-08: the accent plays TWO roles on a light page and
+   one colour cannot do both.
+
+     --acc         FILLS — primary and secondary buttons, chips, filled tiles,
+                   accent backgrounds. The boards' #ff563c in both themes, with
+                   --gm-on-acc (near-black) as the label.
+     --gm-acc-line STROKES and INDICATORS on the page ground — the TimerRing
+                   arc, the progress strip's done/current fill, focus and
+                   selected outlines, accent borders. The accent itself in dark;
+                   in light, the accent mixed with black in OKLCh by the LARGEST
+                   percentage that still clears 3:1 on --gm-bg, so it stays as
+                   close to the brand colour as the floor allows.
+     --acc-deep    accent TEXT, unchanged, 4.5:1.
+
+   The light percentages are computed, not chosen, and they are tight — one
+   point higher fails:
+
+     orange   97%  → #f55239  3.06:1   (98% would be 2.97)
+     green    99%  → #16a149  3.02:1   (100% would be 2.95)
+     cyan    100%  → #0891b2  3.30:1   (the accent already clears it)
+
+   Mixing with black in OKLCh scales L and C and keeps the hue, because black's
+   chroma is zero and its hue is powerless — which is why this darkens without
+   the muddiness an sRGB mix would give. test/contrast.test.mjs asserts the
+   3:1 for every family, so a change to the page ground cannot quietly undo it.
    Adopted 2026-10-08. The boards do not pick accent tokens per mode; they
    DERIVE three of them from the accent colour, and that is now what happens
    here:
@@ -309,29 +334,35 @@ html[data-theme="dark"] .photo {
 html[data-accent="orange"] { --acc:#ff563c; --acc-deep:#ae1800; --acc-hover:#dd2b0f;
   --acc-ink:color-mix(in oklch, #ff563c 62%, #000);
   --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:rgba(255,86,60,.3); --acc-tint:#fdece8;
-  --gm-on-acc:#141312; }
+  --gm-on-acc:#141312;   --gm-acc-line:color-mix(in oklch, #ff563c 97%, #000);
+}
 html[data-theme="dark"][data-accent="orange"] { --acc:#ff563c; --acc-deep:#ff9783; --acc-hover:#ff7a62;
   --acc-ink:#ff563c;
   --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:rgba(255,86,60,.32); --acc-tint:#2b1a16;
-  --gm-on-acc:#141312; }
+  --gm-on-acc:#141312;   --gm-acc-line:#ff563c;
+}
 
 html[data-accent="green"] { --acc:#16a34a; --acc-deep:#14663a; --acc-hover:#12833d;
   --acc-ink:color-mix(in oklch, #16a34a 62%, #000);
   --acc-soft:color-mix(in srgb, #16a34a 16%, transparent); --acc-sel:rgba(22,163,74,.3); --acc-tint:#e9f7ee;
-  --gm-on-acc:#141312; }
+  --gm-on-acc:#141312;   --gm-acc-line:color-mix(in oklch, #16a34a 99%, #000);
+}
 html[data-theme="dark"][data-accent="green"] { --acc:#22c55e; --acc-deep:#7ee2a8; --acc-hover:#4ade80;
   --acc-ink:#22c55e;
   --acc-soft:color-mix(in srgb, #22c55e 16%, transparent); --acc-sel:rgba(34,197,94,.32); --acc-tint:#14251c;
-  --gm-on-acc:#141312; }
+  --gm-on-acc:#141312;   --gm-acc-line:#22c55e;
+}
 
 html[data-accent="cyan"] { --acc:#0891b2; --acc-deep:#0b5e75; --acc-hover:#077d99;
   --acc-ink:color-mix(in oklch, #0891b2 62%, #000);
   --acc-soft:color-mix(in srgb, #0891b2 16%, transparent); --acc-sel:rgba(8,145,178,.3); --acc-tint:#e6f5f9;
-  --gm-on-acc:#141312; }
+  --gm-on-acc:#141312;   --gm-acc-line:#0891b2;
+}
 html[data-theme="dark"][data-accent="cyan"] { --acc:#22b8d6; --acc-deep:#7fdcee; --acc-hover:#3fc8e2;
   --acc-ink:#22b8d6;
   --acc-soft:color-mix(in srgb, #22b8d6 16%, transparent); --acc-sel:rgba(34,184,214,.32); --acc-tint:#12242a;
-  --gm-on-acc:#141312; }
+  --gm-on-acc:#141312;   --gm-acc-line:#22b8d6;
+}
 
 /* Adding a palette — light variant:
      deep  = same hue, L ~0.38 → must hit 4.5:1 on --gm-bg
