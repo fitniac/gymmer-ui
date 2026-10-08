@@ -7,7 +7,7 @@ import {
   CORNERS_COOKIE,
   CORNERS_STORAGE_KEY,
   COOKIE_MAX_AGE,
-  DEFAULT_ACCENT,
+  resolveAccent,
   DEFAULT_CORNERS,
   resolveStoredTheme,
   THEME_COOKIE,
@@ -43,7 +43,7 @@ export function useTheme() {
   })
 
   const pref = useState<ThemePref>('gm-theme', () => resolveStoredTheme(themeCookie.value))
-  const accent = useState<AccentId>('gm-accent', () => accentCookie.value ?? DEFAULT_ACCENT)
+  const accent = useState<AccentId>('gm-accent', () => resolveAccent(accentCookie.value))
   const cornerPref = useState<CornerId>('gm-corners', () => cornersCookie.value ?? DEFAULT_CORNERS)
 
   if (import.meta.client) {

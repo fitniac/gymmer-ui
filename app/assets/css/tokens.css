@@ -295,12 +295,21 @@ html[data-theme="dark"] .photo {
                    close to the brand colour as the floor allows.
      --acc-deep    accent TEXT, unchanged, 4.5:1.
 
-   The light percentages are computed, not chosen, and they are tight — one
-   point higher fails:
+   The four families are the BOARDS' four options, adopted 2026-10-08; the
+   layer's own green and cyan are retired (app/utils/theme.ts maps a stored
+   one to the default). Every value below is computed, not chosen:
 
-     orange   97%  → #f55239  3.06:1   (98% would be 2.97)
-     green    99%  → #16a149  3.02:1   (100% would be 2.95)
-     cyan    100%  → #0891b2  3.30:1   (the accent already clears it)
+     family   acc        acc-line light         on a fill   acc-deep light
+     orange   #ff563c    97%  #f55239  3.06:1    5.88:1     82%  #c4402c  4.57:1
+     lime     #c8f031    70%  #7b951a  3.05:1   14.11:1     59%  #617513  4.63:1
+     sky      #5cc8ff    80%  #4294be  3.03:1    9.86:1     67%  #327495  4.62:1
+     violet   #a08bff    92%  #8f7ce4  3.05:1    6.74:1     78%  #7262b7  4.53:1
+
+   All four take near-black on a fill — lime and sky included, which are the
+   two the eye expects to want white — because every one is far above the
+   0.179 luminance at which the boards flip the label. In DARK the accent is
+   its own --acc-deep and its own --gm-acc-line: it already clears 4.5:1 and
+   3:1 against #141312, so there is nothing to derive.
 
    Mixing with black in OKLCh scales L and C and keeps the hue, because black's
    chroma is zero and its hue is powerless — which is why this darkens without
@@ -331,38 +340,49 @@ html[data-theme="dark"] .photo {
    three rules above to apply. Each is above 0.179 in both modes, so all six
    take the dark ink. */
 
-html[data-accent="orange"] { --acc:#ff563c; --acc-deep:#ae1800; --acc-hover:#dd2b0f;
-  --acc-ink:color-mix(in oklch, #ff563c 62%, #000);
-  --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:rgba(255,86,60,.3); --acc-tint:#fdece8;
-  --gm-on-acc:#141312;   --gm-acc-line:color-mix(in oklch, #ff563c 97%, #000);
-}
-html[data-theme="dark"][data-accent="orange"] { --acc:#ff563c; --acc-deep:#ff9783; --acc-hover:#ff7a62;
+html[data-accent="orange"] { --acc:#ff563c; --acc-deep:color-mix(in oklch, #ff563c 82%, #000); --acc-hover:color-mix(in oklch, #ff563c 92%, #000);
+  --acc-ink:color-mix(in oklch, #ff563c 82%, #000);
+  --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:color-mix(in srgb, #ff563c 30%, transparent);
+  --acc-tint:color-mix(in srgb, #ff563c 12%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #ff563c 97%, #000); }
+html[data-theme="dark"][data-accent="orange"] { --acc:#ff563c; --acc-deep:#ff563c; --acc-hover:color-mix(in oklch, #ff563c 92%, #fff);
   --acc-ink:#ff563c;
-  --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:rgba(255,86,60,.32); --acc-tint:#2b1a16;
-  --gm-on-acc:#141312;   --gm-acc-line:#ff563c;
-}
+  --acc-soft:color-mix(in srgb, #ff563c 16%, transparent); --acc-sel:color-mix(in srgb, #ff563c 32%, transparent);
+  --acc-tint:color-mix(in srgb, #ff563c 14%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:#ff563c; }
 
-html[data-accent="green"] { --acc:#16a34a; --acc-deep:#14663a; --acc-hover:#12833d;
-  --acc-ink:color-mix(in oklch, #16a34a 62%, #000);
-  --acc-soft:color-mix(in srgb, #16a34a 16%, transparent); --acc-sel:rgba(22,163,74,.3); --acc-tint:#e9f7ee;
-  --gm-on-acc:#141312;   --gm-acc-line:color-mix(in oklch, #16a34a 99%, #000);
-}
-html[data-theme="dark"][data-accent="green"] { --acc:#22c55e; --acc-deep:#7ee2a8; --acc-hover:#4ade80;
-  --acc-ink:#22c55e;
-  --acc-soft:color-mix(in srgb, #22c55e 16%, transparent); --acc-sel:rgba(34,197,94,.32); --acc-tint:#14251c;
-  --gm-on-acc:#141312;   --gm-acc-line:#22c55e;
-}
+html[data-accent="lime"] { --acc:#c8f031; --acc-deep:color-mix(in oklch, #c8f031 59%, #000); --acc-hover:color-mix(in oklch, #c8f031 92%, #000);
+  --acc-ink:color-mix(in oklch, #c8f031 59%, #000);
+  --acc-soft:color-mix(in srgb, #c8f031 16%, transparent); --acc-sel:color-mix(in srgb, #c8f031 30%, transparent);
+  --acc-tint:color-mix(in srgb, #c8f031 12%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #c8f031 70%, #000); }
+html[data-theme="dark"][data-accent="lime"] { --acc:#c8f031; --acc-deep:#c8f031; --acc-hover:color-mix(in oklch, #c8f031 92%, #fff);
+  --acc-ink:#c8f031;
+  --acc-soft:color-mix(in srgb, #c8f031 16%, transparent); --acc-sel:color-mix(in srgb, #c8f031 32%, transparent);
+  --acc-tint:color-mix(in srgb, #c8f031 14%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:#c8f031; }
 
-html[data-accent="cyan"] { --acc:#0891b2; --acc-deep:#0b5e75; --acc-hover:#077d99;
-  --acc-ink:color-mix(in oklch, #0891b2 62%, #000);
-  --acc-soft:color-mix(in srgb, #0891b2 16%, transparent); --acc-sel:rgba(8,145,178,.3); --acc-tint:#e6f5f9;
-  --gm-on-acc:#141312;   --gm-acc-line:#0891b2;
-}
-html[data-theme="dark"][data-accent="cyan"] { --acc:#22b8d6; --acc-deep:#7fdcee; --acc-hover:#3fc8e2;
-  --acc-ink:#22b8d6;
-  --acc-soft:color-mix(in srgb, #22b8d6 16%, transparent); --acc-sel:rgba(34,184,214,.32); --acc-tint:#12242a;
-  --gm-on-acc:#141312;   --gm-acc-line:#22b8d6;
-}
+html[data-accent="sky"] { --acc:#5cc8ff; --acc-deep:color-mix(in oklch, #5cc8ff 67%, #000); --acc-hover:color-mix(in oklch, #5cc8ff 92%, #000);
+  --acc-ink:color-mix(in oklch, #5cc8ff 67%, #000);
+  --acc-soft:color-mix(in srgb, #5cc8ff 16%, transparent); --acc-sel:color-mix(in srgb, #5cc8ff 30%, transparent);
+  --acc-tint:color-mix(in srgb, #5cc8ff 12%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #5cc8ff 80%, #000); }
+html[data-theme="dark"][data-accent="sky"] { --acc:#5cc8ff; --acc-deep:#5cc8ff; --acc-hover:color-mix(in oklch, #5cc8ff 92%, #fff);
+  --acc-ink:#5cc8ff;
+  --acc-soft:color-mix(in srgb, #5cc8ff 16%, transparent); --acc-sel:color-mix(in srgb, #5cc8ff 32%, transparent);
+  --acc-tint:color-mix(in srgb, #5cc8ff 14%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:#5cc8ff; }
+
+html[data-accent="violet"] { --acc:#a08bff; --acc-deep:color-mix(in oklch, #a08bff 78%, #000); --acc-hover:color-mix(in oklch, #a08bff 92%, #000);
+  --acc-ink:color-mix(in oklch, #a08bff 78%, #000);
+  --acc-soft:color-mix(in srgb, #a08bff 16%, transparent); --acc-sel:color-mix(in srgb, #a08bff 30%, transparent);
+  --acc-tint:color-mix(in srgb, #a08bff 12%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:color-mix(in oklch, #a08bff 92%, #000); }
+html[data-theme="dark"][data-accent="violet"] { --acc:#a08bff; --acc-deep:#a08bff; --acc-hover:color-mix(in oklch, #a08bff 92%, #fff);
+  --acc-ink:#a08bff;
+  --acc-soft:color-mix(in srgb, #a08bff 16%, transparent); --acc-sel:color-mix(in srgb, #a08bff 32%, transparent);
+  --acc-tint:color-mix(in srgb, #a08bff 14%, var(--gm-bg));
+  --gm-on-acc:#141312; --gm-acc-line:#a08bff; }
 
 /* Adding a palette — light variant:
      deep  = same hue, L ~0.38 → must hit 4.5:1 on --gm-bg

@@ -9,10 +9,27 @@
 // passing test/contrast.test.mjs.
 
 export const ACCENTS = {
-  orange: { label: 'Ember', light: '#ec3013', dark: '#ff563c' },
-  green: { label: 'Field', light: '#16a34a', dark: '#22c55e' },
-  cyan: { label: 'Current', light: '#0891b2', dark: '#22b8d6' },
+  orange: { label: 'Ember', light: '#ff563c', dark: '#ff563c' },
+  lime: { label: 'Field', light: '#c8f031', dark: '#c8f031' },
+  sky: { label: 'Current', light: '#5cc8ff', dark: '#5cc8ff' },
+  violet: { label: 'Dusk', light: '#a08bff', dark: '#a08bff' },
 } as const
+
+/**
+ * Accents that no longer exist, and what to show someone who stored one.
+ *
+ * `green` and `cyan` were the layer's own families; the four above are the
+ * boards'. Only the orange survived, and even it changed value — the boards
+ * use one accent in both themes rather than darkening it for light.
+ *
+ * This is pre-launch, so there is no compatibility to keep — but there ARE
+ * stored preferences on the devices of everyone testing, and a cookie holding
+ * `green` must not render a themeless app or throw. It maps to the default,
+ * which is what `resolveAccent` does with anything it does not recognise;
+ * naming them here is so the mapping is a decision somebody can read rather
+ * than a fallback that happens to catch it.
+ */
+export const RETIRED_ACCENTS = ['green', 'cyan'] as const
 
 /**
  * What a settings picker offers: **Dark or Light, and nothing else** (D6).
@@ -59,6 +76,19 @@ export const DEFAULT_CORNERS: CornerId = 'soft'
 
 export const isAccent = (v: unknown): v is AccentId =>
   typeof v === 'string' && v in ACCENTS
+
+/**
+ * A stored accent, or the default — never the string that was stored.
+ *
+ * `accentCookie.value ?? DEFAULT_ACCENT` was not enough: a retired `green` is
+ * a perfectly truthy string, so it sailed past the `??`, reached
+ * `data-accent="green"`, and matched no rule in tokens.css. The accent tokens
+ * then fall back to whatever `:root` last set — an app with no accent at all,
+ * for every tester who had picked one of the two families that no longer
+ * exist.
+ */
+export const resolveAccent = (v: unknown): AccentId =>
+  isAccent(v) ? v : DEFAULT_ACCENT
 
 /**
  * Accepts `system` on the way IN, so an old stored value is read rather than

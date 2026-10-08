@@ -148,7 +148,27 @@ const THEMES = [
   },
 ]
 
-const ACCENT_IDS = ['orange', 'green', 'cyan']
+/*
+ * Read out of the registry, not written here.
+ *
+ * `app/utils/theme.ts` says adding an accent is "one entry here + light and
+ * dark blocks in tokens.css + passing test/contrast.test.mjs". That was only
+ * true if somebody also remembered this literal — and when the families were
+ * replaced it was not true at all: the suite went looking for a `green` block
+ * that no longer existed and failed on a rule rather than on a ratio.
+ *
+ * Parsed with a regex because the registry is TypeScript and this file is
+ * plain node:test. A parse that finds nothing fails loudly rather than
+ * silently asserting an empty list.
+ */
+const ACCENT_IDS = (() => {
+  const src = readFileSync(new URL('../app/utils/theme.ts', import.meta.url), 'utf8')
+  const block = src.match(/export const ACCENTS = \{([\s\S]*?)\n\} as const/)
+  assert.ok(block, 'app/utils/theme.ts has no ACCENTS registry to read')
+  const ids = [...block[1].matchAll(/^\s*([a-z][a-z0-9]*)\s*:/gm)].map(m => m[1])
+  assert.ok(ids.length, 'the ACCENTS registry parsed to no accents')
+  return ids
+})()
 
 /**
  * Known gaps, inherited from the design bundle's light-mode values.
