@@ -38,6 +38,12 @@
      --color-accent, which is a FILL and is brighter than a 3:1 floor allows in
      light mode. Igor's ruling, 2026-10-08; tokens.css carries the arithmetic. */
   --color-accent-line: var(--gm-acc-line);
+  /* Destructive and warning. They have been tokens since v0.3 and had no
+     @theme entry, so `text-danger` and `text-warn` silently did not exist —
+     found when the gallery's warn and danger status chips rendered in the
+     neutral colour and nothing anywhere complained. */
+  --color-danger: var(--gm-danger);
+  --color-warn: var(--gm-warn);
   --color-line: var(--gm-line);
   --color-skip: var(--gm-skip);
   --color-onacc: var(--gm-on-acc);

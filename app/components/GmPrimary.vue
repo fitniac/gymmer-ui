@@ -18,10 +18,15 @@
  * of its own evidence — so `small` draws 36 and reaches 44 the way the chip
  * does, with a hit area that adds no layout.
  *
- * The press behaviour comes from the layer's `.pri` / `.gho` classes, which
- * own the offset shadow and the transform. State rules there may only set
- * properties no utility competes with — `test/css-layers.test.mjs` enforces
- * it — so everything that PAINTS is a utility here.
+ * **No `.pri`.** That class and `.gho` carry the landing's offset-shadow press
+ * — `5px 5px 0` — and the boards do not draw it on an app button: board 16's
+ * primary is a flat accent pill. The first gallery frame showed every
+ * secondary and small button wearing a hard black shadow the boards never had,
+ * which is what putting `.pri` on all five tiers bought.
+ *
+ * Everything that paints is a utility here, because a state rule in
+ * `@layer components` loses to one — `test/css-layers.test.mjs` enforces that
+ * and the layer's own comment explains why.
  */
 const props = withDefaults(defineProps<{
   tier?: 'primary' | 'compact' | 'secondary' | 'small' | 'round'
@@ -55,7 +60,7 @@ const hit = computed(() => (
 <template>
   <button
     type="button"
-    class="pri relative inline-flex shrink-0 items-center justify-center gap-2"
+    class="relative inline-flex shrink-0 items-center justify-center gap-2"
     :class="[size, paint, hit, disabled && 'pointer-events-none opacity-60']"
     :aria-label="label"
     :disabled="disabled || undefined"
