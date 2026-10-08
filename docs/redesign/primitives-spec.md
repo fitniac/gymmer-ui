@@ -133,3 +133,38 @@ no controls. All 32 primitives (`GmButton`, `GmSheet`, `GmModal`, `TimerRing`,
 `GmNumberInput`, …) live in `gymmer-nuxt/app/components/ui/`. Phase 0.2 is
 therefore a PROMOTION as well as a rebuild: each primitive moves into the layer
 and is rebuilt to the numbers above on the way.
+
+
+## The promotion hazard, found while building the chip
+
+`GmChip` now exists in **both** repos, and the app's wins. Verified rather than
+assumed: a fresh `nuxi prepare` resolves
+
+    export const GmChip: typeof import("../app/components/ui/GmChip.vue")
+
+so the layer's copy is shadowed and inert. No regression — but two things
+follow for 0.3, and both are easy to walk into.
+
+**1. A layer primitive cannot be reviewed from the app.** The app shadows it,
+so the gallery has to render the layer's component explicitly rather than
+relying on auto-import, or it will photograph the old one and pass.
+
+**2. The APIs are not the same shape.** The app's chip is richer than the
+boards' ruling describes:
+
+| app `GmChip` | in the ruling? |
+|---|---|
+| `pressed` | yes — `selected` |
+| `disabled` | yes |
+| `tone: 'ink' \| 'accent'` | no |
+| `removable` + `remove` event | no |
+| `count` | no |
+| `icon` | no |
+| `to` (renders a link) | no |
+
+The ruling covers height, interactivity and the pressed state. It does not say
+what happens to a removable chip with a count, or to a chip that is a link —
+all of which the app uses today (Progress' muscle chips, the filter rail, goal
+chips). **The swap has to either carry them across or drop them, and that is a
+decision rather than a merge.** Raised before the swap rather than discovered
+during it.
