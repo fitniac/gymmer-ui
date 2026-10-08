@@ -120,11 +120,42 @@ which is content-driven: a row with a thumbnail is taller than one without.
 which is what the boards are doing; a fixed row height would contradict 22 of
 them.
 
+## Sheet and dialog
+
+| | board | `@gymmer/ui` |
+|---|---|---|
+| top radius (sheet) | `22px` | `--gm-radius-sheet: 22px` — **match** |
+| scrim | `rgba(0,0,0,.55)` ×30 (`.62` ×8, `.45` ×6) | `--gm-scrim` — **match** |
+| bottom padding | `28px` | — |
+
+Both numbers the layer already had. One shell serves both: they differ by which
+EDGE they are attached to, and therefore which corners are round — a sheet
+rises from the bottom and rounds its top two, a dialog floats and rounds four.
+The grab handle follows from the same fact, since only a sheet drags.
+
+Built on `<dialog>` rather than a positioned div: the top layer, focus trapping
+and Escape come from the platform, and none of the three is worth
+reimplementing badly.
+
+## Header
+
+| | count |
+|---|---|
+| weight `800` | unanimous, every size |
+| 20px | 18 |
+| 22px | 13 |
+| 28px | 10 |
+| 30px | 9 |
+| 26px | 9 |
+
+The weight is settled and the size is not — a card title and a page title are
+different things wearing the same type. So the weight is fixed in the primitive
+and the size is a prop with the two the boards reach for most (20 and 28).
+
 ## Still to measure
 
-Metric tile · dialog · toast. These three are drawn on few enough boards that
-counting adds nothing — they get read off their own board and recorded with
-its name.
+Toast. Drawn on few enough boards that counting adds nothing; it gets read off
+its own board and recorded with the name.
 
 ## Where they live today
 
