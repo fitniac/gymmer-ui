@@ -30,11 +30,38 @@ Three things this table settles:
   variant is the primary inside a sheet and is the same primitive with a
   compact flag, not a fourth.
 
+## Sheet, scrim, progress strip
+
+| thing | board | count | `@gymmer/ui` today |
+|---|---|---|---|
+| scrim | `rgba(0,0,0,.55)` | 30 | `--gm-scrim: rgba(0,0,0,.55)` — **match** |
+| bottom-sheet top radius | `22px` | 5 | `--gm-radius-sheet: 22px` — **match** |
+| progress strip | `4px`, accent on track | 25 | — |
+
+Two competing scrims appear (`.62` ×8, `.45` ×6) against `.55` ×30. The
+majority is also what the layer already ships, so there is nothing to change
+and nothing to rule on.
+
+## Chip — the one primitive the boards do not settle
+
+| height | count |
+|---|---|
+| 34px | 27 |
+| 36px | 25 |
+| 30px | 24 |
+| 38px | 21 |
+| 32px | 17 |
+
+No majority, and the spread is flat — a chip on these boards takes whatever
+height the row around it wants. Counting cannot answer this one, so it is a
+**design question** rather than a measurement: either chips get one height and
+every board that used another is wrong, or the primitive takes a size prop and
+the screens pick. Raised in the PR; not guessed at here.
+
 ## Still to measure
 
-Chip · metric tile · bottom sheet + dialog + scrim · list row · header
-(title + mono subline) · progress strip · TimerRing · toast. Each gets a row in
-this file as it is built, with the same counting.
+Metric tile · dialog · list row · header (title + mono subline) · TimerRing ·
+toast. Each gets a row here as it is built, counted the same way.
 
 ## Where they live today
 
