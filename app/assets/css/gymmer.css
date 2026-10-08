@@ -238,10 +238,38 @@
       box-shadow 0.12s ease,
       background 0.15s ease;
   }
-  .pri:hover,
-  .gho:hover {
-    transform: translate(-2px, -2px);
-    box-shadow: var(--shadow-btn-hover);
+  /* The lift is for a real pointer only.
+     ``````````````````````````````````````
+     A hover transform that MOVES the element it reacts to can move it off its
+     own hotspot: hover applies, the element shifts 2px, the pointer is no
+     longer over it, hover drops, it returns, hover applies again. That is a
+     loop, at one flip per animation frame, and it does not settle.
+
+     It is not theoretical and it is not only an emulator artefact. Measured on
+     an emulated iPhone 13 (`isMobile: true`), with no CSS animation anywhere
+     on the element or any of its ancestors:
+
+       transform=none                   :hover=false  y=252
+       transform=matrix(1,0,0,1,-2,-2)  :hover=true   y=250
+       transform=none                   :hover=false  y=252
+
+     every frame, forever. Playwright refused to click the button for 15s with
+     "element is not stable", which is the correct verdict on a box that never
+     holds still, and the whole of gymmer-nuxt's mobile-journey spec failed on
+     it. A person on a device that reports a hover it does not really have sees
+     the same shimmer.
+
+     `hover: hover and pointer: fine` is the pair that means "a pointer that
+     can rest somewhere without touching it". Everything else — a finger, a
+     stylus, an emulated phone — gets the resting state, which is what it
+     should get anyway: there is no hover on a touch screen, so the lift was
+     only ever reachable there by accident. */
+  @media (hover: hover) and (pointer: fine) {
+    .pri:hover,
+    .gho:hover {
+      transform: translate(-2px, -2px);
+      box-shadow: var(--shadow-btn-hover);
+    }
   }
   .pri:active,
   .gho:active {
@@ -264,19 +292,28 @@
      background in the first place unless the component asks for it with a
      `hover:` utility, and `disabled:` sits later in the same layer, so the
      component settles it. */
-  .pri:disabled:hover,
-  .gho:disabled:hover {
-    transform: none;
-    box-shadow: var(--shadow-btn);
+  @media (hover: hover) and (pointer: fine) {
+    .pri:disabled:hover,
+    .gho:disabled:hover {
+      transform: none;
+      box-shadow: var(--shadow-btn);
+    }
   }
 
-  /* Library row: the arrow is the affordance, revealed on hover. */
-  .row:hover {
-    background: var(--gm-surface);
-  }
-  .row:hover .arw {
-    transform: translateX(4px);
-    opacity: 1;
+  /* Library row: the arrow is the affordance, revealed on hover.
+     Behind the same gate as the button lift. The transform here is on a CHILD,
+     so it cannot move the row out from under the pointer and cannot loop — but
+     a reveal that only a real pointer can trigger has no business firing on a
+     device that reports a hover it does not have, and keeping both hover
+     behaviours under one condition is how they stay consistent. */
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover {
+      background: var(--gm-surface);
+    }
+    .row:hover .arw {
+      transform: translateX(4px);
+      opacity: 1;
+    }
   }
   .arw {
     opacity: 0;
