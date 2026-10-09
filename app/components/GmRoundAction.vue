@@ -2,17 +2,18 @@
 /**
  * A round control with its one word underneath — Pause / Resume / Stop.
  *
- * **The boards do not draw this.** Asked for on 2026-10-09; the closest things
- * they have are board 16's 56px round footer control, whose label is an
- * `aria-label` and is not drawn, and `DeskActive`'s Pause, which is a 44px
- * OUTLINED PILL with a 14px/600 label inside it. So this is a composition of
- * two things the boards do draw rather than a reading of one they do:
+ * **`BottomZone` draws this now** (canvas v76): Skip in the strength footer,
+ * Resume and Stop in the paused cardio one. It was built the day before from
+ * two things other boards drew — board 16's 56px round control, and the mono
+ * eyebrow caption — and the real board disagrees about the caption:
  *
- *   the 56px round control   board 16's footer
- *   the mono caption         11px / 600 / .07em, uppercase, muted
+ *   the 56px round control   board 16's footer        unchanged
+ *   the caption              11px / 600, app font,    was mono, uppercase,
+ *                            `--body`, sentence case  `.07em`, `--muted`
  *
- * Recorded because a primitive with no board behind it is the kind of thing
- * that later gets defended as "matching the design" by whoever finds it.
+ * The words are Skip, Resume, Stop. Set out as SKIP · RESUME · STOP they read
+ * as the eyebrow labels above a section rather than as what the button under
+ * your thumb does, which is what the mono caption made of them.
  *
  * The label is drawn AND spoken — it is the button's accessible name, so the
  * round control does not need an `aria-label` of its own, and a reader is not
@@ -46,7 +47,7 @@ const paint = computed(() => (
       <slot />
     </button>
     <span
-      class="font-mono text-[11px] leading-none font-semibold tracking-[.07em] text-muted uppercase"
+      class="text-[11px] leading-none font-semibold text-body"
       data-testid="gm-round-action-label"
     >{{ label }}</span>
   </span>
