@@ -49,7 +49,7 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 
 <section aria-label="Last set" style="margin:14px 16px 0;padding:12px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:14px;font-weight:700">Set 2 logged <span style="font-weight:500;color:var(--muted)">· tap to correct</span></span><span style="font:500 11px var(--mono);color:var(--muted)">PLAN {{planLabel}}</span></div>
+<div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:14px;font-weight:700">Set 2 logged </span><span style="font:500 11px var(--mono);color:var(--muted)">PLAN {{planLabel}}</span></div>
 <div style="display:flex;gap:8px">
 <sc-for list="{{fields}}" as="f" hint-placeholder-count="2">
 <div style="flex:1;display:flex;align-items:center;justify-content:space-between;height:50px;border-radius:var(--rs);background:var(--bg)"><button class="tap" aria-label="{{f.lessLabel}}" onClick="{{f.minus}}" style="width:44px;height:50px;border:0;background:transparent;color:var(--ink);font-size:22px">−</button><span style="display:flex;flex-direction:column;align-items:center"><span style="font-size:18px;font-weight:800">{{f.v}}</span><span style="font:500 9px var(--mono);color:var(--muted)">{{f.u}}</span></span><button class="tap" aria-label="{{f.moreLabel}}" onClick="{{f.plus}}" style="width:44px;height:50px;border:0;background:transparent;color:var(--ink);font-size:22px">+</button></div>
@@ -120,7 +120,7 @@ class Component extends DCLogic {
       saveStr: s.save ? 'true' : 'false',
       toggleSave: function () { self.setState({ save: !self.st().save }); },
       trackStyle: s.save ? 'background:var(--acc);justify-content:flex-end' : 'background:var(--raised);justify-content:flex-start',
-      saveNote: s.save ? 'Saved — future Chest Days plan ' + cur : 'Use ' + cur + ' as the plan next time'
+      saveNote: s.save ? 'Next time: ' + cur : cur
     };
   }
 }
