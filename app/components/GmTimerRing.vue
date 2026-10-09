@@ -18,6 +18,14 @@
  * for them to disagree, so the ring moves here and the three screens pass
  * their own content through the slot.
  *
+ * The arc takes `--gm-acc-line`, not `--acc`. It is a 6px stroke drawn
+ * straight on the page ground, which is the job that token exists for: in
+ * light, `--acc` is a FILL colour and misses 3:1 against `--gm-bg`, so a ring
+ * painted with it is a bright line nobody can quite see. Dark is unaffected —
+ * there `--gm-acc-line` IS the accent. Igor's ruling, 2026-10-09; the progress
+ * strip already worked this way. The track and any fill behind it are
+ * unchanged.
+ *
  * **The default preset is what ships today, exactly.** The redesign's ring is
  * thinner, rounder and sits in a different viewBox (board 20); adopting it
  * here would restyle the rest sheet in a commit whose job is to move code.
@@ -138,7 +146,7 @@ const dashOffset = computed(() => {
       :width="size"
       :height="size"
       :viewBox="`0 0 ${geom.box} ${geom.box}`"
-      class="text-accent"
+      class="text-accent-line"
       :role="label ? 'img' : undefined"
       :aria-label="label"
       :aria-hidden="label ? undefined : 'true'"

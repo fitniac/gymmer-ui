@@ -312,6 +312,26 @@ for (const theme of THEMES) {
       3,
     )
 
+    /*
+     * The RING ARC specifically — the first consumer of the rule, and the one
+     * the frames caught still using the fill.
+     *
+     * The assertion above is about the token; this one is about the component
+     * that draws with it, so the pair cannot drift apart silently. A number
+     * can only be checked here, and which token the ring reaches for can only
+     * be checked in its source, so both are.
+     */
+    const ringSource = readFileSync(new URL('../app/components/GmTimerRing.vue', import.meta.url), 'utf8')
+    test(`${theme.name}/${id}: the timer ring arc is legible on the ground`, () => {
+      assert.match(
+        ringSource,
+        /class="text-accent-line"/,
+        'GmTimerRing must draw its arc with --gm-acc-line (`text-accent-line`), not the fill accent',
+      )
+      const r = ratio(acc['--gm-acc-line'], bg)
+      assert.ok(r >= 3, `${theme.name}/${id}: the ring arc on --gm-bg is ${r.toFixed(2)}:1, needs 3:1`)
+    })
+
     // The token for accent body copy and links.
     expect(
       `${theme.name}/${id}/acc-deep`,
