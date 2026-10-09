@@ -39,10 +39,10 @@ a{color:inherit}a:hover{color:inherit}
 
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px">
 <div style="position:relative;width:208px;height:208px">
-<svg width="208" height="208" viewBox="0 0 120 120" style="transform:rotate(-90deg)"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--raised)" stroke-width="6" /><circle cx="60" cy="60" r="54" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="122" /></svg>
+<svg width="208" height="208" viewBox="0 0 120 120" style="transform:rotate(-90deg)"><circle cx="60" cy="60" r="54" fill="none" stroke="var(--track)" stroke-width="6" /><circle cx="60" cy="60" r="54" fill="none" stroke="var(--acc)" stroke-width="6" stroke-linecap="round" stroke-dasharray="339.3" stroke-dashoffset="122" /></svg>
 <span style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px"><span class="live" style="font:600 10px var(--mono);letter-spacing:.1em;color:var(--acc-ink)">● RUNNING</span><span style="font-size:58px;font-weight:800;font-variant-numeric:tabular-nums;letter-spacing:-.02em">3:12</span><span style="font:500 12px var(--mono);color:var(--muted)">TARGET 5:00</span></span>
 </div>
-<span style="font-size:15px;color:var(--body)">Easy pace — you should be able to talk.</span>
+<span style="font-size:15px;color:var(--body)">Easy pace</span>
 </div>
 
 <sc-if value="{{isFree}}" hint-placeholder-val="{{ true }}">
@@ -53,17 +53,19 @@ a{color:inherit}a:hover{color:inherit}
 </sc-if>
 
 <section style="padding:0 16px;display:flex;flex-direction:column;gap:8px">
-<span style="padding:0 4px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--muted)">OPTIONAL — ADD IF YOU TRACK IT</span>
 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
-<button class="tap" style="height:62px;border-radius:var(--rs);border:1.5px dashed var(--line);background:transparent;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 15px var(--font)">+ Distance<span style="font:500 10px var(--mono);color:var(--muted)">KM</span></button>
-<button class="tap" style="height:62px;border-radius:var(--rs);border:0;background:var(--surf);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:800 17px var(--font)">8.5<span style="font:500 10px var(--mono);color:var(--muted)">SPEED KM/H</span></button>
-<button class="tap" style="height:62px;border-radius:var(--rs);border:1.5px dashed var(--line);background:transparent;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 15px var(--font)">+ Incline<span style="font:500 10px var(--mono);color:var(--muted)">%</span></button>
+<button class="tap" style="height:62px;border-radius:var(--rs);border:1.5px dashed var(--line);background:transparent;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 15px var(--font)" aria-label="Add distance, km"><span style="font-size:22px;font-weight:600;line-height:1">+</span><span style="font:500 10px var(--mono);letter-spacing:.06em;color:var(--muted)">DISTANCE</span></button>
+<button class="tap" style="height:62px;border-radius:var(--rs);border:0;background:var(--surf);color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:800 17px var(--font)">8.5<span style="font:500 10px var(--mono);color:var(--muted)">KM/H</span></button>
+<button class="tap" style="height:62px;border-radius:var(--rs);border:1.5px dashed var(--line);background:transparent;color:var(--ink);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:700 15px var(--font)" aria-label="Add incline, percent"><span style="font-size:22px;font-weight:600;line-height:1">+</span><span style="font:500 10px var(--mono);letter-spacing:.06em;color:var(--muted)">INCLINE</span></button>
 </div>
 </section>
 
-<div style="padding:16px 16px 30px;display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px">
-<button aria-label="Pause" class="tap" style="height:56px;border-radius:50%;border:1px solid var(--line);background:var(--surf);color:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg></button>
-<a href="Active.dc.html" class="tap" style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:17px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12.5 10 17 19 7" /></svg>Done, next exercise</a>
+<div style="padding:14px 16px 26px;display:flex;flex-direction:column;gap:8px">
+<div style="display:grid;grid-template-columns:56px minmax(0,1fr);gap:10px;align-items:start">
+<button class="tap" style="border:0;background:transparent;color:var(--ink);padding:0;display:flex;flex-direction:column;align-items:center;gap:4px;font:inherit;cursor:pointer"><span style="width:56px;height:56px;box-sizing:border-box;border-radius:50%;border:1px solid var(--line);background:var(--surf);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1" /><rect x="14" y="5" width="4" height="14" rx="1" /></svg></span><span style="font:600 11px var(--font);color:var(--body)">Pause</span></button>
+<a href="Active.dc.html" class="tap" style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);text-decoration:none;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:17px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M5 12.5 10 17 19 7" /></svg>Done</a>
+</div>
+<span style="align-self:flex-end;max-width:calc(100% - 66px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px;color:var(--muted)">Next: Decline Barbell Bench Press</span>
 </div>
 </div>
 </x-dc>
@@ -81,7 +83,7 @@ class Component extends DCLogic {
     var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
     return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
       ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
-      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--track:color-mix(in srgb, ' + t.ink + ' 14%, transparent)' + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
   }
   renderVals() { return { vars: this.theme(), isFree: (this.props.plan || 'free') === 'free' }; }
 }

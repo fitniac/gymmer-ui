@@ -83,8 +83,8 @@ summary::-webkit-details-marker{display:none}
 <sc-if value="{{hasRefused}}" hint-placeholder-val="{{ true }}">
 <h3 style="margin:22px 20px 6px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--danger)">COULDN&#8217;T SAVE · 1</h3>
 <div style="margin:0 16px;padding:12px 14px;border-radius:var(--r);border:1px solid color-mix(in srgb, var(--danger) 40%, transparent);display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:700">Cable Fly · set 3 removed</span><span style="font-size:13px;line-height:1.4;color:var(--muted)">The server turned this change down, so retrying won&#8217;t help. The set is still on the server and shown as it is there.</span></div>
-<div style="display:flex;align-items:center;gap:10px"><button class="tap" style="height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:700 13px var(--font);cursor:pointer">Got it</button><span style="font-size:12px;color:var(--muted)">Hides the warning. Kept in Details.</span></div>
+<div style="display:flex;flex-direction:column;gap:3px"><span style="font-size:15px;font-weight:700">Cable Fly · set 3 removed</span><span style="font-size:13px;line-height:1.4;color:var(--muted)">Not saved · server kept its version</span></div>
+<div style="display:flex;align-items:center;gap:10px"><button class="tap" style="height:38px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:700 13px var(--font);cursor:pointer">Got it</button></div>
 </div>
 </sc-if>
 
@@ -92,7 +92,6 @@ summary::-webkit-details-marker{display:none}
 <h3 style="margin:22px 20px 6px;font:600 11px var(--mono);letter-spacing:.07em;color:var(--warn)">CHANGED ON ANOTHER DEVICE · 2 SETS</h3>
 <div style="margin:0 16px;padding:12px 14px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
 <span style="font-size:14px;font-weight:600">Bench Press · sets 1–2</span>
-<span style="font-size:13px;line-height:1.4;color:var(--body)">Another device changed these. The server&#8217;s version is the one shown.</span>
 </div>
 </sc-if>
 
