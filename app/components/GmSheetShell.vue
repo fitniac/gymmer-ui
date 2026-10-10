@@ -18,6 +18,12 @@
  * floats and rounds all four; ADAPTIVE is a sheet on a phone and a 480px right
  * panel from 1200px, where there is room beside the page instead of over it.
  *
+ * The width lives in the PER-VARIANT class, not in the base one. `w-full` and
+ * `w-[480px]` are both width utilities, so which wins is the stylesheet's
+ * order rather than the attribute's: v0.6.0 shipped a panel that reported
+ * `data-variant="panel"`, rounded the right corners and measured 1440px wide,
+ * which the geometry guard caught on the first run against it.
+ *
  * ## The three things v0.6.0 added, and why they are here rather than in an app
  *
  * `adaptive`, the sticky footer and swipe-to-dismiss were the reasons the
@@ -191,10 +197,10 @@ function onPointerCancel() {
 <template>
   <dialog
     ref="el"
-    class="m-0 w-full max-w-none bg-transparent p-0 backdrop:bg-scrim"
+    class="m-0 bg-transparent p-0 backdrop:bg-scrim"
     :class="isPanel
       ? 'ml-auto h-full max-h-none w-[480px]'
-      : (isBottom ? 'mt-auto' : 'm-auto max-w-[min(92vw,420px)]')"
+      : (isBottom ? 'mt-auto w-full max-w-none' : 'm-auto w-full max-w-[min(92vw,420px)]')"
     :aria-label="title"
     :data-variant="isPanel ? 'panel' : variant"
     data-testid="gm-sheet"
