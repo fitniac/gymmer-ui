@@ -3,6 +3,14 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.2
+
+`GmPrimary`'s 52px `compact` tier takes `outline`: a 1px `--line` rule on no
+fill, ink label — the outlined Finish under Resume on `ActiveHeader`'s paused
+state. Before this, `outline` on a compact was ignored without a word and the
+button came back accent-filled. Released through `scripts/release.sh`: the
+consumer's gallery guard asks the outlined compact for its paint.
+
 ## v0.6.1
 
 `GmSheetShell` can take an app's sheets: the adaptive 480px panel from 1200px,

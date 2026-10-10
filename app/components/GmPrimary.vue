@@ -8,6 +8,7 @@
  *
  *   primary    56px  999px pill   17px/700   accent fill, --on-acc label   ×9
  *   compact    52px  999px pill   16px/700   the primary inside a sheet    ×6
+ *              (outlined: 1px --line, no fill — `ActiveHeader`'s paused Finish)
  *   secondary  50px  card radius  15px/600   surface or outline            ×16
  *   small      36px  999px pill   13px/600   chips and inline actions      ×26
  *   round      56px  circle                  1px --line, --surf fill       ×7
@@ -30,7 +31,11 @@
  */
 const props = withDefaults(defineProps<{
   tier?: 'primary' | 'compact' | 'secondary' | 'small' | 'round'
-  /** A secondary can be a filled surface or an outline; the boards use both. */
+  /**
+   * An outline instead of a fill: a secondary as a surface or a rule, and —
+   * since v0.6.2 — the 52px compact as the quiet half of a pair, under a
+   * primary. The 56px primary has no outlined form; nothing draws one.
+   */
   outline?: boolean
   disabled?: boolean
   /** Round buttons are a lone glyph, so they must say what they do. */
@@ -47,7 +52,10 @@ const size = computed(() => ({
 
 const paint = computed(() => {
   if (props.tier === 'round') return 'border border-line bg-surface text-ink'
-  if (props.tier === 'primary' || props.tier === 'compact') return 'bg-accent text-onacc'
+  if (props.tier === 'primary') return 'bg-accent text-onacc'
+  // Before v0.6.2 a compact took the accent whatever `outline` said — silently,
+  // so the app drew its one outlined 52px pill by hand.
+  if (props.tier === 'compact' && !props.outline) return 'bg-accent text-onacc'
   return props.outline ? 'border border-line bg-transparent text-ink' : 'bg-surface text-ink'
 })
 
