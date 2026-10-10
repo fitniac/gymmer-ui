@@ -23,6 +23,10 @@
 #      including on failure and on Ctrl-C;
 #   6. only then: version, commit, tag, push.
 #
+# `DRY_RUN=1` stops after step 5: everything that can fail still runs, and
+# nothing is written or pushed. That is how the guard step itself is
+# controlled — plant a defect, run the dry release, watch it exit non-zero.
+#
 # The consumer is `../gymmer-nuxt` unless $GYMMER_NUXT says otherwise.
 set -euo pipefail
 cd "$(dirname "$0")/.."
@@ -84,6 +88,11 @@ say "the guards that measure this layer"
 
 restore
 trap - EXIT INT TERM
+
+if [ "${DRY_RUN:-0}" = "1" ]; then
+  printf '\n\033[32m✅ dry run: the consumer'"'"'s guards accept this layer; nothing tagged\033[0m\n'
+  exit 0
+fi
 
 say "tagging $version"
 node -e '
