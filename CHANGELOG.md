@@ -1,43 +1,40 @@
 # @gymmer/ui
 
-## 0.3.11
+Tags are what consumers pin; this file says what each one is for, and which
+ones not to.
 
-The hover lift is for a real pointer only.
+## v0.6.1
 
-- `.pri:hover` / `.gho:hover` (the 2px lift and its shadow), their
-  `:disabled:hover` undo, and `.row:hover` / `.row:hover .arw` now sit behind
-  `@media (hover: hover) and (pointer: fine)`.
-- Why: a hover transform that MOVES the element it reacts to can move it off
-  its own hotspot — hover applies, the element shifts 2px, the pointer is no
-  longer over it, hover drops, it returns, hover applies again. One flip per
-  animation frame, forever. Measured on an emulated iPhone 13
-  (`isMobile: true`), with no CSS animation on the element or any ancestor:
-  `transform: none` at y=252 alternating with `translate(-2px,-2px)` at y=250.
-  Playwright refused to click the button for 15s with "element is not stable",
-  and gymmer-nuxt's `mobile-journey` spec failed on it for days.
-- There is no hover on a touch screen, so the lift was only ever reachable
-  there by accident. On a real pointer nothing changes.
+`GmSheetShell` can take an app's sheets: the adaptive 480px panel from 1200px,
+a sticky footer that reserves the home indicator, and swipe-to-dismiss that is
+off under `prefers-reduced-motion` and never fires while an inner
+`[data-sheet-scroll]` element is scrolled.
 
-## 0.3.7
+## v0.6.0 — BROKEN, do not pin
 
-Fixes the regression 0.3.6 shipped.
+The adaptive panel reported `data-variant="panel"`, rounded the right corners
+and attached itself to the right edge, and was **1440px wide**: `w-full` in the
+base class and `w-[480px]` in the variant one are two width utilities of equal
+specificity, so the stylesheet's order decided rather than the attribute's.
 
-- Interactive state colours move out of the layer and onto the component:
-  `hover:bg-accent-hover`, `active:bg-accent-deep`, `hover:bg-accent-soft`.
-  A layered `:hover { background }` loses to a static `bg-*` utility on the
-  same element, so 0.3.6 silently removed every button's hover and press.
-- The layer keeps only the state effects no utility competes with — the press
-  transform and its shadow.
-- `test/css-layers.test.mjs` fails on any painting property under a state
-  selector in layered CSS, and on any new unlayered rule.
+Use **v0.6.1**. The tag stays where it is — deleting a tag a lockfile may
+already point at trades one broken install for a missing one — and
+`scripts/release.sh` exists so the next release cannot repeat the mistake: it
+runs the consuming app's gallery and geometry guards and refuses to tag when
+they fail.
 
-## 0.3.6 — do not use: interactive states lost
+## v0.5.3
 
-Moved component and base CSS into `@layer components` / `@layer base`, which
-is correct and is kept. But it also demoted every `:hover` and `:active` rule
-below the static utilities on the same elements, so buttons stopped responding
-to the pointer. Use 0.3.7.
+`GmRoundAction`'s caption is a word, not an eyebrow: 11px/600 in the app font,
+`--body`, sentence case, because `BottomZone` is the first board to draw it.
 
-## 0.3.5
+## v0.5.2
 
-Dark default; Dark or Light only, no System.
+`GmTimerRing`'s arc takes `--gm-acc-line`, the stroke accent, instead of the
+fill one — in light mode a 6px arc of the fill accent misses 3:1 against the
+page.
+
+## v0.5.1
+
+The sheet shell actually opens: `showModal()` is called from a watcher AND on
+mount, because the watcher alone runs while the template ref is still null.
