@@ -51,7 +51,13 @@ const props = withDefaults(defineProps<{
   swipe?: boolean
   /** A press that starts and ends outside the sheet closes it (v0.6.3). */
   dismissOnBackdrop?: boolean
-}>(), { open: false, variant: 'sheet', title: undefined, swipeThreshold: 70, swipe: true, dismissOnBackdrop: true })
+  /**
+   * The body's own padding (v0.6.3). On by default: the boards' 16px sides.
+   * Off for a consumer that brings its own — an app moving existing sheets
+   * onto the shell without moving a pixel.
+   */
+  inset?: boolean
+}>(), { open: false, variant: 'sheet', title: undefined, swipeThreshold: 70, swipe: true, dismissOnBackdrop: true, inset: true })
 
 const emit = defineEmits<{ close: [] }>()
 
@@ -285,11 +291,18 @@ function onPointerCancel() {
         data-testid="gm-sheet-grab"
       />
 
+      <!-- A header that does not scroll (v0.6.3): a title bar, or a close
+           button pinned to the corner. `relative` so a corner control can be
+           placed against it. -->
+      <div v-if="$slots.header" class="relative shrink-0" data-testid="gm-sheet-header">
+        <slot name="header" />
+      </div>
+
       <!-- The body scrolls; the footer does not. `data-sheet-scroll` is the
            seam the swipe reads to tell a scroll from a dismissal. -->
       <div
-        class="min-h-0 flex-1 overflow-y-auto px-4"
-        :class="[$slots.footer ? 'pb-3' : 'pb-7', isBottom && !swipeable ? 'pt-4' : 'pt-1']"
+        class="min-h-0 flex-1 overflow-y-auto"
+        :class="inset ? ['px-4', $slots.footer ? 'pb-3' : 'pb-7', isBottom && !swipeable ? 'pt-4' : 'pt-1'] : ''"
         data-sheet-scroll
       >
         <slot />
