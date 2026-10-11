@@ -3,6 +3,22 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.3
+
+`GmSheetShell` can take every sheet an app has, without moving a pixel:
+- `variant="panel"`: the right-hand panel at every width (full height, up to
+  420px, the whole screen on a phone), swiped right to dismiss.
+- Dismiss on the backdrop (`dismissOnBackdrop`, on by default), with the three
+  guards an app's own sheet had learned: the press measured at pointerdown,
+  nothing from a dialog opened on top, no click a pointer did not produce.
+- `#header`: a slot that does not scroll, for a title bar or a corner close.
+- `inset` (off: the consumer pads the body) and `grab` (off: the consumer
+  draws its own handle; the gesture is unchanged).
+
+`scripts/release.sh` now links the layer against the consumer's own lockfile
+and restores it; `--no-lockfile` had pulled a Playwright whose browser was not
+installed.
+
 ## v0.6.2
 
 `GmPrimary`'s 52px `compact` tier takes `outline`: a 1px `--line` rule on no
