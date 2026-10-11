@@ -57,7 +57,12 @@ const props = withDefaults(defineProps<{
    * onto the shell without moving a pixel.
    */
   inset?: boolean
-}>(), { open: false, variant: 'sheet', title: undefined, swipeThreshold: 70, swipe: true, dismissOnBackdrop: true, inset: true })
+  /**
+   * Draw the grab handle (v0.6.3). Off for a consumer that draws its own in
+   * the `#header` slot — the gesture is unchanged, only who draws the bar.
+   */
+  grab?: boolean
+}>(), { open: false, variant: 'sheet', title: undefined, swipeThreshold: 70, swipe: true, dismissOnBackdrop: true, inset: true, grab: true })
 
 const emit = defineEmits<{ close: [] }>()
 
@@ -285,7 +290,7 @@ function onPointerCancel() {
            one: a panel is dismissed from its edge, and a dialog is not
            dismissed by a gesture at all. -->
       <div
-        v-if="isBottom && swipeable"
+        v-if="grab && isBottom && swipeable"
         aria-hidden="true"
         class="mx-auto mt-3 mb-3 h-1 w-9 shrink-0 rounded-pill bg-track"
         data-testid="gm-sheet-grab"
