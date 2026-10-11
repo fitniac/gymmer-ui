@@ -36,14 +36,22 @@ import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
 const props = withDefaults(defineProps<{
   open?: boolean
-  variant?: 'sheet' | 'dialog' | 'adaptive'
+  /**
+   * `panel` (v0.6.3) is the right-hand panel at EVERY width: full height, up to
+   * 420px, the whole screen on a phone — the app's rest screen and exercise
+   * picker, which cover the workout rather than sitting over a visible page.
+   * `adaptive` becomes a (480px) panel only from 1200px.
+   */
+  variant?: 'sheet' | 'dialog' | 'adaptive' | 'panel'
   /** Spoken name. A sheet with no title needs one anyway. */
   title?: string
   /** Travel, in px, that counts as "put it away". */
   swipeThreshold?: number
   /** Off for a sheet whose content must not be dismissed by a stray drag. */
   swipe?: boolean
-}>(), { open: false, variant: 'sheet', title: undefined, swipeThreshold: 70, swipe: true })
+  /** A press that starts and ends outside the sheet closes it (v0.6.3). */
+  dismissOnBackdrop?: boolean
+}>(), { open: false, variant: 'sheet', title: undefined, swipeThreshold: 70, swipe: true, dismissOnBackdrop: true })
 
 const emit = defineEmits<{ close: [] }>()
 
@@ -56,7 +64,7 @@ let mq: MediaQueryList | null = null
 const onWide = (e: MediaQueryListEvent | MediaQueryList) => { wide.value = e.matches }
 
 /** A sheet by edge: the bottom one, or the right-hand panel. */
-const isPanel = computed(() => props.variant === 'adaptive' && wide.value)
+const isPanel = computed(() => props.variant === 'panel' || (props.variant === 'adaptive' && wide.value))
 const isBottom = computed(() => props.variant === 'sheet' || (props.variant === 'adaptive' && !wide.value))
 
 /**
@@ -100,6 +108,50 @@ onMounted(() => {
   }
 })
 onBeforeUnmount(() => mq?.removeEventListener('change', onWide))
+
+/* ── Dismiss on the backdrop ─────────────────────────────────────────────
+ *
+ * Ported from the app's own sheet (v0.6.3), with the three rules it learned
+ * the hard way, because a shell the app's sheets move onto must not lose them:
+ *
+ *  - Decided where the PRESS started, measured at pointerdown. By the time the
+ *    click arrives the sheet may have changed size (content collapsing while
+ *    something loads), and the click's coordinates then fall "outside" a tap
+ *    that was plainly inside.
+ *  - Not from a dialog opened ON TOP of this one: a viewer or a confirm in the
+ *    sheet's content is a DOM descendant that paints above it, and its own
+ *    close button sits where this sheet is not.
+ *  - Not a click no pointer produced (`detail === 0`): Enter or Space on a
+ *    button reports (0, 0), outside every rectangle.
+ *
+ * A click whose press and release land on different descendants is dispatched
+ * to the dialog, which is also how the backdrop reports — so `@click.self`
+ * would close the sheet at the end of any drag that crossed an element.
+ */
+let pressWasOutside = false
+
+function fromNestedDialog(e: Event): boolean {
+  const owner = (e.target as HTMLElement | null)?.closest?.('dialog')
+  return !!owner && owner !== el.value
+}
+
+function onPressAnywhere(e: PointerEvent) {
+  const d = el.value
+  if (!d || fromNestedDialog(e)) {
+    pressWasOutside = false
+    return
+  }
+  const r = d.getBoundingClientRect()
+  pressWasOutside = e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom
+}
+
+function onBackdropClick(e: MouseEvent) {
+  if (!props.dismissOnBackdrop || e.detail === 0 || fromNestedDialog(e)) return
+  if (pressWasOutside && !dragging.value) {
+    pressWasOutside = false
+    emit('close')
+  }
+}
 
 /* ── Swipe to dismiss ────────────────────────────────────────────────────
  *
@@ -198,9 +250,11 @@ function onPointerCancel() {
   <dialog
     ref="el"
     class="m-0 bg-transparent p-0 backdrop:bg-scrim"
-    :class="isPanel
-      ? 'ml-auto h-full max-h-none w-[480px]'
-      : (isBottom ? 'mt-auto w-full max-w-none' : 'm-auto w-full max-w-[min(92vw,420px)]')"
+    :class="variant === 'panel'
+      ? 'ml-auto h-full max-h-none w-full max-w-[420px] sm:w-[92vw]'
+      : isPanel
+        ? 'ml-auto h-full max-h-none w-[480px]'
+        : (isBottom ? 'mt-auto w-full max-w-none' : 'm-auto w-full max-w-[min(92vw,420px)]')"
     :aria-label="title"
     :data-variant="isPanel ? 'panel' : variant"
     data-testid="gm-sheet"
@@ -208,6 +262,8 @@ function onPointerCancel() {
     @close="emit('close')"
     @cancel.prevent="emit('close')"
     @pointerdown="onPointerDown"
+    @pointerdown.capture="onPressAnywhere"
+    @click="onBackdropClick"
     @pointermove="onPointerMove"
     @pointerup="onPointerUp"
     @pointercancel="onPointerCancel"
