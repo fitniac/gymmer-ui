@@ -60,11 +60,17 @@ WS="$APP/pnpm-workspace.yaml"
 SAVED="$(mktemp -t gmui-ws)"
 HAD_WS=0
 [ -f "$WS" ] && { cp "$WS" "$SAVED"; HAD_WS=1; }
+# The consumer's lockfile is tracked, and the link below rewrites the layer's
+# entry in it; it is put back byte for byte, like the workspace file.
+LOCK="$APP/pnpm-lock.yaml"
+SAVED_LOCK="$(mktemp -t gmui-lock)"
+cp "$LOCK" "$SAVED_LOCK"
 
 restore() {
   say "restoring $APP"
   if [ "$HAD_WS" = 1 ]; then cp "$SAVED" "$WS"; else rm -f "$WS"; fi
-  rm -f "$SAVED"
+  cp "$SAVED_LOCK" "$LOCK"
+  rm -f "$SAVED" "$SAVED_LOCK"
   ( cd "$APP" && pnpm install --silent >/dev/null 2>&1 ) || true
   ( cd "$APP" && ./scripts/e2e-local-stack.sh down >/dev/null 2>&1 ) || true
 }
@@ -72,7 +78,11 @@ trap restore EXIT INT TERM
 
 say "linking this checkout into $APP"
 printf 'overrides:\n  "@gymmer/ui": "link:%s"\n' "$LAYER" > "$WS"
-( cd "$APP" && pnpm install --no-lockfile --silent )
+# Against the consumer's OWN lockfile, changing only the layer's entry.
+# `--no-lockfile` re-resolved every range instead: it pulled a newer
+# @playwright/test whose browser is not installed, so the guards could not
+# even launch — found preparing v0.6.3.
+( cd "$APP" && pnpm install --no-frozen-lockfile --silent )
 
 say "building the app's e2e stack"
 ( cd "$APP" && ./scripts/e2e-local-stack.sh up >/dev/null ) || die "the consumer's stack would not build against this layer."
