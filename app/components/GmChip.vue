@@ -132,7 +132,11 @@ function onActivate() {
     <!-- Leading icon, trailing count: slots on every variant, so a status chip
          can carry a dot and a filter can carry its result count. -->
     <slot name="icon" />
-    <span class="truncate"><slot /></span>
+    <!-- An ACTION chip's label is never cut: a control's text is always
+         fully visible (Igor's rule, 2026-10-12) — a label too long is fixed in
+         the copy or the layout, not by an ellipsis. Status and tag chips are
+         content (a state, a tag) and may still ellipsise. -->
+    <span :class="interactive ? 'whitespace-nowrap' : 'truncate'"><slot /></span>
     <span
       v-if="$slots.count"
       class="font-mono text-[11px] tabular-nums opacity-70"
