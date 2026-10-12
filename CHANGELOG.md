@@ -3,6 +3,13 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.4
+
+`GmChip`'s action variant no longer truncates its label: a control's text is
+always fully visible. Status and tag chips (content, not controls) still
+ellipsise. Found by the consumer's 320px guard, which now fails on any button or
+link label set to ellipsise.
+
 ## v0.6.3
 
 `GmSheetShell` can take every sheet an app has, without moving a pixel:
