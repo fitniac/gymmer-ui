@@ -3,6 +3,12 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.5
+
+`GmMeter`: a small count meter — `value` of `max` as 16×6 pips, used in ink and
+the rest raised (board `Programs`' Free line, "1 of 3 programs"). Decorative and
+`aria-hidden`: the words beside it carry the number.
+
 ## v0.6.4
 
 `GmChip`'s action variant no longer truncates its label: a control's text is
