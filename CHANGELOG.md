@@ -3,6 +3,14 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.7
+
+`GmChip`'s action label wraps INSIDE the chip when it is wider than its row,
+instead of running past it on one line (v0.6.4's `whitespace-nowrap`). Still
+never cut. Short labels stay on one line at 36px; only an over-long one (the
+Russian "safety squat bar" in a 320px sheet) wraps, and the chip grows to fit.
+Found by the consumer's 320px guard on the New program equipment sheet.
+
 ## v0.6.6
 
 For board `Program` (group 4):

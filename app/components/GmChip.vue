@@ -79,7 +79,10 @@ const tag = computed(() => {
   return interactive.value ? 'button' : 'span'
 })
 
-const height = computed(() => ({ status: 'h-[22px]', tag: 'h-6', action: 'h-9' }[props.variant]))
+// `min-h-9` + a little padding, not `h-9`, on the action chip: its label
+// wraps when it is wider than the row (below), and a fixed height would let
+// the second line spill out of the pill. One line still draws exactly 36.
+const height = computed(() => ({ status: 'h-[22px]', tag: 'h-6', action: 'min-h-9 py-1.5' }[props.variant]))
 
 /** Inert chips are mono caps — a label, not prose. Action chips carry a word. */
 const type = computed(() => (
@@ -135,8 +138,14 @@ function onActivate() {
     <!-- An ACTION chip's label is never cut: a control's text is always
          fully visible (Igor's rule, 2026-10-12) — a label too long is fixed in
          the copy or the layout, not by an ellipsis. Status and tag chips are
-         content (a state, a tag) and may still ellipsise. -->
-    <span :class="interactive ? 'whitespace-nowrap' : 'truncate'"><slot /></span>
+         content (a state, a tag) and may still ellipsise.
+
+         Never cut, and never past the chip either: `whitespace-nowrap` (v0.6.4)
+         kept "Гриф для приседаний с безопасным грифом" on one line that ran
+         out of a 320px sheet. Short labels still sit on one line — the chip is
+         `shrink-0` up to `max-w-full` — and only a label wider than the row
+         wraps, inside the chip (v0.6.7). -->
+    <span :class="interactive ? 'min-w-0 leading-tight [overflow-wrap:break-word]' : 'truncate'"><slot /></span>
     <span
       v-if="$slots.count"
       class="font-mono text-[11px] tabular-nums opacity-70"
