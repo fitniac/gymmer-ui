@@ -3,6 +3,17 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.6
+
+For board `Program` (group 4):
+- `GmSortableList`: rows reordered by a ≡ handle — dragged, or moved with ↑ / ↓
+  on the focused handle, the new position spoken through a polite live region.
+  Emits `reorder` with the ids; the caller owns the order. Strings are the
+  caller's (`handleLabel`, `hint`, `announce`).
+- `GmStatTile`: a value, its unit and a `<dt>` caption — promoted from the
+  app's `SummaryStat`, with `size` `lg` (26px, the Summary) and `md` (20px).
+- `GmPrimary`: `dashed` on the secondary tier — 1.5px dashed rule, no fill.
+
 ## v0.6.5
 
 `GmMeter`: a small count meter — `value` of `max` as 16×6 pips, used in ink and
