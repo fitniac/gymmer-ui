@@ -88,12 +88,18 @@ say "building the app's e2e stack"
 ( cd "$APP" && ./scripts/e2e-local-stack.sh up >/dev/null ) || die "the consumer's stack would not build against this layer."
 
 say "the guards that measure this layer"
+# Chained with `&&`, every step. `set -e` does NOT apply inside a subshell
+# whose status is tested with `||`, so with the steps on separate lines the
+# subshell's status was the LAST command's: a failing geometry spec was
+# swallowed whenever the gallery shoot after it passed. Found 2026-10-13 when a
+# dry run printed "1 failed" and then "the consumer's guards accept this
+# layer". (The gate's earlier control had planted a defect that broke BOTH
+# steps, so it never saw this.)
 (
-  cd "$APP"
-  # shellcheck disable=SC1090
-  eval "$(./scripts/e2e-local-stack.sh env)"
-  pnpm exec playwright test e2e/tests/gallery-geometry.spec.ts --project=chromium --reporter=line
-  SHOOT_THEME=dark pnpm exec playwright test --config=e2e/visual/shoot.config.ts e2e/visual/gallery.spec.ts --reporter=line
+  cd "$APP" \
+    && eval "$(./scripts/e2e-local-stack.sh env)" \
+    && pnpm exec playwright test e2e/tests/gallery-geometry.spec.ts --project=chromium --reporter=line \
+    && SHOOT_THEME=dark pnpm exec playwright test --config=e2e/visual/shoot.config.ts e2e/visual/gallery.spec.ts --reporter=line
 ) || die "the consumer's gallery guards refuse this layer — nothing tagged."
 
 restore
