@@ -1,6 +1,15 @@
 # ADR 0001 — Where public programs live
 
 Status: **accepted** 2026-10-03 by Igor (Phase 0.4)
+
+> **Superseded in part, 2026-10-13** (group-4 ruling, Igor can override): the
+> Programs screen gets a **Mine | Discover tab** after all — board `Programs`
+> (canvas v89) draws it, and "Copy a plan" switches to it. The ADR's concern
+> stands and is how it is built: Discover reuses the public programmes'
+> page components (`PublicProgramBrowser`) inside the app shell — no second
+> implementation and no separate data path. `/programs/browse` stays as the
+> same component on its own route. The "Discover programs →" row below is
+> what this replaces.
 Date: 2026-10-03 · Supersedes nothing · Affects D10, specs 09, 10, 18, 6.4
 
 ## The clash
