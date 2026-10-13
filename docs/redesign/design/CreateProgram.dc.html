@@ -31,19 +31,14 @@ a{color:inherit}a:hover{color:inherit}
 <span></span>
 </div>
 
-<div role="tablist" aria-label="How to build it" style="margin:14px 20px 0;padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px">
-<sc-for list="{{modes}}" as="m" hint-placeholder-count="3">
+<div role="tablist" aria-label="How to build it" style="margin:14px 20px 0;padding:4px;border-radius:999px;background:var(--surf);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px">
+<sc-for list="{{modes}}" as="m" hint-placeholder-count="2">
 <button role="tab" aria-selected="{{m.sel}}" class="tap" onClick="{{m.pick}}" style="height:40px;border:0;border-radius:999px;font:700 14px var(--font);{{m.style}}">{{m.n}}</button>
 </sc-for>
 </div>
 
 <sc-if value="{{isNova}}" hint-placeholder-val="{{ true }}">
 <section class="in" style="padding:20px 20px 0;display:flex;flex-direction:column;gap:22px">
-<div style="display:flex;gap:12px;align-items:flex-start">
-<span style="flex:0 0 40px;height:40px;border-radius:50%;background:var(--acc-soft);color:var(--acc-ink);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z" /></svg></span>
-<p style="margin:0;font-size:16px;line-height:1.45;color:var(--body)">Four answers and Nova writes the whole week — exercises, sets, loads and rest. You can change anything after.</p>
-</div>
-
 <fieldset style="border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:10px">
 <legend style="padding:0;margin-bottom:10px;font-size:16px;font-weight:800">Goal</legend>
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
@@ -63,7 +58,7 @@ a{color:inherit}a:hover{color:inherit}
 </fieldset>
 
 <fieldset style="border:0;margin:0;padding:0">
-<legend style="padding:0;margin-bottom:10px;font-size:16px;font-weight:800">Time per session</legend>
+<legend style="padding:0;margin-bottom:10px;font-size:16px;font-weight:800">Minutes</legend>
 <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px">
 <sc-for list="{{lens}}" as="d" hint-placeholder-count="4">
 <button aria-pressed="{{d.sel}}" class="tap" onClick="{{d.pick}}" style="height:52px;border-radius:var(--rs);font:700 15px var(--font);{{d.style}}">{{d.n}}</button>
@@ -72,7 +67,7 @@ a{color:inherit}a:hover{color:inherit}
 </fieldset>
 
 <a href="Settings.dc.html" class="tap" style="display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--r);background:var(--surf);text-decoration:none">
-<span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:800">Equipment</span><span style="font-size:14px;color:var(--muted)">Full gym · from your preferences</span></span>
+<span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font-size:16px;font-weight:800">Equipment</span><span style="font-size:14px;color:var(--muted)">Full gym</span></span>
 <span style="font-size:14px;font-weight:600;color:var(--acc-ink)">Change</span>
 </a>
 </section>
@@ -83,17 +78,10 @@ a{color:inherit}a:hover{color:inherit}
 <label for="pn" style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Name
 <input id="pn" type="text" placeholder="Upper / Lower Split" style="height:52px;box-sizing:border-box;padding:0 16px;border-radius:var(--rs);border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font)"></label>
 <label for="pd" style="display:flex;flex-direction:column;gap:6px;font-size:14px;font-weight:700">Description <span style="font-weight:500;color:var(--muted)">Optional</span>
-<textarea id="pd" rows="3" placeholder="What is this program for?" style="box-sizing:border-box;padding:14px 16px;border-radius:var(--rs);border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font);resize:none"></textarea></label>
-<p style="margin:0;font-size:14px;color:var(--muted)">Next you’ll pick exercises from the library — the ones your equipment allows come first.</p>
+<textarea id="pd" rows="3" style="box-sizing:border-box;padding:14px 16px;border-radius:var(--rs);border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font);resize:none"></textarea></label>
 </section>
 </sc-if>
 
-<sc-if value="{{isTpl}}" hint-placeholder-val="{{ false }}">
-<section class="in" style="padding:20px 20px 0;display:flex;flex-direction:column;gap:12px">
-<label for="ts" style="height:48px;display:flex;align-items:center;gap:10px;padding:0 14px;border-radius:999px;background:var(--surf);border:1px solid var(--line);color:var(--muted)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg><input id="ts" type="search" placeholder="Search published plans" style="flex:1;min-width:0;border:0;background:transparent;color:var(--ink);font:16px var(--font);outline:none"></label>
-<div style="padding:16px;border-radius:var(--r);border:1.5px dashed var(--line);font-size:14px;line-height:1.45;color:var(--muted)">[Published plans list — name, level, days/week, muscles. Tap to preview, then “Copy to my programs”.]</div>
-</section>
-</sc-if>
 </main>
 
 <div style="position:absolute;left:0;right:0;bottom:0;padding:12px 16px 28px;background:color-mix(in srgb, var(--bg) 86%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)">
@@ -119,7 +107,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     var self = this, s = this.state || {};
-    var mode = s.mode || 'nova', goal = s.goal || 'Build muscle', days = s.days || '3', len = s.len || '45';
+    var mode = s.mode || 'nova', goal = s.goal || 'Muscle', days = s.days || '3', len = s.len || '45';
     var segOn = 'background:var(--bg);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.25)', segOff = 'background:transparent;color:var(--muted)';
     var on = 'border:2px solid var(--acc);background:var(--acc-soft);color:var(--ink)', off = 'border:2px solid transparent;background:var(--surf);color:var(--ink)';
     function group(list, cur, key) {
@@ -127,14 +115,14 @@ class Component extends DCLogic {
     }
     return {
       vars: this.theme(),
-      modes: [['nova', 'With Nova'], ['tpl', 'Template'], ['blank', 'Blank']].map(function (m) {
+      modes: [['nova', 'Nova'], ['blank', 'Blank']].map(function (m) {
         return { n: m[1], sel: m[0] === mode ? 'true' : 'false', style: m[0] === mode ? segOn : segOff, pick: function () { self.setState({ mode: m[0] }); } };
       }),
-      isNova: mode === 'nova', isBlank: mode === 'blank', isTpl: mode === 'tpl',
-      goals: group(['Build muscle', 'Get stronger', 'Lose fat', 'Stay consistent'], goal, 'goal'),
+      isNova: mode === 'nova', isBlank: mode === 'blank',
+      goals: group(['Muscle', 'Strength', 'Fat loss', 'Fitness'], goal, 'goal'),
       days: group(['2', '3', '4', '5', '6'], days, 'days'),
-      lens: group(['30', '45', '60', '75'], len, 'len').map(function (x) { x.n = x.n + ' min'; return x; }),
-      cta: mode === 'nova' ? 'Build my ' + days + '-day program' : (mode === 'blank' ? 'Create and add exercises' : 'Browse published plans')
+      lens: group(['30', '45', '60', '75'], len, 'len'),
+      cta: mode === 'nova' ? 'Build program' : 'Create'
     };
   }
 }
