@@ -37,10 +37,16 @@ const props = withDefaults(defineProps<{
    * primary. The 56px primary has no outlined form; nothing draws one.
    */
   outline?: boolean
+  /**
+   * A dashed rule, no fill — the secondary as an invitation to add, board
+   * `Program`'s "+ Add exercise" (1.5px dashed, 50px). Since v0.6.6;
+   * secondary only.
+   */
+  dashed?: boolean
   disabled?: boolean
   /** Round buttons are a lone glyph, so they must say what they do. */
   label?: string
-}>(), { tier: 'primary', outline: false, disabled: false, label: undefined })
+}>(), { tier: 'primary', outline: false, dashed: false, disabled: false, label: undefined })
 
 const size = computed(() => ({
   primary: 'h-14 rounded-pill px-6 text-[17px] font-bold',
@@ -52,6 +58,7 @@ const size = computed(() => ({
 
 const paint = computed(() => {
   if (props.tier === 'round') return 'border border-line bg-surface text-ink'
+  if (props.tier === 'secondary' && props.dashed) return 'border-[1.5px] border-dashed border-line bg-transparent text-ink'
   if (props.tier === 'primary') return 'bg-accent text-onacc'
   // Before v0.6.2 a compact took the accent whatever `outline` said — silently,
   // so the app drew its one outlined 52px pill by hand.
