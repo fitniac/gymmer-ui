@@ -3,6 +3,14 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.8
+
+`GmSheetShell`'s `inset={false}` covers the `#footer` too: the footer stays
+sticky and painted, and its padding, top rule, gap and home-indicator inset are
+the consumer's — as the body's already were. Lets the app move a sheet WITH a
+footer (`ExerciseSheet`) onto the shell without moving a pixel. `inset` on (the
+default) is unchanged.
+
 ## v0.6.7
 
 `GmChip`'s action label wraps INSIDE the chip when it is wider than its row,

@@ -54,7 +54,9 @@ const props = withDefaults(defineProps<{
   /**
    * The body's own padding (v0.6.3). On by default: the boards' 16px sides.
    * Off for a consumer that brings its own — an app moving existing sheets
-   * onto the shell without moving a pixel.
+   * onto the shell without moving a pixel. Since v0.6.8 it covers the footer
+   * too: off, the footer is sticky and painted, and its padding, rule and gap
+   * are the consumer's.
    */
   inset?: boolean
   /**
@@ -319,10 +321,15 @@ function onPointerCancel() {
            sheet, and a fixed element inside a dialog in the top layer is
            positioned against the viewport, which is how a footer ends up
            behind a keyboard. -->
+      <!-- `inset` covers the footer too (v0.6.8): a consumer that brings the
+           body's padding brings the footer's — its rule, gap and home-indicator
+           inset — so moving an app sheet with a footer onto the shell moves no
+           pixel. With `inset` on, nothing changes. -->
       <div
         v-if="$slots.footer"
-        class="sticky bottom-0 z-10 flex shrink-0 flex-col gap-2 border-t border-line bg-raised px-4 pt-3"
-        :style="{ paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))' }"
+        class="sticky bottom-0 z-10 flex shrink-0 flex-col bg-raised"
+        :class="inset && 'gap-2 border-t border-line px-4 pt-3'"
+        :style="inset ? { paddingBottom: 'calc(1rem + env(safe-area-inset-bottom, 0px))' } : undefined"
         data-testid="gm-sheet-footer"
       >
         <slot name="footer" />
