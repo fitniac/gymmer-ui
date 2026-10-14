@@ -3,6 +3,16 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.9
+
+`GmSheetShell` as a bottom sheet (`sheet`, and `adaptive` below 1200px) is
+capped 44px short of the top — board 15b's peek — so the BODY scrolls inside a
+fixed header and footer. Before, a tall sheet took the `<dialog>`'s user-agent
+max-height and scrolled as a whole: the close scrolled away with the content
+and the swipe could not tell a scroll from a dismissal. `adaptive` also draws
+its edge as the app's sheet did: a 1px `--gm-line` rule on top as a sheet, 2px
+on the left as the 1200+ panel. Short sheets are unchanged.
+
 ## v0.6.8
 
 `GmSheetShell`'s `inset={false}` covers the `#footer` too: the footer stays
