@@ -35,10 +35,9 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 
 <section style="margin:16px 16px 0;padding:14px 10px 12px;border-radius:var(--r);background:var(--surf);display:flex;flex-direction:column;gap:10px">
-<div style="display:flex;justify-content:space-between;padding:0 6px;font-size:13px"><b>What you trained</b><span style="color:var(--muted)">tap a muscle</span></div>
+<b style="padding:0 6px;font-size:13px">Trained</b>
 <div style="height:300px"><dc-import name="BodyMap" sex="{{figure}}" levels="{{levels}}" focus="{{focus}}" hint-size="100%,300px"></dc-import></div>
 <div aria-label="Legend" style="display:flex;justify-content:center;gap:12px;font:500 10px var(--mono);color:var(--muted)">
-<span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--raised)"></span>NONE</span>
 <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:color-mix(in srgb, var(--acc) 38%, var(--raised))"></span>LIGHT</span>
 <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:color-mix(in srgb, var(--acc) 68%, var(--raised))"></span>MODERATE</span>
 <span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:2px;background:var(--acc)"></span>HEAVY</span>
@@ -61,7 +60,7 @@ a{color:inherit}a:hover{color:inherit}
 </section>
 </sc-if>
 <sc-if value="{{noFocus}}" hint-placeholder-val="{{ false }}">
-<p style="margin:12px 20px 0;font-size:14px;line-height:1.45;color:var(--muted)">Hamstrings and calves haven’t been trained in 30 days. Tap a muscle to see the sessions behind it.</p>
+<p style="margin:12px 20px 0;font-size:14px;color:var(--muted)">Not trained · Hamstrings, Calves</p>
 </sc-if>
 </main>
 </div>
