@@ -35,6 +35,7 @@ a{color:inherit}a:hover{color:inherit}
 
 <div class="in" style="display:flex;flex-direction:column;gap:8px">
 <h2 id="pt" style="margin:0;font-size:30px;line-height:1.05;font-weight:800;font-stretch:110%;letter-spacing:-.015em;text-wrap:balance">{{headline}}</h2>
+<span style="font:600 12px var(--mono);letter-spacing:.06em;color:var(--acc-ink)">{{sub}}</span>
 </div>
 
 <div role="table" aria-label="Free compared with Pro" class="in" style="animation-delay:.05s;border-radius:var(--r);background:var(--surf);overflow:hidden">
@@ -48,29 +49,18 @@ a{color:inherit}a:hover{color:inherit}
 </sc-for>
 </div>
 
-<div role="radiogroup" aria-label="Billing" class="in" style="animation-delay:.1s;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
-<sc-for list="{{plans}}" as="p" hint-placeholder-count="2">
-<button role="radio" aria-checked="{{p.sel}}" class="tap" onClick="{{p.pick}}" style="position:relative;min-height:84px;padding:12px;border-radius:var(--r);background:var(--surf);color:var(--ink);text-align:left;display:flex;flex-direction:column;gap:3px;font-family:var(--font);{{p.ring}}">
-<span style="font-size:15px;font-weight:800">{{p.n}}</span><span style="font-size:14px;font-weight:600">{{p.price}}</span><span style="font-size:12px;color:var(--muted)">{{p.note}}</span>
-</button>
-</sc-for>
-</div>
-
-<ol aria-label="How the trial works" class="in" style="animation-delay:.15s;list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
-<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;background:var(--acc)"></span><span style="font-size:14px;line-height:1.4"><b>Today</b> · Pro, no charge</span></li>
-<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="font-size:14px;line-height:1.4"><b>Day 5</b> · Reminder</span></li>
-<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="font-size:14px;line-height:1.4"><b>Day 7</b> · {{billLine}}</span></li>
-</ol>
 </div>
 
 <div style="padding:12px 16px 28px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px">
-<button class="tap" style="height:56px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 17px var(--font)">Start free trial</button>
-<a href="{{backHref}}" class="tap" style="height:44px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:600;font-size:15px;color:var(--body)">Not now</a>
+<sc-if value="{{isOffer}}" hint-placeholder-val="{{ true }}"><button class="tap" style="height:56px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 17px var(--font)">Try Pro free · 7 days</button>
+<a href="{{backHref}}" class="tap" style="height:44px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:600;font-size:15px;color:var(--body)">Not now</a></sc-if>
+<sc-if value="{{isStarted}}" hint-placeholder-val="{{ false }}"><a href="{{backHref}}" class="tap" style="height:56px;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 17px var(--font);display:flex;align-items:center;justify-content:center;text-decoration:none">Done</a></sc-if>
+<sc-if value="{{isUsed}}" hint-placeholder-val="{{ false }}"><a href="{{backHref}}" class="tap" style="height:56px;border-radius:999px;border:1px solid var(--line);color:var(--ink);font:700 17px var(--font);display:flex;align-items:center;justify-content:center;text-decoration:none">Close</a></sc-if>
 </div>
 </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"trigger":{"editor":"enum","options":["programs","history","coach","ads","settings"],"default":"programs"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"trigger":{"editor":"enum","options":["programs","history","coach","ads","settings"],"default":"programs"},"state":{"editor":"enum","options":["offer","started","used"],"default":"offer"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   theme() {
     var p = this.props;
@@ -87,7 +77,7 @@ class Component extends DCLogic {
       ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
   }
   renderVals() {
-    var self = this, trig = this.props.trigger || 'programs', bill = (this.state && this.state.bill) || 'year';
+    var self = this, trig = this.props.trigger || 'programs', st = this.props.state || 'offer';
     var heads = {
       programs: 'Unlimited programs',
       history: 'Every workout, forever',
@@ -98,7 +88,7 @@ class Component extends DCLogic {
     var backs = { programs: 'Programs.dc.html', history: 'Dashboard.dc.html', coach: 'Coach.dc.html', ads: 'Rest.dc.html', settings: 'Settings.dc.html' };
     var rowKey = { programs: 3, history: 0, coach: 2, ads: 4, settings: -1 }[trig];
     var rows = [
-      { k: 'Workout history', f: 'Last 30 days', p: 'Forever' },
+      { k: 'Workout history', f: '30 days', p: 'Forever' },
       { k: 'Nova reviews', f: '—', p: 'Every workout' },
       { k: 'Ask Nova', f: '3 a week', p: 'Any time' },
       { k: 'Your programs', f: 'Up to 3', p: 'Unlimited' },
@@ -108,14 +98,8 @@ class Component extends DCLogic {
       vars: this.theme(),
       headline: heads[trig], backHref: backs[trig],
       rows: rows.map(function (r, i) { return Object.assign({}, r, { hl: i === rowKey ? 'background:var(--acc-soft)' : '' }); }),
-      plans: [
-        { id: 'year', n: 'Yearly', price: '[PRICE] / year', note: 'Best value' },
-        { id: 'month', n: 'Monthly', price: '[PRICE] / month', note: 'Cancel any time' }
-      ].map(function (p) {
-        var on = p.id === bill;
-        return Object.assign({}, p, { sel: on ? 'true' : 'false', ring: on ? 'border:2px solid var(--acc)' : 'border:2px solid transparent', pick: function () { self.setState({ bill: p.id }); } });
-      }),
-      billLine: bill === 'year' ? '[PRICE] / year · cancel before' : '[PRICE] / month · cancel before'
+      sub: st === 'started' ? 'PRO UNTIL 25 OCT' : (st === 'used' ? 'COMING SOON' : '7 DAYS FREE · NO CARD'),
+      isOffer: st === 'offer', isStarted: st === 'started', isUsed: st === 'used'
     };
   }
 }

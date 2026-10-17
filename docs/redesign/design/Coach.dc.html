@@ -52,7 +52,7 @@ a{color:inherit}a:hover{color:inherit}
 
 <div style="position:absolute;left:0;right:0;bottom:84px;padding:8px 0 10px;background:var(--bg);display:flex;flex-direction:column;gap:8px">
 <sc-if value="{{isFree}}" hint-placeholder-val="{{ true }}">
-<a href="Pro.dc.html" style="margin:0 16px;min-height:44px;display:flex;justify-content:space-between;align-items:center;gap:8px;text-decoration:none;font-size:12px;color:var(--muted)"><span style="display:flex;align-items:center;gap:6px"><span aria-hidden="true" style="display:flex;gap:2px"><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--raised)"></span></span>2 of 3 left this week</span><span style="font-weight:600;color:var(--acc-ink)">Try Pro</span></a>
+<a href="Pro.dc.html" style="margin:0 16px;min-height:44px;display:flex;justify-content:space-between;align-items:center;gap:8px;text-decoration:none;font-size:12px;color:var(--muted)"><span style="display:flex;align-items:center;gap:6px"><span aria-hidden="true" style="display:flex;gap:2px"><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--raised)"></span></span>{{quotaLine}}</span><span style="font-weight:600;color:var(--acc-ink)">Try Pro</span></a>
 </sc-if>
 <div class="snap" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px">
 <button class="tap" style="flex:0 0 auto;height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Swap an exercise</button>
@@ -61,7 +61,7 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 <form style="margin:0 16px;display:flex;gap:8px;align-items:flex-end">
 <label for="ask" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Message Nova</label>
-<textarea id="ask" rows="1" placeholder="Message Nova" style="flex:1;min-height:48px;box-sizing:border-box;padding:13px 16px;border-radius:24px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font);resize:none"></textarea>
+<textarea id="ask" rows="1" placeholder="{{ph}}" aria-disabled="{{dis}}" style="{{disStyle}}flex:1;min-height:48px;box-sizing:border-box;padding:13px 16px;border-radius:24px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font);resize:none"></textarea>
 <button type="submit" aria-label="Send" class="tap" style="flex:0 0 48px;height:48px;border-radius:50%;border:0;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19V5M6 11l6-6 6 6" /></svg></button>
 </form>
 <span style="padding:0 20px;font-size:11px;color:var(--muted)">Not medical advice.</span>
@@ -76,7 +76,7 @@ a{color:inherit}a:hover{color:inherit}
 </nav>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"plan":{"editor":"enum","options":["free","pro"],"default":"free"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"plan":{"editor":"enum","options":["free","pro"],"default":"free"},"quota":{"editor":"enum","options":["left","out"],"default":"left"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
 class Component extends DCLogic {
   theme() {
     var p = this.props;
@@ -94,7 +94,8 @@ class Component extends DCLogic {
   }
   renderVals() {
     var free = (this.props.plan || 'free') === 'free';
-    return { vars: this.theme(), isFree: free, mainBottom: 'bottom:' + (free ? 268 : 220) + 'px;' };
+    var out = free && this.props.quota === 'out';
+    return { vars: this.theme(), isFree: free, quotaLine: out ? '0 of 3 · resets Mon' : '2 of 3 left this week', ph: out ? 'Resets Mon' : 'Message Nova', dis: out ? 'true' : 'false', disStyle: out ? 'opacity:.5;' : '', mainBottom: 'bottom:' + (free ? 268 : 220) + 'px;' };
   }
 }
 </script>
