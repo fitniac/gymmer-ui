@@ -35,7 +35,6 @@ a{color:inherit}a:hover{color:inherit}
 
 <div class="in" style="display:flex;flex-direction:column;gap:8px">
 <h2 id="pt" style="margin:0;font-size:30px;line-height:1.05;font-weight:800;font-stretch:110%;letter-spacing:-.015em;text-wrap:balance">{{headline}}</h2>
-<p style="margin:0;font-size:16px;line-height:1.45;color:var(--body)">Try everything in Pro free for 7 days. Keep Free afterwards if it isn’t for you.</p>
 </div>
 
 <div role="table" aria-label="Free compared with Pro" class="in" style="animation-delay:.05s;border-radius:var(--r);background:var(--surf);overflow:hidden">
@@ -58,14 +57,14 @@ a{color:inherit}a:hover{color:inherit}
 </div>
 
 <ol aria-label="How the trial works" class="in" style="animation-delay:.15s;list-style:none;margin:0;padding:0;display:flex;flex-direction:column">
-<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;background:var(--acc)"></span><span style="font-size:14px;line-height:1.4"><b>Today</b> — all of Pro unlocks. No charge.</span></li>
-<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="font-size:14px;line-height:1.4"><b>Day 5</b> — we remind you the trial is ending.</span></li>
-<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="font-size:14px;line-height:1.4"><b>Day 7</b> — {{billLine}} Cancel any time before.</span></li>
+<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;background:var(--acc)"></span><span style="font-size:14px;line-height:1.4"><b>Today</b> · Pro, no charge</span></li>
+<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="font-size:14px;line-height:1.4"><b>Day 5</b> · Reminder</span></li>
+<li style="display:flex;gap:12px;padding:8px 0"><span style="flex:0 0 10px;height:10px;margin-top:5px;border-radius:50%;border:2px solid var(--muted);box-sizing:border-box"></span><span style="font-size:14px;line-height:1.4"><b>Day 7</b> · {{billLine}}</span></li>
 </ol>
 </div>
 
 <div style="padding:12px 16px 28px;border-top:1px solid var(--line);display:flex;flex-direction:column;gap:6px">
-<button class="tap" style="height:56px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 17px var(--font)">Start 7-day free trial</button>
+<button class="tap" style="height:56px;border:0;border-radius:999px;background:var(--acc);color:var(--on-acc);font:700 17px var(--font)">Start free trial</button>
 <a href="{{backHref}}" class="tap" style="height:44px;display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:600;font-size:15px;color:var(--body)">Not now</a>
 </div>
 </div>
@@ -90,20 +89,20 @@ class Component extends DCLogic {
   renderVals() {
     var self = this, trig = this.props.trigger || 'programs', bill = (this.state && this.state.bill) || 'year';
     var heads = {
-      programs: 'Build as many programs as you like.',
-      history: 'Keep every workout, forever.',
-      coach: 'Ask Nova about any workout.',
-      ads: 'Rest without the ads.',
-      settings: 'Get more out of every session.'
+      programs: 'Unlimited programs',
+      history: 'Every workout, forever',
+      coach: 'Nova on every workout',
+      ads: 'No ads',
+      settings: 'Gymmer Pro'
     };
     var backs = { programs: 'Programs.dc.html', history: 'Dashboard.dc.html', coach: 'Coach.dc.html', ads: 'Rest.dc.html', settings: 'Settings.dc.html' };
     var rowKey = { programs: 3, history: 0, coach: 2, ads: 4, settings: -1 }[trig];
     var rows = [
       { k: 'Workout history', f: 'Last 30 days', p: 'Forever' },
-      { k: 'Nova workout reviews', f: 'Some, at random', p: 'Every workout' },
-      { k: 'Ask Nova', f: 'A few questions a week', p: 'Any time, fair use' },
+      { k: 'Nova reviews', f: '—', p: 'Every workout' },
+      { k: 'Ask Nova', f: '3 a week', p: 'Any time' },
       { k: 'Your programs', f: 'Up to 3', p: 'Unlimited' },
-      { k: 'Ads during rest', f: 'Yes', p: 'None' }
+      { k: 'Ads', f: 'During rest', p: 'None' }
     ];
     return {
       vars: this.theme(),
@@ -116,7 +115,7 @@ class Component extends DCLogic {
         var on = p.id === bill;
         return Object.assign({}, p, { sel: on ? 'true' : 'false', ring: on ? 'border:2px solid var(--acc)' : 'border:2px solid transparent', pick: function () { self.setState({ bill: p.id }); } });
       }),
-      billLine: bill === 'year' ? '[PRICE] for the year starts.' : '[PRICE] a month starts.'
+      billLine: bill === 'year' ? '[PRICE] / year · cancel before' : '[PRICE] / month · cancel before'
     };
   }
 }

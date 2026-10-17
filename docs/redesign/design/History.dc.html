@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>History</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Google+Sans+Flex:wght@100..900&amp;display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap">
+<style>
+:is(h1,h2,h3,[style*="font-stretch"]):not([style*="var(--mono)"]){font-family:var(--display)!important}
+body{margin:0}
+a{color:inherit}a:hover{color:inherit}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.in{animation:rise .35s cubic-bezier(.2,.8,.2,1) both}
+.tap{transition:transform .12s ease-out,background-color .2s}
+.tap:active{transform:scale(.97)}
+.scroll::-webkit-scrollbar{display:none}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+<div style="{{vars}}width:390px;height:844px;position:relative;overflow:hidden;background:var(--bg);color:var(--ink);font-family:var(--font)">
+<main class="scroll" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:40px;box-sizing:border-box">
+<div style="display:flex;align-items:center;padding:6px 8px 0"><a href="ProgressBests.dc.html" class="tap" style="height:44px;display:flex;align-items:center;gap:2px;padding:0 8px;text-decoration:none;color:var(--acc-ink);font-size:16px;font-weight:600"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m15 18-6-6 6-6" /></svg>Progress</a></div>
+<h1 style="margin:4px 20px 4px;font-size:34px;font-weight:800;font-stretch:112%;letter-spacing:-.02em">History</h1>
+<sc-for list="{{months}}" as="mo" hint-placeholder-count="2">
+<section style="margin-top:18px">
+<div style="margin:0 20px 4px;display:flex;justify-content:space-between;align-items:baseline"><h2 style="margin:0;font:600 11px var(--mono);letter-spacing:.08em;color:var(--muted)">{{mo.n}}</h2><span style="font:500 11px var(--mono);color:var(--muted)">{{mo.c}}</span></div>
+<ol style="list-style:none;margin:0;padding:0">
+<sc-for list="{{mo.rows}}" as="r" hint-placeholder-count="3">
+<li><a href="Summary.dc.html" class="tap" style="display:flex;align-items:center;gap:14px;min-height:64px;padding:8px 20px;text-decoration:none;border-bottom:1px solid var(--line)">
+<span style="flex:0 0 44px;display:flex;flex-direction:column;align-items:center;line-height:1.1"><span style="font:600 10px var(--mono);letter-spacing:.06em;color:var(--muted)">{{r.wd}}</span><span style="font-size:20px;font-weight:800">{{r.d}}</span></span>
+<span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:3px"><span style="font-size:16px;font-weight:700">{{r.n}}</span><span style="font:500 12px var(--mono);color:var(--muted)">{{r.m}}</span>
+<sc-if value="{{r.auto}}" hint-placeholder-val="{{ false }}"><span style="align-self:flex-start;font:600 11px var(--font);padding:2px 8px;border-radius:999px;background:var(--raised);color:var(--body)">Finished automatically</span></sc-if></span>
+<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--muted)" stroke-width="2"><path d="m9 18 6-6-6-6" /></svg>
+</a></li>
+</sc-for>
+</ol>
+</section>
+</sc-for>
+</main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"accent":{"editor":"color","default":"#ff563c","options":["#ff563c","#c8f031","#5cc8ff","#a08bff"]},"mode":{"editor":"enum","options":["dark","light"],"default":"dark"},"corner":{"editor":"enum","options":["square","soft","round"],"default":"soft"},"type":{"editor":"enum","options":["Archivo + Plex Mono","Archivo + Google Sans Flex"],"default":"Archivo + Google Sans Flex"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  theme() {
+    var p = this.props;
+    var acc = p.accent || '#ff563c', mode = p.mode || 'dark', corner = p.corner || 'soft', dark = mode !== 'light';
+    var h = acc.replace('#', ''); if (h.length === 3) { h = h.split('').map(function (c) { return c + c; }).join(''); }
+    var n = parseInt(h, 16);
+    var L = [n >> 16 & 255, n >> 8 & 255, n & 255].map(function (v) { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); });
+    L = 0.2126 * L[0] + 0.7152 * L[1] + 0.0722 * L[2];
+    var t = dark ? { bg: '#141312', surf: '#1d1b1a', raised: '#2a2725', ink: '#efebe7', body: '#c4beb8', muted: '#959089', line: 'rgba(239,235,231,0.12)' }
+                 : { bg: '#f3f2f2', surf: '#eae9e9', raised: '#fbfafa', ink: '#201e1d', body: '#3f3c3b', muted: '#605d5d', line: 'rgba(32,30,29,0.14)' };
+    var r = corner === 'square' ? 0 : (corner === 'round' ? 20 : 12);
+    return '--acc:' + acc + ';--on-acc:' + (L > 0.179 ? '#141312' : '#ffffff') + ';--acc-ink:' + (dark ? acc : 'color-mix(in oklch, ' + acc + ' 62%, #000)') +
+      ';--acc-soft:color-mix(in srgb, ' + acc + ' 16%, transparent);--bg:' + t.bg + ';--surf:' + t.surf + ';--raised:' + t.raised + ';--ink:' + t.ink +
+      ';--body:' + t.body + ';--muted:' + t.muted + ';--line:' + t.line + ';--r:' + r + 'px;--rs:' + Math.round(r * 0.6) + 'px;--display:Archivo, system-ui, sans-serif;' + (p.type === 'Archivo + Plex Mono' ? '--font:Archivo, system-ui, sans-serif;--mono:IBM Plex Mono, ui-monospace, monospace;' : '--font:Google Sans Flex, Archivo, system-ui, sans-serif;--mono:Google Sans Flex, system-ui, sans-serif;');
+  }
+  renderVals() {
+    return {
+      vars: this.theme(),
+      months: [
+        { n: 'OCTOBER', c: '8', rows: [
+          { wd: 'TUE', d: '14', n: 'Chest Day', m: '52 min · 4,020 kg · 18 sets', auto: false },
+          { wd: 'MON', d: '13', n: 'Leg Day', m: '61 min · 6,350 kg · 20 sets', auto: false },
+          { wd: 'SAT', d: '11', n: 'Easy run', m: '35 min · 5.2 km', auto: true },
+          { wd: 'THU', d: '9', n: 'Empty workout', m: '24 min · 1,180 kg · 7 sets', auto: false }
+        ] },
+        { n: 'SEPTEMBER', c: '4', rows: [
+          { wd: 'TUE', d: '30', n: 'Chest Day', m: '49 min · 3,780 kg · 18 sets', auto: false },
+          { wd: 'FRI', d: '26', n: 'Back & Biceps', m: '55 min · 4,410 kg · 19 sets', auto: false }
+        ] }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

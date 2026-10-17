@@ -32,7 +32,7 @@ a{color:inherit}a:hover{color:inherit}
 
 <header style="position:absolute;left:0;right:0;top:0;z-index:3;padding:10px 16px 12px 20px;display:flex;align-items:center;gap:12px;background:color-mix(in srgb, var(--bg) 88%, transparent);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--line)">
 <span style="flex:0 0 40px;height:40px;border-radius:50%;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z" /></svg></span>
-<div style="flex:1;display:flex;flex-direction:column"><h1 style="margin:0;font-size:18px;font-weight:800">Nova</h1><span style="font-size:12px;color:var(--muted)">Knows your programs and history</span></div>
+<h1 style="flex:1;margin:0;font-size:18px;font-weight:800">Nova</h1>
 <button aria-label="Conversation history" class="tap" style="width:44px;height:44px;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg></button>
 </header>
 
@@ -43,7 +43,7 @@ a{color:inherit}a:hover{color:inherit}
 <div style="padding:14px;border-radius:var(--r);background:var(--surf);border:1px solid var(--line);display:flex;flex-direction:column;gap:10px">
 <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-size:17px;font-weight:800">Chest Day</span><span style="font:500 12px var(--mono);color:var(--muted)">~45 MIN</span></div>
 <span style="font-size:13px;color:var(--body)">Decline bench 3×10 @ 62.5 kg · 2 more presses</span>
-<div style="display:flex;gap:8px"><a href="Active.dc.html" class="tap" style="flex:1;height:42px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:700;font-size:14px">Start</a><a href="Program.dc.html" class="tap" style="flex:1;height:42px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:600;font-size:14px">Adjust</a></div>
+<div style="display:flex;gap:8px"><a href="Active.dc.html" class="tap" style="flex:1;height:44px;border-radius:999px;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:700;font-size:14px">Start</a><a href="Program.dc.html" class="tap" style="flex:1;height:44px;border-radius:999px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;text-decoration:none;font-weight:600;font-size:14px">Adjust</a></div>
 </div>
 </div>
 <div class="msg" style="animation-delay:.2s;align-self:flex-end;max-width:78%;padding:11px 14px;border-radius:18px 18px 4px 18px;background:var(--raised);font-size:15px;line-height:1.4">Can you make it 30 minutes?</div>
@@ -52,19 +52,19 @@ a{color:inherit}a:hover{color:inherit}
 
 <div style="position:absolute;left:0;right:0;bottom:84px;padding:8px 0 10px;background:var(--bg);display:flex;flex-direction:column;gap:8px">
 <sc-if value="{{isFree}}" hint-placeholder-val="{{ true }}">
-<a href="Pro.dc.html" style="margin:0 16px;min-height:28px;display:flex;justify-content:space-between;align-items:center;gap:8px;text-decoration:none;font-size:12px;color:var(--muted)"><span style="display:flex;align-items:center;gap:6px"><span aria-hidden="true" style="display:flex;gap:2px"><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--raised)"></span></span>2 questions left this week</span><span style="font-weight:600;color:var(--acc-ink)">Ask any time with Pro</span></a>
+<a href="Pro.dc.html" style="margin:0 16px;min-height:44px;display:flex;justify-content:space-between;align-items:center;gap:8px;text-decoration:none;font-size:12px;color:var(--muted)"><span style="display:flex;align-items:center;gap:6px"><span aria-hidden="true" style="display:flex;gap:2px"><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--ink)"></span><span style="width:6px;height:6px;border-radius:50%;background:var(--raised)"></span></span>2 of 3 left this week</span><span style="font-weight:600;color:var(--acc-ink)">Try Pro</span></a>
 </sc-if>
 <div class="snap" style="display:flex;gap:8px;overflow-x:auto;padding:0 16px">
-<button class="tap" style="flex:0 0 auto;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Swap an exercise</button>
-<button class="tap" style="flex:0 0 auto;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Why this weight?</button>
-<button class="tap" style="flex:0 0 auto;height:36px;padding:0 14px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Plan my week</button>
+<button class="tap" style="flex:0 0 auto;height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Swap an exercise</button>
+<button class="tap" style="flex:0 0 auto;height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Why this weight?</button>
+<button class="tap" style="flex:0 0 auto;height:44px;padding:0 16px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--ink);font:600 13px var(--font)">Plan my week</button>
 </div>
 <form style="margin:0 16px;display:flex;gap:8px;align-items:flex-end">
 <label for="ask" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Message Nova</label>
-<textarea id="ask" rows="1" placeholder="Ask about training, form or the app" style="flex:1;min-height:48px;box-sizing:border-box;padding:13px 16px;border-radius:24px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font);resize:none"></textarea>
+<textarea id="ask" rows="1" placeholder="Message Nova" style="flex:1;min-height:48px;box-sizing:border-box;padding:13px 16px;border-radius:24px;border:1px solid var(--line);background:var(--surf);color:var(--ink);font:16px var(--font);resize:none"></textarea>
 <button type="submit" aria-label="Send" class="tap" style="flex:0 0 48px;height:48px;border-radius:50%;border:0;background:var(--acc);color:var(--on-acc);display:flex;align-items:center;justify-content:center"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 19V5M6 11l6-6 6 6" /></svg></button>
 </form>
-<span style="padding:0 20px;font-size:11px;color:var(--muted)">General fitness guidance, not medical advice.</span>
+<span style="padding:0 20px;font-size:11px;color:var(--muted)">Not medical advice.</span>
 </div>
 
 <nav aria-label="App" style="position:absolute;left:0;right:0;bottom:0;height:84px;box-sizing:border-box;padding:6px 6px 22px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));align-items:center;background:color-mix(in srgb, var(--bg) 84%, transparent);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid var(--line)">
@@ -94,7 +94,7 @@ class Component extends DCLogic {
   }
   renderVals() {
     var free = (this.props.plan || 'free') === 'free';
-    return { vars: this.theme(), isFree: free, mainBottom: 'bottom:' + (free ? 244 : 212) + 'px;' };
+    return { vars: this.theme(), isFree: free, mainBottom: 'bottom:' + (free ? 268 : 220) + 'px;' };
   }
 }
 </script>
