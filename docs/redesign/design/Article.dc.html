@@ -110,8 +110,8 @@ class Component extends DCLogic {
           add: function () { mark([e[0]], e[0] + ' added to Chest Day'); } };
       }),
       addAll: function () { mark(EX.map(function (e) { return e[0]; }), '4 exercises added to Chest Day'); },
-      startProg: function () { self.setState({ toast: 'Push Pull Legs added — week 1 starts today' }); },
-      startWorkout: function () { self.setState({ toast: 'Push A is ready to start' }); },
+      startProg: function () { self.setState({ toast: 'Push Pull Legs added' }); },
+      startWorkout: function () { self.setState({ toast: 'Push A ready' }); },
       hasToast: !!s.toast, toast: s.toast || ''
     };
   }
