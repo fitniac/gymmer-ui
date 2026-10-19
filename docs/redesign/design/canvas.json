@@ -452,6 +452,15 @@
       "y": 0,
       "page": "watch"
     },
+    "WatchInfo.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W2b Form \u00b7 clip and steps",
+      "w": 920,
+      "x": 2992,
+      "y": 0,
+      "page": "watch"
+    },
     "WatchTimed.dc.html": {
       "h": 598,
       "is_interactive": true,
@@ -649,6 +658,7 @@
     "DeskArticle.dc.html",
     "WatchIdle.dc.html",
     "WatchSet.dc.html",
+    "WatchInfo.dc.html",
     "WatchTimed.dc.html",
     "WatchRest.dc.html",
     "WatchList.dc.html",

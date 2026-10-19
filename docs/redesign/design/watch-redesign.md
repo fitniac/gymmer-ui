@@ -35,10 +35,14 @@ in Apple's Workout app.
 
 ## Screens
 
-- **W1 Idle**: "UP NEXT · Push A · 6 EXERCISES · 45 MIN" + Start, when the phone has a
-  queued programme; otherwise the G mark + "No workout".
-- **W2 Set**: name (2 lines max), "SET 2 / 4", optional ♥ 142, KG|LB + REPS tiles, "Log set".
-  Bodyweight: one REPS tile.
+- **W1 Idle**: the G mark + "No workout". Nothing else. The "UP NEXT · Push A ·
+  6 EXERCISES · 45 MIN" + Start variant on the board is **v1.1** (ruling below).
+- **W2 Set**: name (2 lines max), "SET 2 / 4", optional ♥ 142, KG|LB + REPS tiles, "Log set",
+  and a 40 × 48 thumbnail with a play mark that opens W2b. Bodyweight: one REPS tile.
+- **W2b Form** (canvas v110): the thumbnail on W2/W3 opens a sheet — a looping, muted clip
+  (the same media as the exercise page, smallest variant), the name, the muscles, and Done;
+  the crown scrolls on to "STEPS", the numbered short steps from the exercise instructions,
+  **max 6**. Offline: the cached still and the steps, no clip.
 - **W3 Cardio / timed**: cardio 2×2 (TIME counting in accent, DIST, SPEED, INCLINE) + Done.
   Timed: TIME tile + "TARGET 1:30", Start → counts up in accent → Done; haptic at target,
   keeps counting.
@@ -47,25 +51,40 @@ in Apple's Workout app.
   "SET 2 · 100 × 5 ✎" is tappable to edit (crown); Skip. Overtime: label stays REST,
   "+0:42" in accent, ring pulses ~10 s then stays lit (ruling 10). "DONE" is removed.
 - **W5 Workout**: "WORKOUT · 5/18 SETS"; done exercises with a filled check, current with
-  an accent ring, expanded to set rows (done ✓ / current ringed / pending); "+ Add set",
-  "+ Add exercise" at the end. Tap a set = edit; tap an exercise = jump to it.
+  an accent ring, expanded to set rows (done ✓ / current ringed / pending); "+ Add set"
+  at the end. Tap a set = edit; tap an exercise = jump to it. **No "+ Add exercise" in v1**
+  (ruling below) — the board still draws it.
 - **W6 Controls**: 14:59 ELAPSED, 5/18 SETS, 2,140 KG; Pause (raised) and Finish
   (accent tint). Paused: clock muted, "PAUSED" label, Resume becomes the accent.
 - **W7 Finish**: "Finish workout?", "13 SETS LEFT" when any are unlogged; Finish / Keep going.
-- **W8 Summary**: ✓ + name (+ "2 PR" tag), date, TIME / VOLUME / SETS / AVG HR
-  (EXERCISES when no HR); Done. The full Summary stays on the phone.
+- **W8 Summary**: ✓ + name (+ "n PR" tag), date, TIME / VOLUME / SETS / AVG HR
+  (EXERCISES when no HR); Done. The full Summary stays on the phone. The Summary renders
+  as soon as the workout finishes; the PR tag appears when the phone's relay arrives, so
+  its absence is "not yet", never "no PRs".
 
 ## Needs engineering (not copy)
 
-1. Start from the watch (W1 "Start"): needs the queued programme on the watch and a
-   start op from the watch journal.
-2. Edit a logged set from the watch (W4 chip, W5 set rows): the set_edit op from #138.
-3. Pause / Resume (W6): must match the phone's paused state.
-4. Add set / Add exercise on the watch (W5): Add set exists today; Add exercise needs a
-   picker (could open a short "recent exercises" list).
+Corrected against the code in `gymmer-watch/docs/redesign-inventory.md`.
 
-## Open questions for Igor
+1. **Start from the watch (W1)** — needs the queued programme on the watch and a start op.
+   **v1.1.**
+2. **Edit a logged set (W4 chip, W5 set rows)** — NOT gobackend#138. `Vocab.setEdit` is in
+   the reducer and `SessionModel.edit(_:shown:)` in the model already; this is UI only.
+3. **Pause / Resume (W6)** — larger than it reads. The ops are declared and nothing folds
+   them: the SERVER derives the paused status (`sessions/pauses.go`). The watch derives its
+   own in `SessionModel`, with vectors copied from `pauses.go` so the two agree.
+4. **Add set (W5)** — exists. **Add exercise is out of v1**; `addExercise` stays test-only.
+5. **W2b Form** — the clip, the still and the steps already reach the watch on the exercise;
+   this is a sheet over data that is there.
+6. **Two-way sync (W8 and everything else)** — every journal op applied on either device
+   appears on the other within ~2 s, idempotent by op id, no echo loops; offline on either
+   side queues and replays once. After the server confirms the finish, the phone relays the
+   per-set PR flags and whether a Nova review is available.
 
-1. Start on the watch (W1): yes for launch, or keep "start on the phone" for v1?
-2. Add exercise from the watch (W5): in v1, or phone-only?
-3. Language link removed from the watch: the watch follows the phone's language. OK?
+## Rulings (Igor, 2026-10-19)
+
+1. Start on the watch: **v1.1**. v1 idle is the G mark + "No workout".
+2. Add exercise from the watch: **not in v1**. "+ Add set" stays.
+3. PR tag on W8: **keep it**, relayed from the phone after the server confirms the finish.
+4. Language link removed: **yes** — the watch follows the phone's language, which the
+   catalogue relay already applies.
