@@ -5,7 +5,7 @@
     "Active.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "15 Active · strength + rest timer",
+      "title": "15 Active \u00b7 strength + rest timer",
       "w": 390,
       "x": 0,
       "y": 3752
@@ -13,7 +13,7 @@
     "Cardio.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "16 Active · timed cardio",
+      "title": "16 Active \u00b7 timed cardio",
       "w": 390,
       "x": 470,
       "y": 3752
@@ -21,7 +21,7 @@
     "Coach.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "18 Coach · Nova",
+      "title": "18 Coach \u00b7 Nova",
       "w": 390,
       "x": 1410,
       "y": 3752
@@ -37,7 +37,7 @@
     "Dashboard.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "09 Today · with history",
+      "title": "09 Today \u00b7 with history",
       "w": 390,
       "x": 0,
       "y": 2508
@@ -45,7 +45,7 @@
     "DashboardEmpty.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "10 Today · first run",
+      "title": "10 Today \u00b7 first run",
       "w": 390,
       "x": 470,
       "y": 2508
@@ -54,7 +54,7 @@
       "expand": "fill",
       "h": 900,
       "page": "desktop",
-      "title": "D5 Active workout · rest panel",
+      "title": "D5 Active workout \u00b7 rest panel",
       "w": 1440,
       "x": 6080,
       "y": 0
@@ -72,7 +72,7 @@
       "expand": "fill",
       "h": 3700,
       "page": "desktop",
-      "title": "D1 Home · register & get the app",
+      "title": "D1 Home \u00b7 register & get the app",
       "w": 1440,
       "x": 0,
       "y": 0,
@@ -82,7 +82,7 @@
       "expand": "fill",
       "h": 1000,
       "page": "desktop",
-      "title": "D4 Today · app with Nova panel",
+      "title": "D4 Today \u00b7 app with Nova panel",
       "w": 1440,
       "x": 4560,
       "y": 0
@@ -90,14 +90,14 @@
     "Exercise.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "04 Exercise · top",
+      "title": "04 Exercise \u00b7 top",
       "w": 390,
       "x": 1410,
       "y": 0
     },
     "ExerciseScrolled.dc.html": {
       "h": 844,
-      "title": "05 Exercise · scrolled",
+      "title": "05 Exercise \u00b7 scrolled",
       "w": 390,
       "x": 1880,
       "y": 0
@@ -142,7 +142,7 @@
     "Muscle.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "03 Muscle · Back",
+      "title": "03 Muscle \u00b7 Back",
       "w": 390,
       "x": 940,
       "y": 0
@@ -150,7 +150,7 @@
     "Pro.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "21 Pro · 7-day free trial",
+      "title": "21 Pro \u00b7 7-day free trial",
       "w": 390,
       "x": 2820,
       "y": 3752
@@ -158,7 +158,7 @@
     "Program.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "12 Program · Chest Day",
+      "title": "12 Program \u00b7 Chest Day",
       "w": 390,
       "x": 1410,
       "y": 2508
@@ -174,7 +174,7 @@
     "Rest.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "20 Rest timer · edit last set · ad on Free",
+      "title": "20 Rest timer \u00b7 edit last set \u00b7 ad on Free",
       "w": 390,
       "x": 2350,
       "y": 3752
@@ -190,7 +190,7 @@
     "Summary.dc.html": {
       "h": 844,
       "is_interactive": true,
-      "title": "17 Workout complete",
+      "title": "17 Workout complete \u00b7 copy pass, HR + calories when a wearable sent them",
       "w": 390,
       "x": 940,
       "y": 3752
@@ -198,7 +198,7 @@
     "TabActive.dc.html": {
       "h": 1194,
       "page": "tablet",
-      "title": "T4 Active workout · rest",
+      "title": "T4 Active workout \u00b7 rest",
       "w": 834,
       "x": 2742,
       "y": 0
@@ -248,7 +248,7 @@
       "y": 2508,
       "w": 390,
       "h": 844,
-      "title": "23 Progress · body map",
+      "title": "23 Progress \u00b7 body map",
       "is_interactive": true
     },
     "BodyMap.dc.html": {
@@ -256,20 +256,20 @@
       "y": 1264,
       "w": 360,
       "h": 360,
-      "title": "Component · Body map (stand-in) — male / female figure"
+      "title": "Component \u00b7 Body map (stand-in) \u2014 male / female figure"
     },
     "TypeCompare.dc.html": {
       "h": 900,
       "w": 1200,
       "x": 3490,
       "y": 1264,
-      "title": "Type · Archivo + Plex Mono vs Google Sans Flex"
+      "title": "Type \u00b7 Archivo + Plex Mono vs Google Sans Flex"
     },
     "DeskLibrary.dc.html": {
       "expand": "fill",
       "h": 2400,
       "page": "desktop",
-      "title": "D2 Library · browse & filter (SEO)",
+      "title": "D2 Library \u00b7 browse & filter (SEO)",
       "w": 1440,
       "x": 1520,
       "y": 0,
@@ -281,13 +281,13 @@
       "x": 3290,
       "y": 3752,
       "is_interactive": true,
-      "title": "15b Exercise sheet · form, video, swap"
+      "title": "15b Exercise sheet \u00b7 form, video, swap"
     },
     "DeskPrograms.dc.html": {
       "expand": "fill",
       "h": 2600,
       "page": "desktop",
-      "title": "D6 Programs · a program for every goal",
+      "title": "D6 Programs \u00b7 a program for every goal",
       "w": 1440,
       "x": 0,
       "y": 4100,
@@ -297,7 +297,7 @@
       "expand": "fill",
       "h": 3000,
       "page": "desktop",
-      "title": "D7 Program · public detail",
+      "title": "D7 Program \u00b7 public detail",
       "w": 1440,
       "x": 1520,
       "y": 4100,
@@ -327,7 +327,7 @@
       "expand": "fill",
       "h": 4200,
       "page": "desktop",
-      "title": "D10 Article · with program & exercise widgets",
+      "title": "D10 Article \u00b7 with program & exercise widgets",
       "w": 1440,
       "x": 6080,
       "y": 4100,
@@ -339,7 +339,7 @@
       "x": 0,
       "y": 4996,
       "is_interactive": true,
-      "title": "24 Programs · discover by goal"
+      "title": "24 Programs \u00b7 discover by goal"
     },
     "ProgramPublic.dc.html": {
       "h": 844,
@@ -347,7 +347,7 @@
       "x": 470,
       "y": 4996,
       "is_interactive": true,
-      "title": "25 Program · public detail"
+      "title": "25 Program \u00b7 public detail"
     },
     "Articles.dc.html": {
       "h": 844,
@@ -363,14 +363,14 @@
       "x": 1410,
       "y": 4996,
       "is_interactive": true,
-      "title": "27 Article · widgets"
+      "title": "27 Article \u00b7 widgets"
     },
     "LogoShadow.dc.html": {
       "h": 1220,
       "w": 1160,
       "x": 4770,
       "y": 1264,
-      "title": "22b Logo · G variants (A6 applied)"
+      "title": "22b Logo \u00b7 G variants (A6 applied)"
     },
     "ActiveHeader.dc.html": {
       "x": 3760,
@@ -378,7 +378,7 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15c Active · header, options menu, paused, rest chip"
+      "title": "15c Active \u00b7 header, options menu, paused, rest chip"
     },
     "SyncSheet.dc.html": {
       "x": 4230,
@@ -386,7 +386,7 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15d Active · sync status chip + sheet"
+      "title": "15d Active \u00b7 sync status chip + sheet"
     },
     "AddExercise.dc.html": {
       "x": 4700,
@@ -394,7 +394,7 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15e Active · add exercise"
+      "title": "15e Active \u00b7 add exercise"
     },
     "RestPicker.dc.html": {
       "x": 5170,
@@ -402,14 +402,109 @@
       "w": 390,
       "h": 844,
       "is_interactive": true,
-      "title": "15f Active · labelled chips + rest picker (presets 3×2 below 360px)"
+      "title": "15f Active \u00b7 labelled chips + rest picker (presets 3\u00d72 below 360px)"
     },
     "ActiveProgress.dc.html": {
       "x": 5640,
       "y": 3752,
       "w": 390,
       "h": 844,
-      "title": "15g Active · progress strip (≤8 segments, then one bar · pending = --gm-track)"
+      "title": "15g Active \u00b7 progress strip (\u22648 segments, then one bar \u00b7 pending = --gm-track)"
+    },
+    "BottomZone.dc.html": {
+      "x": 6110,
+      "y": 3752,
+      "w": 1290,
+      "h": 844,
+      "title": "15h Active \u00b7 bottom zone: set footer, cardio paused (Resume \u00b7 Done), minimised bar"
+    },
+    "ProgressBests.dc.html": {
+      "x": 3290,
+      "y": 2508,
+      "w": 390,
+      "h": 844,
+      "title": "23b Progress \u00b7 best sets & exercise",
+      "is_interactive": true
+    },
+    "History.dc.html": {
+      "x": 3760,
+      "y": 2508,
+      "w": 390,
+      "h": 844,
+      "title": "23c History",
+      "is_interactive": true
+    },
+    "WatchIdle.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W1 Idle \u00b7 up next / none",
+      "w": 920,
+      "x": 0,
+      "y": 0,
+      "page": "watch"
+    },
+    "WatchSet.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W2 Set \u00b7 strength",
+      "w": 1832,
+      "x": 1040,
+      "y": 0,
+      "page": "watch"
+    },
+    "WatchTimed.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W3 Set \u00b7 cardio & timed",
+      "w": 1376,
+      "x": 0,
+      "y": 758,
+      "page": "watch"
+    },
+    "WatchRest.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W4 Rest \u00b7 countdown, next exercise, overtime",
+      "w": 1376,
+      "x": 1496,
+      "y": 758,
+      "page": "watch"
+    },
+    "WatchList.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W5 Workout \u00b7 exercises and sets",
+      "w": 920,
+      "x": 2992,
+      "y": 758,
+      "page": "watch"
+    },
+    "WatchControls.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W6 Controls \u00b7 pause, finish",
+      "w": 920,
+      "x": 0,
+      "y": 1516,
+      "page": "watch"
+    },
+    "WatchFinish.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W7 Finish \u00b7 confirm",
+      "w": 920,
+      "x": 1040,
+      "y": 1516,
+      "page": "watch"
+    },
+    "WatchSummary.dc.html": {
+      "h": 598,
+      "is_interactive": true,
+      "title": "W8 Summary",
+      "w": 920,
+      "x": 2080,
+      "y": 1516,
+      "page": "watch"
     }
   },
   "createdOnFiles": {
@@ -425,7 +520,7 @@
       "kind": "title1",
       "maxW": 6000,
       "page": "desktop",
-      "text": "Desktop — marketing, exercise page, app",
+      "text": "Desktop \u2014 marketing, exercise page, app",
       "w": 240,
       "x": 0,
       "y": -300
@@ -433,7 +528,7 @@
     "t1": {
       "kind": "title1",
       "maxW": 2740,
-      "text": "Mobile flow — Home → Library → Muscle → Exercise",
+      "text": "Mobile flow \u2014 Home \u2192 Library \u2192 Muscle \u2192 Exercise",
       "w": 240,
       "x": 0,
       "y": -300
@@ -449,15 +544,15 @@
     "t3": {
       "kind": "title1",
       "maxW": 3210,
-      "text": "Signed-in app — Today, Programs, Train",
+      "text": "Signed-in app \u2014 Today, Programs, Train",
       "w": 240,
       "x": 0,
       "y": 2208
     },
     "t4": {
       "kind": "title1",
-      "maxW": 5090,
-      "text": "In the workout · Coach · Settings · Free vs Pro",
+      "maxW": 7400,
+      "text": "In the workout \u00b7 Coach \u00b7 Settings \u00b7 Free vs Pro",
       "w": 240,
       "x": 0,
       "y": 3452
@@ -466,7 +561,7 @@
       "kind": "title1",
       "maxW": 3576,
       "page": "tablet",
-      "text": "Tablet — iPad 11\" portrait",
+      "text": "Tablet \u2014 iPad 11\" portrait",
       "w": 240,
       "x": 0,
       "y": -300
@@ -474,7 +569,7 @@
     "t5": {
       "kind": "title1",
       "maxW": 3210,
-      "text": "Public content — Programs, Goals (categories), Articles",
+      "text": "Public content \u2014 Programs, Goals (categories), Articles",
       "w": 240,
       "x": 0,
       "y": 4696
@@ -483,10 +578,19 @@
       "kind": "title1",
       "maxW": 7600,
       "page": "desktop",
-      "text": "Public content — Programs, Goals (categories), Articles",
+      "text": "Public content \u2014 Programs, Goals (categories), Articles",
       "w": 240,
       "x": 0,
       "y": 3800
+    },
+    "w1": {
+      "kind": "title1",
+      "maxW": 4200,
+      "page": "watch",
+      "text": "watchOS \u2014 Apple Watch 46 mm (208 \u00d7 248 pt, drawn at 2\u00d7) \u00b7 three pages: Controls \u2190 Now (set / rest) \u2192 Workout",
+      "w": 240,
+      "x": 0,
+      "y": -300
     }
   },
   "order": [
@@ -511,6 +615,7 @@
     "AddExercise.dc.html",
     "RestPicker.dc.html",
     "ActiveProgress.dc.html",
+    "BottomZone.dc.html",
     "Cardio.dc.html",
     "Summary.dc.html",
     "Coach.dc.html",
@@ -529,6 +634,8 @@
     "TabExercise.dc.html",
     "TabActive.dc.html",
     "Progress.dc.html",
+    "ProgressBests.dc.html",
+    "History.dc.html",
     "BodyMap.dc.html",
     "TypeCompare.dc.html",
     "ProgramsLib.dc.html",
@@ -539,7 +646,15 @@
     "DeskProgram.dc.html",
     "DeskCategory.dc.html",
     "DeskArticles.dc.html",
-    "DeskArticle.dc.html"
+    "DeskArticle.dc.html",
+    "WatchIdle.dc.html",
+    "WatchSet.dc.html",
+    "WatchTimed.dc.html",
+    "WatchRest.dc.html",
+    "WatchList.dc.html",
+    "WatchControls.dc.html",
+    "WatchFinish.dc.html",
+    "WatchSummary.dc.html"
   ],
   "pages": [
     {
@@ -553,6 +668,10 @@
     {
       "id": "tablet",
       "name": "Tablet"
+    },
+    {
+      "id": "watch",
+      "name": "watchOS"
     }
   ],
   "title": "GYMMER Mobile Redesign"
