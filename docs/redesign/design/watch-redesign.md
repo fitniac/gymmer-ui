@@ -52,8 +52,17 @@ in Apple's Workout app.
   "+0:42" in accent, ring pulses ~10 s then stays lit (ruling 10). "DONE" is removed.
 - **W5 Workout**: "WORKOUT · 5/18 SETS"; done exercises with a filled check, current with
   an accent ring, expanded to set rows (done ✓ / current ringed / pending); "+ Add set"
-  at the end. Tap a set = edit; tap an exercise = jump to it. **No "+ Add exercise" in v1**
-  (ruling below) — the board still draws it.
+  at the end. **No "+ Add exercise" in v1** (ruling below) — the board still draws it.
+
+  Taps, spelled out because the same gesture used to mean two different things
+  depending on whether the set was logged:
+
+  - **tap a set = edit it.** A logged set opens on its ACTUAL values and writes
+    through the `set.edit` op; a pending one opens on its PLANNED values, so the
+    sheet is a correction in the first case and a plan change in the second.
+  - **tap an exercise row = jump to it** (`session.focus`), landing back on Now.
+    Choosing an exercise is how you say you want to work on it; leaving the user
+    on the list would be a second gesture for something they already asked for.
 - **W6 Controls**: 14:59 ELAPSED, 5/18 SETS, 2,140 KG; Pause (raised) and Finish
   (accent tint). Paused: clock muted, "PAUSED" label, Resume becomes the accent.
 - **W7 Finish**: "Finish workout?", "13 SETS LEFT" when any are unlogged; Finish / Keep going.
