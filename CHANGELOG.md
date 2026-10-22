@@ -3,6 +3,14 @@
 Tags are what consumers pin; this file says what each one is for, and which
 ones not to.
 
+## v0.6.10
+
+`GmSheetShell`'s panel (`panel`, and `adaptive` from 1200px) pads its top by
+`env(safe-area-inset-top)`. A panel is full height, so on a phone its first row
+sat under the status bar — the Add exercise title under the Dynamic Island, its
+close on the battery. Zero wherever there is no inset (web, desktop), so nothing
+moves there.
+
 ## v0.6.9
 
 `GmSheetShell` as a bottom sheet (`sheet`, and `adaptive` below 1200px) is
