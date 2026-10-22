@@ -288,11 +288,15 @@ function onPointerCancel() {
          whole — the close went with the content, and the swipe, which reads
          the body's scroll, could not tell a scroll from a dismissal.
          `adaptive` also draws its edge, as the app's sheet always did: a 1px
-         rule on top as a sheet, 2px on the left as the 1200+ panel. -->
+         rule on top as a sheet, 2px on the left as the 1200+ panel.
+         A panel is full height, so on a phone its top IS the status bar: it
+         pads by the safe-area inset (v0.6.10), or its title sits under the
+         clock and the Dynamic Island and its close on the battery. Zero on the
+         web and on a desktop panel. -->
     <div
       class="flex flex-col bg-raised text-ink"
       :class="[
-        isPanel ? 'h-full rounded-none' : (isBottom ? 'max-h-[calc(100dvh-44px-env(safe-area-inset-top,0px))] rounded-t-sheet' : 'rounded-sheet'),
+        isPanel ? 'h-full rounded-none pt-[env(safe-area-inset-top,0px)]' : (isBottom ? 'max-h-[calc(100dvh-44px-env(safe-area-inset-top,0px))] rounded-t-sheet' : 'rounded-sheet'),
         variant === 'adaptive' && (isPanel ? 'border-l-2 border-[var(--gm-line)]' : 'border-t border-[var(--gm-line)]'),
         dragging ? '' : 'transition-transform duration-200 motion-reduce:transition-none',
       ]"
