@@ -50,7 +50,10 @@ in Apple's Workout app.
   exercise) or "Next · Romanian Deadlift" (new exercise); the logged set
   "SET 2 · 100 × 5 ✎" is tappable to edit (crown); Skip. Overtime: label stays REST,
   "+0:42" in accent, ring pulses ~10 s then stays lit (ruling 10). "DONE" is removed.
-- **W5 Workout**: "WORKOUT · 5/18 SETS"; done exercises with a filled check, current with
+- **W5 Workout**: "WORKOUT · 5/18" — a label and a fraction, with no plural noun in it:
+  the word would need an ICU plural on the total in every language that has one, and
+  the fraction beside WORKOUT already says what it counts (ruling, 2026-10-28);
+  done exercises with a filled check, current with
   an accent ring, expanded to set rows (done ✓ / current ringed / pending); "+ Add set"
   at the end. **No "+ Add exercise" in v1** (ruling below) — the board still draws it.
 
