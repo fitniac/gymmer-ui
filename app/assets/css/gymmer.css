@@ -349,52 +349,14 @@
   }
 
   /* ── Brand lockup ───────────────────────────────────────────────────────────
-     The mark is app/assets/img/logo.svg and must be INLINED, not referenced with
-     <img src>: its fill is a 45° gradient between --acc and --acc-deep, and an
-     external image cannot see document tokens, so it would freeze on light orange
-     whatever the live accent is. brand/README.md has the full rationale.
+     One lockup since v0.7.1: the mark AS the letter G, beside outlined YMMER.
+     `gymmer-ymmer.svg` is YMMER and not GYMMER — its viewBox crops the leading
+     G — so the mark is a glyph here, not a logo standing next to a word, and
+     that is why it is letter-height rather than larger.
 
-     Everything scales off --logo-size, so a lockup is resized in one place:
-     `<a class="logo" style="--logo-size:44px">`. */
-  .logo {
-    /* The default is a var() FALLBACK, never `--logo-size: 32px` as a
-       declaration. These component classes are unlayered, Tailwind's utilities
-       live in `@layer utilities`, and unlayered CSS beats layered CSS at equal
-       specificity — so a declaration here would silently win over
-       `[--logo-size:26px]` and every responsive lockup would render at 32px.
-       Resolving the fallback into a private var keeps that in one place. */
-    --_logo: var(--logo-size, 32px);
-    display: inline-flex;
-    align-items: center;
-    gap: calc(var(--_logo) * 0.34);
-    color: var(--gm-ink);
-    text-decoration: none;
-  }
-  /* Descendant, not child: <GmLogo> injects the mark through v-html, so the svg
-     sits inside a wrapper span rather than directly under .logo. */
-  .logo-mark {
-    display: flex;
-    flex: none;
-  }
-  .logo svg {
-    width: var(--_logo);
-    height: var(--_logo);
-    flex: none;
-    display: block;
-  }
-
-  /* The name is ALWAYS set GYMMER. text-transform is here rather than in the
-     template so a lowercase string in any consumer still renders correctly —
-     there is no lowercase form of the wordmark to fall back to. */
-  .logo-type {
-    font-family: var(--gm-font-ui);
-    font-weight: 800;
-    font-size: calc(var(--_logo) * 0.62);
-    line-height: 1;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
-    white-space: nowrap;
-  }
+     Deleted with the live-text wordmark it styled: `.logo`, `.logo-mark`,
+     `.logo svg`, `.logo-type`. Both consumers were checked first — gymmer-nuxt
+     and gymmer-landing use <GmLogo> only and applied none of them by hand. */
 
   /* ---- header lockup, variant A6 (board 22b) ----------------------------
      Outlined G in --acc beside outlined YMMER in currentColor.
@@ -415,6 +377,21 @@
      align-items: flex-start, not center: the whole point is that the two are
      aligned at the top and deliberately NOT centred on each other. */
   .logo-wg {
+    /* `font-size` IS the scale here — every length below is in `em`. It comes
+       from --logo-size rather than from the prop writing font-size directly,
+       because two consumers size this component purely through the variable
+       and pass no prop (`[--logo-size:34px] sm:[--logo-size:40px]`); an inline
+       font-size would also beat any utility class trying to make it
+       responsive.
+
+       The 32px default is a var() FALLBACK, never `--logo-size: 32px` as a
+       declaration — this warning came off the rule this one replaces and is
+       the reason it survived the deletion. These component classes are
+       unlayered, Tailwind's utilities live in `@layer utilities`, and
+       unlayered CSS beats layered CSS at equal specificity, so a declaration
+       here would silently win over `[--logo-size:26px]` and every responsive
+       lockup would render at 32px. */
+    font-size: var(--logo-size, 32px);
     display: inline-flex;
     align-items: flex-start;
     gap: 0.05em;
@@ -432,6 +409,9 @@
     width: 1.025em;
     margin-bottom: -0.025em;
     display: block;
+    /* Only reaches gymmer-g.svg, which fills with currentColor. The bare mark
+       is logo.svg, whose fill is its own gradient — this cannot tint it, which
+       is the intent: a letter matches the letters, a mark keeps the gradient. */
     color: var(--acc);
   }
   /* 97 x 20 at the reference size — the aspect is carried by the viewBox, so
@@ -450,7 +430,7 @@
   /* Collapse to the mark alone below the first breakpoint. The mark is legible at
      24px; the wordmark is not, so it goes rather than shrinking further. */
   @media (max-width: 560px) {
-    .logo-type-sm {
+    .logo-wg-type-sm {
       display: none;
     }
   }
