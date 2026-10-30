@@ -23,17 +23,30 @@ Lowercase `gymmer` survives only as an *identifier*: the package name `@gymmer/u
 
 ## The mark
 
-Centre (512,512) in a 1024 viewBox. Outer ring R 344 → 280, gap 54, inner ring R 226 → 162; ring
-weight 64 throughout, chamfers a true 45°, curves exact arcs tangent to their straights.
+Centre (512,512) in a 1024 viewBox. **One ring**, R 367.43 → 256.59: a stroke 110.84 wide, 0.151 of
+the mark's 734.86 diameter. Chamfers a true 45°, curves exact arcs tangent to their straights.
 
-**Reproportioning the ring or the gap does not move the bounding box**, which stays 168…856 on both
-axes because the outer radius and the bar tip are what set it — so the safe-zone fractions below
-survive that kind of edit. Moving R 344 or the bar tip *would* invalidate them; `verify-brand.mjs`
-is what tells you.
+**It was a double ring until 2026-10-30.** The watch app had shipped this single-line one since its
+first build, and `app/assets/img/gymmer-g.svg` — which `GmMark` renders in the app's tab bar — has
+carried it here all along. Only `logo.svg` was behind, so the same product drew the mark at two
+weights on one screen for weeks. `generate-brand.mjs` now refuses to run when those two files
+disagree.
 
-Fill is a 45° gradient from `--acc` (top-left) to `--acc-deep` (bottom-right). The mark's bounding
-box is square — 168…856 on both axes — so gradient endpoints on the box corners hold 45° at any
-size.
+The difference is not a restyle: 0.151 against 0.093 is **1.6× the ink**. Thinning or thickening
+the ring is the one edit that changes which mark this is.
+
+**The extent is NOT square** — 144.57…882.51 across, 144.59…879.41 down — because the chamfered bar
+tip now reaches past the ring's right edge instead of sitting inside it. `BBOX` is the larger of the
+two, 737.94, because that is what `verify-brand.mjs` measures. Both it and `CIRCUM` are read off
+`gymmer-g.svg`'s viewBox rather than transcribed, and **both must be re-derived when the path
+changes**: they feed `byBox()` and `byCircle()`, which set every icon's inset. A path swapped under
+stale numbers regenerates all 85 rasters with correct colours and 7% wrong insets, and the generator
+reports success — measured, 2026-10-30: 75 of 85 failed verification while `generate` exited 0.
+
+Fill is a 45° gradient from `--acc` (top-left) to `--acc-deep` (bottom-right). Because the box is
+not square, the endpoints sit on the corners of the **square** 144.57…882.51, which covers the mark
+and keeps dx equal to dy — endpoints on the mark's own corners would be a few degrees off 45, in a
+direction nobody would look for.
 
 **Inline the SVG.** Referenced as `<img src>` it becomes an isolated document that cannot read
 `html[data-accent]`, and freezes on light orange. Inlined, it retints with the live accent and theme
@@ -44,15 +57,19 @@ has `data-accent="orange"` pinned and carries its own dark-mode block.
 
 This is the one thing to understand before changing a number in `scripts/generate-brand.mjs`.
 
-The mark's real extent is the **688×688 bounding box**. The chamfered bar tip at (826,168) sits
-inside that box, near its top-right corner — so on a square or superellipse canvas nothing can clip
-and the box is what gets fitted to the tile.
+The mark's real extent is **737.94 × 734.81**, and `BBOX` is the larger of the two. On a square or
+superellipse canvas nothing can clip a corner, so the box is what gets fitted to the tile.
 
-A **circular** mask is different. The first thing it cuts is that bar tip, 465.8 out on the
-diagonal, well past the ring's own 344. Those canvases are fitted to the mark's *circumcircle*
-instead. That is why watchOS and the maskables carry visibly more air than iOS does: it is the mask,
-not a margin preference. Sizing a circular tile by bounding box shears the bar tip off — the round
-Android launcher icon did exactly that before `K.circle` existed.
+A **circular** mask is different. The first thing it cuts is the chamfered bar tip at (882.51,
+144.59), **521.8 out on the diagonal** — well past the ring's own 367.43, and past the canvas's own
+half-width of 512, which is why it is the part that goes. Those canvases are fitted to the mark's
+*circumcircle* instead. That is why watchOS and the maskables carry visibly more air than iOS does:
+it is the mask, not a margin preference. Sizing a circular tile by bounding box shears the bar tip
+off — the round Android launcher icon did exactly that before `K.circle` existed.
+
+Under the double ring the tip sat **inside** the bounding box; under this mark it reaches past the
+ring's right edge, which is why the box is no longer square and why `CIRCUM` has to come from the
+tip rather than from the radius.
 
 | Context | Fitted to | Fraction | Why that number |
 |---|---|---|---|

@@ -2,8 +2,8 @@
   "note": "Written by scripts/generate-brand.mjs; read by scripts/verify-brand.mjs. Not an asset.",
   "ink": "#201e1d",
   "accent": [
-    "#ec3013",
-    "#ae1800"
+    "#ff563c",
+    "color-mix(in oklch, #ff563c 76%, #000)"
   ],
   "generated": [
     "public/favicon-16x16.png",
@@ -109,371 +109,371 @@
       "w": 16,
       "h": 16,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/favicon-32x32.png": {
       "w": 32,
       "h": 32,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/favicon-48x48.png": {
       "w": 48,
       "h": 48,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/favicon-96x96.png": {
       "w": 96,
       "h": 96,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-72x72.png": {
       "w": 72,
       "h": 72,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-96x96.png": {
       "w": 96,
       "h": 96,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-128x128.png": {
       "w": 128,
       "h": 128,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-144x144.png": {
       "w": 144,
       "h": 144,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-152x152.png": {
       "w": 152,
       "h": 152,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-192x192.png": {
       "w": 192,
       "h": 192,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-256x256.png": {
       "w": 256,
       "h": 256,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-384x384.png": {
       "w": 384,
       "h": 384,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-512x512.png": {
       "w": 512,
       "h": 512,
       "alpha": true,
-      "markBox": 0.94,
+      "markBox": 0.9399999999999998,
       "maskR": null
     },
     "public/icon-maskable-192x192.png": {
       "w": 192,
       "h": 192,
       "alpha": false,
-      "markBox": 0.590862760888939,
+      "markBox": 0.5656957650549047,
       "maskR": 0.4
     },
     "public/icon-maskable-512x512.png": {
       "w": 512,
       "h": 512,
       "alpha": false,
-      "markBox": 0.590862760888939,
+      "markBox": 0.5656957650549047,
       "maskR": 0.4
     },
     "public/apple-touch-icon.png": {
       "w": 180,
       "h": 180,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/apple-touch-icon-152x152.png": {
       "w": 152,
       "h": 152,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/apple-touch-icon-167x167.png": {
       "w": 167,
       "h": 167,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/apple-touch-icon-180x180.png": {
       "w": 180,
       "h": 180,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/mstile-70x70.png": {
       "w": 70,
       "h": 70,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/mstile-150x150.png": {
       "w": 150,
       "h": 150,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/mstile-310x310.png": {
       "w": 310,
       "h": 310,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-20.png": {
       "w": 20,
       "h": 20,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-29.png": {
       "w": 29,
       "h": 29,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-40.png": {
       "w": 40,
       "h": 40,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-58.png": {
       "w": 58,
       "h": 58,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-60.png": {
       "w": 60,
       "h": 60,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-76.png": {
       "w": 76,
       "h": 76,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-80.png": {
       "w": 80,
       "h": 80,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-87.png": {
       "w": 87,
       "h": 87,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-120.png": {
       "w": 120,
       "h": 120,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-152.png": {
       "w": 152,
       "h": 152,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-167.png": {
       "w": 167,
       "h": 167,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-180.png": {
       "w": 180,
       "h": 180,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/ios/AppIcon.appiconset/icon-1024.png": {
       "w": 1024,
       "h": 1024,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/watchos/AppIcon.appiconset/icon-44.png": {
       "w": 44,
       "h": 44,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-48.png": {
       "w": 48,
       "h": 48,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-55.png": {
       "w": 55,
       "h": 55,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-58.png": {
       "w": 58,
       "h": 58,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-66.png": {
       "w": 66,
       "h": 66,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-80.png": {
       "w": 80,
       "h": 80,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-87.png": {
       "w": 87,
       "h": 87,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-88.png": {
       "w": 88,
       "h": 88,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-92.png": {
       "w": 92,
       "h": 92,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-100.png": {
       "w": 100,
       "h": 100,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-102.png": {
       "w": 102,
       "h": 102,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-108.png": {
       "w": 108,
       "h": 108,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-172.png": {
       "w": 172,
       "h": 172,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-196.png": {
       "w": 196,
       "h": 196,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-216.png": {
       "w": 216,
       "h": 216,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-234.png": {
       "w": 234,
       "h": 234,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-258.png": {
       "w": 258,
       "h": 258,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/watchos/AppIcon.appiconset/icon-1024.png": {
       "w": 1024,
       "h": 1024,
       "alpha": false,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/macos/AppIcon.iconset/icon_16x16.png": {
@@ -550,154 +550,154 @@
       "w": 48,
       "h": 48,
       "alpha": true,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/android/res/mipmap-mdpi/ic_launcher_round.png": {
       "w": 48,
       "h": 48,
       "alpha": true,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/android/res/mipmap-mdpi/ic_launcher_foreground.png": {
       "w": 108,
       "h": 108,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-mdpi/ic_launcher_monochrome.png": {
       "w": 108,
       "h": 108,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-hdpi/ic_launcher.png": {
       "w": 72,
       "h": 72,
       "alpha": true,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/android/res/mipmap-hdpi/ic_launcher_round.png": {
       "w": 72,
       "h": 72,
       "alpha": true,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/android/res/mipmap-hdpi/ic_launcher_foreground.png": {
       "w": 162,
       "h": 162,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-hdpi/ic_launcher_monochrome.png": {
       "w": 162,
       "h": 162,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-xhdpi/ic_launcher.png": {
       "w": 96,
       "h": 96,
       "alpha": true,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/android/res/mipmap-xhdpi/ic_launcher_round.png": {
       "w": 96,
       "h": 96,
       "alpha": true,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/android/res/mipmap-xhdpi/ic_launcher_foreground.png": {
       "w": 216,
       "h": 216,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-xhdpi/ic_launcher_monochrome.png": {
       "w": 216,
       "h": 216,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-xxhdpi/ic_launcher.png": {
       "w": 144,
       "h": 144,
       "alpha": true,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/android/res/mipmap-xxhdpi/ic_launcher_round.png": {
       "w": 144,
       "h": 144,
       "alpha": true,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/android/res/mipmap-xxhdpi/ic_launcher_foreground.png": {
       "w": 324,
       "h": 324,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-xxhdpi/ic_launcher_monochrome.png": {
       "w": 324,
       "h": 324,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-xxxhdpi/ic_launcher.png": {
       "w": 192,
       "h": 192,
       "alpha": true,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "brand/android/res/mipmap-xxxhdpi/ic_launcher_round.png": {
       "w": 192,
       "h": 192,
       "alpha": true,
-      "markBox": 0.6794921750222798,
+      "markBox": 0.6505501298131404,
       "maskR": 0.5
     },
     "brand/android/res/mipmap-xxxhdpi/ic_launcher_foreground.png": {
       "w": 432,
       "h": 432,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/res/mipmap-xxxhdpi/ic_launcher_monochrome.png": {
       "w": 432,
       "h": 432,
       "alpha": true,
-      "markBox": 0.4513534979012728,
+      "markBox": 0.43212870941694115,
       "maskR": 0.3055555555555556
     },
     "brand/android/play-store-512.png": {
       "w": 512,
       "h": 512,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     },
     "public/og-image.png": {
       "w": 1200,
       "h": 630,
       "alpha": false,
-      "markBox": 0.82,
+      "markBox": 0.8199999999999998,
       "maskR": null
     }
   }

@@ -44,6 +44,28 @@ const tokensCss = await readFile(TOKENS, 'utf8')
 const D = logoSvg.match(/<path[^>]*\sd="([^"]+)"/s)?.[1].replace(/\s+/g, ' ').trim()
 if (!D) throw new Error(`no <path d> found in ${SRC}`)
 
+/*
+ * The same mark lives in two files — `logo.svg` (brand source, gradient-filled)
+ * and `gymmer-g.svg` (icon, currentColor, rendered by GmMark and GmIcon). Two
+ * copies of one path is the drift that let the app show the single-line G in
+ * its tab bar while every generated icon stayed on the double ring, for weeks,
+ * with nothing to say so. They are checked equal here rather than merged,
+ * because the two files legitimately differ in everything except the path.
+ */
+const ICON_SRC = join(ROOT, 'app/assets/img/gymmer-g.svg')
+const iconD = (await readFile(ICON_SRC, 'utf8'))
+  .match(/<path[^>]*\sd="([^"]+)"/s)?.[1]
+  .replace(/\s+/g, ' ')
+  .trim()
+if (!iconD) throw new Error(`no <path d> found in ${ICON_SRC}`)
+if (iconD !== D) {
+  throw new Error(
+    `app/assets/img/logo.svg and app/assets/img/gymmer-g.svg draw different marks.\n`
+    + `  They must carry the same path: one is the brand source, the other is what\n`
+    + `  the app renders, and a difference ships as two logos in one product.`,
+  )
+}
+
 /** Pull a custom property out of a specific tokens.css rule. */
 const token = (selector, name) => {
   const block = tokensCss.match(
@@ -63,19 +85,38 @@ const PAPER = token(':root', 'gm-bg')
  * Two ways to measure the mark, and picking the wrong one is why a first cut
  * looked lost in space on every tile.
  *
- * The mark's real extent is a square: the outer ring spans 168..856 on both
- * axes, so BBOX is 688 and the chamfered bar tip at (826,168) sits INSIDE that
- * square, near its top-right corner. On a square or superellipse canvas nothing
- * can clip a corner, so the bounding box is what should be fitted to the tile.
+ * **Re-derive BOTH when the path changes.** They are the mark's measurements,
+ * not settings: `byBox` and `byCircle` turn them into every icon's inset, so a
+ * path swapped under stale numbers regenerates all 64 binaries with correct
+ * colours and wrong insets — and a contact sheet of that looks plausible.
+ * That is exactly what nearly shipped on 2026-10-30, when the mark went from
+ * the double ring to this one.
  *
- * A circular mask is the exception. There the first thing to get cut is the bar
- * tip on its diagonal, 465.8 from centre — well beyond the ring's own 344. Those
- * canvases have to be sized against that circle instead, which is why watchOS
- * and the maskables carry visibly more air than iOS does. That is the mask, not
- * a margin choice.
+ * MARK is read off `gymmer-g.svg`'s viewBox, which the app has rendered all
+ * along, rather than measured by hand: `viewBox="144.57 144.59 737.94 734.81"`.
+ *
+ * The extent is NOT square — 737.94 across against 734.81 down — because the
+ * chamfered bar tip reaches past the ring's right edge. Under the double ring
+ * it sat inside, and the comment that used to be here said so. BBOX is the
+ * LARGER of the two, because that is what `verify-brand.mjs` measures:
+ * `max(width, height)` of the painted pixels.
+ *
+ * A circular mask is the exception to fitting by box. There the first thing to
+ * get cut is the bar tip on its diagonal, 521.8 from centre — well beyond the
+ * ring's own 367.43. Those canvases are sized against that circle instead,
+ * which is why watchOS and the maskables carry visibly more air than iOS does.
+ * That is the mask, not a margin choice.
  */
-const BBOX = 856 - 168
-const CIRCUM = 2 * Math.hypot(826 - 512, 168 - 512)
+const MARK = { x: 144.57, y: 144.59, w: 737.94, h: 734.81 }
+const BBOX = Math.max(MARK.w, MARK.h)
+const CIRCUM = 2 * Math.hypot(MARK.x + MARK.w - 512, MARK.y - 512)
+/**
+ * The gradient's square, corner to corner. The mark's own box is not square,
+ * and endpoints on ITS corners would give dx ≠ dy — a gradient a few degrees
+ * off 45, in a direction nobody would ever look for. This square covers the
+ * mark and keeps the angle exact.
+ */
+const GRAD = { lo: MARK.x, hi: MARK.x + MARK.w }
 
 /** Fit the mark's bounding box to `f` of the canvas. */
 const byBox = (f) => (f * 1024) / BBOX
@@ -110,7 +151,7 @@ const K = {
 const mark = (s, fill = 'gradient') => {
   const defs =
     fill === 'gradient'
-      ? `<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="168" y1="168" x2="856" y2="856">` +
+      ? `<defs><linearGradient id="g" gradientUnits="userSpaceOnUse" x1="${GRAD.lo}" y1="${GRAD.lo}" x2="${GRAD.hi}" y2="${GRAD.hi}">` +
         `<stop offset="0" stop-color="${ACC}"/><stop offset="1" stop-color="${ACC_DEEP}"/></linearGradient></defs>`
       : ''
   const paint = fill === 'gradient' ? 'url(#g)' : fill
@@ -845,7 +886,19 @@ await emit(
 
 cdp.close()
 chrome.kill()
-await rm(scratch, { recursive: true, force: true })
+/*
+ * Wait for Chrome to actually be gone before removing its profile.
+ *
+ * `kill()` only sends the signal; Chrome keeps writing to the profile for a
+ * moment after it, so a removal starting immediately races those writes and
+ * throws ENOTEMPTY — `force: true` covers a missing file, not a re-appearing
+ * one. Every asset has already been written by this point, so the script was
+ * failing AFTER succeeding, and `pnpm brand` is `generate && verify`: a
+ * non-zero generate meant the verifier never ran at all. Nobody could
+ * regenerate and check the brand in one command on this machine.
+ */
+await new Promise((res) => (chrome.exitCode != null ? res() : chrome.once('exit', res)))
+await rm(scratch, { recursive: true, force: true, maxRetries: 20, retryDelay: 50 })
 
 const total = written.reduce((n, w) => n + w.bytes, 0)
 console.log(
