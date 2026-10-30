@@ -33,6 +33,7 @@
  * for: every sheet in every app wants the same answers.
  */
 import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue'
+import { pressMayDrag } from '../utils/sheetDrag'
 
 const props = withDefaults(defineProps<{
   open?: boolean
@@ -176,6 +177,8 @@ const drag = ref(0)
 const dragging = ref(false)
 let start = 0
 let pending: number | null = null
+/** Swallow the click a finished drag leaves behind. See `onClickCapture`. */
+let suppressClick = false
 
 /** 8px, which is a tap's wobble: below it a press is a press. */
 const SLOP = 8
@@ -193,14 +196,24 @@ onMounted(() => {
     reduced.value = window.matchMedia('(prefers-reduced-motion: reduce)').matches
   }
 })
+/**
+ * Note, 2026-10-30: `reduced` above stays in this expression, so a reader with
+ * prefers-reduced-motion still has no drag. Until today that combined with the
+ * control bail below to leave them nothing but the close cross, which is why
+ * it is called out here — the bail is fixed, this is a separate decision with
+ * its own rationale above, and reversing it is Igor's call, not this fix's.
+ */
 const swipeable = computed(() => props.swipe && !reduced.value && !props.variant.startsWith('dialog'))
 
 const axis = (e: PointerEvent) => (isBottom.value ? e.clientY : e.clientX)
 
 function onPointerDown(e: PointerEvent) {
-  if (!swipeable.value) return
-  // A stepper's own press is not a swipe.
-  if ((e.target as HTMLElement).closest('button, input, a, select, textarea, label')) return
+  // A press on a BUTTON may become a drag — see `pressMayDrag`. The old rule
+  // here refused the gesture on every control, which on a sheet made of a
+  // button card and two tappable rows meant the grab handle was the only
+  // place it worked. The tap is protected by SLOP, not by refusing to start.
+  suppressClick = false
+  if (!pressMayDrag(e.target as HTMLElement, swipeable.value)) return
   start = axis(e)
   pending = e.pointerId
 }
@@ -240,8 +253,28 @@ function onPointerUp() {
   pending = null
   if (!dragging.value) return
   dragging.value = false
+  // The press began on a control often enough that this is the common case
+  // now: having dragged the sheet, the finger lifts and the browser dispatches
+  // a click to whatever it went down on. Swallow exactly one.
+  suppressClick = true
   if (drag.value > props.swipeThreshold) emit('close')
   else drag.value = 0
+}
+
+/**
+ * The click that follows a drag belongs to nobody.
+ *
+ * Capture phase on the dialog, so it is consumed before it reaches the button
+ * or link the gesture started on — otherwise dragging the "Start a workout"
+ * sheet down from its card would dismiss the sheet AND start the workout.
+ * One click only: a flag cleared here and at the next pointerdown, never a
+ * lingering suppression that eats a real tap.
+ */
+function onClickCapture(e: MouseEvent) {
+  if (!suppressClick) return
+  suppressClick = false
+  e.stopPropagation()
+  e.preventDefault()
 }
 
 /**
@@ -254,6 +287,9 @@ function onPointerUp() {
  */
 function onPointerCancel() {
   pending = null
+  // A cancelled gesture activates nothing either: the finger may have moved
+  // far enough to be a drag before the browser took the pan away.
+  suppressClick = dragging.value
   dragging.value = false
   drag.value = 0
 }
@@ -277,6 +313,7 @@ function onPointerCancel() {
     @pointerdown="onPointerDown"
     @pointerdown.capture="onPressAnywhere"
     @click="onBackdropClick"
+    @click.capture="onClickCapture"
     @pointermove="onPointerMove"
     @pointerup="onPointerUp"
     @pointercancel="onPointerCancel"
