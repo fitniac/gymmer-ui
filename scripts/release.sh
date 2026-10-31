@@ -18,7 +18,9 @@
 #   2. lint + unit tests here;
 #   3. links this checkout into the consumer, installs, builds its e2e stack;
 #   4. runs the gallery's geometry guard and the gallery shoot — the two specs
-#      that measure the layer's primitives through a real browser;
+#      that measure the layer's primitives through a real browser — and then
+#      checks the shoot's eight frames are on disk, because that spec skips
+#      itself (exit 0, nothing measured) against a non-review build;
 #   5. restores the consumer (override removed, pinned install back), ALWAYS,
 #      including on failure and on Ctrl-C;
 #   6. only then: version, commit, tag, push.
@@ -85,9 +87,24 @@ printf 'overrides:\n  "@gymmer/ui": "link:%s"\n' "$LAYER" > "$WS"
 ( cd "$APP" && pnpm install --no-frozen-lockfile --silent )
 
 say "building the app's e2e stack"
-( cd "$APP" && ./scripts/e2e-local-stack.sh up >/dev/null ) || die "the consumer's stack would not build against this layer."
+# NOT "...against this layer": `up` resolves the prod API image and builds the
+# app from source, and either half can fail for reasons the layer has no part
+# in — no hel key on a waw runner, a swarm that does not answer.
+#
+# The specific reason is NOT lost either way: `die` writes to stderr and the
+# redirect above is stdout only, so the stack's own message prints first. What
+# changes here is only the headline — which stated a cause this step never
+# tested. That is the same defect as a test report calling a failure
+# "pre-existing": a sentence about a cause, carrying the confidence of a
+# measurement.
+( cd "$APP" && ./scripts/e2e-local-stack.sh up >/dev/null ) \
+  || die "the consumer's stack would not come up — that is a fault in the stack or its API image, NOT a verdict about this layer."
 
 say "the guards that measure this layer"
+# The shoot writes into a FRESH directory, so a frame on disk afterwards can
+# only have been written by this run. `mktemp -d`, never a fixed /tmp name:
+# this machine is shared with other checkouts and other sessions.
+FRAMES="$(mktemp -d -t gmui-frames)"
 # Chained with `&&`, every step. `set -e` does NOT apply inside a subshell
 # whose status is tested with `||`, so with the steps on separate lines the
 # subshell's status was the LAST command's: a failing geometry spec was
@@ -99,8 +116,36 @@ say "the guards that measure this layer"
   cd "$APP" \
     && eval "$(./scripts/e2e-local-stack.sh env)" \
     && pnpm exec playwright test e2e/tests/gallery-geometry.spec.ts --project=chromium --reporter=line \
-    && SHOOT_THEME=dark pnpm exec playwright test --config=e2e/visual/shoot.config.ts e2e/visual/gallery.spec.ts --reporter=line
+    && SHOOT_THEME=dark SHOOT_OUT="$FRAMES" pnpm exec playwright test --config=e2e/visual/shoot.config.ts e2e/visual/gallery.spec.ts --reporter=line
 ) || die "the consumer's gallery guards refuse this layer — nothing tagged."
+
+# ── The shoot passes by not running ─────────────────────────────────────────
+#
+# `gallery.spec.ts` is ONE test, and its line 38 is
+#
+#   test.skip(probe.status() !== 200, `/dev/gallery answered … not a review build`)
+#
+# so against a non-review build every one of its assertions is skipped,
+# Playwright prints `1 skipped`, and the exit code is 0. The step above would
+# then be green having photographed nothing, and this script would tag a
+# version whose dark half was never looked at.
+#
+# What keeps that from happening today is `GYMMER_REVIEW=1` inside the
+# consumer's `e2e-local-stack.sh` — one line, in another repo, which another
+# lane is editing (it moved from 229 to 247 in B13). An invariant held
+# somewhere else is not an invariant this gate knows. So assert the ARTEFACTS:
+# eight frames, by name, as the spec's own log promises (ACCENTS + 4).
+missing=""
+for f in gallery-dark-orange.png gallery-dark-lime.png gallery-dark-sky.png gallery-dark-violet.png \
+         gallery-dark-sheet-open.png gallery-dark-dialog-open.png gallery-dark-panel-open.png gallery-dark-footer-open.png; do
+  [ -s "$FRAMES/$f" ] || missing="$missing $f"
+done
+if [ -n "$missing" ]; then
+  rm -rf "$FRAMES"
+  die "the dark shoot exited 0 but did not write:$missing — it skipped rather than ran (a build without /dev/gallery, i.e. not a review build), so nothing measured this layer. NOT tagged."
+fi
+echo "   8 frames on disk — the shoot ran, it did not skip"
+rm -rf "$FRAMES"
 
 restore
 trap - EXIT INT TERM
