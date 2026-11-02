@@ -139,8 +139,8 @@
   --shadow-bubble: 0 6px 18px var(--gm-sh-card);
 
   /* The design's two real breakpoints... */
-  --breakpoint-sm: 560px;
-  --breakpoint-md: 900px;
+  --breakpoint-sm: 35rem;    /* 560px at a 16px root */
+  --breakpoint-md: 56.25rem; /* 900px */
 
   /* ...and two NAMED ones, because the numbers above are not the ones a
      reader assumes.
@@ -154,11 +154,24 @@
      
      So the two widths the layouts actually care about get names of their own
      (Igor, 2026-11-02). New code uses `tab:` and `desk:`; `min-[768px]:` is
-     the same thing spelled by hand and stays valid. `sm` and `md` are left
-     alone — renaming them would be a breaking change to every consumer for a
-     cosmetic gain. */
-  --breakpoint-tab: 768px;
-  --breakpoint-desk: 1200px;
+     the same thing spelled by hand and stays valid. `sm` and `md` keep their
+     NAMES — renaming those would be a breaking change to every consumer for a
+     cosmetic gain — but all four are now rem.
+     
+     rem, not px, and the whole scale rather than half of it (Igor,
+     2026-11-02). Tailwind's own surviving breakpoints are rem — `lg` is 64rem
+     — so a px scale here moved with the viewport while `lg` moved with the
+     reader's font size. Mixing them is not merely untidy: at a 20px root,
+     `tab` at 768px would fire AFTER `md` at 900px only if md were rem and tab
+     were not, and the scale inverts for exactly the readers who enlarge text
+     and never for anyone testing it. All five now sort in one unit:
+     
+         sm 35rem(560) · tab 48rem(768) · md 56.25rem(900) · lg 64rem(1024) · desk 75rem(1200)
+     
+     Nothing moves for a reader at the default 16px root; the widths are
+     identical. */
+  --breakpoint-tab: 48rem;   /* 768px */
+  --breakpoint-desk: 75rem;  /* 1200px */
 
   --animate-ticker: ticker 38s linear infinite;
   --animate-pulse-dot: pulse-dot 1.8s infinite;
