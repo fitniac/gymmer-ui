@@ -138,9 +138,22 @@
   --shadow-badge: -8px 8px 0 var(--acc-soft);
   --shadow-bubble: 0 6px 18px var(--gm-sh-card);
 
-  /* The design's two real breakpoints. */
+  /* The design's breakpoints, and a warning.
+   *
+   * `md` is 900, NOT Tailwind's 768. That is deliberate — it is where this
+   * design's reading column stops being one column — but it means `md:` is
+   * the wrong tool for a tablet rule and silently does nothing between 768
+   * and 899. Tailwind's defaults for `lg` and `xl` are left alone, so the
+   * effective scale is sm 560 · md 900 · lg 1024 · xl 1280.
+   *
+   * `tab` and `desk` are the names to reach for when the question is "tablet"
+   * or "desktop" rather than "the reading column". A rule written `tab:` runs
+   * from 768 as its author expects; written `md:` it runs from 900 and the
+   * mistake has no symptom. */
   --breakpoint-sm: 560px;
   --breakpoint-md: 900px;
+  --breakpoint-tab: 768px;
+  --breakpoint-desk: 1200px;
 
   --animate-ticker: ticker 38s linear infinite;
   --animate-pulse-dot: pulse-dot 1.8s infinite;
