@@ -138,9 +138,27 @@
   --shadow-badge: -8px 8px 0 var(--acc-soft);
   --shadow-bubble: 0 6px 18px var(--gm-sh-card);
 
-  /* The design's two real breakpoints. */
+  /* The design's two real breakpoints... */
   --breakpoint-sm: 560px;
   --breakpoint-md: 900px;
+
+  /* ...and two NAMED ones, because the numbers above are not the ones a
+     reader assumes.
+     
+     `md` here is 900px, not Tailwind's 768. Every `md:` in a consumer
+     therefore fires 132px later than whoever wrote it expected, and the
+     mistake is invisible: the utility exists, it compiles, and it is simply
+     wrong between 768 and 899. It cost a phone/tablet split in gymmer-nuxt
+     #482, where `md:hidden` would have shown a facts column AND the meta line
+     together across that band.
+     
+     So the two widths the layouts actually care about get names of their own
+     (Igor, 2026-11-02). New code uses `tab:` and `desk:`; `min-[768px]:` is
+     the same thing spelled by hand and stays valid. `sm` and `md` are left
+     alone — renaming them would be a breaking change to every consumer for a
+     cosmetic gain. */
+  --breakpoint-tab: 768px;
+  --breakpoint-desk: 1200px;
 
   --animate-ticker: ticker 38s linear infinite;
   --animate-pulse-dot: pulse-dot 1.8s infinite;
