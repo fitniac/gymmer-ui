@@ -79,7 +79,7 @@ const el = ref<HTMLDialogElement | null>(null)
  *
  * It MUST equal `--breakpoint-tab` in `gymmer.css`. This is a media query in
  * JavaScript and that is a Tailwind variant, so the number cannot be shared
- * directly — `test/breakpoint-agreement.test.mjs` asserts the two agree
+ * directly — `test/sheet-panel-threshold.test.mjs` asserts the two agree
  * instead, because a threshold that disagrees with its own token does not
  * fail, it just switches at the wrong width.
  */
