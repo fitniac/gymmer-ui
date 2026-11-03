@@ -10,7 +10,7 @@
     "css:audit": "node scripts/css-layers.mjs app/assets/css/tokens.css app/assets/css/gymmer.css",
     "lint": "eslint .",
     "postinstall": "nuxt prepare",
-    "test": "node --test test/breakpoints.test.mjs test/contrast.test.mjs test/sheet-drag.test.mjs test/css-layers.test.mjs",
+    "test": "node --test test/breakpoints.test.mjs test/contrast.test.mjs test/sheet-drag.test.mjs test/css-layers.test.mjs test/sheet-panel-threshold.test.mjs",
     "test:contrast": "node --test test/contrast.test.mjs",
     "test:breakpoints": "node --test test/breakpoints.test.mjs",
     "test:layers": "node --test test/css-layers.test.mjs",

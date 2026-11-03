@@ -16,7 +16,9 @@
  * The variant decides which edge it is attached to and therefore which corners
  * are round: a SHEET rises from the bottom and rounds its top two; a DIALOG
  * floats and rounds all four; ADAPTIVE is a sheet on a phone and a 480px right
- * panel from 1200px, where there is room beside the page instead of over it.
+ * panel from 768px (`--breakpoint-tab`), where there is room beside the page
+ * instead of over it. It was 1200 until 2026-11-02: a tablet got the phone
+ * sheet stretched to full width with half of it empty.
  *
  * The width lives in the PER-VARIANT class, not in the base one. `w-full` and
  * `w-[480px]` are both width utilities, so which wins is the stylesheet's
@@ -41,7 +43,8 @@ const props = withDefaults(defineProps<{
    * `panel` (v0.6.3) is the right-hand panel at EVERY width: full height, up to
    * 420px, the whole screen on a phone — the app's rest screen and exercise
    * picker, which cover the workout rather than sitting over a visible page.
-   * `adaptive` becomes a (480px) panel only from 1200px.
+   * `adaptive` becomes a panel from 768px (`--breakpoint-tab`) — 480px for
+   * the exercise sheet, 420px for the browse gate, each set by the caller.
    */
   variant?: 'sheet' | 'dialog' | 'adaptive' | 'panel'
   /** Spoken name. A sheet with no title needs one anyway. */
@@ -71,8 +74,16 @@ const emit = defineEmits<{ close: [] }>()
 
 const el = ref<HTMLDialogElement | null>(null)
 
-/** From this width up, `adaptive` is a panel beside the page. */
-const PANEL_FROM = 1200
+/**
+ * From this width up, `adaptive` is a panel beside the page.
+ *
+ * It MUST equal `--breakpoint-tab` in `gymmer.css`. This is a media query in
+ * JavaScript and that is a Tailwind variant, so the number cannot be shared
+ * directly — `test/sheet-panel-threshold.test.mjs` asserts the two agree
+ * instead, because a threshold that disagrees with its own token does not
+ * fail, it just switches at the wrong width.
+ */
+const PANEL_FROM = 768
 const wide = ref(false)
 let mq: MediaQueryList | null = null
 const onWide = (e: MediaQueryListEvent | MediaQueryList) => { wide.value = e.matches }
@@ -325,7 +336,7 @@ function onPointerCancel() {
          whole — the close went with the content, and the swipe, which reads
          the body's scroll, could not tell a scroll from a dismissal.
          `adaptive` also draws its edge, as the app's sheet always did: a 1px
-         rule on top as a sheet, 2px on the left as the 1200+ panel.
+         rule on top as a sheet, 2px on the left as the 768+ panel.
          A panel is full height, so on a phone its top IS the status bar: it
          pads by the safe-area inset (v0.6.10), or its title sits under the
          clock and the Dynamic Island and its close on the battery. Zero on the
