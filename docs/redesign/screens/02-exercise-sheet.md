@@ -19,7 +19,18 @@ workout or program — lets the user swap it for a same-muscle alternative witho
 - Signed-in athlete preference for demos.
 - `actions` / `actionsExcept` props and `action` emit (add | swap) — extend, do not replace.
 
-## Layout (phone / tablet)
+## Layout (phone)
+> **Superseded for tablets, 2026-11-03 (Igor).** This section read "phone /
+> tablet". The shared `adaptive` presentation is a right-side panel from
+> `--breakpoint-tab` (768px) for **every** user, so a tablet gets *Layout
+> (desktop)* below, not this. Below 768 it is this bottom sheet, unchanged.
+>
+> The 768 frames are what settled it: the phone sheet stretched to full width
+> with half of it empty. The threshold lives in one place — `GmSheetShell`'s
+> `PANEL_FROM`, asserted against the token by
+> `test/sheet-panel-threshold.test.mjs` — and the consuming app's own
+> `GmSheet` and `.gm-sheet-adaptive` moved with it.
+
 Bottom sheet, top edge 44px below the status bar, `--gm-radius-sheet` top corners, grabber.
 1. Header: eyebrow label (workout: "EXERCISE 2 OF 4 · SET 2 OF 3"; library: "CHEST · BARBELL"),
    name H1 23/800 Archivo, close button (30px circle in 44px target).
@@ -40,9 +51,23 @@ Bottom sheet, top edge 44px below the status bar, `--gm-radius-sheet` top corner
    - library/program: **Add alongside** | **Replace in program** → "Add {name} to {program}" /
      "Replace with {name}".
 
-## Layout (desktop)
+## Layout (desktop and tablet)
+From `--breakpoint-tab` (768px) up — tablets included since 2026-11-03.
+
 Right-side panel 480px (same content, media 220px wide) over a scrim; the list behind stays
 interactive-looking but inert.
+
+The browse gate draws the same shape at 420px with a 1px hairline instead of
+480 and 2px, which is why the width and the edge are variables
+(`--gm-sheet-panel-w`, `--gm-sheet-panel-edge`) rather than literals: a second
+presentation for two numbers would be a second copy of the gesture, the focus
+handling and the safe-area insets.
+
+**480px has to hold the 220px media and the facts column side by side**, and
+from 768 it does so at every width the panel appears at rather than only from
+1200. That is a measurement, not a drawing: before this ruling the facts column
+arrived at 768 while the panel waited for 1200, so 768–1199 was a full-width
+sheet *with* a facts column — a state no board draws.
 
 ## Programme edits during a workout apply at completion
 
