@@ -106,6 +106,65 @@ two definitions and said nothing would leave the next reader to re-derive it.
 | needs a ruling | 0 |
 
 
+## Verified, 2026-11-04 — and now executable
+
+Closing the B17 `Theme` row, whose evidence column names this file rather than a
+frame. Re-derived from the files on both sides, against `@gymmer/ui` **0.7.4**:
+
+| the audit asked for | state |
+|---|---|
+| 11 values to change | **11 adopted** — all seven dark surfaces/text, the light `body`, and the three accent values |
+| 3 names to add | **3 added** — `--gm-line`, `--acc-ink`, `--gm-font-mono` |
+| already identical | still identical — radii, `display`, `font`, `skip`, `track` |
+
+The layer spells three of them out more fully than the boards do, which is why a
+search for the board's own spelling finds nothing: `surf` is `--gm-surface`,
+`body` is `--gm-text-body` (the declaration carries the comment `board body`),
+and `on-acc` is `--gm-on-acc`, whose dark value is gone because it no longer
+flips — the boards compute the label from the **accent's** luminance, not the
+page's, so it is near-black in both modes.
+
+### The premise has moved, and still holds
+
+The table above was written against **50** boards. There are now **62**.
+Re-checked: **51** carry a `theme()` palette and they still resolve to exactly
+**two** literal palettes, dark and light, with no drift. The other eleven carry
+none, and none of them should: `BodyMap` is a `<dc-import>` fragment that
+inherits its parent's, `LogoVariants` draws no screen, and the nine `Watch*`
+boards are the watch app's, which does not use this layer.
+
+### One difference remains, and it is a ruling rather than a defect
+
+`--acc-ink` in light mode: the boards compute `color-mix(in oklch, acc 62%,
+#000)`; the layer ships **76%**, which is `--acc-deep`'s value.
+
+That is the ruling of 2026-10-08 above, not an oversight. It put accent **text**
+on `--acc-deep` held to 4.5:1, and `--acc-ink` was added as the boards' name for
+that role — so it took `--acc-deep`'s percentage rather than the boards' own.
+Both clear 4.5:1, and since 76% keeps *more* of the accent and less black, the
+boards' 62% is the darker and higher-contrast of the two: this is a question of
+which name owns the role, not a contrast shortfall. Dark mode is not a
+difference at all — both sides use the raw accent.
+
+**So the `Theme` row is `live + drift`, not `live + matches`**, with that single
+named difference. Whether the boards should adopt 76% or the layer the boards'
+62% is a brand decision, so it is Igor's; nothing here changes either value.
+
+### Why this file could go stale without anyone noticing
+
+It had drifted in both directions — written against 50 boards, and against a
+layer that has since adopted eleven of its values — and nothing said so, because
+the comparison existed only as prose. `css:audit` checks CSS layering and
+`test:contrast` checks ratios; neither reads a board.
+
+`test/board-tokens.test.mjs` is now this table, executable: both sides read out
+of the files, never transcribed, and the accepted `--acc-ink` difference pinned
+on **both** sides so that changing either one fails and sends the next reader
+here — the same idiom `contrast.test.mjs` uses for `KNOWN_GAPS`. Five plants were
+run against it, each caught: a drifted layer surface, a changed board
+percentage, a changed layer percentage, a deleted name, and a shifted board
+palette.
+
 ## Igor's accent ruling, 2026-10-08 (relayed)
 
 Neither of the two options the audit offered — a third. **The accent plays two
