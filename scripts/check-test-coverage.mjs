@@ -25,7 +25,7 @@
 //
 // Exit 0 = both hold. Any other exit = the suite does not cover what is on
 // disk, and the message says which file and which check.
-import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { execFileSync } from 'node:child_process'
 import { join, relative } from 'node:path'
 
