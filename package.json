@@ -3,7 +3,7 @@
   "version": "0.7.5",
   "private": true,
   "type": "module",
-  "description": "Gymmer design system as a Nuxt 4 layer — tokens, theme, and shared component classes",
+  "description": "Gymmer design system as a Nuxt 4 layer \u2014 tokens, theme, and shared component classes",
   "scripts": {
     "brand": "node scripts/generate-brand.mjs && node scripts/verify-brand.mjs",
     "brand:verify": "node scripts/verify-brand.mjs",
@@ -11,6 +11,7 @@
     "lint": "eslint .",
     "postinstall": "nuxt prepare",
     "test": "node --test test/*.test.mjs",
+    "test:files": "node scripts/check-test-coverage.mjs",
     "test:contrast": "node --test test/contrast.test.mjs",
     "test:breakpoints": "node --test test/breakpoints.test.mjs",
     "test:layers": "node --test test/css-layers.test.mjs",
