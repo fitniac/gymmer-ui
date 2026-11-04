@@ -169,11 +169,51 @@ board, and `/pricing` now has a reviewed set (`billing-2026-11-03b`).
 |---|---|
 | live + matches | 7 |
 | live + drift | 4 |
-| live, unverified | 28 |
+| live, unverified | 30 |
 | built, flag-off | 3 |
 | not built | 7 (+2 n/a) |
 | other repo | 9 |
 | **total** | **62** |
 
-**28 of 62 are "live, unverified"** — that number is the real state of the
+**30 of 62 are "live, unverified"** — that number is the real state of the
 review, and shrinking it is frame work rather than build work.
+
+It said **28** until 2026-11-04, and the table always said 30. The count is the
+thing that was wrong, and this file proves it against itself: the column has to
+reach the 62 it claims on its own total line, and
+
+    7 + 4 + 28 + 3 + 7 + 9 = 58   (+2 n/a = 60)
+    7 + 4 + 30 + 3 + 7 + 9 = 60   (+2 n/a = 62)   <- the stated total
+
+Counted the other way round, by reading the status cell of every data row in the
+four board tables, the answer is 30 as well: 23 Mobile, 4 Desktop, 3 Tablet.
+
+This matters beyond arithmetic, because the number is load-bearing: B17 is
+scoped as "the 28 live, never verified boards", and a lane working from 28 would
+have left two boards with no owner and no way to notice.
+
+### The 30, by the lane column this file already carries
+
+| lane | boards | which |
+|---|---|---|
+| **A** | 9 | Gate, Programs, ProgramsLib, Program, ProgramPublic, CreateProgram, DeskHome, DeskPrograms, DeskProgram |
+| **B** | 17 | AddExercise, Train, Active, ActiveHeader, ActiveProgress, BottomZone, Cardio, Rest, RestPicker, SyncSheet, History, Progress, ProgressBests, BodyMap, Coach, Settings, Theme |
+| **C** | 4 | DeskLibrary, TabToday, TabLibrary, TabActive |
+
+Igor's B17 split — guest to A, in-app to B, tab/desk to C — is a restatement of
+this column rather than a new division, and the two agree on B and C exactly.
+**They do not quite agree on A**: `CreateProgram` and `Program`
+(`/programs/[id]/details`) are signed-in screens sitting in lane A, so reading
+"guest to A" literally would move them to B. The column is left as it is and the
+disagreement recorded, because which it should be is Igor's call, not a lane's.
+
+### One prod frame proves no board
+
+The production shoot writes six frames — `prod-board01-home` through
+`prod-board05-exercise-scrolled`, and `prod-board07-login-prelaunch`. The first
+five are cited above as proving frames. The sixth is cited by nothing, and
+should stay that way: it photographs `/login`, which is listed under *Screens
+with no board* below. There is one login-ish board in the canvas, `Gate`, and it
+is the `BrowseGate` component rather than the login route. So the prod set
+verifies five boards, not six, and `board07`'s name promises a board that does
+not exist.
