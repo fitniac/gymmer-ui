@@ -200,12 +200,26 @@ have left two boards with no owner and no way to notice.
 | **B** | 17 | AddExercise, Train, Active, ActiveHeader, ActiveProgress, BottomZone, Cardio, Rest, RestPicker, SyncSheet, History, Progress, ProgressBests, BodyMap, Coach, Settings, Theme |
 | **C** | 4 | DeskLibrary, TabToday, TabLibrary, TabActive |
 
-Igor's B17 split — guest to A, in-app to B, tab/desk to C — is a restatement of
-this column rather than a new division, and the two agree on B and C exactly.
-**They do not quite agree on A**: `CreateProgram` and `Program`
-(`/programs/[id]/details`) are signed-in screens sitting in lane A, so reading
-"guest to A" literally would move them to B. The column is left as it is and the
-disagreement recorded, because which it should be is Igor's call, not a lane's.
+Igor's B17 split — guest to A, in-app to B, tab/desk to C — agrees with this
+column on B and C exactly. It does **not** agree on A, and he has now settled
+which wins.
+
+**Confirmed by Igor, 2026-11-04: "B17 split confirmed: guest to A, in-app to B,
+tab/desk to C."** Applied to the two rows where the column and the rule disagree:
+`CreateProgram` (`/programs/create`) and `Program` (`/programs/[id]/details`) are
+signed-in screens, so **in-app sends them to B**. B17 ownership is therefore:
+
+| | A | B | C |
+|---|---|---|---|
+| the lane column above | 9 | 17 | 4 |
+| **B17, per the confirmed rule** | **7** | **19** | **4** |
+
+The lane column itself is left exactly as it was. It is this file's record of
+which lane owns a board's redesign work, which is not the same question as who
+verifies it for B17, and changing it to match would overwrite one fact with
+another. Where the two differ, B17 follows the rule and the column keeps its own
+meaning. If that is backwards — if the column was meant to be the B17 split —
+it is a one-line correction and the row names are all above.
 
 ### One prod frame proves no board
 
