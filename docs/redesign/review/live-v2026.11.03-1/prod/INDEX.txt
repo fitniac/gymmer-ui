@@ -1,0 +1,16 @@
+release    v2026.11.03-1
+image      100.118.241.60:5000/gymmer:v2026.11.03-1@sha256:793b2f8618d6252769e78ebc5355cf132a367b1c3cf8dde8d2860137658f9594
+digest     sha256:793b2f8618d6252769e78ebc5355cf132a367b1c3cf8dde8d2860137658f9594
+digest via declared on dispatch, NOT verified against a running container
+half       prod
+frames     24
+shot at    2026-11-04T11:55:24Z
+specs      12c6f52
+route      this runner's own Traefik (loopback)
+
+These frames show the image named above and nothing later. If a release has
+shipped since, they are a BEFORE set — read the release line before reading
+the boards.
+
+NOT PUBLISHED: the aws CLI was missing on the runner, so this set exists
+only as the run artefact. It was never in the bucket.

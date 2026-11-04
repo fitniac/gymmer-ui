@@ -1,0 +1,65 @@
+live-v2026.11.03-1 — frames shot 2026-11-04
+
+WHAT THIS IS, AND WHAT IT IS NOT
+
+This set photographs gymmer web v2026.11.03-1 (build 6, tagged 2026-11-03
+19:38Z). It is NOT an R3 review set. R3's web half was never cut: release.sh
+posts i18n keys before it tags, that step needs a credential only Igor holds,
+and so no v2026.11.04 web tag or image exists. The registry held nothing newer
+than v2026.11.03-1 when this was shot, so build 6 was the only image it was
+possible to point at.
+
+The BACKEND at the time of the shoot was already v2026.11.04-2 (the per-athlete
+cover release). So these boards show build-6 web against an R3 backend — a real
+production state, but not a release boundary.
+
+The specs are newer than the app: shot from gymmer-nuxt 12c6f52, which is 29
+commits past the tag. e2e/visual/ between them is purely additive — 5 new spec
+files, 812 insertions, ZERO modifications to any existing board — so every
+pre-existing board photographs the build it was written against. The five that
+do not are gutter-measure, gutter-probe, minimised-bar-rail, px-to-tab and
+tablet-desktop-sweep, which target the B14 `tab:` work in afc85a11 that is not
+deployed.
+
+DO NOT START B17 FROM THIS SET. It is a record of production on 2026-11-04,
+usable as a BEFORE set. A B17 baseline needs a shoot against the R3 digest,
+which does not exist yet.
+
+WHY IT IS HERE RATHER THAN IN THE BUCKET
+
+The runner had no aws CLI, so publish-review-frames.sh took its inert branch,
+wrote "NOT PUBLISHED" into the half's own INDEX.txt, raised a run annotation,
+and exited 0 by design — `frames` is a red-detector every merge passes through,
+and one missing binary must not read as "someone broke the boards". The set
+therefore existed only as a 7-day run artefact. This directory is that artefact,
+committed by hand, per Igor's instruction for exactly this case.
+
+Source: gymmer-nuxt run 41824591300, artefacts frames-prod and report-prod.
+
+WHAT IS HERE
+
+prod/   24 frames. 6 boards x 320/390 x dark/light, phone widths only.
+        board01-home, board02-library, board03-muscle-back, board04-exercise-top,
+        board05-exercise-scrolled, board07-login-prelaunch. No /pricing board.
+        Route: the runner's own Traefik over loopback, so Cloudflare is SKIPPED
+        and this is not what a member gets through the CDN.
+        Digest provenance: declared on dispatch, NOT verified against a running
+        container.
+
+WHAT IS MISSING, AND WHY
+
+The local half (signed-in boards) FAILED: 177 failed / 177 passed on dark,
+178 / 178 on light, 14 flaky each. It still produced 1350 boards, held outside
+git pending a decision, because committing 57M of boards from a run where half
+the tests failed would plant exactly the misleading baseline this file exists to
+prevent.
+
+At least one cause is structural and will recur: billing-states.spec.ts shoots
+/dev/billing, and nuxt.config.ts:104 excludes app/pages/dev/** from any
+production build unless GYMMER_REVIEW=1 — which is set in ci.yml and nowhere in
+the image build. So dev-page boards cannot pass against ANY production image,
+including a future R3 one. That spec arrived in c34bae7f, after the last
+successful frames run, which is why that run passed and this one did not.
+Three of the 51 local-half specs need a dev page: batch4, billing-states,
+gallery. The remaining failures are not yet attributed and this file does not
+claim they are.
