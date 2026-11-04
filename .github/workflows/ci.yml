@@ -52,6 +52,15 @@ jobs:
       # the typecheck's project references and the eslint flat config are built
       # from. Without it, typecheck reports an empty project and passes on
       # anything — the exact trap documented in gymmer-nuxt's CLAUDE.md.
+      # Called directly, not through pnpm: what this guard defends is
+      # `scripts.test` itself, and a step that went through the thing it
+      # checks could be silenced by the same edit. On 2026-11-04
+      # `test/board-tokens.test.mjs` was merged while the enumerated `test`
+      # script never opened it — green, 73 tests, the same 73 as before the
+      # file existed.
+      - name: Every test file is in the run
+        run: node scripts/check-test-coverage.mjs
+
       - name: Test
         run: pnpm test
 
