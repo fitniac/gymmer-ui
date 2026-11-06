@@ -236,6 +236,18 @@ because nobody follows it:
   overshoot, since it is the only record of why 2.5% rather than the 5% first
   tried.
 
+  **Which makes these two rows `decided` and NOT reproducible, and that is a
+  different state from `decided`.** `gymmer.css:392-406` is the record of the
+  shadow decision rather than a pointer to one: the comment *is* the argument,
+  and the board it refers to cannot be read. That is the state in which
+  somebody re-opens a settled question in three months, so it is said here
+  explicitly — **do not go looking for board 22b expecting to find it, and do
+  not treat the comment as a summary of something fuller.** (Lane B's point.
+  They also hold the stem distribution over all 1,584 PNGs in the review set,
+  which would turn "not in the directory" from an inference into a measurement
+  if `22b` was never shot either; that check is theirs to run once the current
+  blockers are clear.)
+
 - and this file said *"`GmLogo` exists"* without saying where. It is
   `app/components/GmLogo.vue` in **gymmer-ui**, not gymmer-nuxt — which is why
   both logo rows are this repo's work rather than the app's, and why a search
