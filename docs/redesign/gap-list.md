@@ -44,6 +44,13 @@ prelaunch:true   learn:false   billingEnabled:false   native:false
 
 **13 boards have no route or component.** Nine are another repo's.
 
+*Amended 2026-11-06 (Igor's item 4): two of the thirteen were never screens.*
+`LogoVariants` and `LogoShadow` are decision boards whose choices ship, so the
+count of boards actually awaiting work is **eleven**, nine of them another
+repo's — leaving `DeskToday`, `DeskActive`, `DeskArticles`, `DeskArticle` and
+`Motion`, with `DeskCategory` deferred post-launch and `TypeCompare` never a
+screen.
+
 | board | lane | what is missing |
 |---|---|---|
 | **DeskToday** | C | no Nova side panel at desktop width |
@@ -52,7 +59,7 @@ prelaunch:true   learn:false   billingEnabled:false   native:false
 | **DeskArticles / DeskArticle** | A | `learn:false`; and no desktop layout even behind the flag |
 | **Motion** | B | motion tokens exist in `main.css`; no board-level review |
 | **TypeCompare** | — | a type comparison, not a screen. Nothing to build |
-| **LogoShadow / LogoVariants** | A | `GmLogo` exists; the variant set is not reviewed. `LogoVariants` partly open as PR 257 |
+| ~~LogoShadow / LogoVariants~~ | A | **NOT HERE ANY MORE.** Both are choosers rather than screens, and both choices are implemented in `GmLogo.vue` + `gymmer.css` in **gymmer-ui**. The "PR 257 open" reference does not resolve — gymmer-ui has no #257. See "Next rows" for the evidence |
 | **Watch×9** | Mobile | `gymmer-watch`, a separate package. gymmer-nuxt owns only the relay |
 
 ---
@@ -98,8 +105,8 @@ prelaunch:true   learn:false   billingEnabled:false   native:false
 | Theme | live, unverified | — (tokens) | B | `token-audit.md` |
 | Motion | **not built** | — | B | none |
 | TypeCompare | n/a | — | — | not a screen |
-| LogoVariants | **not built** | — | A | PR 257 open |
-| LogoShadow | **not built** | — | A | none |
+| LogoVariants | **decided — variant C** | — (`GmLogo`, gymmer-ui) | A | the board itself; `gymmer-g.svg` carries its `single` path. See "Next rows" |
+| LogoShadow | **decided — A, no shadow** | — (`GmLogo`, gymmer-ui) | A | `gymmer.css:392-406`, "do not add one". See "Next rows" |
 
 ---
 
@@ -163,20 +170,146 @@ board, and `/pricing` now has a reviewed set (`billing-2026-11-03b`).
 | Articles / Article / DeskArticles / DeskArticle | editorial content of type `blog`; the blog answers `total: 0` today |
 | DeskCategory | public exercises carry `category: null` on every record, so the Exercises section cannot be filled |
 
+## Next rows — every remaining "not built", with an owner
+
+Igor's item 4, 2026-11-06. **DeskCategory is excluded by his ruling:
+post-launch**, so it is not below.
+
+Two of the nine dissolved on inspection and the evidence is in this section
+rather than in a verdict word, because "not built" turned out to cover three
+different things: a screen nobody has written, a screen blocked on data that
+does not exist, and **a board that is not a screen at all** — a chooser whose
+choice has already been made and shipped. The third kind cannot be built and
+should never have been queued.
+
+| board | owner | state |
+|---|---|---|
+| **DeskToday** | C | **not built.** No Nova side panel at desktop width |
+| **DeskActive** | C | **not built.** No rest side panel; `/tracking` is the phone layout widened |
+| **DeskArticles** | A | **not built, and triple-blocked** — see below |
+| **DeskArticle** | A | **not built, and triple-blocked** — see below |
+| **Motion** | B | **not built.** Motion tokens exist in `main.css`; no board-level review has happened |
+| ~~LogoVariants~~ | A | **NOT A BUILD ROW — decided and shipped as variant C.** Evidence below |
+| ~~LogoShadow~~ | A | **NOT A BUILD ROW — decided and shipped as A (no shadow).** Evidence below |
+| TypeCompare | — | unchanged: a type comparison, not a screen. Nothing to build |
+| Watch×9 | Mobile | unchanged: `gymmer-watch`, another repo. gymmer-nuxt owns the relay |
+
+### The two logo boards are choosers, and both choices are in the shipped code
+
+`LogoVariants.dc.html` offers **eight** candidate lockups, A–H, each a name and
+a note — "Single G + YMMER", "Double G, inline — G at letter height", and so
+on. It is a decision surface, the same kind as `TypeCompare`. Igor ruled on
+2026-10-30 ("converge on the outlined wordmark everywhere"), and the shipped
+component implements it.
+
+**Which candidate shipped, measured rather than eyeballed:** the board builds
+its rows from two path strings, `single` (`var S = 'M842.55 184.55 771.7
+255.41 512 255.41Q459.78…'`) and `dbl` (`var D = 'M826 168 762 232H512C357.36…'`).
+`app/assets/img/gymmer-g.svg` carries **`S`**, and its `viewBox` is
+`144.57 144.59 737.94 734.81`, which is exactly the offset in `single.itf`'s
+`translate(-144.57 -144.59)`. `GmLogo.vue` renders that file as the letter G
+inside `gymmer-ymmer.svg`. So the shipped lockup is **variant C, "Single G,
+inline — G at letter height, reads GYMMER"**, by identical path data.
+
+`LogoShadow.dc.html` is titled *"Logo — G drop shadow comparison"* and offers
+A (no shadow) through A5, with A3 already annotated **"Tried · not chosen"** on
+the board itself. The answer is in `app/assets/css/gymmer.css:392-406`, in as
+many words: *"Shadow variants A1-A4 were tried and rejected — do not add
+one."* What shipped instead is the **A6 overshoot** — `height: 1.025em` on the
+mark with `margin-bottom: -0.025em`, so the round G's top aligns with the
+letters and it overshoots the baseline. No shadow anywhere in `.logo-wg-mark`.
+
+So neither board is Lane A work. **Both reclassify to "decided",** which is a
+status this file does not have and arguably should: a chooser is live the
+moment its choice is implemented, and calling it "not built" invites someone to
+build a second answer to a settled question.
+
+Two stale references found while closing them, both the kind that survives
+because nobody follows it:
+
+- this file said LogoVariants was *"partly open as PR 257"*. **gymmer-ui has no
+  #257**, and gymmer-nuxt#257 is *"feat(tracking): the G mark is the way out of
+  a workout, not a chevron"* — merged, and about a different G.
+- `GmLogo.vue` and `gymmer.css` both cite **"A6 (board 22b)"**. There is no
+  `22b` among the 62 `.dc.html` boards, so the board that settled the shipped
+  lockup is not in this directory. Worth finding before anyone revisits the
+  overshoot, since it is the only record of why 2.5% rather than the 5% first
+  tried.
+
+  **Which makes these two rows `decided` and NOT reproducible, and that is a
+  different state from `decided`.** `gymmer.css:392-406` is the record of the
+  shadow decision rather than a pointer to one: the comment *is* the argument,
+  and the board it refers to cannot be read. That is the state in which
+  somebody re-opens a settled question in three months, so it is said here
+  explicitly — **do not go looking for board 22b expecting to find it, and do
+  not treat the comment as a summary of something fuller.** (Lane B's point.
+  They also hold the stem distribution over all 1,584 PNGs in the review set,
+  which would turn "not in the directory" from an inference into a measurement
+  if `22b` was never shot either; that check is theirs to run once the current
+  blockers are clear.)
+
+- and this file said *"`GmLogo` exists"* without saying where. It is
+  `app/components/GmLogo.vue` in **gymmer-ui**, not gymmer-nuxt — which is why
+  both logo rows are this repo's work rather than the app's, and why a search
+  in gymmer-nuxt finds nothing and reads as "not built".
+
+### DeskArticles / DeskArticle are blocked three times over
+
+Re-measured 2026-11-06, not carried forward:
+
+| | measured |
+|---|---|
+| the flag | `learn:false` — `https://gymmer.com/articles` answers **404** |
+| the content | `GET /api/v1/blog/posts?limit=1` → `{"items":[],"total":0,"pages":0}` |
+| the layout | **zero responsive breakpoint prefixes** in `app/pages/articles/index.vue` or `app/pages/articles/[slug].vue` in gymmer-nuxt. The seven grep hits for `desk` in those files are all the word "desk" in prose comments, about the editorial desk |
+
+The third is the only one Lane A can act on, and it is the one worth noting:
+the mobile `Articles` / `Article` boards are **built, flag-off**, so the pages
+exist and simply have no desktop treatment. That makes these two rows a
+genuine build, not a wait — but a build nobody can review against a frame
+until the flag opens and the desk publishes something, since a desktop article
+layout with `total: 0` renders an empty state at 1280.
+
+### What this leaves
+
+| owner | rows |
+|---|---|
+| **C** | DeskToday, DeskActive — and both are **build specs, not drift reviews**. A board with nothing built cannot produce drift rows at all, which is a different kind of unknown from "no verdict yet" |
+| **A** | DeskArticles, DeskArticle — buildable now, reviewable later |
+| **B** | Motion — a board-level review that has never happened |
+| **—** | TypeCompare, and the two logo boards once they are reclassified |
+
+Lane A's own next step is the desktop layout for `/articles` and
+`/articles/[slug]`, which is the only row on this list that is neither blocked
+on a field, a flag, a ruling nor another repo.
+
+---
+
 ## Counts
 
-| | boards |
-|---|---|
-| live + matches | 7 |
-| live + drift | 4 |
-| live, unverified | 30 |
-| built, flag-off | 3 |
-| not built | 7 (+2 n/a) |
-| other repo | 9 |
-| **total** | **62** |
+Counted from the three board tables above rather than carried forward, and
+they reconcile to 62 both before and after Igor's item 4.
+
+| | boards | was, 2026-11-04 |
+|---|---|---|
+| live + matches | 7 | 7 |
+| live + drift | 4 | 4 |
+| live, unverified | 30 | 30 |
+| built, flag-off | 3 | 3 |
+| **not built** | **5** | 7 |
+| **decided** | **2** | — (counted as not built) |
+| n/a | 2 | 2 |
+| other repo | 9 | 9 |
+| **total** | **62** | **62** |
+
+The two that moved are `LogoVariants` and `LogoShadow`, which are choosers
+rather than screens; `n/a` is `TypeCompare` and `DeskCategory` (deferred
+post-launch, so not on the next-rows list).
 
 **30 of 62 are "live, unverified"** — that number is the real state of the
-review, and shrinking it is frame work rather than build work.
+review, and shrinking it is frame work rather than build work. **Five are
+genuinely not built**, and that is the whole build queue: DeskToday and
+DeskActive (C), DeskArticles and DeskArticle (A), Motion (B).
 
 It said **28** until 2026-11-04, and the table always said 30. The count is the
 thing that was wrong, and this file proves it against itself: the column has to
