@@ -44,6 +44,33 @@ APP="${GYMMER_NUXT:-$(cd .. && pwd)/gymmer-nuxt}"
 say() { printf '\n\033[1m── %s\033[0m\n' "$1"; }
 die() { printf '\033[31m❌ %s\033[0m\n' "$1" >&2; exit 1; }
 
+say "this checkout can actually publish the tag"
+
+# Both of these are cheap, and both were learned the expensive way on
+# 2026-11-06 — after the guards had run.
+#
+# HEAD, not `main`. Below, this script COMMITS to HEAD and TAGS HEAD, and it
+# used to push the branch named `main`. On a checkout sitting on main those
+# are the same ref and nothing is wrong. Run from a worktree on any other
+# branch — which is how you release without disturbing a shared checkout —
+# they are different: the commit and tag land on HEAD, and the push sends
+# somebody else's stale local `main`, which the remote rejects as
+# non-fast-forward. Twenty minutes of guards had already run by then.
+git fetch -q --force --tags origin '+refs/heads/main:refs/remotes/origin/main'
+# EQUAL to origin/main, not merely descended from it.
+#
+# An ancestry check was the first fix here and it has a hole: HEAD *ahead* of
+# main passes it, and the push below would then carry those extra commits onto
+# main as a side effect of cutting a release — unreviewed, by a script nobody
+# reads as a merge tool. What gets released is what is on main, plus the
+# version bump this script makes itself, and nothing else.
+[ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] \
+  || die "HEAD is not origin/main. Release what is on main: \`git checkout --detach origin/main\` (a worktree is fine) and run this again."
+git rev-parse -q --verify "refs/tags/$version" >/dev/null \
+  && die "$version already exists here. Pick the next version, or delete the tag if it was never pushed."
+git ls-remote --exit-code --tags origin "refs/tags/$version" >/dev/null 2>&1 \
+  && die "$version is already published. A tag is not moved once it is out; pick the next version."
+
 say "a clean tree, here and in the consumer"
 [ -z "$(git status --porcelain)" ] || die "$LAYER has uncommitted changes — commit them first."
 [ -d "$APP" ] || die "no consumer at $APP (set GYMMER_NUXT)."
@@ -165,6 +192,30 @@ node -e '
 ' "$version"
 git add package.json
 git commit -q -m "$version" --allow-empty
-git tag -a "$version" -m "$version"
-git push -q origin main --tags
+
+# The BRANCH first, and the tag only once it has landed.
+#
+# This was one command, `git push -q origin main --tags`, and git pushes what
+# it can: on 2026-11-06 the tag went up and `main` was rejected, leaving
+# v0.7.6 PUBLISHED and pointing at a commit that was not on the release line.
+# The script did exit 1 and say so — it is not a silent failure — but by then
+# the tag was public, and "a tag off main" is exactly the state everything
+# above exists to prevent. Exiting non-zero after publishing the wrong thing
+# is not the same as not publishing it.
+#
+# `HEAD:main` rather than `main`: push the commit this script just made and
+# tagged, not a branch name that may point somewhere else entirely. See the
+# ancestry check at the top.
+# The BRANCH first, then a tag naming the commit that actually landed.
+#
+# gymmer-nuxt's release.sh has the shape this converges on: resolve the commit
+# explicitly, assert it before writing anything, push exactly one ref, and
+# delete the local tag if the push is refused so nothing is left naming a
+# commit the remote never took.
+git push -q origin HEAD:main || die "could not push the version commit to main; nothing has been tagged."
+git tag -a "$version" -m "$version" HEAD
+if ! git push -q origin "refs/tags/$version"; then
+  git tag -d "$version" >/dev/null
+  die "the tag push was refused — $version removed locally. main HAS the version commit; re-run to tag it."
+fi
 printf '\n\033[32m✅ %s tagged and pushed, with the consumer'"'"'s guards green against it\033[0m\n' "$version"
