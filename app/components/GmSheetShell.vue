@@ -75,6 +75,69 @@ const emit = defineEmits<{ close: [] }>()
 const el = ref<HTMLDialogElement | null>(null)
 
 /**
+ * The scrolling body, and whether it has anything to scroll.
+ *
+ * This decides whether a downward pan that starts in the CONTENT may drag the
+ * sheet away, and it is the other half of the fix `pressMayDrag` began in
+ * v0.7.2. That one settled the POLICY — a press on a button may become a drag
+ * — and it is correct, but on a touch screen the policy never gets a say if
+ * the browser has already claimed the gesture: a pan beginning inside an
+ * `overflow-y-auto` element belongs to that scroller, pointermove stops and
+ * `pointercancel` arrives. `touch-action` is the only thing that changes that,
+ * and this component set it nowhere.
+ *
+ * Which is why "Start a workout" was still undismissable after v0.7.2 while
+ * other sheets were fine: a sheet that passes a `#header` gets `SheetChrome`,
+ * which sets `touch-none` on its handle strip and its title bar, so there is a
+ * real surface to pull from. `TrainSheet` passes none, so the scrolling body
+ * IS the whole sheet and the only other candidate was a 4px bar. Reported from
+ * a device as "impossible to hide with slide down … check size of draggable
+ * block", 2026-11-06.
+ *
+ * Measured rather than assumed, because "does this scroll" is a question about
+ * the rendered box and nothing else: a sheet whose content fits has no scroll
+ * to protect, so the whole body may be pulled; one that overflows keeps its
+ * scroll and is dragged from the handle, with the existing `scrollTop > 0`
+ * rule still deciding the ambiguous case.
+ */
+const body = ref<HTMLElement | null>(null)
+const bodyScrolls = ref(false)
+let ro: ResizeObserver | null = null
+
+function measureBody() {
+  const b = body.value
+  // 1px, not 0: a sub-pixel layout rounds scrollHeight a hair over
+  // clientHeight on a body that visibly does not scroll, and treating that as
+  // "scrollable" would put the bug straight back for content that only just
+  // fits.
+  bodyScrolls.value = !!b && b.scrollHeight - b.clientHeight > 1
+}
+
+onMounted(() => {
+  if (typeof ResizeObserver === 'undefined') return
+  ro = new ResizeObserver(measureBody)
+  watch(body, (node, _old, onCleanup) => {
+    if (!node) return
+    ro?.observe(node)
+    // The CONTENT's size is what changes when a list loads, not the box's.
+    const first = node.firstElementChild
+    if (first) ro?.observe(first)
+    measureBody()
+    onCleanup(() => ro?.disconnect())
+  }, { immediate: true, flush: 'post' })
+})
+onBeforeUnmount(() => { ro?.disconnect(); ro = null })
+
+/**
+ * May a pan that starts in the content pull the sheet down?
+ *
+ * Only a bottom sheet that can be swiped at all, and only while its body has
+ * nothing to scroll. The class this drives is `touch-none`, which hands the
+ * gesture to our pointer handlers instead of to the scroller.
+ */
+const bodyMayDrag = computed(() => swipeable.value && isBottom.value && !bodyScrolls.value)
+
+/**
  * From this width up, `adaptive` is a panel beside the page.
  *
  * It MUST equal `--breakpoint-tab` in `gymmer.css`. This is a media query in
@@ -352,12 +415,20 @@ function onPointerCancel() {
       <!-- The grab handle says "this drags", and only a draggable sheet has
            one: a panel is dismissed from its edge, and a dialog is not
            dismissed by a gesture at all. -->
+      <!-- Same pixels, 28px of them now tappable instead of 4.
+           The bar was `mt-3 mb-3 h-1`: 12 + 4 + 12. Margin is not hit area and
+           does not carry `touch-action`, so the one surface a header-less
+           sheet offers was four pixels tall. The wrapper takes the same 28px
+           as PADDING and the `touch-none` with it; the bar inside is
+           unchanged, so nothing moves. -->
       <div
         v-if="grab && isBottom && swipeable"
         aria-hidden="true"
-        class="mx-auto mt-3 mb-3 h-1 w-9 shrink-0 rounded-pill bg-track"
+        class="flex shrink-0 touch-none justify-center py-3"
         data-testid="gm-sheet-grab"
-      />
+      >
+        <span class="h-1 w-9 rounded-pill bg-track" />
+      </div>
 
       <!-- A header that does not scroll (v0.6.3): a title bar, or a close
            button pinned to the corner. `relative` so a corner control can be
@@ -369,8 +440,13 @@ function onPointerCancel() {
       <!-- The body scrolls; the footer does not. `data-sheet-scroll` is the
            seam the swipe reads to tell a scroll from a dismissal. -->
       <div
+        ref="body"
         class="min-h-0 flex-1 overflow-y-auto"
-        :class="inset ? ['px-4', $slots.footer ? 'pb-3' : 'pb-7', isBottom && !swipeable ? 'pt-4' : 'pt-1'] : ''"
+        :class="[
+          inset ? ['px-4', $slots.footer ? 'pb-3' : 'pb-7', isBottom && !swipeable ? 'pt-4' : 'pt-1'] : '',
+          // Nothing to scroll: the gesture is the sheet's. See `bodyMayDrag`.
+          bodyMayDrag && 'touch-none',
+        ]"
         data-sheet-scroll
       >
         <slot />
