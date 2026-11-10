@@ -268,6 +268,37 @@ for (const theme of THEMES) {
     assert.ok(warn >= 3, `--gm-warn on --gm-bg is ${warn.toFixed(2)}:1, needs 3:1`)
   })
 
+  /*
+   * The NEUTRAL border, against every ground it is actually drawn on.
+   *
+   * This suite already asked 3:1 of `--gm-danger`, `--gm-warn` and
+   * `--gm-acc-line` — chrome that is not text — and never asked it of
+   * `--gm-border`. So the one border token used by ordinary form controls was
+   * the only piece of non-text chrome with no floor, and dark shipped at
+   * **1.67:1** on `--gm-raised`: an input whose text was legible and whose box
+   * was not. It read as floating placeholder text with no field around it.
+   *
+   * Three grounds, not one, and the tightest is what binds. `--gm-bg` is the
+   * page, `--gm-surface` is a panel or sheet, and `--gm-raised` is a lifted
+   * card, a bubble — and the fill of an input. A border that clears 3:1 on the
+   * page can still vanish on a raised card, which is exactly how this was
+   * missed: every other non-text assertion here measures against `--gm-bg`
+   * alone, and `--gm-bg` is the most forgiving of the three in dark.
+   *
+   * WCAG 2.2 SC 1.4.11 Non-text Contrast is the 3:1, and a form control's
+   * boundary is its example case.
+   */
+  test(`${theme.name}: --gm-border reaches 3:1 on every ground it is drawn on`, () => {
+    for (const ground of ['--gm-bg', '--gm-surface', '--gm-raised']) {
+      const r = ratio(theme.neutrals['--gm-border'], theme.neutrals[ground])
+      assert.ok(
+        r >= 3,
+        `--gm-border on ${ground} is ${r.toFixed(2)}:1, needs 3:1 — `
+        + 'a control boundary a reader cannot find is not a boundary',
+      )
+    }
+  })
+
   // They have to be TELLABLE APART from the accent, or the rule "never the
   // accent for destructive" is invisible to the person it protects.
   //
