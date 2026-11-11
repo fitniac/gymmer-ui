@@ -224,7 +224,8 @@ html[data-theme="dark"] {
   --gm-stripe2: #232120;
 
   --gm-ink: #efebe7;          /* text inverts, but stays under pure white */
-  --gm-border: #4d4946;       /* borders stay well below text brightness */
+  --gm-border: #787471;       /* 3.20:1 on --gm-raised, the tightest ground it
+                                 is drawn on; still 1/4 of ink's brightness */
   --gm-band: #0f0f0e;         /* the ticker band goes darker, not white */
   --gm-band-fg: #e4e1de;
   --gm-fill: #5c5754;         /* filled marks stay below text brightness */
