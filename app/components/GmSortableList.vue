@@ -24,7 +24,7 @@
  * `handleLabel(item)` names each handle ("Reorder Bench Press"), `hint`
  * says how to use it, `announce(item, position, total)` is what is spoken.
  */
-import { nextTick, ref, useId } from 'vue'
+import { computed, nextTick, ref, useId } from 'vue'
 
 const props = defineProps<{
   items: readonly T[]
@@ -65,13 +65,18 @@ function onKeydown(e: KeyboardEvent, index: number) {
  * position is how many of the OTHER rows' midpoints lie above the dragged
  * row's own — the order a reader would see if the rows closed up behind it.
  */
-const drag = ref<{ index: number, startY: number, dy: number, mids: number[], ownMid: number } | null>(null)
+const drag = ref<{ index: number, startY: number, dy: number, mids: number[], ownMid: number, ownH: number } | null>(null)
 
 function onPointerDown(e: PointerEvent, index: number) {
   if (props.disabled || e.button > 0 || !list.value) return
   const rows = Array.from(list.value.querySelectorAll<HTMLElement>(':scope > [data-sortable-row]'))
   const mids = rows.map((r) => { const b = r.getBoundingClientRect(); return b.top + b.height / 2 })
-  drag.value = { index, startY: e.clientY, dy: 0, mids, ownMid: mids[index]! }
+  // How far the rows behind this one close up when it leaves: its own height
+  // plus the list's gap. Taken from the row rather than from the pitch between
+  // midpoints, because a list whose rows differ in height has no single pitch.
+  const gap = Number.parseFloat(getComputedStyle(list.value).rowGap) || 0
+  const ownH = rows[index]!.getBoundingClientRect().height + gap
+  drag.value = { index, startY: e.clientY, dy: 0, mids, ownMid: mids[index]!, ownH }
   ;(e.currentTarget as HTMLElement).setPointerCapture?.(e.pointerId)
   e.preventDefault()
 }
@@ -80,12 +85,50 @@ function onPointerMove(e: PointerEvent) {
   if (drag.value) drag.value.dy = e.clientY - drag.value.startY
 }
 
+/**
+ * Where the row would land if released now.
+ *
+ * ONE definition, read by the preview below and by the drop. It used to be
+ * computed only on release, and that is the whole of what was wrong here: the
+ * arithmetic was correct and invisible. Nothing moved under the finger, the
+ * commit threshold is half a row away, and a drag shorter than that left the
+ * list unchanged — so a lifter dragging an exercise saw a correct answer and
+ * read it as a dead control. Filed against build 14 as "Drag position for
+ * exercise not working"; measured on 2026-11-23, where two drags ending ~10 px
+ * short of the next midpoint each moved one place, exactly as this formula
+ * says they should.
+ *
+ * Computing it twice is how a preview begins to lie: the two copies drift and
+ * the row lands somewhere the gap never showed.
+ */
+const dropIndex = computed(() => {
+  const d = drag.value
+  if (!d) return null
+  const centre = d.ownMid + d.dy
+  return d.mids.filter((m, i) => i !== d.index && m < centre).length
+})
+
+/**
+ * How far row `i` steps aside to open the gap, in px.
+ *
+ * The rows between the row's origin and its destination move by exactly the
+ * dragged row's footprint — the same distance they will really move when the
+ * list closes up — so the preview is the outcome rather than a hint at it.
+ */
+function shiftFor(i: number): number {
+  const d = drag.value
+  const to = dropIndex.value
+  if (!d || to === null || i === d.index) return 0
+  if (to > d.index && i > d.index && i <= to) return -d.ownH
+  if (to < d.index && i >= to && i < d.index) return d.ownH
+  return 0
+}
+
 function onPointerUp() {
   const d = drag.value
+  const to = dropIndex.value
   drag.value = null
-  if (!d || Math.abs(d.dy) < 4) return
-  const centre = d.ownMid + d.dy
-  const to = d.mids.filter((m, i) => i !== d.index && m < centre).length
+  if (!d || to === null || Math.abs(d.dy) < 4) return
   move(d.index, to)
 }
 </script>
@@ -97,7 +140,10 @@ function onPointerUp() {
       :key="item.id"
       data-sortable-row
       class="relative flex items-center gap-2"
-      :style="drag?.index === i ? { transform: `translateY(${drag.dy}px)`, zIndex: 1 } : undefined"
+      :class="drag && drag.index !== i ? 'transition-transform duration-150 motion-reduce:transition-none' : undefined"
+      :style="drag?.index === i
+        ? { transform: `translateY(${drag.dy}px)`, zIndex: 1 }
+        : (shiftFor(i) ? { transform: `translateY(${shiftFor(i)}px)` } : undefined)"
       :data-dragging="drag?.index === i || undefined"
     >
       <div class="min-w-0 flex-1">
